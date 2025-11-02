@@ -11,7 +11,9 @@ export function activarGlassmorphism() {
     });
 }
 
-export function addProductToCart({ name, price, img, qty = 1, openDrawer = true, stock = null }) {
+export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,
+                                  country = null, type = null, oldPrice = null, description = null, active = null, category = null,
+                                  subcategory = null }) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const existing = cart.find(p => p.name === name);
@@ -38,7 +40,23 @@ export function addProductToCart({ name, price, img, qty = 1, openDrawer = true,
     if (existing) {
         existing.qty += qty;  // 🔥 ahora suma la cantidad correcta
     } else {
-        cart.push({ name, price, img, qty, stock });
+        cart.push({
+          id,
+          code,
+          name,
+          brand,
+          country,
+          type,
+          price,
+          oldPrice,
+          description,
+          category,
+          subcategory,
+          img,
+          qty,
+          stock,
+          active
+        });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -120,9 +138,20 @@ export function initCart() {
                 const price = parseInt(card.getAttribute("data-price"));
                 const img = card.querySelector("img").src;
                 const stock = parseInt(card.getAttribute("data-stock")) || null;
+                const id = card.getAttribute("data-id");
+                const code = card.getAttribute("data-code");
+                const brand = card.getAttribute("data-brand");
+                const country = card.getAttribute("data-country");
+                const type = card.getAttribute("data-type");
+                const oldPrice = card.getAttribute("data-oldprice");
+                const description = card.getAttribute("data-description");
+                const active = card.getAttribute("data-active");
+                const category = card.getAttribute("data-category");
+                const subcategory = card.getAttribute("data-subcategory");
 
                 // Llamamos la función pública que ya maneja localStorage, toast y evento
-                addProductToCart({ name, price, img, openDrawer: true, stock });
+                addProductToCart({ id, code, name, brand, country, type, price, oldPrice, stock, description, active,
+                                category, subcategory, img, openDrawer: true });
 
                 // Prevenir el comportamiento por defecto y stop propagation
                 e.preventDefault();
@@ -439,33 +468,53 @@ export function carruselProductos() {
     });
 }
 
+// flag global para evitar duplicación
+let viewInitialized = false;
 export function verProductos() {
-    // mandar los productos a la pagina ver
-    const viewIcons = document.querySelectorAll(".card-icons .ri-eye-line");
+    if (viewInitialized) {
+        return;
+    }
+    viewInitialized = true;
 
-    viewIcons.forEach(icon => {
-        icon.addEventListener("click", (e) => {
-            const card = e.target.closest(".card");
+    // event delegation - Un solo listener para toda la página
+    document.addEventListener('click', (e) => {
+        // Verificar si se hizo click en el ícono "Ver" o en un elemento dentro de él
+        if (e.target.classList.contains('ri-eye-line') || e.target.closest('.ri-eye-line')) {
 
-            // Capturamos los datos de la card
-            const productData = {
-                name: card.dataset.name,
-                price: card.dataset.price,
-                oldPrice: card.dataset.oldprice,
-                image: card.dataset.image,
-                category: card.dataset.category,
-                subcategory: card.dataset.subcategory,
-                descripcion: card.dataset.descripcion
-            };
+            const icon = e.target.classList.contains('ri-eye-line')
+                ? e.target
+                : e.target.closest('.ri-eye-line');
+            const card = icon.closest(".card");
 
-            // Guardar en localStorage
-            localStorage.setItem("selectedProduct", JSON.stringify(productData));
+            if (card) {
+                const product = {
+                    id: card.getAttribute("data-id"),
+                    code: card.getAttribute("data-code"),
+                    name: card.getAttribute("data-name"),
+                    brand: card.getAttribute("data-brand"),
+                    country: card.getAttribute("data-country"),
+                    type: card.getAttribute("data-type"),
+                    price: parseInt(card.getAttribute("data-price")),
+                    oldPrice: card.getAttribute("data-oldprice") ? parseInt(card.getAttribute("data-oldprice")) : null,
+                    stock: card.getAttribute("data-stock") ? parseInt(card.getAttribute("data-stock")) : null,
+                    description: card.getAttribute("data-description"),
+                    active: card.getAttribute("data-active") === "true",
+                    category: card.getAttribute("data-category"),
+                    subcategory: card.getAttribute("data-subcategory"),
+                    image: card.querySelector("img").src
+                };
 
-            // Redirigir a Ver.html
-            window.location.href = "/ver";
-        });
+                // almacenar en localStore
+                localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+                // redirigir a la pagina de ver
+                window.location.href = "/ver";
+
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
     });
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {

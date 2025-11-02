@@ -18,12 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(".flex__img img").src = product.image;
         document.querySelector(".details__category").textContent = product.category;
         document.querySelector(".details__name").textContent = product.name;
-        document.querySelector(".complemento__text").textContent = product.descripcion;
+        document.querySelector(".complemento__text").textContent = product.description;
 
         const prices = document.querySelectorAll(".details__precie .precie__total");
         if (prices.length > 0) {
-            prices[0].textContent = "$" + product.price;
-            if (product.oldPrice) prices[1].textContent = "$" + product.oldPrice;
+            prices[0].textContent = "$" + parseInt(product.price).toLocaleString('es-CO');
+            if (product.oldPrice && product.oldPrice !== "0") {
+                prices[1].textContent = "$" + parseInt(product.oldPrice).toLocaleString('es-CO');
+            }
         }
 
         document.querySelector(".breadcrumb-subcategory").textContent = product.subcategory + " /";
@@ -41,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     qtySpan.textContent = qty;
 
     plusBtn.addEventListener("click", () => {
+        if (product && product.stock && qty >= parseInt(product.stock)) {
+            Swal.fire({
+                title: "Stock insuficiente",
+                text: `No hay más stock disponible. Máximo: ${product.stock} unidades`,
+                icon: "warning",
+                confirmButtonText: "Entendido"
+            });
+            return;
+        }
         qty++;
         qtySpan.textContent = qty;
     });
@@ -64,13 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // OBTENER STOCK DEL PRODUCTO (si está disponible)
         const stock = product.stock || null;
 
-        addProductToCart({
-            name: product.name,
-            price: numericPrice,
-            img: product.image,
-            qty: qty,          // cantidad del contador
-            openDrawer: true,   // abrir drawer
-            stock: stock
+        addProductToCart({ id: product.id, code: product.code, name: product.name, brand: product.brand, country: product.country,
+                type: product.type, price: numericPrice, oldPrice: product.oldPrice, stock: product.stock, description: product.description,
+                active: product.active, category: product.category, subcategory: product.subcategory, img: product.image, qty: qty, openDrawer: true
         });
 
         // Reiniciamos el contador
