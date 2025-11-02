@@ -62,4 +62,15 @@ public class Producto {
         @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
         private Set<DetalleVenta> detalleVentas = new HashSet<>();
 
+        // Agregar producto a detalle_venta y viceversa (bidireccional)
+        public void addDetalleVenta(DetalleVenta detalleVenta) {
+                detalleVenta.setProducto(this);
+                this.detalleVentas.add(detalleVenta);
+        }
+
+        // Eliminar producto a detalle_venta y viceversa (bidireccional)
+        public void deleteDetalleVenta(DetalleVenta detalleVenta) {
+                detalleVenta.setProducto(null);
+                this.detalleVentas.remove(detalleVenta);
+        }
 }
