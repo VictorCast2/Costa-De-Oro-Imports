@@ -1,5 +1,6 @@
 @import url("./style.css");
 
+
 :root {
     --typografiaGeist: "Geist";
     --typografiaUrbanist: "Urbanist";
@@ -47,7 +48,7 @@
 
 .item__informacion .informacion__subtitulo{
     font: 500 1rem var(--typografiaUrbanist);
-    
+
 
 }
 

@@ -10,6 +10,7 @@
     --colorWhite: #ffffff;
 }
 
+
 .section__ver {
     min-height: 100vh;
     position: relative;
@@ -26,6 +27,7 @@
     font: 700 1.1rem var(--typografiaUrbanist);
     text-decoration: none;
     color: #000000;
+
 }
 
 .details__enlaces a:last-child {
@@ -50,19 +52,9 @@
 }
 
 
-.flex__img {
-    width: 450px;         /* o el ancho que prefieras */
-    height: 550px;        /* alto fijo para todas */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;     /* evita que se salga */
-}
-
 .flex__img img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;  /* No deforma y cabe centrada */
+    width: 100%;
+    height: auto;
     display: block;
 }
 
@@ -78,6 +70,7 @@
     color: #f472b6;
     margin-bottom: 0.4rem;
     font: 700 2rem var(--typografiaUrbanist);
+
 }
 
 
@@ -99,6 +92,7 @@
 .details__precie .total--desct {
     color: #71717a;
     text-decoration: line-through;
+
 }
 
 .details__plus {
@@ -201,6 +195,7 @@
     gap: 5rem;
 }
 
+
 .informacionProd__titles .complemento__title {
     font: 600 1.4rem var(--typografiaUrbanist);
     cursor: pointer;
@@ -239,3 +234,5 @@
 .informacionProd__texts .complemento__text.active {
     display: block;
 }
+
+

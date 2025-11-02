@@ -131,9 +131,13 @@
 
 .estados__container {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
     margin-left: 1rem;
+
+}
+
+.container__radio {
+    display: flex;
 
 }
 
@@ -165,7 +169,8 @@
 .radio__custom {
     width: 15px;
     height: 15px;
-    border: 1px solid #ddd; /* borde base */
+    border: 1px solid #ddd;
+    /* borde base */
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -173,24 +178,32 @@
 }
 
 /* Cuando está seleccionado o en foco */
-.radio__option input[type="radio"]:checked + .radio__custom,
-.radio__option input[type="radio"]:focus + .radio__custom {
-    background-color: #8e6b43;   /* color de fondo */
+.radio__option input[type="radio"]:checked+.radio__custom,
+.radio__option input[type="radio"]:focus+.radio__custom {
+    background-color: #8e6b43;
+    /* color de fondo */
     border-color: #8e6b43;
-    box-shadow: 0 0 0 4px #d8bfa3; /* efecto de focus */
+    box-shadow: 0 0 0 4px #d8bfa3;
+    /* efecto de focus */
 }
 
 /* Círculo vacío en el centro (efecto dona) */
-.radio__option input[type="radio"]:checked + .radio__custom::before,
-.radio__option input[type="radio"]:focus + .radio__custom::before {
+.radio__option input[type="radio"]:checked+.radio__custom::before,
+.radio__option input[type="radio"]:focus+.radio__custom::before {
     content: "";
     position: absolute;
     top: 3px;
     left: 3px;
     width: 9px;
     height: 9px;
-    background-color: white; /* color del hueco */
+    background-color: white;
+    /* color del hueco */
     border-radius: 50%;
+}
+
+.radio__custom.error {
+    border-color: #fd1f1f;
+    box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.3);
 }
 
 #formulario__imagen {
@@ -284,7 +297,7 @@
 .remove-image {
     position: absolute;
     top: 77%;
-    left: 12%;
+    left: 8.5%;
     transform: translateX(-50%);
     color: #4caf50;
     font: 500 0.95rem var(--typografiaGeist);
@@ -307,6 +320,10 @@
 /* El texto desaparece */
 .formulario__boximagen.imagen-activa .boximagen__texto {
     display: none;
+}
+
+.formulario__boximagen.error-border {
+    border: 2px solid #e53935;
 }
 
 #formulario__descripcion {
@@ -363,17 +380,22 @@
     box-shadow: none;
 }
 
+.formulario__boxdescripcion.error-border {
+    border: 2px solid #e53935 !important; /* Rojo */
+}
+
 
 .formulario__customselect {
     position: relative;
     width: 550px;
-    margin: 10px 0 10px 20px;
+
 }
 
 .customselect__styled {
     width: 100%;
     height: 47px;
     padding: 12px 16px;
+    margin: 10px 0 10px 20px;
     padding-right: 40px;
     background-color: transparent;
     border: 1px solid #ccc;
@@ -417,8 +439,8 @@
 
 .box__icon i {
     position: absolute;
-    top: 20px;
-    left: 89%;
+    top: 21px;
+    left: 92%;
     font: 900 1.2rem var(--typografiaUrbanist);
 }
 
@@ -440,15 +462,20 @@
 
 .input__formulario .formulario__error {
     font: 600 1rem var(--typografiaUrbanist);
-    width: 400px;
-    margin: 0 0 10px 20px;
+    width: 480px;
+    margin: 10px 0 10px 20px;
     display: none;
 }
 
+.input__formulario .error--estado {
+    margin: 10px 0 10px 10px;
+}
 
-.input__btn{
+
+.input__btn {
     cursor: pointer;
-    padding: 1rem 1.5rem;
+    width: 300px;
+    height: 45px;
     background-color: var(--colorCafe);
     color: var(--colorWhite);
     font: 600 1rem var(--typografiaUrbanist);
@@ -459,6 +486,6 @@
     transition: background-color .5s ease;
 }
 
-.input__btn:hover{
+.input__btn:hover {
     background-color: #7a5e4d;
 }

@@ -240,11 +240,12 @@
     margin: 0 0 0 150px;
 }
 
-.remember-forgot .forgot__color{
+.remember-forgot .forgot__color {
     color: #48f;
     margin-left: 200px;
     font: 600 1.1rem var(--typografiaUrbanist);
 }
+
 .registre-link a {
     font: 600 1.1rem var(--typografiaUrbanist);
     margin: 20px 0 0 20px;
