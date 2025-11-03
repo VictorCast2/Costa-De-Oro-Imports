@@ -50,14 +50,14 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                            .quantity(detalleVenta.getCantidad())
                            .currencyId("COP") // moneda Colombiana
                            .unitPrice(new BigDecimal(detalleVenta.getPrecioUnitario()))
-                           .pictureUrl(null) // cambiar
+                           .pictureUrl(this.getImagenUrl(detalleVenta.getProducto().getImagen()))
                            .build())
                    .toList();
 
            // Configuración del comprador
            PreferencePayerRequest payer = PreferencePayerRequest.builder()
-                   .name(usuario.getNombres().split("")[0])
-                   .surname(usuario.getApellidos().split("")[0])
+                   .name(usuario.getNombres().split(" ")[0])
+                   .surname(usuario.getApellidos().split(" ")[0])
                    .email(usuario.getCorreo())
                    .phone(PhoneRequest.builder()
                            .areaCode("57")
@@ -72,9 +72,9 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
            // Configuración de Urls de retorno (adaptar las url luego)
            String baseUrl = this.getBaseUrl(request);
            PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                   .success(baseUrl + "compra/exito?compra=" + compraId)
-                   .failure(baseUrl + "compra/error?compra=" + compraId)
-                   .pending(baseUrl + "compra/pendiente?compra=" + compraId)
+                   .success(baseUrl + "/compra/exito?compra=" + compraId)
+                   .failure(baseUrl + "/compra/error?compra=" + compraId)
+                   .pending(baseUrl + "/compra/pendiente?compra=" + compraId)
                    .build();
 
            // Creación de la preferencia
@@ -108,7 +108,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
             String externalReference = payment.getExternalReference();
             String status = payment.getStatus();
 
-            Long compraId = Long.parseLong(externalReference);
+            Long compraId = Long.parseLong(externalReference.replace("REF-", ""));
 
             // Actualizar el estado de la compra de la base de datos según el pago
             switch (status) {
@@ -120,6 +120,21 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
         } catch (MPException | MPApiException e) {
             throw new RuntimeException("Error al procesar el pago" + e.getMessage());
         }
+    }
+
+    /**
+     * @param imagen
+     * @return
+     */
+    @Override
+    public String getImagenUrl(String imagen) {
+        if (imagen == null || imagen.trim().isEmpty()) {
+            return "https://via.placeholder.com/150"; // imagen por defecto
+        }
+        if (imagen.startsWith("http")) {
+            return imagen;
+        }
+        return "https://costa-de-oro-imports.com/uploads/" + imagen;
     }
 
     /**

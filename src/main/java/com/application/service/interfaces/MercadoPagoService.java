@@ -9,5 +9,7 @@ public interface MercadoPagoService {
 
     void procesarPago(String paymentId);
 
+    String getImagenUrl(String imagen);
+
     String getBaseUrl(HttpServletRequest request);
 }

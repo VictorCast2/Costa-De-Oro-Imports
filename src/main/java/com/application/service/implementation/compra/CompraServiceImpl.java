@@ -7,7 +7,6 @@ import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.CompraRepository;
-import com.application.persistence.repository.DetalleVentaRepository;
 import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
