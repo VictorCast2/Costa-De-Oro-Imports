@@ -133,6 +133,44 @@ document.addEventListener('DOMContentLoaded', () => {
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
+    const mp = new MercadoPago('YOUR_PUBLIC_KEY', {
+            locale: 'es-CO'
+    });
+
+    const MP = async () => {
+        try {
+            productos = {}
+            // aquí debo cargar los datos para de los productos que se enviaran al endpoint de mercado pago
+
+            const response = await fetch("api/mercado-pago", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'Application/json',
+                    'Content-Type': 'Application/json',
+                },
+                body: JSON.stringify(//aqui la lista de productos)
+            })
+            const preference = await response.text()
+            createCheckoutButton(preference)
+        } catch (e) {
+            // nose que colocar en el catch
+        }
+    }
+
+    const createCheckoutButton = (preferenceId) => {
+        const brickBuilder = mp.bricks();
+        const generateButton = async () => {
+            if (window.checkoutButton) window.checkoutButton.unmount()
+
+            brickBuilder.create("wallet", "wallet_container", {
+                initialization: {
+                    preferenceId: preferenceId,
+                },
+            });
+        }
+        generateButton();
+    }
+
     // --- Eventos flechas ---
     prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
