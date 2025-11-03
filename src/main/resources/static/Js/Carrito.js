@@ -32,17 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
         totalEl.textContent = `$${subtotal.toFixed(2)}`;
 
-        // Obtener cupón (siempre será número aunque empiece en $0.00)
         const cuponEl = document.getElementById("cupon__envio");
         const cuponValue = parseFloat(cuponEl.textContent.replace(/[^0-9.-]+/g, "")) || 0;
 
-        // Envío (siempre gratis en tu HTML actual → 0)
         const envio = 0;
-
-        // Calcular total final
         const totalFinal = subtotal - cuponValue + envio;
 
-        // Actualizar el total en pantalla
         const totalAllEl = document.getElementById("total__all");
         totalAllEl.textContent = `$${totalFinal.toFixed(2)}`;
     }
@@ -54,19 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cart.length === 0) {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-        <td colspan="6" style="text-align:center; padding:20px; font-weight:600;">
-            No hay productos en el carrito
-        </td>
-    `;
+            <td colspan="6" style="text-align:center; padding:20px; font-weight:600;">
+                No hay productos en el carrito
+            </td>
+        `;
             cartTableBody.appendChild(tr);
 
-            paginationText.textContent = `Mostrando 0-0 de 0`;
-            paginationButtonsContainer.innerHTML = "";
+            paginationText.textContent = `Mostrando 0 a 0 de 0 entradas`;
+            paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
             thereSpan.textContent = `Hay 0 productos en el carrito.`;
-
-            // Si no hay productos, el total debe ser 0
             updateCartTotal();
             return;
         }
@@ -76,49 +69,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const paginatedItems = cart.slice(start, end);
 
         paginatedItems.forEach((item, index) => {
-            const globalIndex = start + index; // posición real en el array
+            const globalIndex = start + index;
             const subtotal = item.price * item.qty;
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
-        <td><img src="${item.img}" width="50"/></td>
-        <td>${item.name}</td>
-        <td>
-            <div class="quantity-control" data-index="${globalIndex}">
-                <button class="minus">−</button>
-                <span class="qty">${item.qty}</span>
-                <button class="plus">+</button>
-            </div>
-        </td>
-        <td>$${item.price.toFixed(2)}</td>
-        <td>$${subtotal.toFixed(2)}</td>
-        <td>
-            <button class="content__icon btn-delete" data-index="${globalIndex}">
-                <i class="ri-delete-bin-6-line" title="Eliminar"></i>
-            </button>
-        </td>
-    `;
+            <td><img src="${item.img}" width="50"/></td>
+            <td>${item.name}</td>
+            <td>
+                <div class="quantity-control" data-index="${globalIndex}">
+                    <button class="minus">−</button>
+                    <span class="qty">${item.qty}</span>
+                    <button class="plus">+</button>
+                </div>
+            </td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>$${subtotal.toFixed(2)}</td>
+            <td>
+                <button class="content__icon btn-delete" data-index="${globalIndex}">
+                    <i class="ri-delete-bin-6-line" title="Eliminar"></i>
+                </button>
+            </td>
+        `;
             cartTableBody.appendChild(tr);
         });
 
-        paginationText.textContent = `Mostrando ${start + 1}-${Math.min(end, cart.length)} de ${cart.length}`;
+        paginationText.textContent = `Mostrando del ${start + 1} al ${Math.min(end, cart.length)} de ${cart.length} entradas`;
         thereSpan.textContent = `Hay ${cart.length} productos en el carrito.`;
 
         renderPaginationButtons();
-
-        // Actualizar el total del carrito
         updateCartTotal();
     }
 
-    // --- Render botones de paginación ---
+    // --- Render dinámico de los botones de página ---
     function renderPaginationButtons() {
-        paginationButtonsContainer.innerHTML = "";
+        // Elimina botones de página previos (manteniendo Anterior/Siguiente)
+        paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
+
         const totalPages = Math.ceil(cart.length / rowsPerPage);
 
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
-            btn.classList.add("pagination__btn");
+            btn.classList.add("button__item");
+
             if (i === currentPage) btn.classList.add("active");
 
             btn.addEventListener("click", () => {
@@ -126,14 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTable();
             });
 
-            paginationButtonsContainer.appendChild(btn);
+            nextPageBtn.before(btn); // inserta antes del botón "Siguiente"
         }
 
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
-    // --- Eventos flechas ---
+    // --- Eventos de paginación ---
     prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
             currentPage--;
@@ -150,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Delegación: eliminar + actualizar cantidad ---
     cartTableBody.addEventListener("click", (e) => {
-        // Eliminar producto
         const btn = e.target.closest(".btn-delete");
         if (btn) {
             const index = parseInt(btn.getAttribute("data-index"));
@@ -187,13 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             popup: 'swal-popup'
                         }
                     });
-
                 }
             });
             return;
         }
 
-        // Aumentar / disminuir cantidad
         if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
             const control = e.target.closest(".quantity-control");
             const index = parseInt(control.getAttribute("data-index"));

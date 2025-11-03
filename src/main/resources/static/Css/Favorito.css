@@ -1,5 +1,14 @@
 @import url("./style.css");
 
+:root {
+    --typografiaGeist: "Geist";
+    --typografiaUrbanist: "Urbanist";
+    --colorPrincipal: #f59e0b;
+    --colorDark: #18181b;
+    --colorLigth: #71717a;
+    --colorCafe: #8e705c;
+    --colorWhite: #ffffff;
+}
 
 .table__container {
     min-height: 100vh;
@@ -129,56 +138,74 @@
 }
 
 
-/* Paginación */
-.notification__pagination {
+/*Pagination de la tabla  */
+.table__pagination {
     display: flex;
-    justify-content: right;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.4rem 0 0.8rem 0;
 }
 
-.pagination__btn {
-    margin-right: 0.4rem;
-    width: 35px;
-    height: 35px;
-    background-color: #fff;
-    border: none;
-    border-radius: 50%;
+.pagination__span .span__description {
+    font: 500 1rem var(--typografiaGeist);
+    color: var(--colorLigth);
+}
+
+.pagination__button .button__pasar {
+    width: 100px;
+    height: 40px;
     cursor: pointer;
-    transition: all 0.2s;
-    font: 700 1rem var(--typografiaUrbanist);
+    font: 500 0.9rem var(--typografiaGeist);
+    color: var(--colorLigth);
+    border-radius: 8px;
+    border: none;
+    background-color: #eee;
+    outline: none;
 }
 
-.pagination__btn:hover {
-    background-color: #0077ff;
-    color: var(--color-tercario);
+.pagination__button .pasar--anterior {
+    margin-right: 0.1rem;
 }
 
 
-.pagination__btn.active {
-    background-color: #0077ff;
-    color: #fff;
-}
 
-.pagination__flec {
+.pagination__button .pasar--siguiente {
+    border: 1px solid #ddd;
     background-color: transparent;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
+}
+
+.pagination__button .pasar--siguiente:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
     border: none;
-    border-radius: 50%;
+}
+
+.pagination__button .button__item {
+    width: 40px;
+    margin-right: 0.3rem;
+    height: 40px;
     cursor: pointer;
-    font-size: 25px;
-    transition: all 0.2s;
-    margin: 0 10px;
-    color: #000000;
+    font: 500 0.9rem var(--typografiaGeist);
+    background-color: transparent;
+    color: var(--colorLigth);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
 }
 
-.pagination__flec:hover {
-    color: #6b7280;
+.pagination__button .button__item.active {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
 }
 
-.pagination__text {
-    font: 600 1.2rem var(--typografiaUrbanist);
-    margin: 5px 30px 0 0;
+.pagination__button .button__item:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
 }
 
 .swal-title {

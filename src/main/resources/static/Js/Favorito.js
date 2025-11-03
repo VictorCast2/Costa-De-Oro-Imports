@@ -32,15 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const rowsPerPage = 4; // productos por página
 
-    // Mostrar contador inicial
+    // --- Mostrar contador inicial ---
     if (favCount) favCount.textContent = favoritos.length;
 
-    // Función para renderizar la tabla según la página
+    // --- Renderizar tabla principal ---
     function renderTable() {
         favTableBody.innerHTML = "";
 
         if (favoritos.length === 0) {
-            // Mostrar mensaje cuando no hay productos
             const tr = document.createElement("tr");
             tr.innerHTML = `
             <td colspan="6" style="text-align:center; padding:20px; font-weight:600;">
@@ -50,25 +49,22 @@ document.addEventListener('DOMContentLoaded', () => {
             favTableBody.appendChild(tr);
 
             if (favCount) favCount.textContent = 0;
-            paginationText.textContent = `Mostrando 0-0 de 0`;
-            paginationButtonsContainer.innerHTML = "";
+            paginationText.textContent = `Mostrando 0 a 0 de 0 entradas`;
+            paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
-
-            // Aquí mostramos 0 productos en lugar de limpiar
             thereSpan.textContent = `Hay 0 productos en esta lista de deseos.`;
-            return; // salir de la función
+            return;
         }
 
-        // Render normal si hay productos
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const paginatedItems = favoritos.slice(start, end);
 
         paginatedItems.forEach((producto, index) => {
             const estadoClass = producto.estado === "En Stock" ? "estado-stock" : "estado-agotado";
-
             const tr = document.createElement("tr");
+
             tr.innerHTML = `
             <td><img src="${producto.imagen}" width="50"/></td>
             <td>${producto.nombre}</td>
@@ -84,24 +80,24 @@ document.addEventListener('DOMContentLoaded', () => {
             favTableBody.appendChild(tr);
         });
 
-        // Actualizar contador y texto de paginación
         favCount.textContent = favoritos.length;
-        paginationText.textContent = `Mostrando ${start + 1}-${Math.min(end, favoritos.length)} de ${favoritos.length}`;
-
+        paginationText.textContent = `Mostrando del ${start + 1} al ${Math.min(end, favoritos.length)} de ${favoritos.length} entradas`;
         thereSpan.textContent = `Hay ${favoritos.length} productos en esta lista de deseos.`;
 
         renderPaginationButtons();
     }
 
-    // Función para renderizar botones de páginas
+    // --- Renderizar botones de paginación dinámicos ---
     function renderPaginationButtons() {
-        paginationButtonsContainer.innerHTML = "";
+        // Limpia los botones de páginas (pero mantiene Anterior/Siguiente)
+        paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
+
         const totalPages = Math.ceil(favoritos.length / rowsPerPage);
 
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
-            btn.classList.add("pagination__btn");
+            btn.classList.add("button__item");
             if (i === currentPage) btn.classList.add("active");
 
             btn.addEventListener("click", () => {
@@ -109,14 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTable();
             });
 
-            paginationButtonsContainer.appendChild(btn);
+            // Insertamos los botones numéricos antes del botón "Siguiente"
+            nextPageBtn.before(btn);
         }
 
+        // Control de activación de flechas
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
-    // Eventos de flechas
+    // --- Eventos de paginación (Anterior / Siguiente) ---
     prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
             currentPage--;
@@ -131,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Delegación de eventos para eliminar
+    // --- Delegación de eventos para eliminar ---
     favTableBody.addEventListener("click", (e) => {
         const btn = e.target.closest(".btn-delete");
         if (!btn) return;
@@ -146,18 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
-            confirmButtonText: "Sí, ¡eliminalo!",
+            confirmButtonText: "Sí, eliminar",
             customClass: {
                 title: 'swal-title',
                 popup: 'swal-popup'
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                //Ahora sí, eliminar el producto
                 favoritos.splice(index, 1);
                 localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
-                // Ajustar página si se queda vacía
                 if ((currentPage - 1) * rowsPerPage >= favoritos.length && currentPage > 1) {
                     currentPage--;
                 }
@@ -177,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Render inicial
+    // --- Render inicial ---
     renderTable();
 
 

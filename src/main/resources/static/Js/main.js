@@ -414,84 +414,94 @@ document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
 
     //Carrusel del inicio
-    const hero = document.querySelector('.hero');
-    const slides = document.querySelectorAll('.carousel__slide');
-    const dots = document.querySelectorAll('.carousel__dot');
-    const arrows = document.querySelectorAll('.carousel__arrow');
-
+    const slides = document.querySelectorAll(".carousel__slide");
+    const prevBtn = document.querySelector("[data-direction='prev']");
+    const nextBtn = document.querySelector("[data-direction='next']");
+    const dotsContainer = document.querySelector(".carousel__dots");
+    const heroCarousel = document.querySelector(".hero__carousel");
     let currentSlide = 0;
-    let autoPlayInterval = null;
+    let autoPlayInterval;
+
+    // Crear los puntos dinámicamente según el número de slides
+    slides.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.classList.add("carousel__dot");
+        dot.dataset.index = index;
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll(".carousel__dot");
 
     // Mostrar slide por índice
     function showSlide(index) {
         slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-            dots[i]?.classList.toggle('active', i === index);
+            slide.classList.toggle("active", i === index);
+            dots[i].classList.toggle("active", i === index);
         });
 
         const activeSlide = slides[index];
-        const theme = activeSlide.getAttribute('data-theme');
+        const theme = activeSlide.getAttribute("data-theme");
 
-        hero.classList.remove('hero--paulaner', 'hero--heineken', 'hero--budweiser', 'hero--guinness');
-        hero.classList.add(`hero--${theme}`);
+        // Cambiar fondo o estilos de tema según el data-theme
+        heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--whiskys", "hero--packmixtos");
+        heroCarousel.classList.add(`hero--${theme}`);
 
         currentSlide = index;
     }
 
-
-    // Siguiente slide
+    // Funciones para avanzar y retroceder
     function nextSlide() {
         const nextIndex = (currentSlide + 1) % slides.length;
         showSlide(nextIndex);
     }
 
-    // Slide anterior
     function prevSlide() {
         const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
         showSlide(prevIndex);
     }
 
-    // Iniciar autoplay
+    // Autoplay
     function startAutoplay() {
-        autoPlayInterval = setInterval(nextSlide, 5000);
+        autoPlayInterval = setInterval(nextSlide, 6000);
     }
 
-    // Detener autoplay temporalmente
     function stopAutoplay() {
         clearInterval(autoPlayInterval);
     }
 
-    // Click en dots
+    // Eventos de botones
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        prevSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    // Eventos de los puntos
     dots.forEach(dot => {
-        dot.addEventListener('click', () => {
+        dot.addEventListener("click", () => {
             const index = parseInt(dot.dataset.index);
             showSlide(index);
             stopAutoplay();
-            startAutoplay(); // Reiniciar autoplay al interactuar
+            startAutoplay();
         });
     });
 
-    // Click en flechas
-    arrows.forEach(arrow => {
-        arrow.addEventListener('click', () => {
-            const direction = arrow.dataset.direction;
-            if (direction === 'next') {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-            stopAutoplay();
-            startAutoplay(); // Reiniciar autoplay
-        });
-    });
-
-    // Mostrar primer slide
+    // Inicialización
     showSlide(0);
     startAutoplay();
 
     //duplicacion de los logos
-    const logos = document.getElementById("slider").cloneNode(true);
-    document.getElementById("logos").appendChild(logos);
+    const slider = document.querySelector('.logos__slide');
+    if (!slider.nextElementSibling || !slider.nextElementSibling.classList.contains('logos__slide')) {
+        const clone = slider.cloneNode(true);
+        slider.parentElement.appendChild(clone);
+    }
 
     //invocar el iniciar carrito y corazon
     inicialHeart();

@@ -19,110 +19,104 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Packs || E-ecommer Beer</title>
+    <title>Packs || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
 </head>
 
 <body>
     <header class="header">
-        <h1 class="header__logo">HoreecarBeer</h2>
+        <figure class="header__logo">
+            <img src="../static/Assets/Img/logos/logoDashboardYPrincipal.webp" alt="Logo dashboard">
+        </figure>
 
-            <nav class="header__navbar">
-                <ul class="navbar__list">
-                    <li class="list__item"><a href="Index.html" class="item__link">Inicio</a></li>
-                    <li class="list__item"><a href="" class="item__link active">Packs</a></li>
-                    <li class="list__item"><a href="productos.html" class="item__link">Productos</a></li>
-                    <li class="list__item"><a href="Blog.html" class="item__link">Blog</a></li>
-                    <li class="list__item"><a href="Contactos.html" class="item__link">Contactenos</a></li>
-                </ul>
-            </nav>
+        <nav class="header__navbar">
+            <ul class="navbar__list">
+                <li class="list__item"><a href="Index.html" class="item__link">Inicio</a></li>
+                <li class="list__item"><a href="" class="item__link active">Packs</a></li>
+                <li class="list__item"><a href="productos.html" class="item__link">Productos</a></li>
+                <li class="list__item"><a href="Blog.html" class="item__link">Blog</a></li>
+                <li class="list__item"><a href="Contactos.html" class="item__link">Contactenos</a></li>
+            </ul>
+        </nav>
 
-            <div class="list__icon">
+        <div class="list__icon">
 
-                <span class="icon__item language-selector">
-                    <div class="language-dropdown">
-                        <button class="dropdown-toggle">
-                            <i class="ri-translate-2"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>Español</li>
-                            <li>English</li>
-                            <li>France</li>
-                            <li>Portugues</li>
-                        </ul>
+            <span class="icon__item">
+                <i class="ri-search-line"></i>
+            </span>
+
+            <span class="icon__item">
+                <i class="ri-user-line"></i>
+
+                <div class="nav__menu" id="SubMenu">
+                    <div class="menu__sub">
+
+                        <a href="login.html" class="sub__link">
+                            <p class="link__text">Iniciar Sesion</p>
+                        </a>
+
+                        <a href="registro.html" class="sub__link">
+                            <p class="link__text">Registro</p>
+                        </a>
+
+                        <a href="RecordarContrasena.html" class="sub__link">
+                            <p class="link__text">Recordar Contraseña</p>
+                        </a>
+
                     </div>
-                </span>
+                </div>
 
-                <span class="icon__item">
-                    <i class="ri-search-line"></i>
-                </span>
-
-                <span class="icon__item">
-                    <i class="ri-user-line"></i>
-
-                    <div class="nav__menu" id="SubMenu">
-                        <div class="menu__sub">
-
-                            <a href="login.html" class="sub__link">
-                                <p class="link__text">Iniciar Sesion</p>
-                            </a>
-
-                            <a href="registro.html" class="sub__link">
-                                <p class="link__text">Registro</p>
-                            </a>
-
-                            <a href="RecordarContrasena.html" class="sub__link">
-                                <p class="link__text">Recordar Contraseña</p>
-                            </a>
-
+                <div class="nav__menu" id="SubMenu">
+                    <div class="menu__sub">
+                        <div class="sub__info">
+                            <i class="ri-user-line"></i>
+                            <h2 class="info__title">Keyner Reyes</h2>
                         </div>
+                        <hr>
+
+                        <a href="Perfil.html" class="sub__link">
+                            <p class="link__text">Perfil</p>
+                        </a>
+
+                        <a href="Configuraciones.html" class="sub__link">
+                            <p class="link__text">Configuracion</p>
+                        </a>
+
+                        <a href="Notificaciones.html" class="sub__link">
+                            <p class="link__text">Notificaciones</p>
+                        </a>
+
+                        <a href="Pedidos.html" class="sub__link">
+                            <p class="link__text">Sus Pedidos</p>
+                        </a>
+
+                        <a href="" class="sub__link">
+                            <p class="link__text">Cerrar Seccion</p>
+                        </a>
                     </div>
+                </div>
 
-                    <div class="nav__menu" id="SubMenu">
-                        <div class="menu__sub">
-                            <div class="sub__info">
-                                <i class="ri-user-line"></i>
-                                <h2 class="info__title">Keyner Reyes</h2>
-                            </div>
-                            <hr>
+            </span>
 
-                            <a href="Perfil.html" class="sub__link">
-                                <p class="link__text">Perfil</p>
-                            </a>
+            <span class="icon__item" id="go-fav">
+                <i class="ri-heart-3-line"></i>
+                <span class="icon__badge" id="fav-count"></span>
+            </span>
 
-                            <a href="Configuraciones.html" class="sub__link">
-                                <p class="link__text">Configuracion</p>
-                            </a>
-
-                            <a href="Notificaciones.html" class="sub__link">
-                                <p class="link__text">Notificaciones</p>
-                            </a>
-
-                            <a href="Pedidos.html" class="sub__link">
-                                <p class="link__text">Sus Pedidos</p>
-                            </a>
-
-                            <a href="" class="sub__link">
-                                <p class="link__text">Cerrar Seccion</p>
-                            </a>
-                        </div>
-                    </div>
-                    
-                </span>
-
-                <span class="icon__item" id="go-fav">
-                    <i class="ri-heart-3-line"></i>
-                    <span class="icon__badge" id="fav-count"></span>
-                </span>
-
-                <span class="icon__item" id="cart-icon">
-                    <i class="ri-shopping-cart-2-line"></i>
-                    <span class="icon__badge" id="cart-count"></span>
-                </span>
-            </div>
+            <span class="icon__item" id="cart-icon">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span class="icon__badge" id="cart-count"></span>
+            </span>
+        </div>
     </header>
 
     <main>
