@@ -32,6 +32,16 @@ public class CompraServiceImpl implements CompraService {
     private final ProductoRepository productoRepository;
 
     /**
+     * @param compraId
+     * @return
+     */
+    @Override
+    public Compra getCompraById(Long compraId) {
+        return compraRepository.findById(compraId)
+                .orElseThrow(() -> new EntityNotFoundException("La compra con id: " + compraId + " no existe."));
+    }
+
+    /**
      * @param compraRequest
      * @return
      */

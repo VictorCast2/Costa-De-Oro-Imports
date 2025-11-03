@@ -7,6 +7,8 @@ import com.application.presentation.dto.compra.response.CompraResponse;
 
 public interface CompraService {
 
+    Compra getCompraById(Long compraId);
+
     CompraResponse createCompra(CustomUserPrincipal principal, CompraCreateRequest compraRequest);
 
     CompraResponse toResponse(Compra compra);
