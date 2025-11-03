@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../static/Css/EditarProducto.css">
+    <link rel="stylesheet" href="../static/Css/AgregarClientes.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <!-- Quill CSS -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <title>Dashboard Editar Producto || Costa de oro import</title>
+    <title>Dashboard Agregar Clientes || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
@@ -52,7 +52,7 @@
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-shopping-cart-2-line"></i>
                     <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
                 </li>
@@ -67,7 +67,7 @@
                     <a href="DashboardCompra.html" class="sidebar__text">Compras</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-group-line"></i>
                     <a href="DashboardClientes.html" class="sidebar__text">Clientes</a>
                 </li>
@@ -193,11 +193,11 @@
 
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
-                        <h2 class="producto__titulo">Editar producto</h2>
+                        <h1 class="producto__titulo">Crear Clientes</h1>
                     </div>
 
                     <div class="titleheader__btn">
-                        <a href="DashboardProducto.html">Volver al producto</a>
+                        <a href="DashboardClientes.html">Volver al clientes</a>
                     </div>
                 </div>
 
@@ -206,17 +206,41 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioProducto" action="">
-                                <h2 class="producto__title">Información del producto
-                                </h2>
+                            <form class="formulario__producto" id="formularioClientes" action="">
 
                                 <div class="producto__input">
+
+                                    <div class="input__formulario" id="formulario__imagen">
+                                        <h2 class="formulario__title">Imágenes del cliente</h2>
+                                        <div class="formulario__boximagen">
+                                            <input type="file" id="fileInput" accept="image/*" hidden>
+                                            <div class="preview-container" id="previewContainer"></div>
+                                        </div>
+
+                                        <p class="formulario__mensaje"> JPG, PNG o WEBP Tamaño máximo de 1MB</p>
+
+                                        <div class="formulario__btn">
+                                            <button>Subir</button>
+                                            <button>Limpiar</button>
+                                        </div>
+
+                                        <p class="formulario__error error--formato">
+                                            Solo se permiten archivos con formato JPG, PNG o WEBP..
+                                        </p>
+
+                                        <p class="formulario__error error--vacio">
+                                            Debes subir al menos una imagen del cliente.
+                                        </p>
+                                    </div>
+
+                                    <h2 class="producto__title">Información del clientes
+                                    </h2>
 
                                     <div class="input__formulario">
                                         <div class="formulario__box">
                                             <input type="text" autocomplete="off" placeholder="" name="Nombre"
                                                 id="nombre">
-                                            <label class="box__label" for="nombre">Nombre del producto</label>
+                                            <label class="box__label" for="nombre">Nombre</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
@@ -225,197 +249,107 @@
                                         </p>
                                     </div>
 
-                                    <!-- CATEGORÍA PRINCIPAL -->
-                                    <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="categoriaPrincipal">
-                                                <option disabled selected>Categoria principal</option>
-                                                <option value="Vino">Vino</option>
-                                                <option value="Cerveza">Cerveza</option>
-                                                <option value="Whisky">Whisky</option>
-                                                <option value="Tequila">Tequila</option>
-                                                <option value="Vodka">Vodka</option>
-                                                <option value="Ginebra">Ginebra</option>
-                                                <option value="Aguardiente">Aguardiente</option>
-                                                <option value="Ron">Ron</option>
-                                                <option value="Mezcal">Mezcal</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                                        </div>
-                                        <p class="formulario__error error--CategoriaPrincipal">
-                                            Selecciona una categoria principal para el producto.
-                                        </p>
-                                    </div>
-
-                                    <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="páises">
-                                                <option disabled selected>Pais</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                                        </div>
-                                        <p class="formulario__error error--páises">
-                                            Selecciona un pais para el producto
-                                        </p>
-                                    </div>
-
-                                    <!-- CATEGORÍA SECUNDARIA -->
-                                    <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="categoriaSecundaria" required>
-                                                <option disabled selected>Categoría secundaria</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow"></i>
-                                        </div>
-                                        <p class="formulario__error error--CategoriaSecundaria">
-                                            Selecciona una categoria secundaria para el producto
-                                        </p>
-                                    </div>
-
-                                    <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="marca">
-                                                <option disabled selected>Marca</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                                        </div>
-                                        <p class="formulario__error error--marca">
-                                            Selecciona una marca para el producto
-                                        </p>
-                                    </div>
-
-                                    <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="tipoProducto">
-                                                <option disabled selected>Tipo</option>
-                                                <option value="Unidad">Unidad</option>
-                                                <option value="Caja">Caja</option>
-                                                <option value="Pack">Pack</option>
-                                                <option value="Combo">Combo</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                                        </div>
-                                        <p class="formulario__error error--tipoProducto">
-                                            Seleccione el tipo de producto que quiere que sea su producto
-                                        </p>
-                                    </div>
-
-                                    <h2 class="input__inventario">Datos de inventario</h2>
-
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="CodigoProducto"
-                                                id="codigoProducto">
-                                            <label class="box__label" for="codigoProducto">Codigo del producto</label>
+                                            <input type="text" autocomplete="off" placeholder="" name="Apellido"
+                                                id="apellido">
+                                            <label class="box__label" for="apellido">Apellido</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
                                         <p class="formulario__error">
-                                            El código del producto debe iniciar con el símbolo # y contener solo letras
-                                            o números después.
+                                            El apellido debe tener al menos 3 letras y no contener números.
                                         </p>
                                     </div>
 
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="number" autocomplete="off" placeholder="" name="Stock"
-                                                id="stock">
-                                            <label class="box__label" for="stock">Stock</label>
+                                            <input type="text" autocomplete="off" placeholder="" name="Telefono"
+                                                id="telefono">
+                                            <label class="box__label" for="telefono">Telefono</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
                                         <p class="formulario__error">
-                                            Por favor, ingresa una cantidad de stock válida mayor que cero.
-                                        </p>
-                                    </div>
-
-                                    <h2 class="input__estados">Estados del producto</h2>
-
-                                    <div class="input__formulario estados__container">
-
-                                        <div class="container__radio">
-                                            <label class="radio__option activo">
-                                                <input type="radio" name="estado" value="activo">
-                                                <span class="radio__custom"></span>
-                                                Activo
-                                            </label>
-
-                                            <label class="radio__option inactivo">
-                                                <input type="radio" name="estado" value="inactivo">
-                                                <span class="radio__custom"></span>
-                                                Inactivo
-                                            </label>
-
-                                            <label class="radio__option borrador">
-                                                <input type="radio" name="estado" value="borrador">
-                                                <span class="radio__custom"></span>
-                                                Borrador
-                                            </label>
-                                        </div>
-
-                                        <p class="formulario__error error--estado">
-                                            Por favor, debes seleccionar un estado del producto
-                                        </p>
-
-                                    </div>
-
-                                    <h2 class="input__precio">Precio del producto</h2>
-
-                                    <div class="input__formulario">
-                                        <div class="formulario__box">
-                                            <input type="text" inputmode="numeric" autocomplete="off" placeholder=""
-                                                name="precioRegular" id="precioRegular">
-                                            <label class="box__label" for="precioRegular">Precio regular</label>
-                                            <span class="box__icon"><i class="ri-check-line"></i></span>
-                                            <span class="box__icon"><i class="ri-close-line"></i></span>
-                                        </div>
-                                        <p class="formulario__error">
-                                            Por favor, ingresa un precio válido mayor que cero.
+                                            El teléfono solo puede contener numeros y el maximo son 10 digitos.
                                         </p>
                                     </div>
 
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" inputmode="numeric" autocomplete="off" placeholder=""
-                                                name="precioVenta" id="precioVenta">
-                                            <label class="box__label" for="precioVenta">Precio de venta</label>
+                                            <input type="text" autocomplete="off" placeholder="" name="Correo"
+                                                id="correo">
+                                            <label class="box__label" for="correo">Correo</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
                                         <p class="formulario__error">
-                                            Por favor, ingresa un precio válido mayor que cero.
+                                            El correo solo puede contener letras,numeros,puntos,guiones y guion bajo.
                                         </p>
                                     </div>
 
-                                    <div class="input__formulario" id="formulario__imagen">
-                                        <h2 class="formulario__title">Imágenes del producto</h2>
-                                        <div class="formulario__boximagen">
-                                            <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
-                                            <input type="file" id="fileInput" accept="image/*" hidden>
-                                            <div class="preview-container" id="previewContainer"></div>
+                                    <div class="input__formulario">
+                                        <div class="formulario__customselect">
+                                            <select class="customselect__styled" id="tipoIdentificacion">
+                                                <option disabled selected>Tipo Identificacion</option>
+                                                <option value="Cedula">CC (Cédula de Ciudadanía)</option>
+                                                <option value="C.Extranjeria">CE (Cédula de Extranjería)</option>
+                                                <option value="D.Extranjería">DE (Documento de Extranjería)</option>
+                                                <option value="NIT">NIT (Identificación Tributaria)</option>
+                                                <option value="PP">PP (Pasaporte)</option>
+                                                <option value="RUT">RUT (Registro Único Tributario)</option>
+                                                <option value="TEC">TE (Tarjeta de Extranjería)</option>
+                                                <option value="T">TI (Tarjeta de Identidad)</option>
+                                            </select>
+                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
                                         </div>
-
-                                        <p class="formulario__error error--formato">
-                                            Solo se permiten archivos con formato JPG, PNG o WEBP..
-                                        </p>
-
-                                        <p class="formulario__error error--vacio">
-                                            Debes subir al menos una imagen del producto.
+                                        <p class="formulario__error error--TipoIdentificacion">
+                                            Selecciona un tipo de identificacion
                                         </p>
                                     </div>
 
-                                    <div class="input__formulario" id="formulario__descripcion">
-                                        <h2 class="formulario__title">Descripción del producto</h2>
-                                        <div class="formulario__boxdescripcion">
-                                            <div id="editor-container"></div>
+                                    <div class="input__formulario">
+                                        <div class="formulario__box">
+                                            <input type="text" autocomplete="off" placeholder="" name="Identificacion"
+                                                id="identificacion">
+                                            <label class="box__label" for="identificacion">Identificacion</label>
+                                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                                            <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
-
-                                        <p class="formulario__error error--descripcion">
-                                            Por favor, agrega una descripción del producto antes de continuar.
+                                        <p class="formulario__error">
+                                            La cédula debe contener entre 6 y 10 dígitos numéricos.
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Crear Producto</button>
+                                    <div class="input__formulario">
+                                        <div class="formulario__box">
+                                            <input type="text" autocomplete="off" placeholder="" name="Direccion"
+                                                id="direccion">
+                                            <label class="box__label" for="direccion">Direccion</label>
+                                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                                        </div>
+                                        <p class="formulario__error">
+                                            Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando,
+                                            Calle 45 #10-23,
+                                            130002).
+                                        </p>
+                                    </div>
+
+                                    <div class="input__formulario">
+                                        <div class="formulario__box">
+                                            <input type="text" autocomplete="off" placeholder="" name="Password"
+                                                id="password">
+                                            <label class="box__label" for="password">Contraseña</label>
+                                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                                            <span class="box__icon"><i class="ri-close-line"></i></span>
+                                        </div>
+                                        <p class="formulario__error">
+                                            La contraseña tiene que ser de 4 a 15 digitos
+                                        </p>
+                                    </div>
+
+                                    <button class="input__btn">Crear nuevo cliente</button>
 
 
                                 </div>
@@ -433,11 +367,8 @@
 
     </div>
 
-
-    <!-- Quill JS -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../static/Js/EditarProducto.js"></script>
+    <script src="../static/Js/AgregarClientes.js"></script>
 </body>
 
 </html>
