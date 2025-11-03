@@ -64,7 +64,7 @@ public class CompraServiceImpl implements CompraService {
                     .orElseThrow(() -> new EntityNotFoundException("Error: El producto con id: " + productoId + " no existe"));
 
             if (producto.getStock() < detalleVentaRequest.cantidad()) {
-                throw new RuntimeException("No hay stock suficiente del producto " + producto.getNombre());
+                throw new IllegalArgumentException("No hay stock suficiente del producto " + producto.getNombre());
             }
 
             int sub = (int) (producto.getPrecio() * detalleVentaRequest.cantidad());
