@@ -104,6 +104,17 @@ public class CompraServiceImpl implements CompraService {
     }
 
     /**
+     * @param compraId
+     * @param estado
+     */
+    @Override
+    public void updateEstadoCompra(Long compraId, EEstado estado) {
+        Compra compra = this.getCompraById(compraId);
+        compra.setEEstado(estado);
+        compraRepository.save(compra);
+    }
+
+    /**
      * @param compra
      * @return
      */
