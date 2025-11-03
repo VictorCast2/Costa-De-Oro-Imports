@@ -21,6 +21,7 @@ public class CompraRestController {
 
     private final CompraService compraService;
 
+    @PostMapping
     public ResponseEntity<?> createCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
                                           @Valid @RequestBody CompraCreateRequest compraCreateRequest) {
         try {
