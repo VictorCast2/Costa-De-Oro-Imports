@@ -4,6 +4,7 @@ import com.application.persistence.entity.compra.Compra;
 import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.service.interfaces.CompraService;
+import com.application.service.interfaces.EmailService;
 import com.application.service.interfaces.MercadoPagoService;
 import com.mercadopago.client.common.IdentificationRequest;
 import com.mercadopago.client.common.PhoneRequest;
@@ -27,6 +28,7 @@ import java.util.List;
 public class MercadoPagoServiceImpl implements MercadoPagoService {
 
     private final CompraService compraService;
+    private final EmailService emailService;
 
     /**
      * @param compraId
@@ -118,6 +120,12 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 case "in_process" -> compraService.updateEstadoCompra(compraId, EEstado.PENDIENTE);
                 case "cancelled" -> compraService.updateEstadoCompra(compraId, EEstado.CANCELADO);
             }
+
+            Compra compra = compraService.getCompraById(compraId);
+            Usuario usuario = compra.getUsuario();
+            EEstado estado = compra.getEstado();
+
+            emailService.sendEmailEstadoPago(usuario, compra, estado);
         } catch (MPException | MPApiException e) {
             throw new RuntimeException("Error al procesar el pago" + e.getMessage());
         }

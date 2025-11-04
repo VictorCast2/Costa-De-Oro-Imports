@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const rowsPerPage = 4;
 
-    // === MANEJO DE RESPUESTAS DE MERCADO PAGO - VERSIÓN PROFESIONAL ===
+    // === MANEJO DE RESPUESTAS DE MERCADO PAGO ===
     function handleMercadoPagoResponse() {
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Estado:</span>
-                                <span class="status-badge error">No Completado</span>
+                                <span class="status-badge error">Rechazado</span>
                             </div>
                         </div>
                         <div class="alert-message">
