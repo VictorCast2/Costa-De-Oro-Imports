@@ -416,9 +416,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p, stat : ${productosMasVendidos}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -484,9 +495,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaWhisky}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -553,9 +575,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaTequilaMezcal}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -622,9 +655,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaVino}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -692,9 +736,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaCerveza}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -761,9 +816,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaRonAguardiente}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
@@ -830,9 +896,20 @@
                         <div class="flex__productos-track">
                             <div class="card"
                                  th:each="p : ${productosConCategoriaVodkaGinebra}"
-                                 th:attr="data-name=${p.nombre}, data-price=${p.precio}, data-oldprice=${p.precioRegular}, data-stock=${p.stock},
-                                 data-subcategory=${p.nombreCategoria}, data-descripcion=${p.descripcion}, data-category=${p.nombreSubCategoria},
-                                 data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                 th:attr="data-id=${p.id},
+                                     data-code=${p.codigoProducto},
+                                     data-name=${p.nombre},
+                                     data-brand=${p.marca},
+                                     data-country=${p.pais},
+                                     data-type=${p.tipo},
+                                     data-price=${p.precio},
+                                     data-oldprice=${p.precioRegular},
+                                     data-stock=${p.stock},
+                                     data-description=${p.descripcion},
+                                     data-active=${p.activo},
+                                     data-category=${p.nombreCategoria},
+                                     data-subcategory=${p.nombreSubCategoria},
+                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"

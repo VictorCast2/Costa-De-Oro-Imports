@@ -136,8 +136,6 @@
         <h2 class="notification__title">Mi Carrito</h2>
         <span class="notification__there" id="there?"></span>
 
-        <button id="btn__pagaryenviar" class="container__add">Pagar y enviar</button>
-
         <div class="container__table">
 
             <div class="notification__table-container">
@@ -200,7 +198,8 @@
                             <span id="total__all" class="total__subtotal">$0.00</span>
                         </div>
 
-                        <button class="carrito__btn">Finalizar Compra</button>
+                        <button class="carrito__btn" id="btnFinalizarCompra">Finalizar Compra</button>
+                        <div id="wallet_container"></div>
 
                     </div>
                 </div>
@@ -348,159 +347,14 @@
     </div>
 </footer>
 
-<!-- Ventana modal registrar empresas -->
-<div class="modal__newadd newadd--hidden" id="modalnewadd">
-    <div class="modal__content">
-        <span class="modal__close">&times;</span>
-        <h2 class="content__titulo">Envio y Pago</h2>
-        <form class="formulario" action="">
-
-            <div class="formulario__input">
-                <div class="input-box">
-                    <input type="text" autocomplete="off" placeholder="" name="Direccion" id="direccion">
-                    <label for="direccion">Direccion</label>
-                    <span class="box__icon"><i class="ri-check-line"></i></span>
-                    <span class="box__icon"><i class="ri-close-line"></i></span>
-                </div>
-                <p class="input__error error--direccion">
-                    Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle 45 #10-23,
-                    130002).
-                </p>
-            </div>
-
-            <div class="formulario__input">
-                <div class="input-box">
-                    <input type="text" autocomplete="off" placeholder="" name="DirecciónAdicional"
-                           id="Direcciónadicional">
-                    <label for="Direcciónadicional">Apartamento, Casa, etc.</label>
-                    <span class="box__icon"><i class="ri-check-line"></i></span>
-                    <span class="box__icon"><i class="ri-close-line"></i></span>
-                </div>
-                <p class="input__error error--apartamento">
-                    Ingresa un complemento válido (ej. Apartamento 302, Casa 5, Piso 2).
-                </p>
-            </div>
-
-            <div class="formulario__input">
-                <div class="custom-select-wrapper">
-                    <select class="styled-select" id="Departamento">
-                        <option disabled selected>Departamento</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                </div>
-                <p class="input__error error--departamento">
-                    Por favor, seleccione un Departamento.
-                </p>
-            </div>
-
-            <div class="formulario__input">
-                <div class="custom-select-wrapper wrapper--top">
-                    <select class="styled-select" id="Ciudad">
-                        <option disabled selected>Ciudad</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
-                </div>
-                <p class="input__error error--ciudad">
-                    Por favor, seleccione una ciudad.
-                </p>
-            </div>
-
-            <div class="formulario__input" id="barrio-input">
-                <div class="input-box">
-                    <input type="text" autocomplete="off" placeholder="" name="Barrio" id="barrio">
-                    <label for="barrio">Barrio.</label>
-                    <span class="box__icon icon--barrio"><i class="ri-check-line"></i></span>
-                    <span class="box__icon icon--barrio"><i class="ri-close-line"></i></span>
-                </div>
-                <p class="input__error error--barrio">
-                    Ingresa un barrio válido (ej. San Fernando, El Prado, La Esperanza).
-                </p>
-            </div>
-
-            <div class="opciones__envios">
-                <h2 class="envios__titulo">Opciones De Envio</h2>
-
-                <div class="envios__container">
-                    <div class="container__item">
-                        <label>
-                            <input type="radio" name="opcionEnvio" value="domicilio">
-                            <span class="item__titulo">Envio a Domicilio:</span>
-                        </label>
-                        <p>Recibe tus productos en menos de 60 minutos*</p>
-                    </div>
-
-                    <div class="container__item">
-                        <label>
-                            <input type="radio" name="opcionEnvio" value="programada">
-                            <span class="item__titulo">Entrega Agendada:</span>
-                        </label>
-                        <p>Elige fecha y hora en la que te gustaría recibir tus productos</p>
-                    </div>
-
-                    <div class="container__item">
-                        <label>
-                            <input type="radio" name="opcionEnvio" value="tienda">
-                            <span class="item__titulo">Recoge en tienda:</span>
-                        </label>
-                        <p>Elige fecha y hora en la que te gustaría pasar por tus productos.</p>
-                    </div>
-                </div>
-            </div>
-
-            <span class="formulario__pago" id="btnIrPago">Ir al pago</span>
-
-        </form>
-
-    </div>
-</div>
-
-<!-- Ventana modal de eligir la fecha y hora -->
-<div class="modal__envio newadd--mostrar" id="modalEnvio">
-    <div class="envio__content">
-        <span class="envio__close">&times;</span>
-        <h2 class="envio__titulo">Recoge En Tienda</h2>
-
-        <p class="envio__subtitulo">Elige una fecha y hora</p>
-
-        <form id="formRecoge" class="formulario__recoge" action="">
-            <div class="formulario__input">
-                <div class="input-box box--tiempo">
-                    <input type="text" autocomplete="off" placeholder="" name="FechaEntrega" id="Fechaentrega">
-                    <label for="Fechaentrega">Fecha Entrega</label>
-                    <span class="box__icon"><i class="ri-check-line"></i></span>
-                    <span class="box__icon"><i class="ri-close-line"></i></span>
-                </div>
-                <p class="input__error error--fecha">
-                    Por favor eliga una fecha de entrega.
-                </p>
-            </div>
-
-            <div class="formulario__input">
-                <div class="input-box box--tiempo">
-                    <input type="text" autocomplete="off" placeholder="" name="HoraEntrega" id="Horaentrega">
-                    <label for="Horaentrega">Hora Entrega</label>
-                    <span class="box__icon"><i class="ri-check-line"></i></span>
-                    <span class="box__icon"><i class="ri-close-line"></i></span>
-                </div>
-                <p class="input__error error--hora">
-                    Por favor eliga una hora de entraga.
-                </p>
-            </div>
-
-            <button class="btn__envio" type="submit">Continuar</button>
-        </form>
-
-
-    </div>
-</div>
-
-
 <!-- JS de Flatpickr -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" th:src="@{/Js/Carrito.js}"></script>
+<!-- Mercado Pago -->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 </body>
 
 </html>

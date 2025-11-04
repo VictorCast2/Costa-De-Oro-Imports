@@ -1,6 +1,5 @@
 @import url("./style.css");
 
-
 :root {
     --typografiaGeist: "Geist";
     --typografiaUrbanist: "Urbanist";
@@ -17,22 +16,24 @@
     padding: 100px 0;
 }
 
+/* Flex Container */
 .flex {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .flex__productos {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px;
-    justify-items: center;
-
+    display: block; /* Cambia de grid a block */
+    max-width: 1345px;
 }
 
 .flex__productos-track {
-    display: contents;
+    display: grid; /* Mueve el grid aquí */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    justify-items: center;
 }
 
 @media (max-width: 1024px) {
@@ -56,24 +57,33 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    display: flex;
+    display: none !important;
     flex-direction: column;
     align-items: center;
     text-align: left;
 }
 
+.card.active-page {
+    display: flex !important;
+}
+
+.card {
+    transition: opacity 0.3s ease;
+}
+
 /* Pagination */
 .pagination {
-    position: relative;
-    top:-25px;
-    left: -15px;
-    width: 200%;
-    overflow-x: hidden;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 10px;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    margin-left: 5rem;
+    width: 100%;
+    position: static; /* Elimina posicionamiento absoluto */
+    left: auto;
+    top: auto;
 }
 
 .pagination__Numbers {
@@ -93,7 +103,6 @@
     align-items: center;
     border-radius: 8px;
     transition: background-color .2s ease, color .2s ease-in;
-
 }
 
 .pagination__Numbers .button__pagination.active {
@@ -106,10 +115,6 @@
     background-color: var(--colorCafe);
     border: 1px solid var(--colorCafe);
     color: #ffffff;
-}
-
-.pagination #prevBtn {
-    display: none;
 }
 
 .pagination button {
@@ -128,4 +133,3 @@
     border: 1px solid var(--colorCafe);
     color: #ffffff;
 }
-

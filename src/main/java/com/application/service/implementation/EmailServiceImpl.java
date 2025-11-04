@@ -1,5 +1,7 @@
 package com.application.service.implementation;
 
+import com.application.persistence.entity.compra.Compra;
+import com.application.persistence.entity.compra.enums.EEstado;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.service.interfaces.EmailService;
 import jakarta.mail.MessagingException;
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -96,6 +100,65 @@ public class EmailServiceImpl implements EmailService {
     }
 
     /**
+     * Método para enviarle un email al usuario con el estado actualizado de su pago
+     *
+     * @param usuario Usuario que realizo la compra
+     * @param compra Compra con los detalles del pedido
+     * @param estado Estado del pedido
+     */
+    @Override
+    public void sendEmailEstadoPago(Usuario usuario, Compra compra, EEstado estado) {
+        try {
+            Map<String, Object> variables = new HashMap<>();
+
+            // Información del pedido y del usuario
+            variables.put("nombreUsuario", usuario.getNombres() + " " + usuario.getApellidos());
+            variables.put("numeroPedido", "ORD-" + String.format("%04d", compra.getCompraId()));
+            variables.put("fechaPago", compra.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            variables.put("metodoPago", compra.getEMetodoPago().name());
+
+            // Información del estado
+            variables.put("estado", estado.name());
+            variables.put("estadoTitulo", this.getTituloEstado(estado));
+            variables.put("estadoMensaje", this.getMensajeEstado(estado));
+            variables.put("estadoIcono", this.getIconoEstado(estado));
+
+            // Detalles del producto
+            List< Map<String, Object> > detalleCompra = compra.getDetalleVentas().stream()
+                    .map(detalleVenta -> {
+
+                        Map<String, Object> detalleMap = new HashMap<>();
+                        detalleMap.put("productoNombre", detalleVenta.getProducto().getNombre());
+                        detalleMap.put("cantidad", detalleVenta.getCantidad());
+                        detalleMap.put("precioUnitario", detalleVenta.getPrecioUnitario());
+                        detalleMap.put("subtotal", detalleVenta.getSubtotal());
+
+                        return detalleMap;
+                    })
+                    .toList();
+
+            variables.put("detalles", detalleCompra);
+            variables.put("subtotal", compra.getSubtotal());
+            variables.put("iva", compra.getIva());
+            variables.put("total", compra.getTotal());
+
+            // Url para reintentar el pago si fue rechazado
+            if (estado.equals(EEstado.RECHAZADO)) {
+                variables.put("urlReintentar", "http://localhost:8080/carrito");
+            }
+
+            this.sendEmail(
+                    usuario.getCorreo(),
+                    "Confirmación de tú pedido #" + compra.getCompraId() + " - " + this.getTituloEstado(estado),
+                    "email-estado-pago",
+                    variables
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el email con el estado de la compra" + e.getMessage(), e);
+        }
+    }
+
+    /**
      * Extrae información básica del dispositivo desde los headers HTTP
      * usando el User-Agent para ofrecer contexto en las notificaciones de seguridad.
      *
@@ -117,5 +180,53 @@ public class EmailServiceImpl implements EmailService {
             }
         }
         return "Dispositivo Desconocido";
+    }
+
+    /**
+     * Método auxiliar para el titulo del email
+     *
+     * @param estado Estado del pago
+     * @return Un título para el email según el estado del pago
+     */
+    @Override
+    public String getTituloEstado(EEstado estado) {
+        return switch (estado) {
+            case PAGADO -> "Pago Confirmado Exitosamente";
+            case PENDIENTE -> "Pago en Proceso de Verificación";
+            case RECHAZADO -> "Pago No Procesado";
+            case CANCELADO -> "Pedido Cancelado";
+        };
+    }
+
+    /**
+     * Método auxiliar para el mensaje del email
+     *
+     * @param estado Estado del pago
+     * @return Un mensaje para el email según el estado del pago
+     */
+    @Override
+    public String getMensajeEstado(EEstado estado) {
+        return switch (estado) {
+            case PAGADO -> "Hemos recibido el pago de su pedido. Su orden esta siendo procesada y pronto recibirás actualizaciones sobre el envío.";
+            case PENDIENTE -> "Tú pago esta en proceso de verificación. Te notificaremos tan pronto se complete la transacción.";
+            case RECHAZADO -> "Lamentablemente, no pudimos procesar tú pago, te invitamos a revisar los métodos de pago e intentar nuevamente con otro método de pago si lo deseas.";
+            case CANCELADO -> "Tú pedido ha sido cancelado. Si esto fue un error, puedes realizar una nueva compra en nuestro sistema";
+        };
+    }
+
+    /**
+     * Método auxiliar para el icono del email
+     *
+     * @param estado Estado del pago
+     * @return Un mensaje para el email según el estado del pago
+     */
+    @Override
+    public String getIconoEstado(EEstado estado) {
+        return switch (estado) {
+            case PAGADO -> "✅";
+            case PENDIENTE -> "⏳";
+            case RECHAZADO -> "❌";
+            case CANCELADO -> "🚫";
+        };
     }
 }

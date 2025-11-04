@@ -6,6 +6,8 @@ import com.application.persistence.entity.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,10 +32,27 @@ public class Compra {
     private LocalDateTime fecha;
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
-    private EEstado eEstado;
+    private EEstado estado;
 
     // Cardinalidad con la tabla usuario
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", foreignKey = @ForeignKey(name = "fk_compra_usuario"))
     private Usuario usuario;
+
+    // Cardinalidad con la tabla detalle_ventas
+    @Builder.Default
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<DetalleVenta> detalleVentas = new HashSet<>();
+
+    // Agregar compra a detalle_venta y viceversa (bidireccional)
+    public void addDetalleVenta(DetalleVenta detalleVenta) {
+        detalleVenta.setCompra(this);
+        this.detalleVentas.add(detalleVenta);
+    }
+
+    // Eliminar compra a detalle_venta y viceversa (bidireccional)
+    public void deleteDetalleVenta(DetalleVenta detalleVenta) {
+        detalleVenta.setCompra(null);
+        this.detalleVentas.remove(detalleVenta);
+    }
 }
