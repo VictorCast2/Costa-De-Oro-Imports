@@ -32,7 +32,7 @@ public class Compra {
     private LocalDateTime fecha;
     @Column(name = "estado")
     @Enumerated(EnumType.STRING)
-    private EEstado eEstado;
+    private EEstado estado;
 
     // Cardinalidad con la tabla usuario
     @ManyToOne

@@ -93,7 +93,7 @@ public class CompraServiceImpl implements CompraService {
         compra.setIva(iva);
         compra.setTotal(total);
         compra.setFecha(LocalDateTime.now());
-        compra.setEEstado(EEstado.PENDIENTE);
+        compra.setEstado(EEstado.PENDIENTE);
 
         usuario.addCompra(compra);
 
@@ -111,7 +111,7 @@ public class CompraServiceImpl implements CompraService {
     @Transactional
     public void updateEstadoCompra(Long compraId, EEstado estado) {
         Compra compra = this.getCompraById(compraId);
-        compra.setEEstado(estado);
+        compra.setEstado(estado);
 
         this.updateStockProductoByCompraIdAndEstadoCompra(compraId, estado);
 
@@ -157,10 +157,10 @@ public class CompraServiceImpl implements CompraService {
     @Transactional
     public void limpiarComprasConEstadoPendiente() {
         LocalDateTime hace48Horas = LocalDateTime.now().minusHours(48);
-        List<Compra> comprasPendientes = compraRepository.findByEEstadoAndFechaBefore(EEstado.PENDIENTE, hace48Horas);
+        List<Compra> comprasPendientes = compraRepository.findByEstadoAndFechaBefore(EEstado.PENDIENTE, hace48Horas);
 
         for (Compra compra : comprasPendientes) {
-            compra.setEEstado(EEstado.CANCELADO);
+            compra.setEstado(EEstado.CANCELADO);
             compraRepository.save(compra);
         }
     }
@@ -180,7 +180,7 @@ public class CompraServiceImpl implements CompraService {
                 compra.getIva(),
                 compra.getTotal(),
                 compra.getFecha(),
-                compra.getEEstado(),
+                compra.getEstado(),
                 compra.getDetalleVentas().stream()
                         .map(detalleVenta ->
                                 new DetalleVentaResponse(

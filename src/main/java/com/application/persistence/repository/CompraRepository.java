@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface CompraRepository extends JpaRepository<Compra, Long> {
-    List<Compra> findByEEstadoAndFechaBefore(EEstado estado, LocalDateTime fecha);
+    List<Compra> findByEstadoAndFechaBefore(EEstado estado, LocalDateTime fecha);
 }
