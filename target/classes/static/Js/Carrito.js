@@ -2,11 +2,6 @@ import { activarGlassmorphism, inicialHeart, initCart, rederigirFav } from "./ma
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* console.log("JS cargado correctamente");
-    console.log("favTableBody:", favTableBody);
-    console.log("prevPageBtn:", prevPageBtn);
-    console.log("nextPageBtn:", nextPageBtn); */
-
     // Usar la funcion activarGlassmorphism
     activarGlassmorphism();
 
@@ -14,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initCart();
 
-    //rellenar la tabla mediante localStogare 
+    //rellenar la tabla mediante localStogare
     const cartTableBody = document.getElementById("favoritos-body");
     const paginationText = document.getElementById("pagination-text");
     const prevPageBtn = document.getElementById("prev-page");
@@ -26,6 +21,180 @@ document.addEventListener('DOMContentLoaded', () => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let currentPage = 1;
     const rowsPerPage = 4;
+
+    // === MANEJO DE RESPUESTAS DE MERCADO PAGO - VERSIÓN PROFESIONAL ===
+    function handleMercadoPagoResponse() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const compraId = urlParams.get('compra');
+
+        if (status && compraId) {
+            // Limpiar los parámetros de la URL sin recargar la página
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            const alertStyles = {
+                success: {
+                    title: '¡Pago Completado Exitosamente!',
+                    icon: 'success',
+                    titleColor: '#10B981',
+                    borderColor: '#10B981',
+                    iconHtml: `
+                        <div class="alert-icon success">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <circle cx="24" cy="24" r="24" fill="#10B981" fill-opacity="0.1"/>
+                                <path d="M20 24L23 27L28 22" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="24" cy="24" r="23" stroke="#10B981" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    `,
+                    buttonText: 'Continuar',
+                    buttonClass: 'btn-success'
+                },
+                error: {
+                    title: 'Transacción No Completada',
+                    icon: 'error',
+                    titleColor: '#EF4444',
+                    borderColor: '#EF4444',
+                    iconHtml: `
+                        <div class="alert-icon error">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <circle cx="24" cy="24" r="24" fill="#EF4444" fill-opacity="0.1"/>
+                                <path d="M18 18L30 30M30 18L18 30" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="24" cy="24" r="23" stroke="#EF4444" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    `,
+                    buttonText: 'Reintentar',
+                    buttonClass: 'btn-error'
+                },
+                pending: {
+                    title: 'Pago en Proceso',
+                    icon: 'warning',
+                    titleColor: '#F59E0B',
+                    borderColor: '#F59E0B',
+                    iconHtml: `
+                        <div class="alert-icon pending">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <circle cx="24" cy="24" r="24" fill="#F59E0B" fill-opacity="0.1"/>
+                                <path d="M24 16V24L28 28" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="24" cy="24" r="23" stroke="#F59E0B" stroke-width="2"/>
+                            </svg>
+                        </div>
+                    `,
+                    buttonText: 'Entendido',
+                    buttonClass: 'btn-warning'
+                }
+            };
+
+            const config = alertStyles[status];
+            if (!config) return;
+
+            const getSuccessContent = () => `
+                <div class="alert-content">
+                    ${config.iconHtml}
+                    <div class="alert-body">
+                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Número de Orden:</span>
+                                <span class="detail-value">#${compraId}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Estado:</span>
+                                <span class="status-badge success">Completado</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Fecha:</span>
+                                <span class="detail-value">${new Date().toLocaleDateString('es-CO')}</span>
+                            </div>
+                        </div>
+                        <div class="alert-message">
+                            <p>Hemos recibido tu pago correctamente. Recibirás un comprobante en tu correo electrónico en los próximos minutos.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const getErrorContent = () => `
+                <div class="alert-content">
+                    ${config.iconHtml}
+                    <div class="alert-body">
+                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Referencia:</span>
+                                <span class="detail-value">#${compraId}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Estado:</span>
+                                <span class="status-badge error">No Completado</span>
+                            </div>
+                        </div>
+                        <div class="alert-message">
+                            <p class="message-title">Posibles causas:</p>
+                            <ul class="reason-list">
+                                <li>Fondos insuficientes en la cuenta</li>
+                                <li>Límite de la tarjeta excedido</li>
+                                <li>Datos de la tarjeta incorrectos</li>
+                                <li>Problemas temporales del sistema</li>
+                            </ul>
+                            <p class="suggestion">Te recomendamos verificar los datos e intentar nuevamente.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const getPendingContent = () => `
+                <div class="alert-content">
+                    ${config.iconHtml}
+                    <div class="alert-body">
+                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
+                        <div class="alert-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Número de Orden:</span>
+                                <span class="detail-value">#${compraId}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Estado:</span>
+                                <span class="status-badge pending">En Revisión</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Tiempo Estimado:</span>
+                                <span class="detail-value">24-48 horas</span>
+                            </div>
+                        </div>
+                        <div class="alert-message">
+                            <p>Tu transacción está siendo procesada por nuestro sistema. Este proceso puede tomar hasta 48 horas.</p>
+                            <p class="notification-info">Recibirás una notificación por correo electrónico una vez completado el proceso.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const content = {
+                'success': getSuccessContent(),
+                'error': getErrorContent(),
+                'pending': getPendingContent()
+            }[status];
+
+            Swal.fire({
+                html: content,
+                showConfirmButton: true,
+                confirmButtonText: config.buttonText,
+                customClass: {
+                    popup: 'professional-alert',
+                    confirmButton: config.buttonClass,
+                    actions: 'alert-actions'
+                },
+                buttonsStyling: false,
+                backdrop: 'rgba(0, 0, 0, 0.6)',
+                willClose: status === 'success' ? () => {
+                    localStorage.removeItem("cart");
+                    window.location.reload();
+                } : undefined
+            });
+        }
+    }
 
     // --- Calcular total del carrito ---
     function updateCartTotal() {
@@ -133,6 +302,124 @@ document.addEventListener('DOMContentLoaded', () => {
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
+    // Configuración de Mercado Pago (usa tu PUBLIC KEY)
+    const mp = new MercadoPago('APP_USR-e36b15d6-08bc-4b88-b64f-6b255117534f', {
+        locale: 'es-CO'
+    });
+
+    const MP = async () => {
+        try {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Validar carrito vacío
+            if (cart.length === 0) {
+                Swal.fire({
+                    title: "Carrito vacío",
+                    text: "Agrega productos al carrito antes de finalizar la compra",
+                    icon: "warning",
+                    confirmButtonText: "Entendido",
+                    customClass: {
+                        title: 'swal-title',
+                        popup: 'swal-popup'
+                    }
+                });
+                return;
+            }
+
+            // Validar stock antes de proceder
+            for (const item of cart) {
+                if (item.stock !== null && item.qty > item.stock) {
+                    Swal.fire({
+                        title: "Stock insuficiente",
+                        text: `No hay suficiente stock de ${item.name}. Máximo disponible: ${item.stock} unidades`,
+                        icon: "error",
+                        confirmButtonText: "Entendido",
+                        customClass: {
+                            title: 'swal-title',
+                            popup: 'swal-popup'
+                        }
+                    });
+                    return;
+                }
+            }
+
+            // Mostrar loading
+            Swal.fire({
+                title: "Procesando compra",
+                html: `
+                    <div class="loading-container">
+                        <div class="loading-text">Validando información y stock</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                `,
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                showCancelButton: false,
+                backdrop: true,
+                width: '500px',
+                customClass: {
+                    popup: 'professional-loading-popup',
+                    container: 'professional-loading-container'
+                }
+            });
+
+            // Preparar request para el backend
+            const compraRequest = {
+                detalleVentaRequests: cart.map(item => ({
+                    productoId: item.id,
+                    cantidad: item.qty
+                })),
+                metodoPago: "MERCADO_PAGO",
+                cuponDescuento: document.getElementById("cupon").value || ""
+            };
+
+            console.log("Enviando compra al backend:", compraRequest);
+
+            // Llamar al endpoint integrado
+            const response = await fetch("/api/mercado-pago/iniciar-compra", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(compraRequest)
+            });
+
+            const data = await response.json();
+            console.log("Respuesta del backend:", data);
+
+            // Cerrar loading
+            Swal.close();
+
+            if (data.status === "success" && data.initPoint) {
+                // Redirigir a Mercado Pago
+                window.location.href = data.initPoint;
+            } else {
+                throw new Error(data.error || "Error al crear la compra");
+            }
+
+        } catch (error) {
+            console.error("Error en MP:", error);
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo procesar el pago: " + error.message,
+                icon: "error",
+                confirmButtonText: "Entendido",
+                customClass: {
+                    title: 'swal-title',
+                    popup: 'swal-popup'
+                }
+            });
+        }
+    }
+
+    // Asignar evento al botón (si usas onclick en HTML, esta línea no es necesaria)
+    const btnFinalizarCompra = document.getElementById("btnFinalizarCompra");
+    if (btnFinalizarCompra) {
+        btnFinalizarCompra.addEventListener("click", MP);
+    }
+
     // --- Eventos flechas ---
     prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
@@ -222,14 +509,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Render inicial ---
-    renderTable();
-
-    //rederigir a Favorito
-    rederigirFav();
-
-    // Mostrar mensaje al cargar si se registró correctamente
-    window.addEventListener("DOMContentLoaded", () => {
+    // Manejar mensajes al cargar la página
+    function handlePageLoadMessages() {
+        // Mensaje de login exitoso
         if (sessionStorage.getItem("loginSuccess") === "true") {
             Swal.fire({
                 title: "Registro de fecha y hora exito",
@@ -244,6 +526,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             sessionStorage.removeItem("loginSuccess");
         }
-    });
+
+        // Manejar respuesta de Mercado Pago
+        handleMercadoPagoResponse();
+    }
+
+    // --- Render inicial ---
+    renderTable();
+
+    // Manejar mensajes de carga
+    handlePageLoadMessages();
+
+    //rederigir a Favorito
+    rederigirFav();
 
 });

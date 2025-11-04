@@ -26,7 +26,7 @@ public class MercadoPagoRestController {
     private final MercadoPagoService mercadoPagoService;
     private final CompraService compraService;
 
-    @PostMapping("iniciar-compra")
+    @PostMapping("/iniciar-compra")
     public ResponseEntity<?> iniciarCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
                                            @RequestBody CompraCreateRequest compraRequest,
                                            HttpServletRequest request) {

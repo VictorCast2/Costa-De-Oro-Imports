@@ -70,11 +70,12 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                    .build();
 
            // Configuración de Urls de retorno (adaptar las url luego)
-           String baseUrl = this.getBaseUrl(request);
+           // String baseUrl = this.getBaseUrl(request); // Para producción
+           String baseUrl = "https://diphase-mellissa-emphatically.ngrok-free.dev/"; // Para desarrollo
            PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                   .success(baseUrl + "/compra/exito?compra=" + compraId)
-                   .failure(baseUrl + "/compra/error?compra=" + compraId)
-                   .pending(baseUrl + "/compra/pendiente?compra=" + compraId)
+                   .success(baseUrl + "carrito?status=success&compra=" + compraId)
+                   .failure(baseUrl + "carrito?status=error&compra=" + compraId)
+                   .pending(baseUrl + "carrito?status=pending&compra=" + compraId)
                    .build();
 
            // Creación de la preferencia
@@ -83,7 +84,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                    .payer(payer)
                    .backUrls(backUrls)
                    .autoReturn("approved")
-                   .notificationUrl(baseUrl + "/api/mercado-pago/notificacion")
+                   .notificationUrl(baseUrl + "api/mercado-pago/notificacion")
                    .externalReference("REF-" + compraId.toString())
                    .statementDescriptor("COSTA DE ORO IMPORTS")
                    .build();

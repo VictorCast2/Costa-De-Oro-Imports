@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,7 +42,7 @@ public class Compra {
     // Cardinalidad con la tabla detalle_ventas
     @Builder.Default
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private HashSet<DetalleVenta> detalleVentas = new HashSet<>();
+    private Set<DetalleVenta> detalleVentas = new HashSet<>();
 
     // Agregar compra a detalle_venta y viceversa (bidireccional)
     public void addDetalleVenta(DetalleVenta detalleVenta) {

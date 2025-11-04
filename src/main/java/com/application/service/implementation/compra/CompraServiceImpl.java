@@ -4,6 +4,7 @@ import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.compra.Compra;
 import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.compra.enums.EEstado;
+import com.application.persistence.entity.compra.enums.EMetodoPago;
 import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.CompraRepository;
@@ -16,11 +17,13 @@ import com.application.presentation.dto.compra.response.DetalleVentaResponse;
 import com.application.service.interfaces.CompraService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -75,8 +78,6 @@ public class CompraServiceImpl implements CompraService {
                     .subtotal(sub)
                     .build();
 
-            producto.setStock(producto.getStock() - detalleVentaRequest.cantidad());
-
             producto.addDetalleVenta(detalleVenta);
             compra.addDetalleVenta(detalleVenta);
 
@@ -86,7 +87,7 @@ public class CompraServiceImpl implements CompraService {
         double iva = subtotal * 0.19;
         double total = subtotal + iva;
 
-        compra.setEMetodoPago(compraRequest.metodoPago());
+        compra.setEMetodoPago(EMetodoPago.valueOf(compraRequest.metodoPago()));
         compra.setSubtotal(subtotal);
         compra.setCuponDescuento(compraRequest.cuponDescuento());
         compra.setIva(iva);
@@ -107,10 +108,61 @@ public class CompraServiceImpl implements CompraService {
      * @param estado
      */
     @Override
+    @Transactional
     public void updateEstadoCompra(Long compraId, EEstado estado) {
         Compra compra = this.getCompraById(compraId);
         compra.setEEstado(estado);
+
+        this.updateStockProductoByCompraIdAndEstadoCompra(compraId, estado);
+
         compraRepository.save(compra);
+    }
+
+    /**
+     * @param compraId
+     * @param estado
+     */
+    @Override
+    public void updateStockProductoByCompraIdAndEstadoCompra(Long compraId, EEstado estado) {
+        Compra compra = this.getCompraById(compraId);
+
+        if (estado.equals(EEstado.PAGADO)) {
+
+            for (DetalleVenta detalleVenta : compra.getDetalleVentas()) {
+                Producto producto = detalleVenta.getProducto();
+                producto.setStock(producto.getStock() - detalleVenta.getCantidad());
+                productoRepository.save(producto);
+            }
+
+        } else if (estado.equals(EEstado.CANCELADO) || estado.equals(EEstado.PENDIENTE) || estado.equals(EEstado.RECHAZADO)) {
+
+            for (DetalleVenta detalleVenta : compra.getDetalleVentas()) {
+                Producto producto = detalleVenta.getProducto();
+
+                if (producto.getStock() < productoRepository.findStockByProductoId(producto.getProductoId())) {
+                    producto.setStock( producto.getStock() + detalleVenta.getCantidad());
+                    productoRepository.save(producto);
+                }
+
+            }
+
+        }
+    }
+
+    /**
+     *
+     */
+    @Override
+    @Scheduled(fixedRate = 7200000) // 2 hrs
+    @Transactional
+    public void limpiarComprasConEstadoPendiente() {
+        LocalDateTime hace48Horas = LocalDateTime.now().minusHours(48);
+        List<Compra> comprasPendientes = compraRepository.findByEEstadoAndFechaBefore(EEstado.PENDIENTE, hace48Horas);
+
+        for (Compra compra : comprasPendientes) {
+            compra.setEEstado(EEstado.CANCELADO);
+            compraRepository.save(compra);
+        }
     }
 
     /**

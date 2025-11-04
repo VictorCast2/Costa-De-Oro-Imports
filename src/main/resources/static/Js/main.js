@@ -374,13 +374,31 @@ export function rederigirFav() {
 }
 
 export function finalizarCompra() {
-    //cuando presiona el boton de finalizar lo lleva
-    // para el carrito junto con el producto agregado al carrito
     const btnFinalizarcompra = document.getElementById("finalizar-compra");
 
-    btnFinalizarcompra.addEventListener("click", () => {
-        window.location.href = "/carrito"; // redirige a la página del carrito
-    });
+    if (btnFinalizarcompra) {
+        btnFinalizarcompra.addEventListener("click", () => {
+            // Verificar si hay productos en el carrito
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                Swal.fire({
+                    title: "Carrito vacío",
+                    text: "Agrega productos al carrito antes de finalizar la compra",
+                    icon: "warning",
+                    confirmButtonText: "Entendido",
+                    customClass: {
+                        title: 'swal-title',
+                        popup: 'swal-popup'
+                    }
+                });
+                return;
+            }
+
+            // Redirigir a la página del carrito
+            window.location.href = "/carrito";
+        });
+    }
 }
 
 export function desplegablePerfil() {

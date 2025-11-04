@@ -109,8 +109,8 @@ CREATE TABLE `compra` (
   `fecha` datetime(6) DEFAULT NULL,
   `usuario_id` bigint DEFAULT NULL,
   `cupon_descuento` varchar(255) DEFAULT NULL,
-  `estado` enum('CANCELADO','ENTREGADO','ENVIADO','EN_PROCESO','PAGADO','PENDIENTE','REEMBOLSADO') DEFAULT NULL,
-  `metodo_pago` enum('DAVIPLATA','NEQUI','PAYPAL','PSE','TARJETA_CREDITO','TARJETA_DEBITO','TRANSFERENCIA') DEFAULT NULL,
+  `estado` enum('CANCELADO','PAGADO','PENDIENTE','RECHAZADO') DEFAULT NULL,
+  `metodo_pago` enum('DAVIPLATA','MERCADO_PAGO','NEQUI','PAYPAL','PSE','TARJETA_CREDITO','TARJETA_DEBITO','TRANSFERENCIA') DEFAULT NULL,
   PRIMARY KEY (`compra_id`),
   KEY `fk_compra_usuario` (`usuario_id`),
   CONSTRAINT `fk_compra_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)

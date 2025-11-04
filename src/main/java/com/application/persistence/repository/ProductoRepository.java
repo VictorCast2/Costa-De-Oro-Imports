@@ -66,4 +66,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
                  ORDER BY SUM(dv.cantidad) DESC
             """)
     List<Producto> findProductosMasVendidosByCategoriaIdsActivos(@Param("categoriaIds") List<Long> categoriaIds);
+
+    @Query("SELECT p.stock FROM Producto p WHERE p.productoId = :productoId")
+    Integer findStockByProductoId(@Param("productoId") Long productoId);
 }

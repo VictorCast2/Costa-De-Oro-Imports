@@ -14,5 +14,9 @@ public interface CompraService {
 
     void updateEstadoCompra(Long compraId, EEstado estado);
 
+    void updateStockProductoByCompraIdAndEstadoCompra(Long compraId, EEstado estado);
+
+    void limpiarComprasConEstadoPendiente();
+
     CompraResponse toResponse(Compra compra);
 }
