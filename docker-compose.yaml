@@ -6,7 +6,7 @@ services:
       context: .
     container_name: Costa-De-Oro-Imports
     ports:
-      - "${PuertoServidor}:${PuertoServidor}"
+      - "8080:8080"
     environment:
       - DB_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
@@ -20,7 +20,7 @@ services:
       - mysql
     restart: always
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:${PuertoServidor}/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
