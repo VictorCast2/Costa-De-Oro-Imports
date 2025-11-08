@@ -1,4 +1,4 @@
-USE db_beer;
+USE railway;
 
 -- Insertar roles
 INSERT INTO rol (rol_id, rol) VALUES
@@ -227,4 +227,4 @@ INSERT INTO `producto` (`activo`, `precio_regular`, `precio`, `stock`, `categori
 (1, 0, 120000, 1000, 6, 31, 'Tanqueray Rangpur reinventa el clásico con una explosión cítrica. Infundida con rangpur, lima y otros cítricos exóticos, ofrece un perfil refrescante y vibrante. Perfecta para cocktails veraniegos y combinaciones innovadoras.', 'GIN-0005', 'G5.png', 'Tanqueray', 'Ginebra Premium Tanqueray Rangpur con Cítricos 750 ml', 'Reino Unido', 'UNIDAD'),
 (1, 0, 75000, 1000, 6, 29, 'Beefeater London Dry Gin es la esencia de Londres en cada botella. Con 9 botánicos cuidadosamente seleccionados y un proceso de destilación que data de 1863, ofrece un carácter robusto y equilibrado. La ginebra de los maestros mixólogos.', 'GIN-0006', 'G6.png', 'Beefeater', 'Ginebra Premium Beefeater London Dry 700 ml', 'Reino Unido', 'UNIDAD');
 
--- select * from db_beer.detalle_venta;
+-- select * from railway.detalle_venta;
