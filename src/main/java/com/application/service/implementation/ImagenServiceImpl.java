@@ -39,7 +39,7 @@ public class ImagenServiceImpl implements ImagenService {
 
         String directorio = directorios.get(tipo);
         if (directorio == null) {
-            throw new IllegalArgumentException("Error: tipo de imagen invalido: " + tipo);
+            throw new IllegalArgumentException("error: tipo de imagen invalido: " + tipo);
         }
 
         try {
@@ -57,7 +57,7 @@ public class ImagenServiceImpl implements ImagenService {
                 return null;
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error: ha ocurrido un error al guardar la imagen " + e.getMessage() + e);
+            throw new RuntimeException("error: ha ocurrido un error al guardar la imagen " + e.getMessage() + e);
         }
     }
 }

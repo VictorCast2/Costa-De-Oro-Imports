@@ -32,7 +32,7 @@ public class CustomAuthFailureHandler implements AuthenticationFailureHandler {
             case BadCredentialsException e -> mensajeError = "Usuario o contraseña incorrectos";
             case AuthenticationServiceException e -> mensajeError = e.getMessage(); // Mensaje en caso no se valide el
                                                                                     // reCAPTCHA
-            default -> mensajeError = "Error de Autenticación";
+            default -> mensajeError = "error de Autenticación";
         }
 
         // Manejo de errores provenientes de Oauth2Authentication

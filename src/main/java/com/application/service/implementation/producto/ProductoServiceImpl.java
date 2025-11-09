@@ -40,7 +40,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Producto getProductoById(Long id) {
         return productoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Error: El producto con id: " + id + " no existe"));
+                .orElseThrow(() -> new EntityNotFoundException("error: El producto con id: " + id + " no existe"));
     }
 
     /**

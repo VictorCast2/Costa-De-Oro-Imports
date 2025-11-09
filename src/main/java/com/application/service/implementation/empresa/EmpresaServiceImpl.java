@@ -38,12 +38,12 @@ public class EmpresaServiceImpl implements EmpresaService {
                         "El usuario autenticado con correo '" + correo + "' no existe."));
 
         Rol rolPersonaContacto = rolRepository.findByName(ERol.PERSONA_CONTACTO)
-                .orElseThrow(() -> new EntityNotFoundException("Error: el rol PERSONA_CONTACTO no existe"));
+                .orElseThrow(() -> new EntityNotFoundException("error: el rol PERSONA_CONTACTO no existe"));
 
         String nit = empresaRequest.nit();
         boolean existeEmpresa = empresaRepository.existsByNit(nit);
         if (existeEmpresa) {
-            return new GeneralResponse("Error: La empresa con el nit '" + nit + "' ya tiene un usuario asignado.\n" +
+            return new GeneralResponse("error: La empresa con el nit '" + nit + "' ya tiene un usuario asignado.\n" +
                     "Si usted es el nuevo representante, escriba a admin@mail.com\n" +
                     " o use el formulario de contacto para solicitar la actualización.");
         }

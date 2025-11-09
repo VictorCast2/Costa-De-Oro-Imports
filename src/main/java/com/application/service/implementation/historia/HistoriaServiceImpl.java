@@ -32,7 +32,7 @@ public class HistoriaServiceImpl implements HistoriaService {
     @Override
     public Historia getHistoriaById(Long id) {
         return historiaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Error: La historia con id: " + id + " no existe."));
+                .orElseThrow(() -> new EntityNotFoundException("error: La historia con id: " + id + " no existe."));
     }
 
     /**
