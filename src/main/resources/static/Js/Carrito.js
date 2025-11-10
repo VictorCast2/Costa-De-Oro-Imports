@@ -229,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             cartTableBody.appendChild(tr);
 
-            paginationText.textContent = `Mostrando 0-0 de 0`;
-            paginationButtonsContainer.innerHTML = "";
+            paginationText.textContent = `Mostrando 0 a 0 de 0 entradas`;
+            paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove())
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
             thereSpan.textContent = `Hay 0 productos en el carrito.`;
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartTableBody.appendChild(tr);
         });
 
-        paginationText.textContent = `Mostrando ${start + 1}-${Math.min(end, cart.length)} de ${cart.length}`;
+        paginationText.textContent = `Mostrando del ${start + 1} al ${Math.min(end, cart.length)} de ${cart.length} entradas`;
         thereSpan.textContent = `Hay ${cart.length} productos en el carrito.`;
 
         renderPaginationButtons();
@@ -281,13 +281,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Render botones de paginación ---
     function renderPaginationButtons() {
-        paginationButtonsContainer.innerHTML = "";
+
+         // Elimina botones de página previos (manteniendo Anterior/Siguiente)
+         paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
         const totalPages = Math.ceil(cart.length / rowsPerPage);
 
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
-            btn.classList.add("pagination__btn");
+            btn.classList.add("button__item");
             if (i === currentPage) btn.classList.add("active");
 
             btn.addEventListener("click", () => {
@@ -295,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTable();
             });
 
-            paginationButtonsContainer.appendChild(btn);
+            nextPageBtn.before(btn); // inserta antes del botón "Siguiente"
         }
 
         prevPageBtn.disabled = currentPage === 1;
