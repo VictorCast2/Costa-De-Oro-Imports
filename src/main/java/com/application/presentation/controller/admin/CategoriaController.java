@@ -30,7 +30,7 @@ public class CategoriaController {
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
-    @GetMapping("/")
+    @GetMapping({"/", ""})
     public String DashboardCategoria(@AuthenticationPrincipal CustomUserPrincipal principal,
                                     @RequestParam(value = "mensaje", required = false) String mensaje,
                                     Model model) {

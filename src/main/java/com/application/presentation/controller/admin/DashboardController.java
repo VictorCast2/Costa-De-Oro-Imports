@@ -18,7 +18,7 @@ public class DashboardController {
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
-    @GetMapping("/")
+    @GetMapping({"/", ""})
     public String Dashboard(@AuthenticationPrincipal CustomUserPrincipal principal,
             @RequestParam(value = "mensaje", required = false) String mensaje,
             Model model) {
