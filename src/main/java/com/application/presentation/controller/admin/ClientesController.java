@@ -26,7 +26,7 @@ public class ClientesController {
     }
 
     @GetMapping("/add-clientes")
-    public String addClientes(@AuthenticationPrincipal CustomUserPrincipal principal,
+    public String agregarClientes(@AuthenticationPrincipal CustomUserPrincipal principal,
                               Model model) {
         return "AgregarClientes";
     }
@@ -44,8 +44,8 @@ public class ClientesController {
         return "redirect:/admin/clientes/?mensaje=" + mensajeEncoded;
     }
 
-    @PostMapping("/add-clientes")
-    public String editarClientes() {
+    @PostMapping("/update-clientes")
+    public String updateClientes() {
         String mensaje = "Clientes editado exitosamente";
         String mensajeEncoded = UriUtils.encode(mensaje, StandardCharsets.UTF_8);
         return "redirect:/admin/clientes/?mensaje=" + mensajeEncoded;
