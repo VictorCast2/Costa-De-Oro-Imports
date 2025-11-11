@@ -9,6 +9,7 @@ import com.application.presentation.dto.categoria.response.CategoriaResponse;
 import com.application.presentation.dto.categoria.response.SubCategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.categoria.CategoriaService;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 public class CategoriaServiceImpl implements CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
-    private final ImagenService imagenService;
+    private final CloudinaryService cloudinaryService;
 
     /**
      * Obtiene una categoría por su ID.
@@ -81,7 +82,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Transactional
     public GeneralResponse createCategoria(@NotNull CategoriaCreateRequest categoriaRequest) {
 
-        String imagen = this.imagenService.asignarImagen(categoriaRequest.imagen(), "imagen-categoria");
+        String imagen = this.cloudinaryService.subirImagen(categoriaRequest.imagen(), "imagen-categoria");
         Categoria categoria = Categoria.builder()
                 .imagen(imagen)
                 .nombre(categoriaRequest.nombre())
@@ -115,7 +116,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         Categoria categoria = this.getCategoriaById(id);
 
-        String imagen = this.imagenService.asignarImagen(categoriaRequest.imagen(), "imagen-categoria");
+        String imagen = this.cloudinaryService.subirImagen(categoriaRequest.imagen(), "imagen-categoria");
 
         categoria.setImagen(imagen);
         categoria.setNombre(categoriaRequest.nombre());
@@ -198,7 +199,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaResponse toResponse(Categoria categoria) {
         return new CategoriaResponse(
                 categoria.getCategoriaId(),
-                categoria.getImagen(),
+                cloudinaryService.getImagenUrl(categoria.getImagen()),
                 categoria.getNombre(),
                 categoria.getDescripcion(),
                 categoria.isActivo(),
