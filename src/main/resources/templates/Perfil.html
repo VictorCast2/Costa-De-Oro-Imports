@@ -153,7 +153,7 @@
                                     enctype="multipart/form-data">
                                     <div class="card__img">
                                         <figure class="img__user">
-                                            <img id="preview" th:src="@{'/perfil-usuario/' + ${usuario.imagen}}"
+                                            <img id="preview" th:src="${urlImagenUsuario}"
                                                 th:alt="${usuario.imagen}">
                                         </figure>
 
@@ -324,7 +324,7 @@
                                     <div class="card__img">
                                         <figure class="img__user user--empresar">
                                             <img id="previewEmpresa"
-                                                th:src="@{'/perfil-empresa/' + ${usuario.empresa.imagen}}"
+                                                th:src="${urlImagenEmpresa}"
                                                 th:alt="${usuario.empresa.imagen}">
                                         </figure>
 
