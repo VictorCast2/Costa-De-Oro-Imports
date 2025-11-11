@@ -99,7 +99,6 @@ public class CategoriaController {
     public String deleteCategoria(@PathVariable Long id) {
         BaseResponse response = categoriaService.deleteCategoria(id);
         String mensaje = response.mensaje();
-
         return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
     }
 
