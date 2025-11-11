@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
->
 
 <head>
     <meta charset="UTF-8">
@@ -43,7 +42,9 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
@@ -59,7 +60,7 @@
                     <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
                 </li>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
                     <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
                 </li>
@@ -69,7 +70,7 @@
                     <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-group-line"></i>
                     <a href="" class="sidebar__text">Clientes</a>
                 </li>
@@ -203,7 +204,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a th:href="@{DashboardClientes.html}">Volver al clientes</a>
+                        <a th:href="@{/admin/clientes/}">Volver al clientes</a>
                     </div>
                 </div>
 
@@ -355,7 +356,7 @@
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Crear nuevo cliente</button>
+                                    <button class="input__btn">Editar cliente</button>
 
 
                                 </div>

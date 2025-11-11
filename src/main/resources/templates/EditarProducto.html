@@ -41,35 +41,37 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
                 <li class="sidebar__item">
                     <i class="ri-home-4-line"></i>
-                    <a href="Dashboard.html" class="sidebar__text">Panel De Control</a>
+                    <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
                 </li>
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
                 <li class="sidebar__item active">
                     <i class="ri-shopping-cart-2-line"></i>
-                    <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
+                    <a href="" class="sidebar__text">Productos</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
-                    <a href="DashboardCategoria.html" class="sidebar__text">Categorias</a>
+                    <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-shopping-bag-4-line"></i>
-                    <a href="DashboardCompra.html" class="sidebar__text">Compras</a>
+                    <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-group-line"></i>
-                    <a href="" class="sidebar__text">Clientes</a>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -418,22 +420,14 @@
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Crear Producto</button>
-
-
+                                    <button class="input__btn">Editar Producto</button>
                                 </div>
-
                             </form>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </section>
         </main>
-
     </div>
 
 

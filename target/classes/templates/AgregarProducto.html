@@ -41,8 +41,9 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
-
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
@@ -70,7 +71,7 @@
 
                 <li class="sidebar__item">
                     <i class="ri-group-line"></i>
-                    <a href="" class="sidebar__text">Clientes</a>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
 
                 <li class="sidebar__item">

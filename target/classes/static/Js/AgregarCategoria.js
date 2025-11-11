@@ -265,8 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
         theme: 'snow'
     });
 
-
-
     //Validaciones del formulario de agregar producto
     const fieldsProducto = {
         Subcategoria: {
