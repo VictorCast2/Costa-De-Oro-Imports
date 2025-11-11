@@ -241,14 +241,14 @@
                                      data-active=${p.activo},
                                      data-category=${p.nombreCategoria},
                                      data-subcategory=${p.nombreSubCategoria},
-                                     data-image=@{'/imagen-producto/' + ${p.imagen}}">
+                                     data-image=${p.imagen}">
 
                                 <div class="badge badge-green"
                                      th:if="${p.precioRegular != 0}"
                                      th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="@{'/imagen-producto/' + ${p.imagen}}"
+                                <img th:src="${p.imagen}"
                                      alt="" width="250" height="250"/>
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>

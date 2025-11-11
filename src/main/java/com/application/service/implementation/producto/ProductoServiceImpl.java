@@ -10,6 +10,7 @@ import com.application.persistence.repository.SubCategoriaRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.producto.request.ProductoCreateRequest;
 import com.application.presentation.dto.producto.response.ProductoResponse;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.producto.ProductoService;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,7 +28,8 @@ public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
     private final SubCategoriaRepository subCategoriaRepository;
-    private final ImagenService imagenService;
+
+    private final CloudinaryService cloudinaryService;
 
     /**
      * Obtiene un producto por su ID.
@@ -173,7 +175,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Transactional
     public GeneralResponse createProducto(@NotNull ProductoCreateRequest productoRequest) {
 
-        String imagen = this.imagenService.asignarImagen(productoRequest.imagen(), "imagen-producto");
+        String imagen = this.cloudinaryService.subirImagen(productoRequest.imagen(), "imagen-producto");
 
         Producto producto = Producto.builder()
                 .codigoProducto(productoRequest.codigoProducto())
@@ -222,7 +224,7 @@ public class ProductoServiceImpl implements ProductoService {
 
         Producto producto = this.getProductoById(id);
 
-        String imagen = this.imagenService.asignarImagen(productoRequest.imagen(), "imagen-producto");
+        String imagen = this.cloudinaryService.subirImagen(productoRequest.imagen(), "imagen-producto");
 
         producto.setCodigoProducto(productoRequest.codigoProducto());
         producto.setImagen(imagen);
@@ -314,7 +316,7 @@ public class ProductoServiceImpl implements ProductoService {
         return new ProductoResponse(
                 producto.getProductoId(),
                 producto.getCodigoProducto(),
-                producto.getImagen(),
+                cloudinaryService.getImagenUrl(producto.getImagen()),
                 producto.getNombre(),
                 producto.getMarca(),
                 producto.getPais(),
