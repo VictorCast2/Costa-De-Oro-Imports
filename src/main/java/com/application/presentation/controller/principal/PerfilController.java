@@ -13,6 +13,8 @@ import com.application.presentation.dto.usuario.request.UpdatePasswordRequest;
 import com.application.presentation.dto.usuario.request.UpdateUsuarioRequest;
 import com.application.service.implementation.empresa.EmpresaServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import com.application.service.interfaces.CloudinaryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,21 +26,25 @@ import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/perfil")
+@RequiredArgsConstructor
 public class PerfilController {
 
-    @Autowired
-    private UsuarioServiceImpl usuarioService;
-
-    @Autowired
-    private EmpresaServiceImpl empresaService;
+    private final UsuarioServiceImpl usuarioService;
+    private final EmpresaServiceImpl empresaService;
+    private final CloudinaryService cloudinaryService;
 
     @GetMapping("/")
     public String perfil(@AuthenticationPrincipal CustomUserPrincipal principal,
             @RequestParam(value = "mensaje", required = false) String mensaje,
             Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
+        String urlImagenEmpresa = cloudinaryService.getImagenUrl(usuario.getEmpresa().getImagen());
+
         model.addAttribute("usuario", usuario); // datos del usuario
         model.addAttribute("mensaje", mensaje); // mensaje de los distintos formularios
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
+        model.addAttribute("urlImagenEmpresa", urlImagenEmpresa);
         model.addAttribute("tiposIdentificacion", EIdentificacion.values());
         model.addAttribute("sectoresEmpresa", ESector.values());
         return "Perfil";
