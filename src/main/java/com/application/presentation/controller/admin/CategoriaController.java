@@ -9,6 +9,8 @@ import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.categoria.CategoriaServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import com.application.service.interfaces.CloudinaryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,60 +18,56 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
+
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin/categoria")
+@RequiredArgsConstructor
 public class CategoriaController {
 
-    @Autowired
-    private CategoriaServiceImpl categoriaService;
-
-    @Autowired
-    private UsuarioServiceImpl usuarioService;
+    private final CategoriaServiceImpl categoriaService;
+    private final UsuarioServiceImpl usuarioService;
+    private final CloudinaryService cloudinaryService;
 
     @GetMapping({"/", ""})
     public String DashboardCategoria(@AuthenticationPrincipal CustomUserPrincipal principal,
-                                    @RequestParam(value = "mensaje", required = false) String mensaje,
-                                    Model model) {
+                                     @RequestParam(value = "mensaje", required = false) String mensaje,
+                                     @RequestParam(value = "success", required = false) Boolean success,
+                                     Model model) {
 
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
+        List<CategoriaResponse> categoriaList = categoriaService.getCategorias();
 
         model.addAttribute("usuario", usuario);
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
+        model.addAttribute("categoriaList", categoriaList);
         model.addAttribute("mensaje", mensaje);
+        model.addAttribute("success", success);
 
         return "DashboardCategoria";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/create-categoria")
     public String AgregarCategoria(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal CustomUserPrincipal principal,
             @RequestParam(value = "mensaje", required = false) String mensaje,
+            @RequestParam(value = "success", required = false) Boolean success,
             Model model) {
-        Usuario usuario = usuarioService.getUsuarioByCorreo(userDetails.getUsername());
-        List<CategoriaResponse> categoriaResponses = categoriaService.getCategorias();
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
+
         model.addAttribute("usuario", usuario);
-        model.addAttribute("categoriaList", categoriaResponses);
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
         model.addAttribute("mensaje", mensaje);
+        model.addAttribute("success", success);
         return "AgregarCategoria";
     }
 
-    @GetMapping("/update")
-    public String EditarCategoria(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(value = "mensaje", required = false) String mensaje,
-            Model model) {
-        Usuario usuario = usuarioService.getUsuarioByCorreo(userDetails.getUsername());
-        List<CategoriaResponse> categoriaResponses = categoriaService.getCategorias();
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("categoriaList", categoriaResponses);
-        model.addAttribute("mensaje", mensaje);
-        return "EditarCategoria";
-    }
-
-    @PostMapping("/add")
+    @PostMapping("/create-categoria")
     public String addcategoria(@ModelAttribute @Valid CategoriaCreateRequest categoriaRequest) {
         GeneralResponse response = categoriaService.createCategoria(categoriaRequest);
         String mensaje = response.mensaje();
@@ -77,7 +75,19 @@ public class CategoriaController {
         return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
     }
 
-    @PostMapping("update/{id}")
+    @GetMapping("/update-categoria")
+    public String editarCategoria(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(value = "mensaje", required = false) String mensaje,
+            Model model) {
+        Usuario usuario = usuarioService.getUsuarioByCorreo(userDetails.getUsername());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("mensaje", mensaje);
+        return "EditarCategoria";
+    }
+
+    @PostMapping("update-categoria/{id}")
     public String updateCategoria(
             @ModelAttribute @Valid CategoriaCreateRequest categoriaRequest,
             @PathVariable Long id) {
@@ -87,19 +97,21 @@ public class CategoriaController {
         return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
     }
 
-    @PostMapping("disable/{id}")
+    // Para estos métodos se usa GetMapping porque la petición se hace por JS y estamos en un @Controller
+    @GetMapping("disable/{id}")
     public String disableCategoria(@PathVariable Long id) {
         BaseResponse response = categoriaService.changeEstadoCategoria(id);
-        String mensaje = response.mensaje();
-
-        return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/categoria/?mensaje=" + mensaje + "&success=" + success;
     }
 
-    @PostMapping("delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteCategoria(@PathVariable Long id) {
         BaseResponse response = categoriaService.deleteCategoria(id);
-        String mensaje = response.mensaje();
-        return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/categoria/?mensaje=" + mensaje + "&success=" + success;
     }
 
 }

@@ -158,7 +158,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -213,7 +213,7 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioProducto" action="">
+                            <form class="formulario__producto" id="formularioProducto" action="" method="post">
                                 <h2 class="producto__title">Información de la categoria
                                 </h2>
 

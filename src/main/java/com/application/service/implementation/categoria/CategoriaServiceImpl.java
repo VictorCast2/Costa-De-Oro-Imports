@@ -151,9 +151,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     public BaseResponse changeEstadoCategoria(Long id) {
         Categoria categoria = this.getCategoriaById(id);
 
-        if (!categoria.getProductos().isEmpty()) {
-            return new BaseResponse("No es posible deshabilitar una categoria con producto asociados", false);
-        }
+//        if (!categoria.getProductos().isEmpty()) {
+//            return new BaseResponse("No es posible deshabilitar una categoria con producto asociados", false);
+//        }
 
         boolean nuevoEstado = !categoria.isActivo();
         categoria.setActivo(nuevoEstado);
