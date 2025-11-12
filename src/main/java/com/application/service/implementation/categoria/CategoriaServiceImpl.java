@@ -40,6 +40,19 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     /**
+     * Obtiene una categoría como DTO de respuesta por su ID.
+     * Este método es para mostrar los datos de la categoria en EditarCategoria.html
+     *
+     * @param id ID de la categoría a buscar
+     * @return DTO con la información de la categoria, incluyendo subcategorías y cantidad de productos.
+     */
+    @Override
+    public CategoriaResponse getCategoriaResponseById(Long id) {
+        Categoria categoria = this.getCategoriaById(id);
+        return this.toResponse(categoria);
+    }
+
+    /**
      * Obtiene todas las categorías registradas (activas e inactivas).
      * Uso común para el panel administrativo.
      *
