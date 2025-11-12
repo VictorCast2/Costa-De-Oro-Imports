@@ -123,7 +123,7 @@ class CategoriaServiceImplTest {
 
         // When
         when(categoriaRepository.findById( anyLong() )).thenReturn(CategoriaDataProvider.categoriaMock());
-        GeneralResponse resultado = categoriaService.updateCategoria(categoriaRequest, id);
+        BaseResponse resultado = categoriaService.updateCategoria(categoriaRequest, id);
 
         // Then
         ArgumentCaptor<Categoria> argumentCaptor = ArgumentCaptor.forClass(Categoria.class);

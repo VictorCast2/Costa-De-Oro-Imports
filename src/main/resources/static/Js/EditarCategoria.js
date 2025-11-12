@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //Menú desplegable del perfil 
+    //Menú desplegable del perfil
     const subMenu = document.getElementById("SubMenu");
     const profileImage = document.getElementById("user__admin");
 
     if (subMenu && profileImage) {
         profileImage.addEventListener("click", function (e) {
-            e.stopPropagation(); // Evita que el click cierre el menú inmediatamente
+            e.stopPropagation();
             subMenu.classList.toggle("open__menu");
         });
 
@@ -44,7 +44,93 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // funcionamiento de las dos categorias en el formulario
+    // ========== VARIABLES GLOBALES ==========
+    let subcategorias = [];
+    let listaVisible = false;
+
+    // ========== PRECARGAR DATOS DE LA CATEGORÍA ==========
+    function precargarDatosCategoria() {
+        // Precargar subcategorías desde el campo oculto
+        const subcategoriasHidden = document.getElementById('subcategoriasHidden');
+        if (subcategoriasHidden && subcategoriasHidden.value) {
+            const subcategoriasArray = subcategoriasHidden.value.split(',');
+            subcategoriasArray.forEach(sub => {
+                if (sub.trim() !== '') {
+                    subcategorias.push(sub.trim());
+                }
+            });
+            actualizarInterfaz();
+        }
+
+        // Precargar descripción en el editor Quill
+        const descripcionHidden = document.getElementById('descripcionHidden');
+        if (descripcionHidden && descripcionHidden.value) {
+            quill.root.innerHTML = descripcionHidden.value;
+        }
+
+        // Validar categoría principal al cargar
+        setTimeout(() => {
+            validarCategoriaPrincipal();
+        }, 100);
+
+        // Configurar imagen actual si existe
+        const imagenActual = document.querySelector('#previewContainer img');
+        if (imagenActual && imagenActual.src) {
+            configurarImagenActual();
+        }
+    }
+
+    function configurarImagenActual() {
+        const boxImagen = document.querySelector('.formulario__boximagen');
+        const textoImagen = document.getElementById('textoImagen');
+        const previewContainer = document.getElementById('previewContainer');
+
+        boxImagen.classList.add('imagen-activa');
+        textoImagen.textContent = 'Haga clic para cambiar la imagen';
+        previewContainer.style.display = 'flex';
+
+        // Agregar botón eliminar si no existe
+        let removeBtn = boxImagen.querySelector('.remove-image');
+        if (!removeBtn) {
+            removeBtn = document.createElement('span');
+            removeBtn.classList.add('remove-image');
+            removeBtn.textContent = 'Eliminar imagen';
+            boxImagen.appendChild(removeBtn);
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                eliminarImagenActual();
+            });
+        }
+    }
+
+    function eliminarImagenActual() {
+        const boxImagen = document.querySelector('.formulario__boximagen');
+        const previewContainer = document.getElementById('previewContainer');
+        const textoImagen = document.getElementById('textoImagen');
+        const removeBtn = boxImagen.querySelector('.remove-image');
+        const inputFile = document.getElementById('fileInput');
+
+        // Limpiar preview
+        previewContainer.innerHTML = '';
+        previewContainer.style.display = 'none';
+        boxImagen.classList.remove('imagen-activa');
+        textoImagen.textContent = 'Suelte los archivos aqui para cargarlos';
+
+        // Remover botón eliminar
+        if (removeBtn) {
+            removeBtn.remove();
+        }
+
+        // Limpiar input file
+        inputFile.value = '';
+
+        // Mostrar error de imagen vacía
+        const errorVacio = document.querySelector('.error--vacio');
+        errorVacio.style.display = 'block';
+    }
+
+    // ========== FUNCIONALIDAD DE SUBCATEGORÍAS ==========
     const inputSub = document.getElementById("Subcategoria");
     const listaSub = document.getElementById("subcategoriaLista");
 
@@ -53,22 +139,42 @@ document.addEventListener("DOMContentLoaded", () => {
     contenedorTags.id = "subcategoriaTags";
     inputSub.parentNode.insertBefore(contenedorTags, inputSub);
 
-    let subcategorias = [];
-    let listaVisible = false;
-
     inputSub.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
             const valor = inputSub.value.trim();
             if (valor === "") return;
-            if (subcategorias.includes(valor.toLowerCase())) return;
 
-            subcategorias.push(valor.toLowerCase());
+            // Validar formato de subcategoría
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/.test(valor)) {
+                mostrarErrorSubcategoria("La subcategoría debe tener entre 2 y 30 caracteres alfanuméricos");
+                return;
+            }
+
+            if (subcategorias.includes(valor.toLowerCase())) {
+                mostrarErrorSubcategoria("Esta subcategoría ya fue agregada");
+                return;
+            }
+
+            subcategorias.push(valor);
             inputSub.value = "";
             actualizarInterfaz();
+            limpiarErrorSubcategoria();
         }
     });
 
+    function mostrarErrorSubcategoria(mensaje) {
+        const errorMsg = inputSub.closest(".input__formulario").querySelector(".formulario__error");
+        errorMsg.textContent = mensaje;
+        errorMsg.style.display = "block";
+        inputSub.style.border = "2px solid #fd1f1f";
+    }
+
+    function limpiarErrorSubcategoria() {
+        const errorMsg = inputSub.closest(".input__formulario").querySelector(".formulario__error");
+        errorMsg.style.display = "none";
+        inputSub.style.border = "";
+    }
 
     // Mostrar la lista al hacer clic o enfocar el input
     inputSub.addEventListener("focus", () => {
@@ -125,30 +231,25 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("subcategoriasHidden").value = subcategorias.join(",");
 
         requestAnimationFrame(() => {
-            // Medimos el ancho real ocupado por los tags
             let offset = 0;
             if (contenedorTags.children.length > 0) {
                 const lastTag = contenedorTags.lastElementChild;
-                offset = lastTag.offsetLeft + lastTag.offsetWidth + 5; // 
+                offset = lastTag.offsetLeft + lastTag.offsetWidth + 5;
             } else {
-                offset = 15; // margen por defecto si no hay tags
+                offset = 15;
             }
 
-            // Mueve el contenedor de los tags dentro del input
             contenedorTags.style.position = "absolute";
-            contenedorTags.style.left = "30px"; // igual que tu label en CSS
+            contenedorTags.style.left = "30px";
             contenedorTags.style.top = "22px";
 
-            // Mueve visualmente el input al mismo nivel, sin cambiar su ancho ni padding
-            inputSub.style.textIndent = offset + "px"; // solo mueve el punto de escritura
+            inputSub.style.textIndent = offset + "px";
             inputSub.focus();
 
-            // coloca el cursor al final
             const len = inputSub.value.length;
             inputSub.setSelectionRange(len, len);
         });
 
-        // Mantiene el label arriba si existen subcategorías
         if (subcategorias.length > 0) {
             inputSub.classList.add("has-value");
         } else {
@@ -161,29 +262,43 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarInterfaz();
     }
 
-    function obtenerSubcategorias() {
-        return subcategorias;
-    }
+    // ========== EDITOR DE DESCRIPCIÓN ==========
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link', 'clean']
+    ];
 
-    // Imagen del producto
+    const quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow',
+        placeholder: 'Describe la categoría...'
+    });
+
+    // Actualizar campo oculto cuando cambie el contenido
+    quill.on('text-change', function() {
+        const contenidoTextoPlano = quill.getText().trim();
+        document.getElementById('descripcionHidden').value = contenidoTextoPlano;
+
+        const errorDescripcion = document.querySelector('.error--descripcion');
+        const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
+
+        if (contenidoTextoPlano.length > 0) {
+            errorDescripcion.style.display = 'none';
+            boxDescripcion.classList.remove('error-border');
+        }
+    });
+
+    // ========== MANEJO DE IMAGEN ==========
     const boxImagen = document.querySelector('.formulario__boximagen');
-    const textoBox = document.querySelector('.boximagen__texto');
+    const inputFile = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const textoImagen = document.getElementById('textoImagen');
     const errorFormato = document.querySelector('.error--formato');
     const errorVacio = document.querySelector('.error--vacio');
-
     const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-
-    // Crear dinámicamente input file oculto
-    const inputFile = document.createElement('input');
-    inputFile.type = 'file';
-    inputFile.accept = 'image/*';
-    inputFile.style.display = 'none';
-    boxImagen.appendChild(inputFile);
-
-    // Crear contenedor de previsualización
-    const previewContainer = document.createElement('div');
-    previewContainer.classList.add('preview-container');
-    boxImagen.appendChild(previewContainer);
 
     // Al hacer clic en el contenedor, abrir explorador
     boxImagen.addEventListener('click', () => inputFile.click());
@@ -193,7 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        // Validar formato
         if (!formatosPermitidos.includes(file.type)) {
             errorFormato.style.display = 'block';
             errorVacio.style.display = 'none';
@@ -203,159 +317,124 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Si el formato es válido → ocultar errores
         errorFormato.style.display = 'none';
         errorVacio.style.display = 'none';
         boxImagen.style.border = '1px solid #ddd';
 
-        // Crear barra de carga
+        // Mostrar barra de carga
         previewContainer.innerHTML = `<div class="progress-bar"></div>`;
         previewContainer.style.display = 'flex';
         boxImagen.classList.add('imagen-activa');
+        textoImagen.textContent = 'Haga clic para cambiar la imagen';
 
-        const progressBar = previewContainer.querySelector('.progress-bar');
-
-        // Simular carga
         setTimeout(() => {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '200px';
+            img.style.objectFit = 'contain';
 
             previewContainer.innerHTML = '';
             previewContainer.appendChild(img);
 
-            // Crear botón eliminar (solo si no existe)
+            // Configurar botón eliminar
             let removeBtn = boxImagen.querySelector('.remove-image');
             if (!removeBtn) {
                 removeBtn = document.createElement('span');
                 removeBtn.classList.add('remove-image');
                 removeBtn.textContent = 'Eliminar imagen';
                 boxImagen.appendChild(removeBtn);
+
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    eliminarImagenActual();
+                });
             }
-
-            // Acción eliminar
-            removeBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // evita que abra el explorador
-
-                // Eliminar imagen y botón
-                previewContainer.style.display = 'none';
-                previewContainer.innerHTML = '';
-                boxImagen.classList.remove('imagen-activa');
-                removeBtn.remove();
-                inputFile.value = ''; // limpiar el input
-            });
-        }, 2000);
+        }, 1000);
     });
 
-    //Descripcion de un producto
-    const toolbarOptions = [
-        [{ 'font': [] }, { 'size': [] }],           // Tipografía y tamaño
-        ['bold', 'italic', 'underline', 'strike'],  // Estilo de texto
-        [{ 'color': [] }, { 'background': [] }],    // Color del texto y fondo
-        [{ 'script': 'sub' }, { 'script': 'super' }],// Sub/superíndice
-        [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'indent': '-1' }, { 'indent': '+1' }],
-        [{ 'align': [] }],
-        ['link', 'image', 'video'],                 // Enlaces, imágenes, videos
-        ['clean']                                   // Limpiar formato
-    ];
-
-    const quill = new Quill('#editor-container', {
-        modules: { toolbar: toolbarOptions },
-        theme: 'snow'
-    });
-
-    //Validaciones del formulario de agregar producto
+    // ========== VALIDACIONES ==========
     const fieldsProducto = {
         categoriaprincipal: {
             regex: /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
             errorMessage: "La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números."
-        },
-        Subcategoria: {
-            regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/,
-            errorMessage: "Debes agregar al menos una subcategoría antes de continuar"
-        },
+        }
     };
 
-    // Asignamos validaciones de escritura en tiempo real
-    Object.keys(fieldsProducto).forEach(fieldId => {
-        const input = document.getElementById(fieldId);
-        const inputBox = input.closest(".formulario__box");
-        const checkIcon = inputBox.querySelector(".ri-check-line");
-        const errorIcon = inputBox.querySelector(".ri-close-line");
-        const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
+    // Validación en tiempo real para categoría principal
+    const inputCategoria = document.getElementById("categoriaprincipal");
+    const categoriaBox = inputCategoria.closest(".formulario__box");
+    const checkIcon = categoriaBox.querySelector(".ri-check-line");
+    const errorIcon = categoriaBox.querySelector(".ri-close-line");
+    const errorMessage = categoriaBox.parentNode.querySelector(".formulario__error");
 
-        input.addEventListener("input", () => {
-            const value = input.value.trim();
-            const label = inputBox.querySelector("label.box__label");
-
-            if (value === "") {
-                inputBox.classList.remove("input-error");
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "";
-                if (label) label.classList.remove("error");
-            } else if (fieldsProducto[fieldId].regex.test(value)) {
-                checkIcon.style.display = "inline-block";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "2px solid #0034de";
-                inputBox.classList.remove("input-error");
-                if (label) label.classList.remove("error");
-            } else {
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                inputBox.classList.add("input-error");
-                if (label) label.classList.add("error");
-            }
-        });
+    inputCategoria.addEventListener("input", () => {
+        validarCategoriaPrincipal();
     });
 
-    // Obtener radios y mensaje de error
-    const radiosEstado = document.querySelectorAll('input[name="estado"]');
-    const errorEstado = document.querySelector('.error--estado');
-    const radiosCustom = document.querySelectorAll('.radio__custom');
+    function validarCategoriaPrincipal() {
+        const value = inputCategoria.value.trim();
+        const label = categoriaBox.querySelector("label.box__label");
 
-    // Quitar el error cuando el usuario selecciona un estado
-    radiosEstado.forEach(radio => {
-        radio.addEventListener('change', () => {
-            errorEstado.style.display = 'none';
-            radiosCustom.forEach(r => r.classList.remove('error'));
-        });
-    });
+        if (value === "") {
+            categoriaBox.classList.remove("input-error", "input-success");
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "";
+            if (label) label.classList.remove("error", "success");
+        } else if (fieldsProducto.categoriaprincipal.regex.test(value)) {
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "2px solid #0034de";
+            categoriaBox.classList.remove("input-error");
+            categoriaBox.classList.add("input-success");
+            if (label) label.classList.remove("error");
+            if (label) label.classList.add("success");
+        } else {
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.style.display = "block";
+            inputCategoria.style.border = "2px solid #fd1f1f";
+            categoriaBox.classList.add("input-error");
+            categoriaBox.classList.remove("input-success");
+            if (label) label.classList.add("error");
+            if (label) label.classList.remove("success");
+        }
+    }
 
-    // Validación de imagen
-    function validarImagenes() {
+    // ========== VALIDACIÓN DE IMAGEN (MODIFICADA PARA EDICIÓN) ==========
+    function validarImagen() {
         const file = inputFile.files[0];
         errorFormato.style.display = "none";
         errorVacio.style.display = "none";
         boxImagen.style.border = "1px solid #ddd";
 
-        if (!file) {
+        const tieneImagenActual = document.querySelector('#previewContainer img') !== null;
+        const tieneImagenNueva = file !== undefined;
+
+        if (!tieneImagenActual && !tieneImagenNueva) {
             errorVacio.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;
         }
 
-        if (!formatosPermitidos.includes(file.type)) {
+        if (file && !formatosPermitidos.includes(file.type)) {
             errorFormato.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;
         }
 
-        boxImagen.style.border = "1px solid #ddd";
         return true;
     }
 
-    // Validación de descripción del producto
-    const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
-    const errorDescripcion = document.querySelector('.error--descripcion');
-
+    // ========== VALIDACIÓN DE DESCRIPCIÓN ==========
     function validarDescripcion() {
         const contenido = quill.getText().trim();
+        const errorDescripcion = document.querySelector('.error--descripcion');
+        const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
+
         errorDescripcion.style.display = 'none';
         boxDescripcion.classList.remove('error-border');
 
@@ -368,98 +447,70 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    quill.on('text-change', () => {
-        const contenido = quill.getText().trim();
-        if (contenido.length > 0) {
-            errorDescripcion.style.display = 'none';
-            boxDescripcion.classList.remove('error-border');
-        }
+    // ========== VALIDACIÓN DE ESTADO ==========
+    const radiosEstado = document.querySelectorAll('input[name="activo"]');
+    const errorEstado = document.querySelector('.error--estado');
+    const radiosCustom = document.querySelectorAll('.radio__custom');
+
+    radiosEstado.forEach(radio => {
+        radio.addEventListener('change', () => {
+            errorEstado.style.display = 'none';
+            radiosCustom.forEach(r => r.classList.remove('error'));
+        });
     });
 
-    // --- VALIDACIÓN GENERAL DEL FORMULARIO ---
+    function validarEstado() {
+        const estadoSeleccionado = document.querySelector('input[name="activo"]:checked');
+
+        if (!estadoSeleccionado) {
+            errorEstado.style.display = 'block';
+            radiosCustom.forEach(r => r.classList.add('error'));
+            return false;
+        }
+
+        errorEstado.style.display = 'none';
+        radiosCustom.forEach(r => r.classList.remove('error'));
+        return true;
+    }
+
+    // ========== VALIDACIÓN FINAL DEL FORMULARIO ==========
     const addform = document.getElementById("formularioProducto");
 
     addform.addEventListener("submit", function (e) {
+        e.preventDefault();
         let formularioValido = true;
-        let selectsValidos = true;
 
-        // Validar inputs individuales (texto directo)
-        Object.keys(fieldsProducto).forEach(fieldId => {
-            const input = document.getElementById(fieldId);
-            const regex = fieldsProducto[fieldId].regex;
-            const inputBox = input.closest(".formulario__box");
-            const checkIcon = inputBox.querySelector(".ri-check-line");
-            const errorIcon = inputBox.querySelector(".ri-close-line");
-            const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
-            const label = inputBox.querySelector("label.box__label");
-
-            if (input.value.trim() === "") {
-                formularioValido = false;
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                if (label) label.classList.add("error");
-                inputBox.classList.add("input-error");
-            } else if (!regex.test(input.value.trim())) {
-                // Campo con texto pero inválido → mostrar error
-                formularioValido = false;
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                if (label) label.classList.add("error");
-                inputBox.classList.add("input-error");
-            } else {
-                // Campo válido
-                checkIcon.style.display = "inline-block";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "2px solid #0034de";
-                if (label) label.classList.remove("error");
-                inputBox.classList.remove("input-error");
-            }
-        });
-
-        // --- VALIDAR SUBCATEGORÍAS (MODO DIRECTO O TAGS) ---
-        const inputSub = document.getElementById("Subcategoria");
-        const hiddenSub = document.getElementById("subcategoriasHidden");
-        const subBox = inputSub.closest(".formulario__box");
-        const subCheck = subBox.querySelector(".ri-check-line");
-        const subErrorIcon = subBox.querySelector(".ri-close-line");
-        const subErrorMsg = subBox.parentNode.querySelector(".formulario__error");
-
-        const valorDirecto = inputSub.value.trim();
-        const valorTags = hiddenSub.value.trim();
-
-        if (valorDirecto === "" && valorTags === "") {
+        // Validar categoría principal
+        const valorCategoria = inputCategoria.value.trim();
+        if (valorCategoria === "" || !fieldsProducto.categoriaprincipal.regex.test(valorCategoria)) {
             formularioValido = false;
-            subCheck.style.display = "none";
-            subErrorIcon.style.display = "inline-block";
-            subErrorMsg.style.display = "block";
-            inputSub.style.border = "2px solid #fd1f1f";
-            subBox.classList.add("input-error");
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.style.display = "block";
+            inputCategoria.style.border = "2px solid #fd1f1f";
+            inputCategoria.classList.add("input-error");
+            const label = categoriaBox.querySelector("label.box__label");
+            if (label) label.classList.add("error");
         } else {
-            subErrorMsg.style.display = "none";
-            subBox.classList.remove("input-error");
-            subErrorIcon.style.display = "none";
-            subCheck.style.display = "inline-block";
-            inputSub.style.border = "2px solid #0034de";
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "2px solid #0034de";
+            inputCategoria.classList.remove("input-error");
+            const label = categoriaBox.querySelector("label.box__label");
+            if (label) label.classList.remove("error");
         }
 
-        // Validar estado (radio buttons)
-        const estadoSeleccionado = Array.from(radiosEstado).some(radio => radio.checked);
-
-        if (!estadoSeleccionado) {
+        // Validar subcategorías
+        if (subcategorias.length === 0) {
             formularioValido = false;
-            errorEstado.style.display = 'block';
-            radiosCustom.forEach(r => r.classList.add('error'));
+            mostrarErrorSubcategoria("Debes agregar al menos una subcategoría antes de continuar");
         } else {
-            radiosCustom.forEach(r => r.classList.remove('error'));
+            limpiarErrorSubcategoria();
         }
 
         // Validar imagen
-        if (!validarImagenes()) {
+        if (!validarImagen()) {
             formularioValido = false;
         }
 
@@ -468,41 +519,27 @@ document.addEventListener("DOMContentLoaded", () => {
             formularioValido = false;
         }
 
-        // Mostrar error general
-        if (!formularioValido || !selectsValidos) {
+        // Validar estado
+        if (!validarEstado()) {
+            formularioValido = false;
+        }
+
+        if (!formularioValido) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Por favor rellene el formulario correctamente",
+                text: "Por favor complete todos los campos correctamente",
                 customClass: {
                     title: 'swal-title',
                     popup: 'swal-popup'
                 }
             });
-            e.preventDefault();
             return;
         }
 
-        // Caso éxito
-        sessionStorage.setItem("loginSuccess", "true");
+        addform.submit();
     });
 
-    // Al cargar la página, mostrar éxito si existe
-    window.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("loginSuccess") === "true") {
-            Swal.fire({
-                title: "Registro exitoso",
-                icon: "success",
-                timer: 3000,
-                draggable: true,
-                timerProgressBar: true,
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-            sessionStorage.removeItem("loginSuccess");
-        }
-    });
-
+    // ========== INICIALIZACIÓN ==========
+    precargarDatosCategoria();
 });

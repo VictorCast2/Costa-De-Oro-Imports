@@ -115,13 +115,13 @@ public class CategoriaServiceImpl implements CategoriaService {
      * Método para actualizar una categoría y subcategorias a partir de un DTO de creación.
      *
      * @param categoriaRequest DTO con los nuevos datos de la categoría y las subcategorias
-     * @param id ID de la categoría a actualizar
+     * @param id               ID de la categoría a actualizar
      * @return DTO con mensaje de éxito
      * @throws EntityNotFoundException si la categoría no existe
      */
     @Override
     @Transactional
-    public GeneralResponse updateCategoria(@NotNull CategoriaCreateRequest categoriaRequest, Long id) {
+    public BaseResponse updateCategoria(@NotNull CategoriaCreateRequest categoriaRequest, Long id) {
 
         Categoria categoria = this.getCategoriaById(id);
 
@@ -145,7 +145,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new GeneralResponse("Categoria actualizada exitosamente");
+        return new BaseResponse("Categoria actualizada exitosamente", true);
     }
 
     /**

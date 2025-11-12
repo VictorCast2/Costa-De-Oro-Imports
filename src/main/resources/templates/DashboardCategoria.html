@@ -260,7 +260,9 @@
                                             </button>
 
                                             <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
+                                                <button class="dropdown__item editar"
+                                                        th:attr="data-id=${categoria.id},
+                                                         data-nombre=${categoria.nombre}">
                                                     <i class="ri-edit-box-line"></i> Editar
                                                 </button>
                                                 <button class="dropdown__item eliminar"

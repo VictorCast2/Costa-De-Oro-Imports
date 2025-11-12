@@ -152,9 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // === EDITAR ===
         else if (e.target.closest(".editar")) {
+            const btnEditar = e.target.closest(".editar");
+
+            const id = btnEditar.getAttribute("data-id");
+            const nombre = btnEditar.getAttribute("data-nombre");
+
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¿Deseas editar este registro?",
+                text: `¿Deseas editar la categoría "${nombre}"?`,
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -167,14 +172,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    /* Nota: Debe de enviarte a la pagina de EditarCategoria.html con 
-                    spring boot easy no? con un get en el controlldor easy no?
-                    una vez lo hagas borrar este comentario por favor*/
-                    window.location.href = "/admin/categoria/update-categoria";
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/categoria/update-categoria/${id}`;
                 }
             });
         }
+
 
         // === OCULTAR / MOSTRAR ===
         else if (e.target.closest(".ocultar")) {
