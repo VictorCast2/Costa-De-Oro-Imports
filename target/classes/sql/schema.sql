@@ -1,5 +1,5 @@
 use railway;
--- DROP TABLE IF EXISTS detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa;
+DROP TABLE IF EXISTS detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa;
 
 -- TABLA CATEGORIA
 CREATE TABLE `categoria` (
