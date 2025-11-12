@@ -27,7 +27,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -52,67 +52,67 @@
         </nav>
 
 
-            <!-- Buscar -->
-            <span class="icon__item">
-                <i class="ri-search-line"></i>
-            </span>
+        <!-- Buscar -->
+        <span class="icon__item">
+            <i class="ri-search-line"></i>
+        </span>
 
-            <!-- Usuario -->
-            <span class="icon__item">
-                <i class="ri-user-line"></i>
-                <!-- Cuando el usuario NO está autenticado -->
-                <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
-                    <div class="menu__sub">
-                        <a th:href="@{/auth/login}" class="sub__link">
-                            <p class="link__text">Iniciar Sesión</p>
-                        </a>
-                        <a th:href="@{/auth/registro}" class="sub__link">
-                            <p class="link__text">Registro</p>
-                        </a>
-                        <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
-                            <p class="link__text">Recordar Contraseña</p>
-                        </a>
-                    </div>
+        <!-- Usuario -->
+        <span class="icon__item">
+            <i class="ri-user-line"></i>
+            <!-- Cuando el usuario NO está autenticado -->
+            <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                <div class="menu__sub">
+                    <a th:href="@{/auth/login}" class="sub__link">
+                        <p class="link__text">Iniciar Sesión</p>
+                    </a>
+                    <a th:href="@{/auth/registro}" class="sub__link">
+                        <p class="link__text">Registro</p>
+                    </a>
+                    <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                        <p class="link__text">Recordar Contraseña</p>
+                    </a>
                 </div>
-                <!-- Cuando el usuario SÍ está autenticado -->
-                <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
-                    <div class="menu__sub">
-                        <div class="sub__info">
-                            <i class="ri-user-line"></i>
-                            <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
-                            </h2>
-                        </div>
-                        <hr>
-                        <a th:href="@{/perfil/}" class="sub__link">
-                            <p class="link__text">Perfil</p>
-                        </a>
-                        <a th:href="@{/perfil/configuration}" class="sub__link">
-                            <p class="link__text">Configuracion</p>
-                        </a>
-                        <a th:href="@{/perfil/notificaciones}" class="sub__link">
-                            <p class="link__text">Notificaciones</p>
-                        </a>
-                        <a th:href="@{/perfil/pedidos}" class="sub__link">
-                            <p class="link__text">Sus Pedidos</p>
-                        </a>
-                        <a th:href="@{/auth/logout}" class="sub__link">
-                            <p class="link__text">Cerrar Seccion</p>
-                        </a>
+            </div>
+            <!-- Cuando el usuario SÍ está autenticado -->
+            <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                <div class="menu__sub">
+                    <div class="sub__info">
+                        <i class="ri-user-line"></i>
+                        <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                        </h2>
                     </div>
+                    <hr>
+                    <a th:href="@{/perfil/}" class="sub__link">
+                        <p class="link__text">Perfil</p>
+                    </a>
+                    <a th:href="@{/perfil/configuration}" class="sub__link">
+                        <p class="link__text">Configuracion</p>
+                    </a>
+                    <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                        <p class="link__text">Notificaciones</p>
+                    </a>
+                    <a th:href="@{/perfil/pedidos}" class="sub__link">
+                        <p class="link__text">Sus Pedidos</p>
+                    </a>
+                    <a th:href="@{/auth/logout}" class="sub__link">
+                        <p class="link__text">Cerrar Seccion</p>
+                    </a>
                 </div>
-            </span>
+            </div>
+        </span>
 
-            <!-- Favorito -->
-            <span class="icon__item" id="go-fav">
-                <i class="ri-heart-3-line"></i>
-                <span class="icon__badge" id="fav-count"></span>
-            </span>
+        <!-- Favorito -->
+        <span class="icon__item" id="go-fav">
+            <i class="ri-heart-3-line"></i>
+            <span class="icon__badge" id="fav-count"></span>
+        </span>
 
-            <!-- Carrito -->
-            <span class="icon__item" id="cart-icon">
-                <i class="ri-shopping-cart-2-line"></i>
-                <span class="icon__badge" id="cart-count"></span>
-            </span>
+        <!-- Carrito -->
+        <span class="icon__item" id="cart-icon">
+            <i class="ri-shopping-cart-2-line"></i>
+            <span class="icon__badge" id="cart-count"></span>
+        </span>
         </div>
     </header>
 
@@ -147,11 +147,15 @@
                         </tbody>
                     </table>
 
-                    <div class="notification__pagination">
-                        <p class="pagination__text" id="pagination-text">Mostrando 1-4</p>
-                        <button class="pagination__flec" id="prev-page"><i class="ri-arrow-left-s-line"></i></button>
-                        <div id="pagination-buttons"></div>
-                        <button class="pagination__flec" id="next-page"><i class="ri-arrow-right-s-line"></i></button>
+                    <div class="table__pagination">
+                        <div class="pagination__span">
+                            <span class="span__description" id="pagination-text"></span>
+                        </div>
+
+                        <div class="pagination__button" id="pagination-buttons">
+                            <button class="button__pasar pasar--anterior" id="prev-page">Anterior</button>
+                            <button class="button__pasar pasar--siguiente" id="next-page">Siguiente</button>
+                        </div>
                     </div>
                 </div>
             </div>

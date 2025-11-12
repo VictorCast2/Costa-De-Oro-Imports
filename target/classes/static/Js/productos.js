@@ -307,4 +307,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //boton de limpiar todo
 
+
 });
