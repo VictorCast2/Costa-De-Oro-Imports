@@ -95,7 +95,7 @@ class CategoriaControllerTest {
     @WithMockUser(roles = "ADMIN")
     void updateCategoria() throws Exception {
         // Given
-        GeneralResponse resposeMock = new GeneralResponse("Categoria Actualizada");
+        BaseResponse resposeMock = new BaseResponse("Categoria Actualizada", true);
         String mensajeEconde = UriUtils.encode(resposeMock.mensaje(), StandardCharsets.UTF_8);
         Long id = 1L;
 

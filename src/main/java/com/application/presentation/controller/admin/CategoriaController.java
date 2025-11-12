@@ -1,6 +1,7 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
@@ -69,26 +70,28 @@ public class CategoriaController {
         return "redirect:/admin/categoria/?mensaje=" + mensaje + "&success=" + success;
     }
 
-    @GetMapping("/update-categoria")
-    public String editarCategoria(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(value = "mensaje", required = false) String mensaje,
-            Model model) {
-        Usuario usuario = usuarioService.getUsuarioByCorreo(userDetails.getUsername());
+    @GetMapping("/update-categoria/{id}")
+    public String editarCategoria(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal principal,
+                                  @RequestParam(value = "mensaje", required = false) String mensaje,
+                                  Model model) {
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
+        CategoriaResponse categoria = categoriaService.getCategoriaResponseById(id);
 
         model.addAttribute("usuario", usuario);
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
+        model.addAttribute("categoria", categoria);
         model.addAttribute("mensaje", mensaje);
+        model.addAttribute("categoriaId", id);
         return "EditarCategoria";
     }
 
     @PostMapping("update-categoria/{id}")
-    public String updateCategoria(
-            @ModelAttribute @Valid CategoriaCreateRequest categoriaRequest,
-            @PathVariable Long id) {
-        GeneralResponse response = categoriaService.updateCategoria(categoriaRequest, id);
-        String mensaje = response.mensaje();
-
-        return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
+    public String updateCategoria(@ModelAttribute @Valid CategoriaCreateRequest categoriaRequest, @PathVariable Long id) {
+        BaseResponse response = categoriaService.updateCategoria(categoriaRequest, id);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/categoria/?mensaje=" + mensaje + "&success=" + success;
     }
 
     // Para estos métodos se usa GetMapping porque la petición se hace por JS y estamos en un @Controller
