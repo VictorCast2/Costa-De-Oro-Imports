@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" th:href="@{/Css/AgregarCategoria.css}">
+    <link rel="stylesheet" th:href="@{//Css/EditarBlog.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
         integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS de Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <!-- Quill CSS -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <title>Dashboard Agregar Categoria || Costa De Oro Imports</title>
+    <title>Dashboard Editar Blog || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
@@ -60,7 +63,7 @@
                     <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
                 </li>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
                     <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
                 </li>
@@ -87,7 +90,7 @@
 
                 <p class="menu__title">Configuracion Del Sitio</p>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-news-line"></i>
                     <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
                 </li>
@@ -169,7 +172,7 @@
                     <!-- Foto de usuario -->
                     <div class="header__user">
                         <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                            alt="Usuario">
+                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
                             <div class="menu__sub">
@@ -178,7 +181,7 @@
                                         <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
                                     </span>
                                     <span class="info__title"
-                                        th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                                          th:text="${#authentication.principal?.correo}">mail@mail.com</span>
                                 </div>
                                 <hr>
 
@@ -200,7 +203,6 @@
 
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -210,11 +212,11 @@
 
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
-                        <h2 class="producto__titulo">Agregar nueva categoria</h2>
+                        <h2 class="producto__titulo">Editar blog</h2>
                     </div>
 
                     <div class="titleheader__btn">
-                        <a th:href="@{/admin/categoria/}">Volver a categorias</a>
+                        <a th:href="@{/admin/blog/}">Volver al blog</a>
                     </div>
                 </div>
 
@@ -223,48 +225,56 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioProducto" action="">
-                                <h2 class="producto__title">Información de la categoria
+                            <form class="formulario__producto" id="formularioBlog" action="">
+                                <h2 class="producto__title">Información del blog
                                 </h2>
 
                                 <div class="producto__input">
 
-                                    <!-- CATEGORÍA PRINCIPAL -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="CategoriaPrincipal"
-                                                id="categoriaprincipal">
-                                            <label class="box__label" for="categoriaprincipal">Categoria Principal</label>
+                                            <input type="text" autocomplete="off" placeholder="" name="Titulo"
+                                                id="titulo">
+                                            <label class="box__label" for="titulo">Titulo del blog</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
                                         <p class="formulario__error">
-                                            La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números.
+                                            El titulo debe tener al menos 3 letras y no contener números.
                                         </p>
                                     </div>
 
-                                    <!-- CATEGORÍA Secundaria -->
                                     <div class="input__formulario">
-                                        <div class="formulario__box" id="subcategoriaBox">
-                                            <input type="text" autocomplete="off" placeholder="" name="SubCategoria"
-                                                id="Subcategoria">
-                                            <label class="box__label" for="Subcategoria">Sub-Categoría</label>
+                                        <div class="formulario__box">
+                                            <input type="text" autocomplete="off" placeholder="" name="FechaPublicacion"
+                                                id="fechapublicacion">
+                                            <label class="box__label" for="fechapublicacion">Fecha Publicacion</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
-
-                                            <!-- Lista de subcategorías agregadas -->
-                                            <div id="subcategoriaLista" class="lista-subcategorias oculto"></div>
                                         </div>
-
-                                        <!-- Campo oculto para enviar las subcategorías -->
-                                        <input type="hidden" name="subcategoriasHidden" id="subcategoriasHidden">
-
                                         <p class="formulario__error">
-                                            Debes agregar al menos una subcategoría antes de continuar
+                                            Por favor eliga una fecha de publicacion.
                                         </p>
                                     </div>
 
-                                    <h2 class="input__estados">Estados de la categoria</h2>
+                                    <div class="input__formulario" id="formulario__imagen">
+                                        <h2 class="formulario__title">Imágenes del blog</h2>
+                                        <div class="formulario__boximagen">
+                                            <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
+                                            <input type="file" id="fileInput" accept="image/*" hidden>
+                                            <div class="preview-container" id="previewContainer"></div>
+                                        </div>
+
+                                        <p class="formulario__error error--formato">
+                                            Solo se permiten archivos con formato JPG, PNG o WEBP..
+                                        </p>
+
+                                        <p class="formulario__error error--vacio">
+                                            Debes subir al menos una imagen del blog.
+                                        </p>
+                                    </div>
+
+                                    <h2 class="input__estados">Estados del blog</h2>
 
                                     <div class="input__formulario estados__container">
 
@@ -283,53 +293,61 @@
                                         </div>
 
                                         <p class="formulario__error error--estado">
-                                            Por favor, debes seleccionar un estado de la categoria
+                                            Por favor, debes seleccionar un estado del blog
                                         </p>
 
                                     </div>
 
-                                    <div class="input__formulario" id="formulario__imagen">
-                                        <h2 class="formulario__title">Imágen de la categoria</h2>
-                                        <div class="formulario__boximagen">
-                                            <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
-                                            <input type="file" id="fileInput" accept="image/*" hidden>
-                                            <div class="preview-container" id="previewContainer"></div>
+                                    <h2 class="input__estados">Descripciónes del blog</h2>
+
+                                    <div class="input__formulario" id="formulario__area">
+                                        <div class="formulario__box">
+                                            <textarea autocomplete="off" placeholder="" name="HistoriaCompleta"
+                                                id="historiacompleta"></textarea>
+                                            <label class="box__label label--area" for="historiacompleta">Historia Completa</label>
+                                            <span class="box__icon icon--area"><i class="ri-check-line"></i></span>
+                                            <span class="box__icon icon--area"><i class="ri-close-line"></i></span>
                                         </div>
-
-                                        <p class="formulario__error error--formato">
-                                            Solo se permiten archivos con formato JPG, PNG o WEBP..
-                                        </p>
-
-                                        <p class="formulario__error error--vacio">
-                                            Debes subir al menos una imagen de la categoria.
+                                        <p class="formulario__error error--textarea">
+                                            La historia completa debe tener al menos 3 letras y no contener números.
                                         </p>
                                     </div>
 
                                     <div class="input__formulario" id="formulario__descripcion">
-                                        <h2 class="formulario__title">Descripción de la categoria</h2>
                                         <div class="formulario__boxdescripcion">
                                             <div id="editor-container"></div>
                                         </div>
 
                                         <p class="formulario__error error--descripcion">
-                                            Por favor, agrega una descripción de la categoria antes de continuar.
+                                            Por favor, agrega una descripción del blog antes de continuar.
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Crear Categoria</button>
+                                    <button class="input__btn">Crear Blog</button>
+
+
                                 </div>
+
                             </form>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </section>
         </main>
+
     </div>
 
+
+    <!-- JS de Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script th:src="@{/Js/AgregarCategoria.js}"></script>
+    <script th:src="@{/Js/EditarBlog.js}"></script>
 </body>
 
 </html>

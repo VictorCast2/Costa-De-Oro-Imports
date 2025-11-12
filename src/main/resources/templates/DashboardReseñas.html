@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" th:href="@{/Css/DashboardCategoria.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="stylesheet" href="../static/Css/DashboardReseñas.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
         integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -21,14 +20,14 @@
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <title>Dashboard Categoria || Costa De Oro Imports</title>
+    <title>Dashboard Reseñas || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -40,27 +39,25 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <a th:href="@{/admin/principal/}">
-                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
-                </a>
+                <img src="../static/Assets/Img/logos/logoDashboardYPrincipal.webp" alt="Logo dashboard">
             </figure>
 
             <ul class="sidebar__menu">
                 <li class="sidebar__item">
                     <i class="ri-home-4-line"></i>
-                    <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
+                    <a href="Dashboard.html" class="sidebar__text">Panel De Control</a>
                 </li>
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
                 <li class="sidebar__item">
                     <i class="ri-shopping-cart-2-line"></i>
-                    <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
+                    <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
                 </li>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
-                    <a href="" class="sidebar__text">Categorias</a>
+                    <a href="DashboardCategoria.html" class="sidebar__text">Categorias</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -75,19 +72,19 @@
 
                 <li class="sidebar__item">
                     <i class="ri-group-line"></i>
-                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
+                    <a href="DashboardClientes.html" class="sidebar__text">Clientes</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-star-line"></i>
-                    <a href="DashboardReseñas.html" class="sidebar__text">Reseñas</a>
+                    <a href="" class="sidebar__text">Reseñas</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
 
                 <li class="sidebar__item">
                     <i class="ri-news-line"></i>
-                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
+                    <a href="DashboardBlog.html" class="sidebar__text">Blog</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -130,7 +127,7 @@
                             </div>
 
                             <div class="notif__item unread">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="User">
+                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Su pedido ha sido realizado</strong> <br><span>esperando el envío</span>
                                     </p>
@@ -139,7 +136,7 @@
                             </div>
 
                             <div class="notif__item">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
+                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
                                             con
@@ -149,7 +146,7 @@
                             </div>
 
                             <div class="notif__item">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="User">
+                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Tienes mensajes nuevos</strong> <span>2 mensajes no leídos</span></p>
                                     <small> <i class="ri-time-line"></i> Hace 2 días</small>
@@ -167,7 +164,7 @@
                     <!-- Foto de usuario -->
                     <div class="header__user">
                         <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                            alt="Usuario">
+                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
                             <div class="menu__sub">
@@ -176,7 +173,7 @@
                                         <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
                                     </span>
                                     <span class="info__title"
-                                        th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                                          th:text="${#authentication.principal?.correo}">mail@mail.com</span>
                                 </div>
                                 <hr>
 
@@ -198,7 +195,6 @@
 
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -208,26 +204,25 @@
 
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
-                        <h2 class="producto__titulo">Categoria</h2>
-                        <p class="producto__texto">Hay 0 Categoria registradas</p>
-                    </div>
-
-                    <div class="titleheader__btn">
-                        <a th:href="@{/admin/categoria/add}">Agregar Categoria</a>
+                        <h2 class="producto__titulo">Reseñas</h2>
+                        <p class="producto__texto">Hay 0 reseñas registrados</p>
                     </div>
                 </div>
 
                 <div class="body__table">
                     <div class="container__table">
                         <div class="table__filter">
-                            <input id="inputSearch" type="search" placeholder="Buscar Categoria">
+                            <input id="inputSearch" type="search" placeholder="Buscar Productos">
 
 
                             <div class="custom__select">
                                 <select id="filtro-estado">
-                                    <option value="todos">Estado</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
+                                    <option value="Seleccionar calificacion">Seleccionar calificacion</option>
+                                    <option value="Uno">Uno</option>
+                                    <option value="Dos">Dos</option>
+                                    <option value="Tres">Tres</option>
+                                    <option value="Cuatro">Cuatro</option>
+                                    <option value="Cinco">Cinco</option>
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
                             </div>
@@ -239,27 +234,31 @@
                             <table class="notification__table">
                                 <thead>
                                     <tr>
-                                        <th>Icono categoria</th>
-                                        <th>Nombre de categoria</th>
-                                        <th>Producto</th>
-                                        <th>Estados</th>
+                                        <th>Nombre blog</th>
+                                        <th>Usuario</th>
+                                        <th>Reseñas</th>
+                                        <th>Calificacion</th>
+                                        <th>Fecha</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/vinoCategoria.png}"
-                                                    alt="categoria de la bebida vino">
-                                            </figure>
+                                        <td>El Sabor del Whisky Escocés</td>
+                                        <td>Carlos M. Herrera</td>
+                                        <td class="td__reseñas">Un whisky con notas de madera y vainilla, suave al
+                                            paladar pero con un final
+                                            ahumado intenso</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino</td>
-                                        <td>12</td>
-                                        <td class="categoria__td">
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>12/10/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -267,9 +266,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -279,22 +275,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/whiskyCategoria.png}"
-                                                    alt="categoria de la bebida whisky">
-                                            </figure>
+                                        <td>Vinos del Valle Central Chileno</td>
+                                        <td>Andrea López</td>
+                                        <td class="td__reseñas">Probé el Cabernet Sauvignon 2019 y fue una joya. Cuerpo
+                                            medio, aromas a
+                                            frutos rojos y taninos suaves. Perfecto para carnes asadas.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Whisky</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>20/02/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -302,9 +300,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -314,22 +309,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/cervezaCategoria.png}"
-                                                    alt="categoria de la bebida cerveza">
-                                            </figure>
+                                        <td>Cócteles con Vodka: Recetas y Secretos</td>
+                                        <td>Diego Pardo</td>
+                                        <td class="td__reseñas">El vodka recomendado tiene una pureza increíble. Los
+                                            cócteles quedan
+                                            cristalinos y sin ese sabor fuerte que arruina la mezcla.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Cerveza</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>05/03/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -337,9 +334,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -349,22 +343,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/tequilaCategoria.png}"
-                                                    alt="categoria de la bebida tequila">
-                                            </figure>
+                                        <td>Ron Caribeño, el Espíritu del Trópico</td>
+                                        <td>Valentina Suárez</td>
+                                        <td class="td__reseñas">El ron oscuro tiene un equilibrio perfecto entre dulzura
+                                            y fuerza. Se nota
+                                            el toque de caña y caramelo. Muy recomendable.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Tequila</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>08/04/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -372,9 +368,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -384,22 +377,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/mezcalCategoria.png}"
-                                                    alt="categoria de la bebida mezcal">
-                                            </figure>
+                                        <td>Cervezas Artesanales de Latinoamérica</td>
+                                        <td>Juan Esteban Rivas</td>
+                                        <td class="td__reseñas">La cerveza ámbar artesanal fue una sorpresa. Aromas
+                                            cítricos, espuma densa y
+                                            un retrogusto a miel. Volvería a comprarla sin dudar.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Mezcal</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>02/05/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -407,9 +402,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -419,22 +411,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/ronCategoria.png}"
-                                                    alt="categoria de la bebida ron">
-                                            </figure>
+                                        <td>Brindando con Champagne Francés</td>
+                                        <td>Natalia Cárdenas</td>
+                                        <td class="td__reseñas">Las burbujas finas y persistentes hacen de este
+                                            champagne una delicia.
+                                            Perfecto para celebraciones elegantes.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Ron</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>14/06/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -442,9 +436,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -454,22 +445,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/aguardienteCategoria.png}"
-                                                    alt="categoria de la bebida aguardiente">
-                                            </figure>
+                                        <td>Explorando el Malbec Argentino</td>
+                                        <td>Ricardo Peña</td>
+                                        <td class="td__reseñas">Excelente vino con notas a ciruela y chocolate amargo.
+                                            Se siente robusto y
+                                            muy bien equilibrado.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Aguardiente</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>03/07/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -477,9 +470,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -489,22 +479,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/vodkaCategoria.png}"
-                                                    alt="categoria de la bebida vodkas">
-                                            </figure>
+                                        <td>Catas de Tequila Premium</td>
+                                        <td>Fernanda Jiménez</td>
+                                        <td class="td__reseñas">El tequila reposado que probé fue espectacular. Dulce,
+                                            con notas de agave
+                                            cocido y un toque de madera. Ideal para degustar solo.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vodkas</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>29/08/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -512,9 +504,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -524,22 +513,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/ginebraCategoria.png}"
-                                                    alt="categoria de la bebida ginebra">
-                                            </figure>
+                                        <td>Gin Tonic: La Elegancia en un Vaso</td>
+                                        <td>Sebastián Lozano</td>
+                                        <td class="td__reseñas">El gin tiene un aroma botánico impresionante. Se mezcla
+                                            bien con cítricos y
+                                            tónica premium. Refrescante y sofisticado.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Ginebras</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>10/09/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -547,9 +538,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -559,7 +547,40 @@
                                                 </div>
                                             </div>
                                         </td>
+                                    </tr>
 
+                                    <tr>
+                                        <td>Licores Dulces y Digestivos</td>
+                                        <td>Camila Torres</td>
+                                        <td class="td__reseñas">El licor de café es una maravilla. Aromático, con el
+                                            punto justo de dulzura.
+                                            Perfecto para acompañar postres.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
+                                        </td>
+                                        <td>23/10/2025</td>
+                                        <td class="menu__actions">
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ocultar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
 
                                 </tbody>
@@ -585,8 +606,50 @@
 
     </div>
 
+    <!-- Modal de detalle de reseña -->
+    <div class="modal" id="modalDetalle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalle de la reseña</h2>
+                <button class="close-btn" id="cerrarModal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-row">
+                    <i class="ri-news-line"></i>
+                    <span>Nombre Blog:</span>
+                    <span class="modal__span" id="modalNombreblog"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-user-line"></i>
+                    <span>Usuario:</span>
+                    <span class="modal__span" id="modalUsuario"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-calendar-line"></i>
+                    <span>Fecha:</span>
+                    <span class="modal__span" id="modalFecha"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-star-line"></i>
+                    <span>Calificación:</span>
+                    <div class="stars start--modal" id="modalCalificacion"></div>
+                </div>
+
+                <div class="mensaje">
+                    <label>Reseña:</label>
+                    <p class="modal__span" id="modalReseña"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script th:src="@{/Js/DashboardCategoria.js}"></script>
+    <script src="../static/Js/DashboardReseñas.js"></script>
 </body>
 
 </html>

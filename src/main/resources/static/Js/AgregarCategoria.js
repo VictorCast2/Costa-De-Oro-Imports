@@ -265,17 +265,19 @@ document.addEventListener("DOMContentLoaded", () => {
         theme: 'snow'
     });
 
+
+
     //Validaciones del formulario de agregar producto
     const fieldsProducto = {
+        categoriaprincipal: {
+            regex: /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
+            errorMessage: "La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números."
+        },
         Subcategoria: {
             regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/,
             errorMessage: "Debes agregar al menos una subcategoría antes de continuar"
         },
     };
-
-    // obtenemos los select
-    const selectCategoriaPrincipal = document.getElementById("categoriaPrincipal");
-    const errorCategoriaPrincipal = document.querySelector(".error--CategoriaPrincipal");
 
     // Asignamos validaciones de escritura en tiempo real
     Object.keys(fieldsProducto).forEach(fieldId => {
@@ -310,21 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.style.border = "2px solid #fd1f1f";
                 inputBox.classList.add("input-error");
                 if (label) label.classList.add("error");
-            }
-        });
-    });
-
-    // Ocultar advertencias y errores de select al interactuar
-    [selectCategoriaPrincipal].forEach(select => {
-        select.addEventListener("change", () => {
-            if (select.selectedIndex > 0) {
-                select.style.border = "2px solid #0034de";
-            } else {
-                select.style.border = "";
-            }
-
-            if (select === selectCategoriaPrincipal && select.selectedIndex > 0) {
-                errorCategoriaPrincipal.style.display = "none";
             }
         });
     });
@@ -405,10 +392,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const inputBox = input.closest(".formulario__box");
             const checkIcon = inputBox.querySelector(".ri-check-line");
             const errorIcon = inputBox.querySelector(".ri-close-line");
-            const errorMessage = inputBox.nextElementSibling;
+            const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
             const label = inputBox.querySelector("label.box__label");
 
-            if (input.value.trim() !== "" && !regex.test(input.value.trim())) {
+            if (input.value.trim() === "") {
+                formularioValido = false;
+                checkIcon.style.display = "none";
+                errorIcon.style.display = "inline-block";
+                errorMessage.style.display = "block";
+                input.style.border = "2px solid #fd1f1f";
+                if (label) label.classList.add("error");
+                inputBox.classList.add("input-error");
+            } else if (!regex.test(input.value.trim())) {
+                // Campo con texto pero inválido → mostrar error
                 formularioValido = false;
                 checkIcon.style.display = "none";
                 errorIcon.style.display = "inline-block";
@@ -417,7 +413,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (label) label.classList.add("error");
                 inputBox.classList.add("input-error");
             } else {
+                // Campo válido
+                checkIcon.style.display = "inline-block";
+                errorIcon.style.display = "none";
+                errorMessage.style.display = "none";
+                input.style.border = "2px solid #0034de";
                 if (label) label.classList.remove("error");
+                inputBox.classList.remove("input-error");
             }
         });
 
@@ -447,14 +449,6 @@ document.addEventListener("DOMContentLoaded", () => {
             inputSub.style.border = "2px solid #0034de";
         }
 
-        // Validar select principal
-        const CategoriaPrincipalSeleccionada = selectCategoriaPrincipal.selectedIndex > 0;
-
-        if (!CategoriaPrincipalSeleccionada) {
-            selectsValidos = false;
-            errorCategoriaPrincipal.style.display = "block";
-            selectCategoriaPrincipal.style.border = "2px solid #fd1f1f";
-        }
 
         // Validar estado (radio buttons)
         const estadoSeleccionado = Array.from(radiosEstado).some(radio => radio.checked);
