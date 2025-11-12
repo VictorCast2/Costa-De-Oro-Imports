@@ -14,21 +14,23 @@
 }
 
 .sidebar__logo {
-    height: 100px;
+    width: 250px; 
+    height: 90px;
+    overflow: hidden;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 0.1rem 0 0 0.2rem;
+    margin: 0.1rem 0 0 0.9rem;
+
 }
 
 .sidebar__logo img {
-    max-width: 100%;
-    width: 270px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+    cursor: pointer;
 
-}
-
-.sidebar__logo .logo__acronimo {
-    font: 700 2rem var(--typografiaGeist);
 }
 
 .dashboard__sidebar {
@@ -48,7 +50,7 @@
     padding: 0;
     margin: 0;
     position: relative;
-    margin-top: -20px;
+    margin-top: -10px;
 }
 
 /* Ítems generales */
@@ -107,7 +109,7 @@
     font: 600 0.86rem var(--typografiaUrbanist);
     color: #888;
     margin-left: 2rem;
-    padding: 2rem 0 0 0;
+    padding: 1.5rem 0 0 0;
 
 }
 
@@ -602,7 +604,7 @@
     position: relative;
     top: -3.5rem;
     left: -2.5rem;
-    background: transparent !important;
+    background: transparent !important; 
 }
 
 .item--mapa .mapa__title {

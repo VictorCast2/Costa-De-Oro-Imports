@@ -10,7 +10,6 @@
     --colorWhite: #ffffff;
 }
 
-
 /* Section body */
 .content__body {
     margin-left: 260px;
@@ -54,7 +53,6 @@
 .titleheader__btn a:hover {
     background-color: #7a5e4d;
 }
-
 
 .table__filter {
     display: flex;
@@ -137,7 +135,6 @@ input[type="search"]::-webkit-search-cancel-button {
     word-wrap: break-word;
 }
 
-
 /*Pagination de la tabla  */
 .table__pagination {
     display: flex;
@@ -167,8 +164,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .pagination__button .pasar--anterior {
     margin-right: 0.1rem;
 }
-
-
 
 .pagination__button .pasar--siguiente {
     border: 1px solid #ddd;
@@ -291,8 +286,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .dropdown.show .dropdown__menu {
     display: block;
 }
-
-
 
 .swal-title {
     font-family: 'Urbanist', sans-serif !important;
