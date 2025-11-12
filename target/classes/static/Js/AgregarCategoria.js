@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // funcionamiento de las dos categorias en el formulario
+    // ========== FUNCIONALIDAD DE SUBCATEGORÍAS ==========
     const inputSub = document.getElementById("Subcategoria");
     const listaSub = document.getElementById("subcategoriaLista");
 
@@ -61,14 +61,37 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const valor = inputSub.value.trim();
             if (valor === "") return;
-            if (subcategorias.includes(valor.toLowerCase())) return;
 
-            subcategorias.push(valor.toLowerCase());
+            // Validar formato de subcategoría
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/.test(valor)) {
+                mostrarErrorSubcategoria("La subcategoría debe tener entre 2 y 30 caracteres alfanuméricos");
+                return;
+            }
+
+            if (subcategorias.includes(valor.toLowerCase())) {
+                mostrarErrorSubcategoria("Esta subcategoría ya fue agregada");
+                return;
+            }
+
+            subcategorias.push(valor);
             inputSub.value = "";
             actualizarInterfaz();
+            limpiarErrorSubcategoria();
         }
     });
 
+    function mostrarErrorSubcategoria(mensaje) {
+        const errorMsg = inputSub.closest(".input__formulario").querySelector(".formulario__error");
+        errorMsg.textContent = mensaje;
+        errorMsg.style.display = "block";
+        inputSub.style.border = "2px solid #fd1f1f";
+    }
+
+    function limpiarErrorSubcategoria() {
+        const errorMsg = inputSub.closest(".input__formulario").querySelector(".formulario__error");
+        errorMsg.style.display = "none";
+        inputSub.style.border = "";
+    }
 
     // Mostrar la lista al hacer clic o enfocar el input
     inputSub.addEventListener("focus", () => {
@@ -129,18 +152,18 @@ document.addEventListener("DOMContentLoaded", () => {
             let offset = 0;
             if (contenedorTags.children.length > 0) {
                 const lastTag = contenedorTags.lastElementChild;
-                offset = lastTag.offsetLeft + lastTag.offsetWidth + 5; // 
+                offset = lastTag.offsetLeft + lastTag.offsetWidth + 5;
             } else {
                 offset = 15; // margen por defecto si no hay tags
             }
 
             // Mueve el contenedor de los tags dentro del input
             contenedorTags.style.position = "absolute";
-            contenedorTags.style.left = "30px"; // igual que tu label en CSS
+            contenedorTags.style.left = "30px";
             contenedorTags.style.top = "22px";
 
             // Mueve visualmente el input al mismo nivel, sin cambiar su ancho ni padding
-            inputSub.style.textIndent = offset + "px"; // solo mueve el punto de escritura
+            inputSub.style.textIndent = offset + "px";
             inputSub.focus();
 
             // coloca el cursor al final
@@ -161,29 +184,43 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarInterfaz();
     }
 
-    function obtenerSubcategorias() {
-        return subcategorias;
-    }
+    // ========== EDITOR DE DESCRIPCIÓN ==========
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link', 'clean']
+    ];
 
-    // Imagen del producto
+    const quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow',
+        placeholder: 'Describe la categoría...'
+    });
+
+    // Actualizar campo oculto cuando cambie el contenido
+    quill.on('text-change', function() {
+        const contenidoTextoPlano = quill.getText().trim();
+        document.getElementById('descripcionHidden').value = contenidoTextoPlano;
+
+        // Validación visual en tiempo real
+        const errorDescripcion = document.querySelector('.error--descripcion');
+        const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
+
+        if (contenidoTextoPlano.length > 0) {
+            errorDescripcion.style.display = 'none';
+            boxDescripcion.classList.remove('error-border');
+        }
+    });
+
+    // ========== MANEJO DE IMAGEN ==========
     const boxImagen = document.querySelector('.formulario__boximagen');
-    const textoBox = document.querySelector('.boximagen__texto');
+    const inputFile = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
     const errorFormato = document.querySelector('.error--formato');
     const errorVacio = document.querySelector('.error--vacio');
-
     const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-
-    // Crear dinámicamente input file oculto
-    const inputFile = document.createElement('input');
-    inputFile.type = 'file';
-    inputFile.accept = 'image/*';
-    inputFile.style.display = 'none';
-    boxImagen.appendChild(inputFile);
-
-    // Crear contenedor de previsualización
-    const previewContainer = document.createElement('div');
-    previewContainer.classList.add('preview-container');
-    boxImagen.appendChild(previewContainer);
 
     // Al hacer clic en el contenedor, abrir explorador
     boxImagen.addEventListener('click', () => inputFile.click());
@@ -234,116 +271,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Acción eliminar
             removeBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // evita que abra el explorador
-
-                // Eliminar imagen y botón
+                e.stopPropagation();
                 previewContainer.style.display = 'none';
                 previewContainer.innerHTML = '';
                 boxImagen.classList.remove('imagen-activa');
                 removeBtn.remove();
-                inputFile.value = ''; // limpiar el input
+                inputFile.value = '';
             });
         }, 2000);
     });
 
-    //Descripcion de un producto
-    const toolbarOptions = [
-        [{ 'font': [] }, { 'size': [] }],           // Tipografía y tamaño
-        ['bold', 'italic', 'underline', 'strike'],  // Estilo de texto
-        [{ 'color': [] }, { 'background': [] }],    // Color del texto y fondo
-        [{ 'script': 'sub' }, { 'script': 'super' }],// Sub/superíndice
-        [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'indent': '-1' }, { 'indent': '+1' }],
-        [{ 'align': [] }],
-        ['link', 'image', 'video'],                 // Enlaces, imágenes, videos
-        ['clean']                                   // Limpiar formato
-    ];
-
-    const quill = new Quill('#editor-container', {
-        modules: { toolbar: toolbarOptions },
-        theme: 'snow'
-    });
-
-    //Validaciones del formulario de agregar producto
+    // ========== VALIDACIONES ==========
     const fieldsProducto = {
-        Subcategoria: {
-            regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/,
-            errorMessage: "Debes agregar al menos una subcategoría antes de continuar"
-        },
+        categoriaprincipal: {
+            regex: /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
+            errorMessage: "La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números."
+        }
     };
 
-    // obtenemos los select
-    const selectCategoriaPrincipal = document.getElementById("categoriaPrincipal");
-    const errorCategoriaPrincipal = document.querySelector(".error--CategoriaPrincipal");
+    // Validación en tiempo real para categoría principal
+    const inputCategoria = document.getElementById("categoriaprincipal");
+    const categoriaBox = inputCategoria.closest(".formulario__box");
+    const checkIcon = categoriaBox.querySelector(".ri-check-line");
+    const errorIcon = categoriaBox.querySelector(".ri-close-line");
+    const errorMessage = categoriaBox.parentNode.querySelector(".formulario__error");
 
-    // Asignamos validaciones de escritura en tiempo real
-    Object.keys(fieldsProducto).forEach(fieldId => {
-        const input = document.getElementById(fieldId);
-        const inputBox = input.closest(".formulario__box");
-        const checkIcon = inputBox.querySelector(".ri-check-line");
-        const errorIcon = inputBox.querySelector(".ri-close-line");
-        const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
-
-        input.addEventListener("input", () => {
-            const value = input.value.trim();
-            const label = inputBox.querySelector("label.box__label");
-
-            if (value === "") {
-                inputBox.classList.remove("input-error");
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "";
-                if (label) label.classList.remove("error");
-            } else if (fieldsProducto[fieldId].regex.test(value)) {
-                checkIcon.style.display = "inline-block";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "2px solid #0034de";
-                inputBox.classList.remove("input-error");
-                if (label) label.classList.remove("error");
-            } else {
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                inputBox.classList.add("input-error");
-                if (label) label.classList.add("error");
-            }
-        });
+    inputCategoria.addEventListener("input", () => {
+        validarCategoriaPrincipal();
     });
 
-    // Ocultar advertencias y errores de select al interactuar
-    [selectCategoriaPrincipal].forEach(select => {
-        select.addEventListener("change", () => {
-            if (select.selectedIndex > 0) {
-                select.style.border = "2px solid #0034de";
-            } else {
-                select.style.border = "";
-            }
+    function validarCategoriaPrincipal() {
+        const value = inputCategoria.value.trim();
+        const label = categoriaBox.querySelector("label.box__label");
 
-            if (select === selectCategoriaPrincipal && select.selectedIndex > 0) {
-                errorCategoriaPrincipal.style.display = "none";
-            }
-        });
-    });
+        if (value === "") {
+            categoriaBox.classList.remove("input-error", "input-success");
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "";
+            if (label) label.classList.remove("error", "success");
+        } else if (fieldsProducto.categoriaprincipal.regex.test(value)) {
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "2px solid #0034de";
+            categoriaBox.classList.remove("input-error");
+            categoriaBox.classList.add("input-success");
+            if (label) label.classList.remove("error");
+            if (label) label.classList.add("success");
+        } else {
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.style.display = "block";
+            inputCategoria.style.border = "2px solid #fd1f1f";
+            categoriaBox.classList.add("input-error");
+            categoriaBox.classList.remove("input-success");
+            if (label) label.classList.add("error");
+            if (label) label.classList.remove("success");
+        }
+    }
 
-    // Obtener radios y mensaje de error
-    const radiosEstado = document.querySelectorAll('input[name="estado"]');
-    const errorEstado = document.querySelector('.error--estado');
-    const radiosCustom = document.querySelectorAll('.radio__custom');
-
-    // Quitar el error cuando el usuario selecciona un estado
-    radiosEstado.forEach(radio => {
-        radio.addEventListener('change', () => {
-            errorEstado.style.display = 'none';
-            radiosCustom.forEach(r => r.classList.remove('error'));
-        });
-    });
-
-    // Validación de imagen
-    function validarImagenes() {
+    // ========== VALIDACIÓN DE IMAGEN ==========
+    function validarImagen() {
         const file = inputFile.files[0];
         errorFormato.style.display = "none";
         errorVacio.style.display = "none";
@@ -361,16 +351,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        boxImagen.style.border = "1px solid #ddd";
         return true;
     }
 
-    // Validación de descripción del producto
-    const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
-    const errorDescripcion = document.querySelector('.error--descripcion');
-
+    // ========== VALIDACIÓN DE DESCRIPCIÓN ==========
     function validarDescripcion() {
         const contenido = quill.getText().trim();
+        const errorDescripcion = document.querySelector('.error--descripcion');
+        const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
+
         errorDescripcion.style.display = 'none';
         boxDescripcion.classList.remove('error-border');
 
@@ -383,92 +372,71 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    quill.on('text-change', () => {
-        const contenido = quill.getText().trim();
-        if (contenido.length > 0) {
-            errorDescripcion.style.display = 'none';
-            boxDescripcion.classList.remove('error-border');
-        }
+    // ========== VALIDACIÓN DE ESTADO ==========
+    const radiosEstado = document.querySelectorAll('input[name="activo"]');
+    const errorEstado = document.querySelector('.error--estado');
+    const radiosCustom = document.querySelectorAll('.radio__custom');
+
+    // Quitar el error cuando el usuario selecciona un estado
+    radiosEstado.forEach(radio => {
+        radio.addEventListener('change', () => {
+            errorEstado.style.display = 'none';
+            radiosCustom.forEach(r => r.classList.remove('error'));
+        });
     });
 
-    // --- VALIDACIÓN GENERAL DEL FORMULARIO ---
+    function validarEstado() {
+        const estadoSeleccionado = document.querySelector('input[name="activo"]:checked');
+
+        if (!estadoSeleccionado) {
+            errorEstado.style.display = 'block';
+            radiosCustom.forEach(r => r.classList.add('error'));
+            return false;
+        }
+
+        errorEstado.style.display = 'none';
+        radiosCustom.forEach(r => r.classList.remove('error'));
+        return true;
+    }
+
+    // ========== VALIDACIÓN FINAL DEL FORMULARIO ==========
     const addform = document.getElementById("formularioProducto");
 
     addform.addEventListener("submit", function (e) {
+        e.preventDefault();
         let formularioValido = true;
-        let selectsValidos = true;
 
-        // Validar inputs individuales (texto directo)
-        Object.keys(fieldsProducto).forEach(fieldId => {
-            const input = document.getElementById(fieldId);
-            const regex = fieldsProducto[fieldId].regex;
-            const inputBox = input.closest(".formulario__box");
-            const checkIcon = inputBox.querySelector(".ri-check-line");
-            const errorIcon = inputBox.querySelector(".ri-close-line");
-            const errorMessage = inputBox.nextElementSibling;
-            const label = inputBox.querySelector("label.box__label");
-
-            if (input.value.trim() !== "" && !regex.test(input.value.trim())) {
-                formularioValido = false;
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                if (label) label.classList.add("error");
-                inputBox.classList.add("input-error");
-            } else {
-                if (label) label.classList.remove("error");
-            }
-        });
-
-        // --- VALIDAR SUBCATEGORÍAS (MODO DIRECTO O TAGS) ---
-        const inputSub = document.getElementById("Subcategoria");
-        const hiddenSub = document.getElementById("subcategoriasHidden");
-        const subBox = inputSub.closest(".formulario__box");
-        const subCheck = subBox.querySelector(".ri-check-line");
-        const subErrorIcon = subBox.querySelector(".ri-close-line");
-        const subErrorMsg = subBox.parentNode.querySelector(".formulario__error");
-
-        const valorDirecto = inputSub.value.trim();
-        const valorTags = hiddenSub.value.trim();
-
-        if (valorDirecto === "" && valorTags === "") {
+        // Validar categoría principal
+        const valorCategoria = inputCategoria.value.trim();
+        if (valorCategoria === "" || !fieldsProducto.categoriaprincipal.regex.test(valorCategoria)) {
             formularioValido = false;
-            subCheck.style.display = "none";
-            subErrorIcon.style.display = "inline-block";
-            subErrorMsg.style.display = "block";
-            inputSub.style.border = "2px solid #fd1f1f";
-            subBox.classList.add("input-error");
-        } else {
-            subErrorMsg.style.display = "none";
-            subBox.classList.remove("input-error");
-            subErrorIcon.style.display = "none";
-            subCheck.style.display = "inline-block";
-            inputSub.style.border = "2px solid #0034de";
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.style.display = "block";
+            inputCategoria.style.border = "2px solid #fd1f1f";
+            inputCategoria.classList.add("input-error");
+            const label = categoriaBox.querySelector("label.box__label");
+            if (label) label.classList.add("error");
+        }else {
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            inputCategoria.style.border = "2px solid #0034de";
+            inputCategoria.classList.remove("input-error");
+            const label = categoriaBox.querySelector("label.box__label");
+            if (label) label.classList.remove("error");
         }
 
-        // Validar select principal
-        const CategoriaPrincipalSeleccionada = selectCategoriaPrincipal.selectedIndex > 0;
-
-        if (!CategoriaPrincipalSeleccionada) {
-            selectsValidos = false;
-            errorCategoriaPrincipal.style.display = "block";
-            selectCategoriaPrincipal.style.border = "2px solid #fd1f1f";
-        }
-
-        // Validar estado (radio buttons)
-        const estadoSeleccionado = Array.from(radiosEstado).some(radio => radio.checked);
-
-        if (!estadoSeleccionado) {
+        // Validar subcategorías
+        if (subcategorias.length === 0) {
             formularioValido = false;
-            errorEstado.style.display = 'block';
-            radiosCustom.forEach(r => r.classList.add('error'));
+            mostrarErrorSubcategoria("Debes agregar al menos una subcategoría antes de continuar");
         } else {
-            radiosCustom.forEach(r => r.classList.remove('error'));
+            limpiarErrorSubcategoria();
         }
 
         // Validar imagen
-        if (!validarImagenes()) {
+        if (!validarImagen()) {
             formularioValido = false;
         }
 
@@ -477,41 +445,26 @@ document.addEventListener("DOMContentLoaded", () => {
             formularioValido = false;
         }
 
-        // Mostrar error general
-        if (!formularioValido || !selectsValidos) {
+        // Validar estado
+        if (!validarEstado()) {
+            formularioValido = false;
+        }
+
+        if (!formularioValido) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Por favor rellene el formulario correctamente",
+                text: "Por favor complete todos los campos correctamente",
                 customClass: {
                     title: 'swal-title',
                     popup: 'swal-popup'
                 }
             });
-            e.preventDefault();
             return;
         }
 
-        // Caso éxito
-        sessionStorage.setItem("loginSuccess", "true");
-    });
-
-    // Al cargar la página, mostrar éxito si existe
-    window.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("loginSuccess") === "true") {
-            Swal.fire({
-                title: "Registro exitoso",
-                icon: "success",
-                timer: 3000,
-                draggable: true,
-                timerProgressBar: true,
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-            sessionStorage.removeItem("loginSuccess");
-        }
+        // Si todo está válido, enviar el formulario
+        addform.submit();
     });
 
 });

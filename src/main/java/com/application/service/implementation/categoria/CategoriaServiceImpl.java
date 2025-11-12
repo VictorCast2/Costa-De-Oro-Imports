@@ -3,24 +3,20 @@ package com.application.service.implementation.categoria;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.repository.CategoriaRepository;
-import com.application.persistence.repository.SubCategoriaRepository;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
 import com.application.presentation.dto.categoria.response.SubCategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.service.interfaces.CloudinaryService;
-import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.categoria.CategoriaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -80,7 +76,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     @Transactional
-    public GeneralResponse createCategoria(@NotNull CategoriaCreateRequest categoriaRequest) {
+    public BaseResponse createCategoria(@NotNull CategoriaCreateRequest categoriaRequest) {
 
         String imagen = this.cloudinaryService.subirImagen(categoriaRequest.imagen(), "imagen-categoria");
         Categoria categoria = Categoria.builder()
@@ -99,7 +95,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new GeneralResponse("Categoria creada exitosamente");
+        return new BaseResponse("Categoria creada exitosamente", true);
     }
 
     /**
@@ -150,11 +146,11 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public BaseResponse changeEstadoCategoria(Long id) {
         Categoria categoria = this.getCategoriaById(id);
-
-//        if (!categoria.getProductos().isEmpty()) {
-//            return new BaseResponse("No es posible deshabilitar una categoria con producto asociados", false);
-//        }
-
+/*
+        if (!categoria.getProductos().isEmpty()) {
+            return new BaseResponse("No es posible deshabilitar una categoria con producto asociados", false);
+        }
+*/
         boolean nuevoEstado = !categoria.isActivo();
         categoria.setActivo(nuevoEstado);
         categoriaRepository.save(categoria);

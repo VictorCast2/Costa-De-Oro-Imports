@@ -105,7 +105,7 @@ class CategoriaServiceImplTest {
         CategoriaCreateRequest categoriaRequest = CategoriaDataProvider.newCategoriaMock();
 
         // When
-        GeneralResponse resultado = categoriaService.createCategoria(categoriaRequest);
+        BaseResponse resultado = categoriaService.createCategoria(categoriaRequest);
 
         // Then
         ArgumentCaptor<Categoria> argumentCaptor = ArgumentCaptor.forClass(Categoria.class);

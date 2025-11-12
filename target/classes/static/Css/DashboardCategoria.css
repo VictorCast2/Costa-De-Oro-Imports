@@ -71,3 +71,21 @@
     color: #4a1f2b;
 }
 
+/* Estilos aplicados cuando la tabla de categorías este vacía */
+.empty-row {
+    background-color: #fafafa; /* Fondo suave */
+    transition: background-color 0.3s ease;
+}
+
+.empty-row:hover {
+    background-color: #f0f0f0; /* Efecto hover sutil */
+}
+
+.empty-message {
+    text-align: center;
+    font-style: italic; /* Texto en cursiva */
+    color: #666; /* Gris elegante */
+    padding: 1rem 0;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+}

@@ -74,7 +74,7 @@ class CategoriaControllerTest {
     @WithMockUser(roles = "ADMIN")
     void createCategoria() throws Exception {
         // Given
-        GeneralResponse responseMock = new GeneralResponse("Mensaje de Prueba");
+        BaseResponse responseMock = new BaseResponse("Mensaje de Prueba", true);
         String mensajeEncode = UriUtils.encode(responseMock.mensaje(), StandardCharsets.UTF_8);
 
         // When

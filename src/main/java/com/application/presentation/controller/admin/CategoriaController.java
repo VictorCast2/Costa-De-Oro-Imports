@@ -52,27 +52,21 @@ public class CategoriaController {
     }
 
     @GetMapping("/create-categoria")
-    public String AgregarCategoria(
-            @AuthenticationPrincipal CustomUserPrincipal principal,
-            @RequestParam(value = "mensaje", required = false) String mensaje,
-            @RequestParam(value = "success", required = false) Boolean success,
-            Model model) {
+    public String AgregarCategoria(@AuthenticationPrincipal CustomUserPrincipal principal, Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("urlImagenUsuario", urlImagenUsuario);
-        model.addAttribute("mensaje", mensaje);
-        model.addAttribute("success", success);
         return "AgregarCategoria";
     }
 
     @PostMapping("/create-categoria")
     public String addcategoria(@ModelAttribute @Valid CategoriaCreateRequest categoriaRequest) {
-        GeneralResponse response = categoriaService.createCategoria(categoriaRequest);
-        String mensaje = response.mensaje();
-
-        return "redirect:/admin/categoria/?mensaje=" + UriUtils.encode(mensaje, StandardCharsets.UTF_8);
+        BaseResponse response = categoriaService.createCategoria(categoriaRequest);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/categoria/?mensaje=" + mensaje + "&success=" + success;
     }
 
     @GetMapping("/update-categoria")

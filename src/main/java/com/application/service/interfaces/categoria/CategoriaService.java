@@ -15,7 +15,7 @@ public interface CategoriaService {
     List<CategoriaResponse> getCategoriasActivas();
 
     // CRUD
-    GeneralResponse createCategoria(CategoriaCreateRequest categoriaRequest);
+    BaseResponse createCategoria(CategoriaCreateRequest categoriaRequest);
     GeneralResponse updateCategoria(CategoriaCreateRequest categoriaRequest, Long id);
     BaseResponse changeEstadoCategoria(Long id);
     BaseResponse deleteCategoria(Long id);
