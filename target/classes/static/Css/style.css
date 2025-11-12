@@ -8,6 +8,8 @@
     --colorCafe: #8e705c;
 }
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -41,6 +43,7 @@ body {
 .texto-advertencia {
     margin-top: 1rem;
 }
+
 
 .hero {
     min-height: 100vh;
@@ -137,6 +140,7 @@ body {
     background: linear-gradient(to right, transparent, #A0522D, transparent);
 
 }
+
 
 .list__icon {
     margin-left: 1.5rem;
