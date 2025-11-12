@@ -1,4 +1,4 @@
-@import url("./DashboardProducto.css");
+@import url("./Dashboard.css");
 
 :root {
     --typografiaGeist: "Geist";
@@ -9,7 +9,6 @@
     --colorCafe: #8e705c;
     --colorWhite: #ffffff;
 }
-
 
 /* Section body */
 .content__body {
@@ -33,130 +32,43 @@
     font: 500 1.1rem var(--typografiaUrbanist);
 }
 
-.titleheader__btn {
-    display: flex;
-}
-
-.titleheader__btn a {
-    text-decoration: none;
-    position: relative;
-    left: 1.2rem;
-    cursor: pointer;
-    background-color: var(--colorCafe);
-    color: var(--colorWhite);
-    border-radius: 8px;
-    border: none;
-    padding: 1rem 1.5rem;
-    font: 600 1rem var(--typografiaUrbanist);
-    transition: background-color .5s ease;
-}
-
-.titleheader__btn a:hover {
-    background-color: #7a5e4d;
-}
 
 
 .table__filter {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0rem 3rem 1.5rem 2rem;
+    padding: 0.5rem 2rem 1.5rem 2rem;
 }
 
-.filter__titulo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.filter__titulo .titulo__pedidos {
-    font: 600 1.85rem var(--typografiaGeist);
-}
-
-.filter__titulo .titulo__id {
-    font: 600 1.85rem var(--typografiaGeist);
-}
-
-.filter__titulo .titulo__estado {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-    cursor: pointer;
-    width: 80px;
-    height: 10px;
-    padding: 0.7rem 0.4rem;
-    border: none;
-    font: 700 0.75rem var(--typografiaUrbanist);
-    border-radius: 6px;
-}
-
-
-.filter__titulo .titulo__estado.Exito{
-    background-color: #ceefce;
-    color: #3e2723;
-}
-
-.filter__titulo .titulo__estado.Cancelar {
-    background-color: #f8bbd0;
-    color: #4a1f2b;
-}
-
-
-.filter__titulo .titulo__estado.Pendiente {
-    background-color: #fff9c4;
-    color: #5a4a1b;
-}
-
-.filter__estados{
-    display: flex;
-    gap: 0.5rem;
-}
-
-.filter__estados .estados__btn{
-    text-decoration: none;
-    position: relative;
-    left: 1.2rem;
-    cursor: pointer;
-    background-color: var(--colorCafe);
-    color: var(--colorWhite);
+.table__filter input {
+    max-width: 100%;
+    padding: 15px 35px 15px 15px;
+    width: 350px;
+    height: 45px;
     border-radius: 8px;
-    border: none;
-    padding: 0.8rem 1rem;
     font: 600 1rem var(--typografiaUrbanist);
-    transition: background-color .5s ease;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: border-color .1s ease, outline .1s ease;
 }
 
-.filter__estados .estados__btn:hover{
-    background-color: #7a5e4d;
+.table__filter input:focus {
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
 }
 
-.filter__estados .estados__factura{
-    text-decoration: none;
-    position: relative;
-    left: 1.2rem;
-    cursor: pointer;
-    background-color:var(--colorLigth);
-    color: var(--colorWhite);
-    border-radius: 8px;
-    border: none;
-    padding: 0.8rem 1rem;
-    font: 600 1rem var(--typografiaUrbanist);
-    transition: background-color .5s ease;
-}
-
-.filter__estados .estados__factura:hover{
-    background-color:#6b7280;
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .custom__select {
     position: relative;
-    left: 1rem;
 }
 
 .custom__select select {
-    width: 150px;
+    width: 180px;
     height: 45px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -200,77 +112,10 @@
     color: #6d4e2e;
 }
 
-.table__information {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 4rem 2.5rem 2rem;
-    margin-top: -2.5rem;
-}
-
-.information__detalleClientes .detalleClientes__titulo {
-    font: 600 0.95rem var(--typografiaGeist);
-    margin-bottom: -0.2rem;
-}
-
-.information__detalleClientes :is(.detalleClientes__nombreCliente,
-    .detalleClientes__correoCliente,
-    .detalleClientes__telefonoCliente,
-    .detalleClientes__perfil) {
-    font: 500 0.95rem var(--typografiaGeist);
-    color: var(--colorLigth);
-}
-
-.information__detalleClientes .detalleClientes__perfil {
-    color: var(--colorCafe);
-    text-decoration: none;
-    transition: color .4s ease;
-}
-
-.information__detalleClientes .detalleClientes__perfil:hover {
-    color: #3b2a1a;
-}
-
-
-.information__direccionEnvio .direccionEnvio__titulo {
-    font: 600 0.95rem var(--typografiaGeist);
-    margin-bottom: -0.2rem;
-}
-
-.information__direccionEnvio :is(.direccionEnvio__apellidoCliente,
-    .direccionEnvio__direccionCliente,
-    .direccionEnvio__ciudadCliente,
-    .direccionEnvio__barrioCliente) {
-    font: 500 0.95rem var(--typografiaGeist);
-    color: var(--colorLigth);
-}
-
-.information__detallePedidos .detallePedidos__titulo {
-    font: 600 0.95rem var(--typografiaGeist);
-    margin-bottom: -0.2rem;
-}
-
-.information__detallePedidos :is(.detallePedidos__idpedido,
-    .detallePedidos__fechaPedido,
-    .detallePedidos__totalPedido,
-    .detallePedidos__metodoPago) {
-    font: 500 0.95rem var(--typografiaGeist);
-    color: var(--colorLigth);
-}
-
-.detallePedidos__idpedido .idpedido__cliente,
-.detallePedidos__fechaPedido .fechaPedido__cliente,
-.detallePedidos__totalPedido .totalPedido__cliente,
-.detallePedidos__metodoPago .metodoPago__cliente {
-    color: var(--colorDark);
-}
-
 .notification__table th {
     padding: 14px 16px;
     background-color: #f0f3f2;
     text-align: left;
-    border-bottom: 1px solid #ddd;
     vertical-align: top;
     font: 600 1rem var(--typografiaGeist);
     color: #6b7280;
@@ -282,15 +127,17 @@
     vertical-align: middle;
     font: 600 1rem var(--typografiaUrbanist);
     cursor: pointer;
-    border-bottom: 1px solid #ddd;
     color: var(--colorLigth);
 }
 
-.td__producto .producto__info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+.td__product {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 230px;
 }
+
 
 .notification__table td .img__container {
     width: 75px;
@@ -310,38 +157,103 @@
     image-rendering: high-quality;
 }
 
-.td__producto .producto__nombre {
-    font: 600 1rem/1.2 var(--typografiaUrbanist);
-    color: var(--colorLigth);
-    max-width: 500px;
-    word-wrap: break-word;
-}
-
-.table__subtotal{
+.td__estados {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+    background-color: transparent;
+    cursor: pointer;
+    width: 95%;
+    height: 20px;
+    padding: 0.7rem 0.4rem;
+    border: none;
+    font: 800 0.75rem var(--typografiaUrbanist);
+    border-radius: 6px;
+
 }
 
-.subtotal__span .span__texto{
+.td__estados.Exito {
+    background-color: #ceefce;
+    color: #3e2723;
+}
+
+.td__estados.Cancelar {
+    background-color: #f8bbd0;
+    color: #4a1f2b;
+}
+
+
+.td__estados.Pendiente {
+    background-color: #fff9c4;
+    color: #5a4a1b;
+}
+
+/*Pagination de la tabla  */
+.table__pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding: 1.4rem 1.5rem 0.8rem 1.5rem;
+}
+
+.pagination__span .span__description {
     font: 500 1rem var(--typografiaGeist);
-    border-bottom: 1px solid #ddd;
-    padding:0rem 0 1rem 0;
-    width: 400px;
+    color: var(--colorLigth);
 }
 
-.subtotal__span .span__texto:last-child{
-    border-bottom: none;
+.pagination__button .button__pasar {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    font: 500 0.9rem var(--typografiaGeist);
+    color: var(--colorLigth);
+    border-radius: 8px;
+    border: none;
+    background-color: #eee;
+    outline: none;
 }
 
-.span__texto .precio--subtotal{
-    margin-left: 53%;
+.pagination__button .pasar--anterior {
+    margin-right: 0.1rem;
 }
 
-.span__texto .precio--envio{
-    margin-left: 43%;
+
+
+.pagination__button .pasar--siguiente {
+    border: 1px solid #ddd;
+    background-color: transparent;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
 }
 
-.span__texto .precio--general{
-    margin-left: 46%;
+.pagination__button .pasar--siguiente:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
+}
+
+.pagination__button .button__item {
+    width: 40px;
+    margin-right: 0.3rem;
+    height: 40px;
+    cursor: pointer;
+    font: 500 0.9rem var(--typografiaGeist);
+    background-color: transparent;
+    color: var(--colorLigth);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: background-color .2s ease, color .2s ease, border .2s ease;
+}
+
+.pagination__button .button__item.active {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
+}
+
+.pagination__button .button__item:hover {
+    background-color: var(--colorCafe);
+    color: var(--colorWhite);
+    border: none;
 }

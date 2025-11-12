@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../static/Css/EditarBlog.css">
+    <link rel="stylesheet" th:href="@{//Css/EditarBlog.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,30 +45,32 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img src="../static/Assets/Img/logos/logoDashboardYPrincipal.webp" alt="Logo dashboard">
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
                 <li class="sidebar__item">
                     <i class="ri-home-4-line"></i>
-                    <a href="Dashboard.html" class="sidebar__text">Panel De Control</a>
+                    <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
                 </li>
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
                 <li class="sidebar__item">
                     <i class="ri-shopping-cart-2-line"></i>
-                    <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
+                    <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
-                    <a href="DashboardCategoria.html" class="sidebar__text">Categorias</a>
+                    <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-shopping-bag-4-line"></i>
-                    <a href="DashboardCompra.html" class="sidebar__text">Compras</a>
+                    <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -76,7 +80,7 @@
 
                 <li class="sidebar__item">
                     <i class="ri-group-line"></i>
-                    <a href="DashboardClientes.html" class="sidebar__text">Clientes</a>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -88,7 +92,7 @@
 
                 <li class="sidebar__item active">
                     <i class="ri-news-line"></i>
-                    <a href="DashboardBlog.html" class="sidebar__text">Blog</a>
+                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -131,7 +135,7 @@
                             </div>
 
                             <div class="notif__item unread">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Su pedido ha sido realizado</strong> <br><span>esperando el envío</span>
                                     </p>
@@ -140,7 +144,7 @@
                             </div>
 
                             <div class="notif__item">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
                                             con
@@ -150,7 +154,7 @@
                             </div>
 
                             <div class="notif__item">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Tienes mensajes nuevos</strong> <span>2 mensajes no leídos</span></p>
                                     <small> <i class="ri-time-line"></i> Hace 2 días</small>
@@ -167,35 +171,38 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" src="../static/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg"
-                            alt="Usuario">
+                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
                             <div class="menu__sub">
                                 <div class="sub__info">
-                                    <span class="info__admin">Administrador de OroImport</span>
-                                    <span class="info__title">joseandres@gmail.com</span>
+                                    <span class="info__admin">Administrador
+                                        <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
+                                    </span>
+                                    <span class="info__title"
+                                          th:text="${#authentication.principal?.correo}">mail@mail.com</span>
                                 </div>
                                 <hr>
 
-                                <a href="Perfil.html" class="sub__link">
+                                <a th:href="@{/perfil/}" class="sub__link">
                                     <p class="link__text">Perfil</p>
                                 </a>
 
-                                <a href="Configuraciones.html" class="sub__link">
+                                <a th:href="@{/perfil/configuration}" class="sub__link">
                                     <p class="link__text">Configuracion</p>
                                 </a>
 
-                                <a href="Notificaciones.html" class="sub__link">
+                                <a th:href="@{/perfil/notificaciones}" class="sub__link">
                                     <p class="link__text">Notificaciones</p>
                                 </a>
 
-                                <a href="Index.html" class="sub__link">
+                                <a th:href="@{/auth/logout}" class="sub__link">
                                     <p class="link__text">Cerrar Seccion</p>
                                 </a>
+
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -209,7 +216,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a href="DashboardBlog.html">Volver al blog</a>
+                        <a th:href="@{/admin/blog/}">Volver al blog</a>
                     </div>
                 </div>
 
@@ -340,7 +347,7 @@
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../static/Js/EditarBlog.js"></script>
+    <script th:src="@{/Js/EditarBlog.js}"></script>
 </body>
 
 </html>

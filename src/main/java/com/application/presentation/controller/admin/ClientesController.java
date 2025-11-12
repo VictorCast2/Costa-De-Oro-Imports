@@ -4,6 +4,8 @@ import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.producto.request.ProductoCreateRequest;
+import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,16 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/admin/clientes")
 public class ClientesController {
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
     @GetMapping({"/", ""})
     public String DashboardClientes(@AuthenticationPrincipal CustomUserPrincipal principal,
                                      @RequestParam(value = "mensaje", required = false) String mensaje,
                                      Model model) {
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+
+        model.addAttribute("usuario", usuario);
         model.addAttribute("mensaje", mensaje);
         return "DashboardClientes";
     }
@@ -28,12 +36,18 @@ public class ClientesController {
     @GetMapping("/add")
     public String agregarClientes(@AuthenticationPrincipal CustomUserPrincipal principal,
                               Model model) {
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+
+        model.addAttribute("usuario", usuario);
         return "AgregarClientes";
     }
 
     @GetMapping("/update")
     public String editarClientes(@AuthenticationPrincipal CustomUserPrincipal principal,
                                  Model model) {
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+
+        model.addAttribute("usuario", usuario);
         return "EditarClientes";
     }
 
