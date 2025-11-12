@@ -1113,4 +1113,4 @@ VALUES (
     );
 
 -- Setear la misma imagen a todas las empresas
-UPDATE empresa SET imagen = 'perfil-empresa.png' WHERE activo = 1 LIMIT 1000;
+UPDATE empresa SET imagen = 'gestion-ventas/perfil-empresa/perfil-empresa' WHERE activo = 1 LIMIT 1000;

@@ -1,11 +1,4 @@
-import {
-    activarGlassmorphism,
-    inicialHeart,
-    initCart,
-    rederigirFav,
-    finalizarCompra,
-    verProductos,
-} from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, verProductos } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -20,279 +13,299 @@ document.addEventListener('DOMContentLoaded', () => {
 
     verProductos();
 
-    //Abrir todos los select
-    document.querySelectorAll(".custom-select").forEach(selectWrapper => {
-        const selectHeader = selectWrapper.querySelector(".select-selected");
-        const selectItems = selectWrapper.querySelector(".select-items");
-        const arrowIcon = selectHeader.querySelector("i");
-        const searchInput = selectWrapper.querySelector("input[type='text']");
-        let options = selectWrapper.querySelectorAll(".option"); // ← lo declaramos como let
-
-        // Abrir/cerrar el select
-        selectHeader.addEventListener("click", (e) => {
-            e.stopPropagation();
-
-            // Cierra los demás selects antes de abrir este
-            document.querySelectorAll(".custom-select").forEach(other => {
-                if (other !== selectWrapper) {
-                    other.querySelector(".select-items").classList.add("select-hide");
-                    other.querySelector(".select-selected i").classList.remove("up");
-                }
-            });
-
-            // Alternar visibilidad del menú
-            selectItems.classList.toggle("select-hide");
-
-            // Alternar flecha
-            arrowIcon.classList.toggle("up");
-        });
-
-        // Evitar que se cierre al escribir en el buscador
-        if (searchInput) {
-            searchInput.addEventListener("click", (e) => e.stopPropagation());
-
-            // Filtrar opciones al escribir
-            searchInput.addEventListener("keyup", () => {
-                const filter = searchInput.value.toLowerCase();
-                //volvemos a obtener todas las opciones cada vez (para incluir las dinámicas)
-                options = selectWrapper.querySelectorAll(".option");
-
-                options.forEach(option => {
-                    const text = option.textContent.toLowerCase();
-                    option.style.display = text.includes(filter) ? "flex" : "none";
-                });
-            });
-        }
-    });
-
-    // Cerrar todos si hago clic fuera
-    document.addEventListener("click", () => {
-        document.querySelectorAll(".custom-select").forEach(selectWrapper => {
-            const selectItems = selectWrapper.querySelector(".select-items");
-            const arrowIcon = selectWrapper.querySelector(".select-selected i");
-
-            selectItems.classList.add("select-hide");
-            arrowIcon.classList.remove("up");
-        });
-    });
-
-    // Contenedor de chips seleccionadas
-    const selectedFilters = document.getElementById("selected-filters");
-
-    // Función que crea un chip al seleccionar
-    function addChip(value, checkbox) {
-        // Evitar duplicados
-        if (document.querySelector(`[data-chip="${value}"]`)) return;
-
-        const chip = document.createElement("div");
-        chip.classList.add("filter-chip");
-        chip.setAttribute("data-chip", value);
-        chip.innerHTML = `${value} <span data-remove="${value}">✖</span>`;
-
-        // Cuando se da clic en la X
-        chip.querySelector("span").addEventListener("click", () => {
-            chip.remove();
-            checkbox.checked = false; // desmarcar en el select
-        });
-
-        selectedFilters.appendChild(chip);
-    }
-
-    // Detectar todos los checkbox de filtros
-    document.addEventListener("change", (e) => {
-        if (e.target.type === "checkbox") {
-            const value = e.target.value;
-            if (e.target.checked) {
-                addChip(value, e.target);
-            } else {
-                // Si desmarcan desde el select, quitar chip
-                const chip = document.querySelector(`[data-chip="${value}"]`);
-                if (chip) chip.remove();
-            }
-        }
-    });
-
-
-    // select de marcas
-    const marcasLicores = [
-        "Johnnie Walker",
-        "Chivas Regal",
-        "Jack Daniel's",
-        "Ballantine's",
-        "Absolut",
-        "Smirnoff",
-        "Bacardi",
-        "Havana Club",
-        "Don Julio",
-        "Patrón",
-        "Tanqueray",
-        "Beefeater",
-        "Hennessy",
-        "Martell",
-        "Torres",
-        "Campo Viejo",
-        "Moët & Chandon",
-        "Veuve Clicquot"
-    ];
-
-    const containerMarca = document.getElementById("options-container--marca");
-
-    marcasLicores.forEach(marca => {
-        const label = document.createElement("label");
-        label.classList.add("option");
-        label.innerHTML = `
-        <input type="checkbox" value="${marca}">
-        ${marca}
-    `;
-        containerMarca.appendChild(label);
-    });
-
-    //llenando el select de pais
-    const countries = [
-        "Argentina", "Alemania", "Chile", "Colombia", "Belgica",
-        "Escocia", "Irlanda", "Francia", "España", "Estados Unidos",
-        "Guatemala", "Holanda", "México", "Italia", "Reino Unido",
-        "Russia", "Puerto Rico", "República Dominicana",
-        "Suecia"
-    ];
-
-    const containerPais = document.getElementById("options-container--paises");
-
-    countries.forEach(country => {
-        const label = document.createElement("label");
-        label.classList.add("option");
-        label.innerHTML = `
-        <input type="checkbox" value="${country}">
-        ${country}
-    `;
-        containerPais.appendChild(label);
-    });
-
-    const categoriasLicores = {
-        "Vino": ["Vino Rosado", "Vino Blanco", "Vino Espumoso", "Vino Tinto"],
-        "Whisky": ["Single Malt", "Blended", "Bourbon", "Irish"],
-        "Ron": ["Ron Blanco", "Ron Añejo", "Ron Oscuro", "Ron Especiado"],
-        "Vodka": ["Vodka Clásico", "Vodka Saborizado"],
-        "Tequila": ["Blanco", "Reposado", "Añejo", "Extra Añejo"],
-        "Ginebra": ["London Dry", "Old Tom", "Ginebra de Sabor"],
-        "Brandy": ["Cognac", "Armagnac", "Brandy Español"]
-    };
-
-    const containerCategoria = document.getElementById("options-container--categoria");
-
-    Object.entries(categoriasLicores).forEach(([categoria, subcategorias]) => {
-        // Categoria principal también como checkbox
-        const catLabel = document.createElement("label");
-        catLabel.classList.add("option");
-        catLabel.style.fontWeight = "700"; // para destacarla
-        catLabel.innerHTML = `
-        <input type="checkbox" value="${categoria}">
-        ${categoria}
-    `;
-        containerCategoria.appendChild(catLabel);
-
-        // Subcategorías con sangría para diferenciarlas visualmente
-        subcategorias.forEach(sub => {
-            const label = document.createElement("label");
-            label.classList.add("option");
-            label.style.paddingLeft = "30px"; // sangría
-            label.innerHTML = `
-            <input type="checkbox" value="${sub}">
-            ${sub}
-        `;
-            containerCategoria.appendChild(label);
-        });
-    });
 
     //filtrar los productos
-    // Configuración
-    const productsPerPage = 16;
-    const cards = document.querySelectorAll('.card');
-    const pageNumbersContainer = document.querySelector('.pagination__Numbers');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+    const sidebar = document.getElementById('sidebar-filtros');
+    const closeBtn = document.getElementById('close-sidebar');
+    const openBtn = document.getElementById('btn-filtros');
 
-    let currentPage = 1;
-    let totalPages = Math.ceil(cards.length / productsPerPage);
-
-    // Inicializar paginación
-    function initializePagination() {
-        createPageNumbers();
-        showPage(1);
-        updateButtons();
+    // Crear overlay si no existe
+    let overlay = document.querySelector('.sidebar-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
     }
 
-    // Crear números de página
-    function createPageNumbers() {
-        pageNumbersContainer.innerHTML = '';
+    // Abrir sidebar
+    openBtn.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+    });
 
-        for (let i = 1; i <= totalPages; i++) {
-            const pageNumber = document.createElement('div');
-            pageNumber.className = 'button__pagination';
-            pageNumber.textContent = i;
-            pageNumber.addEventListener('click', () => {
-                showPage(i);
+    // Cerrar sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    // Cerrar al hacer clic en el overlay
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+
+    // Seleccionamos el botón de "Ordenar por"
+    const ordenarBtn = document.querySelector('.menu__item:first-child .menu__toggle');
+    // Obtenemos todos los checkboxes del submenu "Ordenar por"
+    const ordenarCheckboxes = document.querySelectorAll('.menu__item:first-child .submenu input[type="checkbox"]');
+    // Variable para almacenar el texto original
+    const textoOriginal = ordenarBtn.textContent;
+
+    // Agregamos evento a cada checkbox
+    ordenarCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', (e) => {
+            // Desmarcar todos los demás checkboxes
+            ordenarCheckboxes.forEach((cb) => {
+                if (cb !== checkbox) cb.checked = false;
             });
-            pageNumbersContainer.appendChild(pageNumber);
-        }
-    }
 
-    // Mostrar página específica - CORREGIDO
-    function showPage(page) {
-        currentPage = page;
-
-        // Ocultar todos los productos
-        cards.forEach(card => {
-            card.classList.remove('active-page');
-        });
-
-        // Calcular rango de productos a mostrar
-        const startIndex = (page - 1) * productsPerPage;
-        const endIndex = startIndex + productsPerPage;
-
-        // Mostrar productos de la página actual
-        for (let i = startIndex; i < endIndex && i < cards.length; i++) {
-            cards[i].classList.add('active-page');
-        }
-
-        // Actualizar botones activos
-        updateActivePage();
-        updateButtons();
-    }
-
-    // Actualizar página activa
-    function updateActivePage() {
-        const pageButtons = document.querySelectorAll('.button__pagination');
-        pageButtons.forEach((button, index) => {
-            if (index + 1 === currentPage) {
-                button.classList.add('active');
+            // Si se selecciona uno, actualizar el texto del botón
+            if (checkbox.checked) {
+                const textoSeleccionado = checkbox.parentElement.textContent.trim();
+                ordenarBtn.textContent = `${textoOriginal} ${textoSeleccionado}`;
             } else {
-                button.classList.remove('active');
+                // Si se deselecciona, volver al texto original
+                ordenarBtn.textContent = textoOriginal;
             }
         });
+    });
+
+    // Toggle de los menús desplegables
+    const menuToggles = document.querySelectorAll('.menu__toggle');
+
+    menuToggles.forEach(toggle => {
+        toggle.addEventListener('click', e => {
+            e.preventDefault();
+            const menuItem = toggle.closest('.menu__item');
+            if (!menuItem) return;
+
+            const isFiltros = menuItem.id === 'filtros-aplicados';
+            const wasActive = menuItem.classList.contains('active');
+
+            // Si es "Filtros aplicados", solo hacer toggle sin cerrar otros
+            if (isFiltros) {
+                menuItem.classList.toggle('active');
+                return;
+            }
+
+            // Cerrar todos los demás MENOS "Filtros aplicados"
+            document.querySelectorAll('.menu__item').forEach(item => {
+                if (item.id === 'filtros-aplicados') return;
+                item.classList.remove('active');
+            });
+
+            // Activar o desactivar el menú clicado
+            if (!wasActive) {
+                menuItem.classList.add('active');
+            } else {
+                menuItem.classList.remove('active');
+            }
+        });
+    });
+
+
+    // rango de precio
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    const rangeMinDisplay = document.getElementById('rangeMin');
+    const rangeMaxDisplay = document.getElementById('rangeMax');
+    const sliderContainer = document.querySelector('.slider-container');
+
+    // Formatear números con separadores de miles y símbolo de peso
+    function formatCurrency(value) {
+        return '$' + parseInt(value).toLocaleString('es-CO');
     }
 
-    // Actualizar estado de los botones
-    function updateButtons() {
-        prevBtn.style.display = currentPage === 1 ? 'none' : 'block';
-        nextBtn.style.display = currentPage === totalPages ? 'none' : 'block';
+    // Actualizar la visualización de los valores
+    function updateValues() {
+        let minVal = parseInt(minRange.value);
+        let maxVal = parseInt(maxRange.value);
+
+        // Evitar que los sliders se crucen
+        if (maxVal - minVal < 100000) {
+            if (event.target === minRange) {
+                minVal = maxVal - 100000;
+                minRange.value = minVal;
+            } else {
+                maxVal = minVal + 100000;
+                maxRange.value = maxVal;
+            }
+        }
+
+        // Actualizar los valores mostrados
+        rangeMinDisplay.textContent = formatCurrency(minVal);
+        rangeMaxDisplay.textContent = formatCurrency(maxVal);
+
+        // Actualizar la barra de progreso visual
+        const minPercent = (minVal / minRange.max) * 100;
+        const maxPercent = 100 - (maxVal / maxRange.max) * 100;
+
+        sliderContainer.style.setProperty('--range-min', minPercent + '%');
+        sliderContainer.style.setProperty('--range-max', maxPercent + '%');
     }
 
     // Event listeners
-    prevBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            showPage(currentPage - 1);
-        }
-    });
+    minRange.addEventListener('input', updateValues);
+    maxRange.addEventListener('input', updateValues);
 
-    nextBtn.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            showPage(currentPage + 1);
-        }
-    });
+    // Inicializar valores al cargar
+    updateValues();
 
-    // Inicializar
-    if (cards.length > 0) {
-        initializePagination();
+    // Opcional: Obtener los valores cuando necesites aplicar el filtro
+    function getPriceRange() {
+        return {
+            min: parseInt(minRange.value),
+            max: parseInt(maxRange.value)
+        };
     }
+
+    //Buscar por texto en pais,marca y categoria
+    document.querySelectorAll('.filter-input').forEach(input => {
+        input.addEventListener('input', e => {
+            const filter = e.target.value.toLowerCase();
+            const submenu = e.target.closest('.submenu');
+            const items = submenu.querySelectorAll('li label');
+
+            items.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                label.parentElement.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    });
+
+    //FILTROS APLICADOS
+    const sidebarMenu = document.querySelector('.sidebar__menu');
+    const filtrosAplicados = document.querySelector("#filtros-aplicados");
+    const filtrosLista = filtrosAplicados ? filtrosAplicados.querySelector(".submenu") : null;
+    const filtrosToggle = filtrosAplicados ? filtrosAplicados.querySelector(".menu__toggle") : null;
+    const limpiarTodoDiv = document.querySelector('.limpiar__todo');
+    const limpiarTodoBtn = document.getElementById('limpiar-todo');
+
+    if (!sidebarMenu || !filtrosAplicados || !filtrosLista) {
+        console.error("No se encontró sidebar, filtros-aplicados o su lista.");
+    } else {
+
+        // Detecta si un checkbox está dentro del menú "Ordenar por"
+        function isInOrdenarPor(checkbox) {
+            const menuItem = checkbox.closest('.menu__item');
+            if (!menuItem) return false;
+            const toggle = menuItem.querySelector('.menu__toggle');
+            if (!toggle) return false;
+            const txt = toggle.textContent.trim().toLowerCase();
+            return txt.includes('ordenar por');
+        }
+
+        // Detecta si un checkbox está dentro del propio bloque "Filtros aplicados"
+        function isInFiltrosAplicados(checkbox) {
+            return Boolean(checkbox.closest('#filtros-aplicados'));
+        }
+
+        // Abre el menú de filtros aplicados
+        function abrirFiltrosAplicados() {
+            filtrosAplicados.classList.add("active");
+            filtrosLista.style.display = "block";
+        }
+
+        function cerrarFiltrosAplicados() {
+            filtrosAplicados.classList.remove("active");
+            filtrosLista.style.display = "none";
+        }
+
+        // Obtiene todos los checkboxes fuente (excepto "Ordenar por" y "Filtros aplicados")
+        function getSourceCheckboxes() {
+            const all = Array.from(sidebarMenu.querySelectorAll(".submenu input[type='checkbox']"));
+            return all.filter(cb => !isInOrdenarPor(cb) && !isInFiltrosAplicados(cb));
+        }
+
+        // Actualiza los filtros aplicados visualmente
+        function actualizarFiltrosAplicados() {
+            const source = getSourceCheckboxes();
+            const seleccionados = source.filter(cb => cb.checked).map(cb => {
+                const label = cb.closest('label');
+                if (!label) return cb.value || '';
+                const textNodes = Array.from(label.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+                return (textNodes.map(n => n.textContent.trim()).join(' ') || label.textContent.trim()).trim();
+            }).filter(Boolean);
+
+            // Limpiar lista
+            filtrosLista.innerHTML = "";
+
+            if (seleccionados.length > 0) {
+                filtrosAplicados.style.display = "block";
+                limpiarTodoDiv.style.display = "block"; // Mostrar el botón LIMPIAR
+                abrirFiltrosAplicados();
+
+                seleccionados.forEach(nombre => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                    <label>
+                        <input type="checkbox" checked data-filtro="${nombre}">
+                        ${nombre}
+                    </label>
+                `;
+                    filtrosLista.appendChild(li);
+                });
+            } else {
+                filtrosAplicados.style.display = "none";
+                limpiarTodoDiv.style.display = "none"; // Ocultar el botón LIMPIAR
+                cerrarFiltrosAplicados();
+            }
+        }
+
+        // Evento al cambiar cualquier checkbox
+        sidebarMenu.addEventListener('change', (e) => {
+            const target = e.target;
+            if (!target.matches("input[type='checkbox']")) return;
+
+            if (isInOrdenarPor(target)) return; // Ignorar "Ordenar por"
+
+            if (isInFiltrosAplicados(target)) {
+                // Si se desmarca dentro de filtros aplicados, sincroniza el original
+                const valor = target.dataset.filtro;
+                const source = getSourceCheckboxes().find(cb => {
+                    const lbl = cb.closest('label');
+                    if (!lbl) return false;
+                    const textNodes = Array.from(lbl.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+                    const text = (textNodes.map(n => n.textContent.trim()).join(' ') || lbl.textContent.trim()).trim();
+                    return text === valor;
+                });
+                if (source) source.checked = target.checked;
+                actualizarFiltrosAplicados();
+                return;
+            }
+
+            // Actualizar lista al marcar/desmarcar filtros reales
+            actualizarFiltrosAplicados();
+        });
+
+        // Evita cerrar manualmente el bloque “Filtros aplicados”
+        if (filtrosToggle) {
+            filtrosToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                abrirFiltrosAplicados();
+            });
+        }
+
+        // Mantiene abierto "Filtros aplicados" aunque se abra otro menú
+        document.querySelectorAll('.menu__toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                abrirFiltrosAplicados();
+            });
+        });
+
+        // --- LIMPIAR TODO --- //
+        limpiarTodoBtn.addEventListener('click', () => {
+            // Desmarcar todos los checkboxes excepto los de "Ordenar por"
+            getSourceCheckboxes().forEach(cb => cb.checked = false);
+            actualizarFiltrosAplicados();
+        });
+
+        // Inicializar estado al cargar
+        actualizarFiltrosAplicados();
+    }
+
+    //boton de limpiar todo
+
+
 });

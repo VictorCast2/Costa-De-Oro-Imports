@@ -24,11 +24,22 @@
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
 </head>
 
 <body th:data-mensaje="${mensaje}">
     <header class="header">
-        <h1 class="header__logo">Costa De Oro Imports</h1>
+
+        <figure class="header__logo">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            </a>
+        </figure>
 
         <nav class="header__navbar">
             <ul class="navbar__list">
@@ -42,19 +53,6 @@
 
         <div class="list__icon">
 
-            <span class="icon__item language-selector">
-                <div class="language-dropdown">
-                    <button class="dropdown-toggle">
-                        <i class="ri-translate-2"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>Español</li>
-                        <li>English</li>
-                        <li>France</li>
-                        <li>Portugues</li>
-                    </ul>
-                </div>
-            </span>
 
             <!-- Buscar -->
             <span class="icon__item">
@@ -155,7 +153,7 @@
                                     enctype="multipart/form-data">
                                     <div class="card__img">
                                         <figure class="img__user">
-                                            <img id="preview" th:src="@{'/perfil-usuario/' + ${usuario.imagen}}"
+                                            <img id="preview" th:src="${urlImagenUsuario}"
                                                 th:alt="${usuario.imagen}">
                                         </figure>
 
@@ -326,7 +324,7 @@
                                     <div class="card__img">
                                         <figure class="img__user user--empresar">
                                             <img id="previewEmpresa"
-                                                th:src="@{'/perfil-empresa/' + ${usuario.empresa.imagen}}"
+                                                th:src="${urlImagenEmpresa}"
                                                 th:alt="${usuario.empresa.imagen}">
                                         </figure>
 

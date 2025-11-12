@@ -1,62 +1,24 @@
 export function activarGlassmorphism() {
     // Efecto glassmorphism solo al hacer scroll
-    const header = document.querySelector('.header');
+    const header = document.querySelector(".header");
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
         if (window.scrollY > 10) {
-            header.classList.add('scrolled');
+            header.classList.add("scrolled");
         } else {
-            header.classList.remove('scrolled');
+            header.classList.remove("scrolled");
         }
     });
 }
 
-export function addProductToCart({name, price, img, qty = 1, openDrawer = true, stock = null, id = null, code = null, brand = null,
-                                  country = null, type = null, oldPrice = null, description = null, active = null, category = null,
-                                  subcategory = null }) {
+export function addProductToCart({ name, price, img, qty = 1, openDrawer = true }) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     const existing = cart.find(p => p.name === name);
-
-    // Calcular cantidad total que tendría el producto
-    const newQty = existing ? existing.qty + qty : qty;
-
-    // VALIDAR STOCK - si hay stock definido y la nueva cantidad excede el stock
-    if (stock !== null && newQty > stock) {
-        Toastify({
-            text: `No hay suficiente stock. Máximo disponible: ${stock} unidades`,
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            stopOnFocus: true,
-            style: {
-                background: "linear-gradient(to right, #ff416c, #ff4b2b)"
-            }
-        }).showToast();
-        return; // No agregar al carrito
-    }
-
     if (existing) {
         existing.qty += qty;  // 🔥 ahora suma la cantidad correcta
     } else {
-        cart.push({
-          id,
-          code,
-          name,
-          brand,
-          country,
-          type,
-          price,
-          oldPrice,
-          description,
-          category,
-          subcategory,
-          img,
-          qty,
-          stock,
-          active
-        });
+        cart.push({ name, price, img, qty });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -81,7 +43,6 @@ export function addProductToCart({name, price, img, qty = 1, openDrawer = true, 
 // flag global para evitar duplicación
 let cartInitialized = false;
 export function initCart() {
-
     if (cartInitialized) {
         return;
     }
@@ -123,14 +84,15 @@ export function initCart() {
     });
 
     // EVENT DELEGATION - Un solo listener para toda la página
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
         // Verificar si se hizo click en el ícono del carrito o en un elemento dentro de él
-        if (e.target.classList.contains('ri-shopping-cart-line') ||
-            e.target.closest('.ri-shopping-cart-line')) {
-
-            const icon = e.target.classList.contains('ri-shopping-cart-line')
+        if (
+            e.target.classList.contains("ri-shopping-cart-line") ||
+            e.target.closest(".ri-shopping-cart-line")
+        ) {
+            const icon = e.target.classList.contains("ri-shopping-cart-line")
                 ? e.target
-                : e.target.closest('.ri-shopping-cart-line');
+                : e.target.closest(".ri-shopping-cart-line");
 
             const card = icon.closest(".card");
             if (card) {
@@ -150,8 +112,23 @@ export function initCart() {
                 const subcategory = card.getAttribute("data-subcategory");
 
                 // Llamamos la función pública que ya maneja localStorage, toast y evento
-                addProductToCart({ id, code, name, brand, country, type, price, oldPrice, stock, description, active,
-                                category, subcategory, img, openDrawer: true });
+                addProductToCart({
+                    id,
+                    code,
+                    name,
+                    brand,
+                    country,
+                    type,
+                    price,
+                    oldPrice,
+                    stock,
+                    description,
+                    active,
+                    category,
+                    subcategory,
+                    img,
+                    openDrawer: true,
+                });
 
                 // Prevenir el comportamiento por defecto y stop propagation
                 e.preventDefault();
@@ -225,7 +202,9 @@ export function initCart() {
                             <span class="qty">${item.qty}</span>
                             <button class="plus">+</button>
                         </div>
-                        <span class="price">$${parseInt(item.price).toLocaleString('es-CO')}</span>
+                        <span class="price">$${parseInt(
+                    item.price
+                ).toLocaleString("es-CO")}</span>
                     </div>
                     <button class="remove" data-index="${index}">
                         <i class="ri-delete-bin-6-line"></i>
@@ -234,7 +213,7 @@ export function initCart() {
                 cartList.appendChild(li);
             });
 
-            subtotalEl.textContent = "$" + parseInt(subtotal).toLocaleString('es-CO');
+            subtotalEl.textContent = "$" + parseInt(subtotal).toLocaleString("es-CO");
 
             // Mostrar subtotal solo si hay productos
             subtotalContainer.style.display = "flex";
@@ -249,7 +228,7 @@ export function initCart() {
             }
 
             // Eventos de + y - (también podrías usar event delegation aquí)
-            document.querySelectorAll(".quantity-control").forEach(control => {
+            document.querySelectorAll(".quantity-control").forEach((control) => {
                 const i = control.dataset.index;
 
                 // Botón menos
@@ -277,8 +256,8 @@ export function initCart() {
                             position: "right",
                             stopOnFocus: true,
                             style: {
-                                background: "linear-gradient(to right, #ff416c, #ff4b2b)"
-                            }
+                                background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+                            },
                         }).showToast();
                         return;
                     }
@@ -289,8 +268,8 @@ export function initCart() {
             });
 
             // Eliminar producto manualmente
-            document.querySelectorAll(".cart-item .remove").forEach(btn => {
-                btn.addEventListener("click", e => {
+            document.querySelectorAll(".cart-item .remove").forEach((btn) => {
+                btn.addEventListener("click", (e) => {
                     const i = e.currentTarget.dataset.index;
                     cart.splice(i, 1);
                     saveCart();
@@ -307,7 +286,6 @@ export function initCart() {
 // flag global para evitar duplicación
 let heartInitialized = false;
 export function inicialHeart() {
-
     if (heartInitialized) {
         return;
     }
@@ -323,7 +301,7 @@ export function inicialHeart() {
     // Seleccionar todos los íconos de corazón
     const addToFavCount = document.querySelectorAll(".card-icons .ri-heart-line");
 
-    addToFavCount.forEach(icon => {
+    addToFavCount.forEach((icon) => {
         icon.addEventListener("click", () => {
             const card = icon.closest(".card");
 
@@ -332,11 +310,11 @@ export function inicialHeart() {
                 imagen: card.querySelector("img").src,
                 nombre: card.querySelector(".description").textContent.trim(),
                 precio: card.querySelector(".price").textContent.trim(),
-                estado: "En Stock"
+                estado: "En Stock",
             };
 
             // Evitar duplicados
-            if (!favoritos.some(p => p.nombre === producto.nombre)) {
+            if (!favoritos.some((p) => p.nombre === producto.nombre)) {
                 favoritos.push(producto);
 
                 // Actualizar contador
@@ -351,7 +329,7 @@ export function inicialHeart() {
                     duration: 2000,
                     style: {
                         background: "linear-gradient(to right, #ff416c, #ff4b2b)",
-                    }
+                    },
                 }).showToast();
             } else {
                 // Opcional: Mensaje si ya está en favoritos
@@ -360,7 +338,7 @@ export function inicialHeart() {
                     duration: 2000,
                     style: {
                         background: "linear-gradient(to right, #ff9900, #ff6600)",
-                    }
+                    },
                 }).showToast();
             }
         });
@@ -388,9 +366,9 @@ export function finalizarCompra() {
                     icon: "warning",
                     confirmButtonText: "Entendido",
                     customClass: {
-                        title: 'swal-title',
-                        popup: 'swal-popup'
-                    }
+                        title: "swal-title",
+                        popup: "swal-popup",
+                    },
                 });
                 return;
             }
@@ -442,7 +420,8 @@ export function desplegablePerfil() {
                 (profileIcon && profileIcon.contains(e.target));
 
             if (!isClickInsideMenu) {
-                if (subMenuAutenticado) subMenuAutenticado.classList.remove("open__menu");
+                if (subMenuAutenticado)
+                    subMenuAutenticado.classList.remove("open__menu");
                 if (subMenuAnonimo) subMenuAnonimo.classList.remove("open__menu");
             }
         });
@@ -451,7 +430,7 @@ export function desplegablePerfil() {
 
 export function carruselProductos() {
     // mostrar los productos con carrusel
-    document.querySelectorAll(".flex").forEach(carrusel => {
+    document.querySelectorAll(".flex").forEach((carrusel) => {
         const track = carrusel.querySelector(".flex__productos-track");
         const prevBtn = carrusel.querySelector(".arrow--left");
         const nextBtn = carrusel.querySelector(".arrow--right");
@@ -459,8 +438,8 @@ export function carruselProductos() {
         if (!track || !prevBtn || !nextBtn) return;
 
         const cardWidth = 300; // ancho de cada card
-        const gap = 40;        // espacio entre cards
-        const visibles = 4;    // cuántos se muestran a la vez
+        const gap = 40; // espacio entre cards
+        const visibles = 4; // cuántos se muestran a la vez
 
         let posicion = 0;
         const totalProductos = track.querySelectorAll(".card").length;
@@ -495,13 +474,15 @@ export function verProductos() {
     viewInitialized = true;
 
     // event delegation - Un solo listener para toda la página
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
         // Verificar si se hizo click en el ícono "Ver" o en un elemento dentro de él
-        if (e.target.classList.contains('ri-eye-line') || e.target.closest('.ri-eye-line')) {
-
-            const icon = e.target.classList.contains('ri-eye-line')
+        if (
+            e.target.classList.contains("ri-eye-line") ||
+            e.target.closest(".ri-eye-line")
+        ) {
+            const icon = e.target.classList.contains("ri-eye-line")
                 ? e.target
-                : e.target.closest('.ri-eye-line');
+                : e.target.closest(".ri-eye-line");
             const card = icon.closest(".card");
 
             if (card) {
@@ -513,13 +494,17 @@ export function verProductos() {
                     country: card.getAttribute("data-country"),
                     type: card.getAttribute("data-type"),
                     price: parseInt(card.getAttribute("data-price")),
-                    oldPrice: card.getAttribute("data-oldprice") ? parseInt(card.getAttribute("data-oldprice")) : null,
-                    stock: card.getAttribute("data-stock") ? parseInt(card.getAttribute("data-stock")) : null,
+                    oldPrice: card.getAttribute("data-oldprice")
+                        ? parseInt(card.getAttribute("data-oldprice"))
+                        : null,
+                    stock: card.getAttribute("data-stock")
+                        ? parseInt(card.getAttribute("data-stock"))
+                        : null,
                     description: card.getAttribute("data-description"),
                     active: card.getAttribute("data-active") === "true",
                     category: card.getAttribute("data-category"),
                     subcategory: card.getAttribute("data-subcategory"),
-                    image: card.querySelector("img").src
+                    image: card.querySelector("img").src,
                 };
 
                 // almacenar en localStore
@@ -535,8 +520,7 @@ export function verProductos() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-
+document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("mayorDeEdadAceptado")) {
         Swal.fire({
             html: `
@@ -552,20 +536,19 @@ document.addEventListener('DOMContentLoaded', () => {
         </p>
         `,
             showCancelButton: true,
-            confirmButtonText: 'Sí, Soy Mayor De Edad',
-            cancelButtonText: 'No, Soy Menor De Edad',
+            confirmButtonText: "Sí, Soy Mayor De Edad",
+            cancelButtonText: "No, Soy Menor De Edad",
             allowOutsideClick: false,
             allowEscapeKey: false,
             backdrop: `rgba(0,0,0,0.8)`,
-            width: '1000px',
+            width: "1000px",
             customClass: {
-                popup: 'swal-popup'
-            }
+                popup: "swal-popup",
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 // Guardamos en localStorage que ya aceptó
                 localStorage.setItem("mayorDeEdadAceptado", "true");
-
             } else {
                 // Si no acepta, lo manda a Google
                 window.location.href = "https://www.google.com";
@@ -583,92 +566,93 @@ document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
 
     //Carrusel del inicio
-    const hero = document.querySelector('.hero');
-    const slides = document.querySelectorAll('.carousel__slide');
-    const dots = document.querySelectorAll('.carousel__dot');
-    const arrows = document.querySelectorAll('.carousel__arrow');
-
+    const slides = document.querySelectorAll(".carousel__slide");
+    const prevBtn = document.querySelector("[data-direction='prev']");
+    const nextBtn = document.querySelector("[data-direction='next']");
+    const dotsContainer = document.querySelector(".carousel__dots");
+    const heroCarousel = document.querySelector(".hero__carousel");
     let currentSlide = 0;
-    let autoPlayInterval = null;
+    let autoPlayInterval;
 
-    // validamos que exista slides y hero antes de usar
-    if (slides.length > 0 && hero) {
-        // Mostrar slide por índice
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-                dots[i]?.classList.toggle('active', i === index);
-            });
+    // Crear los puntos dinámicamente según el número de slides
+    slides.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.classList.add("carousel__dot");
+        dot.dataset.index = index;
+        dotsContainer.appendChild(dot);
+    });
 
-            const activeSlide = slides[index];
-            const theme = activeSlide.getAttribute('data-theme');
+    const dots = document.querySelectorAll(".carousel__dot");
 
-            hero.classList.remove('hero--paulaner', 'hero--heineken', 'hero--budweiser', 'hero--guinness');
-            hero.classList.add(`hero--${theme}`);
-
-            currentSlide = index;
-        }
-
-
-        // Siguiente slide
-        function nextSlide() {
-            const nextIndex = (currentSlide + 1) % slides.length;
-            showSlide(nextIndex);
-        }
-
-        // Slide anterior
-        function prevSlide() {
-            const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(prevIndex);
-        }
-
-        // Iniciar autoplay
-        function startAutoplay() {
-            autoPlayInterval = setInterval(nextSlide, 5000);
-        }
-
-        // Detener autoplay temporalmente
-        function stopAutoplay() {
-            clearInterval(autoPlayInterval);
-        }
-
-        // Click en dots
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const index = parseInt(dot.dataset.index);
-                showSlide(index);
-                stopAutoplay();
-                startAutoplay(); // Reiniciar autoplay al interactuar
-            });
+    // Mostrar slide por índice
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === index);
+            dots[i].classList.toggle("active", i === index);
         });
 
-        // Click en flechas
-        arrows.forEach(arrow => {
-            arrow.addEventListener('click', () => {
-                const direction = arrow.dataset.direction;
-                if (direction === 'next') {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-                stopAutoplay();
-                startAutoplay(); // Reiniciar autoplay
-            });
-        });
+        const activeSlide = slides[index];
+        const theme = activeSlide.getAttribute("data-theme");
 
-        // Mostrar primer slide
-        showSlide(0);
-        startAutoplay();
+        // Cambiar fondo o estilos de tema según el data-theme
+        heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--whiskys", "hero--packmixtos");
+        heroCarousel.classList.add(`hero--${theme}`);
 
+        currentSlide = index;
     }
 
-    // Duplicación de logos (solo si existe en la vista)
-    const slider = document.getElementById("slider");
-    const logosWrapper = document.getElementById("logos");
+    // Funciones para avanzar y retroceder
+    function nextSlide() {
+        const nextIndex = (currentSlide + 1) % slides.length;
+        showSlide(nextIndex);
+    }
 
-    if (slider && logosWrapper) {
-        const logos = slider.cloneNode(true);
-        logosWrapper.appendChild(logos);
+    function prevSlide() {
+        const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prevIndex);
+    }
+
+    // Autoplay
+    function startAutoplay() {
+        autoPlayInterval = setInterval(nextSlide, 6000);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoPlayInterval);
+    }
+
+    // Eventos de botones
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        prevSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    // Eventos de los puntos
+    dots.forEach(dot => {
+        dot.addEventListener("click", () => {
+            const index = parseInt(dot.dataset.index);
+            showSlide(index);
+            stopAutoplay();
+            startAutoplay();
+        });
+    });
+
+    // Inicialización
+    showSlide(0);
+    startAutoplay();
+
+    // Duplicación de logos (solo si existe en la vista)
+    const slider = document.querySelector('.logos__slide');
+    if (!slider.nextElementSibling || !slider.nextElementSibling.classList.contains('logos__slide')) {
+        const clone = slider.cloneNode(true);
+        slider.parentElement.appendChild(clone);
     }
 
     //invocar el iniciar carrito y corazon
@@ -686,6 +670,6 @@ document.addEventListener('DOMContentLoaded', () => {
     carruselProductos();
 
     //cambiar anio del footer automaticamente
-    document.getElementById("anio__pagina").textContent = new Date().getFullYear();
-
+    document.getElementById("anio__pagina").textContent =
+        new Date().getFullYear();
 });

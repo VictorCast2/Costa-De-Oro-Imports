@@ -2,8 +2,18 @@ import { activarGlassmorphism, inicialHeart, initCart, rederigirFav } from "./ma
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    /* console.log("JS cargado correctamente");
+    console.log("favTableBody:", favTableBody);
+    console.log("prevPageBtn:", prevPageBtn);
+    console.log("nextPageBtn:", nextPageBtn); */
+
     // Usar la funcion activarGlassmorphism
     activarGlassmorphism();
+
+    // Configuración de Mercado Pago
+    const mp = new MercadoPago('APP_USR-e36b15d6-08bc-4b88-b64f-6b255117534f', {
+        locale: 'es-CO'
+    });
 
     inicialHeart();
 
@@ -22,198 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const rowsPerPage = 4;
 
-    // === MANEJO DE RESPUESTAS DE MERCADO PAGO ===
-    function handleMercadoPagoResponse() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get('status');
-        const compraId = urlParams.get('compra');
-
-        if (status && compraId) {
-            // Limpiar los parámetros de la URL sin recargar la página
-            window.history.replaceState({}, document.title, window.location.pathname);
-
-            const alertStyles = {
-                success: {
-                    title: '¡Pago Completado Exitosamente!',
-                    icon: 'success',
-                    titleColor: '#10B981',
-                    borderColor: '#10B981',
-                    iconHtml: `
-                        <div class="alert-icon success">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="24" fill="#10B981" fill-opacity="0.1"/>
-                                <path d="M20 24L23 27L28 22" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="24" cy="24" r="23" stroke="#10B981" stroke-width="2"/>
-                            </svg>
-                        </div>
-                    `,
-                    buttonText: 'Continuar',
-                    buttonClass: 'btn-success'
-                },
-                error: {
-                    title: 'Transacción No Completada',
-                    icon: 'error',
-                    titleColor: '#EF4444',
-                    borderColor: '#EF4444',
-                    iconHtml: `
-                        <div class="alert-icon error">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="24" fill="#EF4444" fill-opacity="0.1"/>
-                                <path d="M18 18L30 30M30 18L18 30" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
-                                <circle cx="24" cy="24" r="23" stroke="#EF4444" stroke-width="2"/>
-                            </svg>
-                        </div>
-                    `,
-                    buttonText: 'Reintentar',
-                    buttonClass: 'btn-error'
-                },
-                pending: {
-                    title: 'Pago en Proceso',
-                    icon: 'warning',
-                    titleColor: '#F59E0B',
-                    borderColor: '#F59E0B',
-                    iconHtml: `
-                        <div class="alert-icon pending">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="24" fill="#F59E0B" fill-opacity="0.1"/>
-                                <path d="M24 16V24L28 28" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
-                                <circle cx="24" cy="24" r="23" stroke="#F59E0B" stroke-width="2"/>
-                            </svg>
-                        </div>
-                    `,
-                    buttonText: 'Entendido',
-                    buttonClass: 'btn-warning'
-                }
-            };
-
-            const config = alertStyles[status];
-            if (!config) return;
-
-            const getSuccessContent = () => `
-                <div class="alert-content">
-                    ${config.iconHtml}
-                    <div class="alert-body">
-                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
-                        <div class="alert-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Número de Orden:</span>
-                                <span class="detail-value">#${compraId}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Estado:</span>
-                                <span class="status-badge success">Completado</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Fecha:</span>
-                                <span class="detail-value">${new Date().toLocaleDateString('es-CO')}</span>
-                            </div>
-                        </div>
-                        <div class="alert-message">
-                            <p>Hemos recibido tu pago correctamente. Recibirás un comprobante en tu correo electrónico en los próximos minutos.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const getErrorContent = () => `
-                <div class="alert-content">
-                    ${config.iconHtml}
-                    <div class="alert-body">
-                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
-                        <div class="alert-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Referencia:</span>
-                                <span class="detail-value">#${compraId}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Estado:</span>
-                                <span class="status-badge error">Rechazado</span>
-                            </div>
-                        </div>
-                        <div class="alert-message">
-                            <p class="message-title">Posibles causas:</p>
-                            <ul class="reason-list">
-                                <li>Fondos insuficientes en la cuenta</li>
-                                <li>Límite de la tarjeta excedido</li>
-                                <li>Datos de la tarjeta incorrectos</li>
-                                <li>Problemas temporales del sistema</li>
-                            </ul>
-                            <p class="suggestion">Te recomendamos verificar los datos e intentar nuevamente.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const getPendingContent = () => `
-                <div class="alert-content">
-                    ${config.iconHtml}
-                    <div class="alert-body">
-                        <h3 class="alert-title" style="color: ${config.titleColor}">${config.title}</h3>
-                        <div class="alert-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Número de Orden:</span>
-                                <span class="detail-value">#${compraId}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Estado:</span>
-                                <span class="status-badge pending">En Revisión</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Tiempo Estimado:</span>
-                                <span class="detail-value">24-48 horas</span>
-                            </div>
-                        </div>
-                        <div class="alert-message">
-                            <p>Tu transacción está siendo procesada por nuestro sistema. Este proceso puede tomar hasta 48 horas.</p>
-                            <p class="notification-info">Recibirás una notificación por correo electrónico una vez completado el proceso.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const content = {
-                'success': getSuccessContent(),
-                'error': getErrorContent(),
-                'pending': getPendingContent()
-            }[status];
-
-            Swal.fire({
-                html: content,
-                showConfirmButton: true,
-                confirmButtonText: config.buttonText,
-                customClass: {
-                    popup: 'professional-alert',
-                    confirmButton: config.buttonClass,
-                    actions: 'alert-actions'
-                },
-                buttonsStyling: false,
-                backdrop: 'rgba(0, 0, 0, 0.6)',
-                willClose: status === 'success' ? () => {
-                    localStorage.removeItem("cart");
-                    window.location.reload();
-                } : undefined
-            });
-        }
-    }
-
     // --- Calcular total del carrito ---
     function updateCartTotal() {
-        const subtotal = cart.reduce((acc, item) => acc + (parseInt(item.price) * item.qty), 0);
-        totalEl.textContent = `$${parseInt(subtotal).toLocaleString('es-CO')}`;
+        const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+        totalEl.textContent = `$${subtotal.toFixed(2)}`;
 
-        // Obtener cupón (siempre será número aunque empiece en $0.00)
         const cuponEl = document.getElementById("cupon__envio");
-        const cuponValue = parseInt(cuponEl.textContent.replace(/[^0-9.-]+/g, "")) || 0;
+        const cuponValue = parseFloat(cuponEl.textContent.replace(/[^0-9.-]+/g, "")) || 0;
 
-        // Envío (siempre gratis en tu HTML actual → 0)
         const envio = 0;
-
-        // Calcular total final
         const totalFinal = subtotal - cuponValue + envio;
 
-        // Actualizar el total en pantalla
         const totalAllEl = document.getElementById("total__all");
-        totalAllEl.textContent = `$${parseInt(totalFinal).toLocaleString('es-CO')}`;
+        totalAllEl.textContent = `$${totalFinal.toFixed(2)}`;
     }
 
     // --- Render tabla ---
@@ -223,19 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cart.length === 0) {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td colspan="6" style="text-align:center; padding:20px; font-weight:600;">
-                    No hay productos en el carrito
-                </td>
-            `;
+            <td colspan="6" style="text-align:center; padding:20px; font-weight:600;">
+                No hay productos en el carrito
+            </td>
+        `;
             cartTableBody.appendChild(tr);
 
-            paginationText.textContent = `Mostrando 0-0 de 0`;
-            paginationButtonsContainer.innerHTML = "";
+            paginationText.textContent = `Mostrando 0 a 0 de 0 entradas`;
+            paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
             thereSpan.textContent = `Hay 0 productos en el carrito.`;
-
-            // Si no hay productos, el total debe ser 0
             updateCartTotal();
             return;
         }
@@ -245,49 +74,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const paginatedItems = cart.slice(start, end);
 
         paginatedItems.forEach((item, index) => {
-            const globalIndex = start + index; // posición real en el array
-            const subtotal = parseInt(item.price) * item.qty;
+            const globalIndex = start + index;
+            const subtotal = item.price * item.qty;
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td><img src="${item.img}" width="50"/></td>
-                <td>${item.name}</td>
-                <td>
-                    <div class="quantity-control" data-index="${globalIndex}">
-                        <button class="minus">−</button>
-                        <span class="qty">${item.qty}</span>
-                        <button class="plus" ${item.stock !== null && item.qty >= item.stock ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>+</button> <!-- VALIDAR STOCK -->
-                    </div>
-                </td>
-                <td>$${parseInt(item.price).toLocaleString('es-CO')}</td>
-                <td>$${parseInt(subtotal).toLocaleString('es-CO')}</td>
-                <td>
-                    <button class="content__icon btn-delete" data-index="${globalIndex}">
-                        <i class="ri-delete-bin-6-line" title="Eliminar"></i>
-                    </button>
-                </td>
-            `;
+            <td><img src="${item.img}" width="50"/></td>
+            <td>${item.name}</td>
+            <td>
+                <div class="quantity-control" data-index="${globalIndex}">
+                    <button class="minus">−</button>
+                    <span class="qty">${item.qty}</span>
+                    <button class="plus">+</button>
+                </div>
+            </td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>$${subtotal.toFixed(2)}</td>
+            <td>
+                <button class="content__icon btn-delete" data-index="${globalIndex}">
+                    <i class="ri-delete-bin-6-line" title="Eliminar"></i>
+                </button>
+            </td>
+        `;
             cartTableBody.appendChild(tr);
         });
 
-        paginationText.textContent = `Mostrando ${start + 1}-${Math.min(end, cart.length)} de ${cart.length}`;
+        paginationText.textContent = `Mostrando del ${start + 1} al ${Math.min(end, cart.length)} de ${cart.length} entradas`;
         thereSpan.textContent = `Hay ${cart.length} productos en el carrito.`;
 
         renderPaginationButtons();
-
-        // Actualizar el total del carrito
         updateCartTotal();
     }
 
-    // --- Render botones de paginación ---
+    // --- Render dinámico de los botones de página ---
     function renderPaginationButtons() {
-        paginationButtonsContainer.innerHTML = "";
+        // Elimina botones de página previos (manteniendo Anterior/Siguiente)
+        paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
+
         const totalPages = Math.ceil(cart.length / rowsPerPage);
 
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
-            btn.classList.add("pagination__btn");
+            btn.classList.add("button__item");
+
             if (i === currentPage) btn.classList.add("active");
 
             btn.addEventListener("click", () => {
@@ -295,132 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTable();
             });
 
-            paginationButtonsContainer.appendChild(btn);
+            nextPageBtn.before(btn); // inserta antes del botón "Siguiente"
         }
 
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages;
     }
 
-    // Configuración de Mercado Pago (usa tu PUBLIC KEY)
-    const mp = new MercadoPago('APP_USR-e36b15d6-08bc-4b88-b64f-6b255117534f', {
-        locale: 'es-CO'
-    });
-
-    const MP = async () => {
-        try {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-            // Validar carrito vacío
-            if (cart.length === 0) {
-                Swal.fire({
-                    title: "Carrito vacío",
-                    text: "Agrega productos al carrito antes de finalizar la compra",
-                    icon: "warning",
-                    confirmButtonText: "Entendido",
-                    customClass: {
-                        title: 'swal-title',
-                        popup: 'swal-popup'
-                    }
-                });
-                return;
-            }
-
-            // Validar stock antes de proceder
-            for (const item of cart) {
-                if (item.stock !== null && item.qty > item.stock) {
-                    Swal.fire({
-                        title: "Stock insuficiente",
-                        text: `No hay suficiente stock de ${item.name}. Máximo disponible: ${item.stock} unidades`,
-                        icon: "error",
-                        confirmButtonText: "Entendido",
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-                    return;
-                }
-            }
-
-            // Mostrar loading
-            Swal.fire({
-                title: "Procesando compra",
-                html: `
-                    <div class="loading-container">
-                        <div class="loading-text">Validando información y stock</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                        </div>
-                    </div>
-                `,
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                showCancelButton: false,
-                backdrop: true,
-                width: '500px',
-                customClass: {
-                    popup: 'professional-loading-popup',
-                    container: 'professional-loading-container'
-                }
-            });
-
-            // Preparar request para el backend
-            const compraRequest = {
-                detalleVentaRequests: cart.map(item => ({
-                    productoId: item.id,
-                    cantidad: item.qty
-                })),
-                metodoPago: "MERCADO_PAGO",
-                cuponDescuento: document.getElementById("cupon").value || ""
-            };
-
-            console.log("Enviando compra al backend:", compraRequest);
-
-            // Llamar al endpoint integrado
-            const response = await fetch("/api/mercado-pago/iniciar-compra", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(compraRequest)
-            });
-
-            const data = await response.json();
-            console.log("Respuesta del backend:", data);
-
-            // Cerrar loading
-            Swal.close();
-
-            if (data.status === "success" && data.initPoint) {
-                // Redirigir a Mercado Pago
-                window.location.href = data.initPoint;
-            } else {
-                throw new Error(data.error || "Error al crear la compra");
-            }
-
-        } catch (error) {
-            console.error("Error en MP:", error);
-            Swal.fire({
-                title: "Error",
-                text: "No se pudo procesar el pago: " + error.message,
-                icon: "error",
-                confirmButtonText: "Entendido",
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-        }
-    }
-
-    // Asignar evento al botón (si usas onclick en HTML, esta línea no es necesaria)
-    const btnFinalizarCompra = document.getElementById("btnFinalizarCompra");
-    if (btnFinalizarCompra) {
-        btnFinalizarCompra.addEventListener("click", MP);
-    }
-
-    // --- Eventos flechas ---
+    // --- Eventos de paginación ---
     prevPageBtn.addEventListener("click", () => {
         if (currentPage > 1) {
             currentPage--;
@@ -437,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Delegación: eliminar + actualizar cantidad ---
     cartTableBody.addEventListener("click", (e) => {
-        // Eliminar producto
         const btn = e.target.closest(".btn-delete");
         if (btn) {
             const index = parseInt(btn.getAttribute("data-index"));
@@ -474,31 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             popup: 'swal-popup'
                         }
                     });
-
                 }
             });
             return;
         }
 
-        // Aumentar / disminuir cantidad
         if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
             const control = e.target.closest(".quantity-control");
             const index = parseInt(control.getAttribute("data-index"));
 
             if (e.target.classList.contains("plus")) {
-                if (cart[index].stock !== null && cart[index].qty >= cart[index].stock) {
-                    Swal.fire({
-                        title: "Stock insuficiente",
-                        text: `No hay más stock disponible. Máximo: ${cart[index].stock} unidades`,
-                        icon: "warning",
-                        confirmButtonText: "Entendido",
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-                    return;
-                }
                 cart[index].qty++;
             } else if (e.target.classList.contains("minus") && cart[index].qty > 1) {
                 cart[index].qty--;
@@ -509,9 +205,377 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Manejar mensajes al cargar la página
-    function handlePageLoadMessages() {
-        // Mensaje de login exitoso
+    // --- Render inicial ---
+    renderTable();
+
+    //rederigir a Favorito
+    rederigirFav();
+
+    // --- MODAL ENVÍO Y PAGO ---
+    const abirmodal = document.getElementById("btn__pagaryenviar");
+    const modalEnvioPago = document.getElementById("modalnewadd");
+    const closeModalBtn = modalEnvioPago.querySelector(".modal__close");
+
+    // --- MODAL RECOGE EN TIENDA ---
+    const modalRecoge = document.getElementById("modalEnvio");
+    const closeRecogeBtn = modalRecoge.querySelector(".envio__close");
+
+    // --- OPCIONES ---
+    const entregaAgendada = document.querySelector('input[value="programada"]').closest('.container__item');
+    const recogeTienda = document.querySelector('input[value="tienda"]').closest('.container__item');
+
+    // --- Abrir Envío y Pago ---
+    abirmodal.addEventListener("click", () => {
+        modalEnvioPago.classList.remove("newadd--hidden");
+    });
+
+    // --- Cerrar Envío y Pago ---
+    closeModalBtn.addEventListener("click", () => {
+        modalEnvioPago.classList.add("newadd--hidden");
+    });
+
+    // Cerrar Envío y Pago haciendo clic fuera
+    window.addEventListener("click", (e) => {
+        if (e.target === modalEnvioPago) {
+            modalEnvioPago.classList.add("newadd--hidden");
+        }
+    });
+
+    // --- Abrir Recoge en Tienda ---
+    function abrirRecoge() {
+        modalEnvioPago.classList.add("newadd--hidden"); // ocultar envío y pago
+        modalRecoge.classList.remove("newadd--mostrar"); // mostrar recoge en tienda
+    }
+
+    entregaAgendada.addEventListener("click", abrirRecoge);
+    recogeTienda.addEventListener("click", abrirRecoge);
+
+    // --- Cerrar Recoge en Tienda y volver a Envío y Pago ---
+    closeRecogeBtn.addEventListener("click", () => {
+        modalRecoge.classList.add("newadd--mostrar"); // ocultar recoge en tienda
+        modalEnvioPago.classList.remove("newadd--hidden"); // volver envío y pago
+    });
+
+    // Cerrar Recoge en Tienda haciendo clic fuera
+    window.addEventListener("click", (e) => {
+        if (e.target === modalRecoge) {
+            modalRecoge.classList.add("newadd--mostrar");
+            modalEnvioPago.classList.remove("newadd--hidden");
+        }
+    });
+
+
+    //select de departamentos
+    const departamentos = {
+        "Amazonas": ["Leticia", "Puerto Nariño"],
+        "Antioquia": ["Medellín", "Bello", "Itagüí", "Envigado", "Rionegro", "Turbo"],
+        "Arauca": ["Arauca", "Saravena", "Tame"],
+        "Atlántico": ["Barranquilla", "Soledad", "Malambo", "Sabanalarga"],
+        "Bolívar": ["Cartagena", "Magangué", "Turbaco", "Arjona"],
+        "Boyacá": ["Tunja", "Duitama", "Sogamoso", "Chiquinquirá"],
+        "Caldas": ["Manizales", "La Dorada", "Chinchiná"],
+        "Caquetá": ["Florencia", "San Vicente del Caguán"],
+        "Casanare": ["Yopal", "Aguazul", "Villanueva"],
+        "Cauca": ["Popayán", "Santander de Quilichao"],
+        "Cesar": ["Valledupar", "Aguachica", "Codazzi"],
+        "Chocó": ["Quibdó", "Istmina"],
+        "Córdoba": ["Montería", "Lorica", "Cereté"],
+        "Cundinamarca": ["Bogotá", "Soacha", "Zipaquirá", "Girardot", "Facatativá"],
+        "Guainía": ["Inírida"],
+        "Guaviare": ["San José del Guaviare"],
+        "Huila": ["Neiva", "Pitalito", "Garzón"],
+        "La Guajira": ["Riohacha", "Maicao", "Uribia"],
+        "Magdalena": ["Santa Marta", "Ciénaga", "Fundación"],
+        "Meta": ["Villavicencio", "Acacías", "Granada"],
+        "Nariño": ["Pasto", "Ipiales", "Tumaco"],
+        "Norte de Santander": ["Cúcuta", "Ocaña", "Pamplona"],
+        "Putumayo": ["Mocoa", "Puerto Asís", "Orito"],
+        "Quindío": ["Armenia", "Calarcá", "Montenegro"],
+        "Risaralda": ["Pereira", "Dosquebradas", "Santa Rosa de Cabal"],
+        "San Andrés y Providencia": ["San Andrés", "Providencia"],
+        "Santander": ["Bucaramanga", "Floridablanca", "Girón", "Barrancabermeja", "Piedecuesta"],
+        "Sucre": ["Sincelejo", "Corozal", "Sampués"],
+        "Tolima": ["Ibagué", "Espinal", "Melgar"],
+        "Valle del Cauca": ["Cali", "Palmira", "Buenaventura", "Tuluá", "Buga", "Cartago", "Yumbo"],
+        "Vaupés": ["Mitú"],
+        "Vichada": ["Puerto Carreño"]
+    };
+
+    // Llenar departamentos
+    const departamentoSelect = document.getElementById("Departamento");
+    const ciudadSelect = document.getElementById("Ciudad");
+
+    Object.keys(departamentos).forEach(dep => {
+        let option = document.createElement("option");
+        option.value = dep;
+        option.textContent = dep;
+        departamentoSelect.appendChild(option);
+    });
+
+    // Cambiar ciudades cuando se elige un departamento
+    departamentoSelect.addEventListener("change", function () {
+        ciudadSelect.innerHTML = "<option disabled selected>Ciudad</option>";
+        const ciudades = departamentos[this.value];
+        ciudades.forEach(ciudad => {
+            let option = document.createElement("option");
+            option.value = ciudad;
+            option.textContent = ciudad;
+            ciudadSelect.appendChild(option);
+        });
+    });
+
+    // Validaciones del formulario
+    const fieldsEnvio = {
+        direccion: {
+            regex: /^(?=.*\d)(?=.*[A-Za-z])[A-Za-z0-9\s#.,-]{5,}$/,
+            errorMessage: "Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle 45 #10-23, 130002)."
+        },
+        Direcciónadicional: {
+            regex: /^(Apartamento|Casa|Piso|Torre|Bloque)\s?[0-9]{1,4}[A-Za-z]?$/i,
+            errorMessage: "Ingresa un complemento válido (ej. Apartamento 302, Casa 5, Piso 2)."
+        },
+        barrio: {
+            regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+(?:[ .-][A-Za-zÁÉÍÓÚáéíóúÑñ0-9]+)*$/,
+            errorMessage: "Ingresa un barrio válido (ej. San Fernando, El Prado, 12 De Julio)."
+        }
+    };
+
+    // Función para validar un campo
+    function validateField(fieldId) {
+        const input = document.getElementById(fieldId);
+        const value = input.value.trim();
+        const inputBox = input.closest(".input-box");
+        const checkIcon = inputBox.querySelector(".ri-check-line");
+        const errorIcon = inputBox.querySelector(".ri-close-line");
+        const errorMessage = inputBox.nextElementSibling;
+
+        if (value === "" || !fieldsEnvio[fieldId].regex.test(value)) {
+            // Inválido
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.style.display = "block";
+            input.style.border = "2px solid #fd1f1f";
+            inputBox.classList.add("input-error");
+            return false;
+        } else {
+            // Válido
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            input.style.border = "2px solid #0034de";
+            inputBox.classList.remove("input-error");
+            return true;
+        }
+    }
+
+    // Validar en tiempo real
+    Object.keys(fieldsEnvio).forEach(fieldId => {
+        const input = document.getElementById(fieldId);
+        input.addEventListener("input", () => validateField(fieldId));
+    });
+
+    // Selects
+    const selectDepartamento = document.querySelector("#Departamento");
+    const errorDepartamento = document.querySelector(".error--departamento");
+    const selectCiudad = document.querySelector("#Ciudad");
+    const errorCiudad = document.querySelector(".error--ciudad");
+
+    // Ocultar advertencias y errores de select al interactuar
+    [selectDepartamento, selectCiudad].forEach(select => {
+        select.addEventListener("change", () => {
+            if (select.selectedIndex > 0) {
+                select.style.border = "2px solid #0034de";
+            } else {
+                select.style.border = "";
+            }
+            if (select === selectDepartamento && select.selectedIndex > 0) {
+                errorDepartamento.style.display = "none";
+            }
+            if (select === selectCiudad && select.selectedIndex > 0) {
+                errorCiudad.style.display = "none";
+            }
+        });
+    });
+
+    // --- Radios (opciones de envío) ---
+    const opcionesEnvio = document.querySelectorAll("input[name='opcionEnvio']");
+    const contenedoresEnvio = document.querySelectorAll(".container__item");
+
+    // Botón
+    const btnIrPago = document.getElementById("btnIrPago");
+
+    // Validación al enviar
+    btnIrPago.addEventListener("click", function (event) {
+        let valid = true;
+
+        // Validar inputs usando la misma función
+        Object.keys(fieldsEnvio).forEach(fieldId => {
+            if (!validateField(fieldId)) {
+                valid = false;
+            }
+        });
+
+        //validar select
+        const departamentoSeleccionada = selectDepartamento.selectedIndex > 0;
+        const ciudadeleccionada = selectCiudad.selectedIndex > 0;
+
+        if (!departamentoSeleccionada) {
+            errorDepartamento.style.display = "block";
+            selectDepartamento.style.border = "2px solid #fd1f1f";
+            valid = false;
+        }
+        if (!ciudadeleccionada) {
+            errorCiudad.style.display = "block";
+            selectCiudad.style.border = "2px solid #fd1f1f";
+            valid = false;
+        }
+
+        // Validar radios (opciones de envío)
+        const opcionSeleccionada = Array.from(opcionesEnvio).some(radio => radio.checked);
+
+        if (!opcionSeleccionada) {
+            contenedoresEnvio.forEach(c => {
+                c.style.border = "2px solid #fd1f1f";
+                c.style.borderRadius = "8px"; // opcional: redondear
+                c.style.padding = "8px"; // opcional: dar espacio
+            });
+            valid = false;
+        }
+
+
+        if (!valid) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Por favor rellene el formulario correctamente",
+                customClass: {
+                    title: 'swal-title',
+                    popup: 'swal-popup'
+                }
+            });
+            event.preventDefault();
+        }
+    });
+
+    // --- Quitar borde rojo cuando se seleccione una opción ---
+    opcionesEnvio.forEach(radio => {
+        radio.addEventListener("change", () => {
+            contenedoresEnvio.forEach(c => c.style.border = ""); // quitar todos los bordes
+            const seleccionado = radio.closest(".container__item");
+            if (seleccionado) {
+                seleccionado.style.border = "2px solid #0034de"; // marcar solo el elegido
+            }
+        });
+    });
+
+
+    // Selecciona todos los divs de opciones
+    document.querySelectorAll(".container__item").forEach(div => {
+        div.addEventListener("click", () => {
+            const radio = div.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                // Dispara el evento change (por si tienes lógica extra en radios)
+                radio.dispatchEvent(new Event("change"));
+            }
+        });
+    });
+
+    // Validaciones Recoge en tiendas
+    const fieldRecoge = {
+        Fechaentrega: {
+            regex: /^(?!\s*$).+/,
+            errorMessage: "Por favor eliga una fecha de entrega."
+        },
+
+        Horaentrega: {
+            regex: /^(?!\s*$).+/,
+            errorMessage: "Por favor eliga una hora de entraga."
+        }
+    }
+
+    const formRecoge = document.querySelector(".formulario__recoge");
+
+    // Validar en tiempo real los inputs
+    Object.keys(fieldRecoge).forEach(fieldId => {
+        const input = document.getElementById(fieldId);
+        const inputBox = input.closest(".input-box");
+        const checkIcon = inputBox.querySelector(".ri-check-line");
+        const errorIcon = inputBox.querySelector(".ri-close-line");
+        const errorMessage = inputBox.nextElementSibling;
+
+        input.addEventListener("input", () => {
+            validarCampo(fieldId, input, inputBox, checkIcon, errorIcon, errorMessage);
+        });
+    });
+
+    // Función reutilizable para validar un campo
+    function validarCampo(fieldId, input, inputBox, checkIcon, errorIcon, errorMessage) {
+        const value = input.value.trim();
+
+        if (value === "") {
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.textContent = fieldRecoge[fieldId].errorMessage;
+            errorMessage.style.display = "block";
+            input.style.border = "2px solid #fd1f1f";
+            inputBox.classList.add("input-error");
+            return false;
+        } else if (fieldRecoge[fieldId].regex.test(value)) {
+            checkIcon.style.display = "inline-block";
+            errorIcon.style.display = "none";
+            errorMessage.style.display = "none";
+            input.style.border = "2px solid #0034de";
+            inputBox.classList.remove("input-error");
+            return true;
+        } else {
+            checkIcon.style.display = "none";
+            errorIcon.style.display = "inline-block";
+            errorMessage.textContent = fieldRecoge[fieldId].errorMessage;
+            errorMessage.style.display = "block";
+            input.style.border = "2px solid #fd1f1f";
+            inputBox.classList.add("input-error");
+            return false;
+        }
+    }
+
+    // Validación al enviar
+    formRecoge.addEventListener("submit", function (event) {
+        let valid = true;
+
+        Object.keys(fieldRecoge).forEach(fieldId => {
+            const input = document.getElementById(fieldId);
+            const inputBox = input.closest(".input-box");
+            const checkIcon = inputBox.querySelector(".ri-check-line");
+            const errorIcon = inputBox.querySelector(".ri-close-line");
+            const errorMessage = inputBox.nextElementSibling;
+
+            // Aquí aplicamos la validación también en el submit
+            const campoValido = validarCampo(fieldId, input, inputBox, checkIcon, errorIcon, errorMessage);
+
+            if (!campoValido) {
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Por favor rellene el formulario correctamente",
+                customClass: {
+                    title: 'swal-title',
+                    popup: 'swal-popup'
+                }
+            });
+            event.preventDefault();
+        } else {
+            sessionStorage.setItem("loginSuccess", "true");
+        }
+    })
+
+    // Mostrar mensaje al cargar si se registró correctamente
+    window.addEventListener("DOMContentLoaded", () => {
         if (sessionStorage.getItem("loginSuccess") === "true") {
             Swal.fire({
                 title: "Registro de fecha y hora exito",
@@ -526,18 +590,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             sessionStorage.removeItem("loginSuccess");
         }
+    });
 
-        // Manejar respuesta de Mercado Pago
-        handleMercadoPagoResponse();
-    }
+    //inputs de fecha y hora con js son mas bonitos que los nativos
+    flatpickr("#Fechaentrega", {
+        dateFormat: "Y-m-d", // formato YYYY-MM-DD
+        minDate: "today",   // no dejar elegir fechas pasadas
 
-    // --- Render inicial ---
-    renderTable();
+    });
 
-    // Manejar mensajes de carga
-    handlePageLoadMessages();
+    flatpickr("#Horaentrega", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K",
+        minTime: "09:30",
+        maxTime: "20:30",
+        time_24hr: false,
+        minuteIncrement: 5
 
-    //rederigir a Favorito
-    rederigirFav();
+    });
 
 });

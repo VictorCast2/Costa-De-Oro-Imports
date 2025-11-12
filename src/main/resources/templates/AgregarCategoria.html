@@ -28,6 +28,12 @@
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
+    <meta property="og:description"
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
 </head>
 
 <body>
@@ -36,8 +42,9 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="Logo dashboard">
-
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
@@ -64,25 +71,35 @@
                 </li>
 
                 <li class="sidebar__item">
+                    <i class="ri-store-2-line"></i>
+                    <a href="DashboardProvedores.html" class="sidebar__text">Provedores</a>
+                </li>
+
+                <li class="sidebar__item">
                     <i class="ri-group-line"></i>
-                    <a href="" class="sidebar__text">Clientes</a>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-star-line"></i>
-                    <a href="" class="sidebar__text">Reseñas</a>
+                    <a href="DashboardReseñas.html" class="sidebar__text">Reseñas</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
 
                 <li class="sidebar__item">
                     <i class="ri-news-line"></i>
-                    <a href="" class="sidebar__text">Blog</a>
+                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-question-answer-line"></i>
-                    <a href="" class="sidebar__text">PQRS</a>
+                    <a href="DashboardPQRS.html" class="sidebar__text">PQRS</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-printer-line"></i>
+                    <a href="DashboardReportes.html" class="sidebar__text">Reportes</a>
                 </li>
             </ul>
 
@@ -214,23 +231,15 @@
 
                                     <!-- CATEGORÍA PRINCIPAL -->
                                     <div class="input__formulario">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="categoriaPrincipal">
-                                                <option disabled selected>Categoria principal</option>
-                                                <option value="Vino">Vino</option>
-                                                <option value="Cerveza">Cerveza</option>
-                                                <option value="Whisky">Whisky</option>
-                                                <option value="Tequila">Tequila</option>
-                                                <option value="Vodka">Vodka</option>
-                                                <option value="Ginebra">Ginebra</option>
-                                                <option value="Aguardiente">Aguardiente</option>
-                                                <option value="Ron">Ron</option>
-                                                <option value="Mezcal">Mezcal</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
+                                        <div class="formulario__box">
+                                            <input type="text" autocomplete="off" placeholder="" name="CategoriaPrincipal"
+                                                id="categoriaprincipal">
+                                            <label class="box__label" for="categoriaprincipal">Categoria Principal</label>
+                                            <span class="box__icon"><i class="ri-check-line"></i></span>
+                                            <span class="box__icon"><i class="ri-close-line"></i></span>
                                         </div>
-                                        <p class="formulario__error error--CategoriaPrincipal">
-                                            Selecciona una categoria principal para la categoria.
+                                        <p class="formulario__error">
+                                            La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números.
                                         </p>
                                     </div>
 

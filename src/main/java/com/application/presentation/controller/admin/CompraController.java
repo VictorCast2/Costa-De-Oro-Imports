@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/compra")
 public class CompraController {
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
-    @GetMapping("/compra/")
+    @GetMapping({"", "/"})
     public String DashboardCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
                                   @RequestParam(value = "mensaje", required = false) String mensaje,
                                   Model model) {
@@ -31,7 +31,7 @@ public class CompraController {
         return "DashboardCompra";
     }
 
-    @GetMapping("/detalle-compra/")
+    @GetMapping("/detalle-compra")
     public String DetalleCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
                                   @RequestParam(value = "mensaje", required = false) String mensaje,
                                   Model model) {
@@ -41,7 +41,7 @@ public class CompraController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("mensaje", mensaje);
 
-        return "DashboardCompra";
+        return "DetalleCompra";
     }
 
 }

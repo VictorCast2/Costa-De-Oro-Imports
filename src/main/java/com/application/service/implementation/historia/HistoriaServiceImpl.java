@@ -5,6 +5,7 @@ import com.application.persistence.repository.HistoriaRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.historia.request.HistoriaCreateRequest;
 import com.application.presentation.dto.historia.response.HistoriaResponse;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.historia.HistoriaService;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +20,7 @@ import java.util.List;
 public class HistoriaServiceImpl implements HistoriaService {
 
     private final HistoriaRepository historiaRepository;
-    private final ImagenService imagenService;
+    private final CloudinaryService cloudinaryService;
 
     /**
      * Obtener una Historia por Id
@@ -87,7 +88,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      */
     @Override
     public GeneralResponse createHistoria(HistoriaCreateRequest historiaRequest) {
-        String imagen = imagenService.asignarImagen(historiaRequest.imagen(), "imagen-blog");
+        String imagen = cloudinaryService.subirImagen(historiaRequest.imagen(), "imagen-blog");
 
         Historia historia = Historia.builder()
                 .imagen(imagen)
@@ -115,7 +116,7 @@ public class HistoriaServiceImpl implements HistoriaService {
 
         Historia historiaActualizada = this.getHistoriaById(id);
 
-        String imagen = imagenService.asignarImagen(historiaRequest.imagen(), "imagen-blog");
+        String imagen = cloudinaryService.subirImagen(historiaRequest.imagen(), "imagen-blog");
 
         historiaActualizada.setTitulo(historiaRequest.titulo());
         historiaActualizada.setImagen(imagen);
@@ -177,7 +178,7 @@ public class HistoriaServiceImpl implements HistoriaService {
     public HistoriaResponse toResponse(Historia historia) {
         return new HistoriaResponse(
                 historia.getHistoriaId(),
-                historia.getImagen(),
+                cloudinaryService.getImagenUrl(historia.getImagen()),
                 historia.getTitulo(),
                 historia.getDescripcion(),
                 historia.getHistoriaCompleta(),

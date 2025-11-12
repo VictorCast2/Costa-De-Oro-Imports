@@ -11,6 +11,7 @@ import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
 import com.application.service.implementation.ImagenServiceImpl;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.EmailService;
 import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.usuario.UsuarioService;
@@ -30,7 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
 
-    private final ImagenService imagenService;
+    private final CloudinaryService cloudinaryService;
     private final EmailService emailService;
     private final PasswordEncoder encoder;
 
@@ -135,7 +136,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
         Usuario usuarioPhoto = this.getUsuarioByCorreo(principal.getCorreo());
 
-        String imagen = imagenService.asignarImagen(usuarioPhotoRequest.imagenUsuarioNueva(), "perfil-usuario");
+        String imagen = cloudinaryService.subirImagen(usuarioPhotoRequest.imagenUsuarioNueva(), "perfil-usuario");
         if (imagen != null) {
             usuarioPhoto.setImagen(imagen);
         } else {

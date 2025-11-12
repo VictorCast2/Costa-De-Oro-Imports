@@ -13,6 +13,7 @@ import com.application.presentation.dto.empresa.request.SetEmpresaPhotoRequest;
 import com.application.presentation.dto.empresa.request.UpdateEmpresaRequest;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.service.implementation.ImagenServiceImpl;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.empresa.EmpresaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,8 @@ public class EmpresaServiceImpl implements EmpresaService {
     private final UsuarioRepository usuarioRepository;
     private final EmpresaRepository empresaRepository;
     private final RolRepository rolRepository;
-    private final ImagenServiceImpl imagenService;
+
+    private final CloudinaryService cloudinaryService;
 
     @Override
     @Transactional
@@ -106,7 +108,7 @@ public class EmpresaServiceImpl implements EmpresaService {
             throw new EntityNotFoundException("El usuario no tiene una empresa asociada.");
         }
 
-        String imagen = imagenService.asignarImagen(empresaPhotoRequest.imagenEmpresaNueva(), "perfil-empresa");
+        String imagen = cloudinaryService.subirImagen(empresaPhotoRequest.imagenEmpresaNueva(), "perfil-empresa");
         if (imagen != null) {
             empresaPhoto.setImagen(imagen);
         } else {
