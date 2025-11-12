@@ -13,22 +13,21 @@
 
 .productos {
     min-height: 100vh;
-    padding-top: 150px;
+    padding-top: 230px;
     position: relative;
 }
 
 .container__enlaces {
-    position: relative; /* Cambia de absolute a relative */
-    margin-bottom: 2rem; /* Espacio debajo */
-    padding: 0 6.5%; /* Mismo padding que tenía en left */
-    width: 100%;
-    box-sizing: border-box;
+    position: absolute;
+    top: 4%;
+    left: 6.5%;
 }
 
 .container__enlaces a {
     font: 500 1.1rem var(--typografiaUrbanist);
     text-decoration: none;
     color: #000000;
+
 }
 
 .container__enlaces a:hover {
@@ -37,7 +36,7 @@
 
 .container__enlaces .enlaces__titulos {
     font: 700 3rem var(--typografiaGeist);
-    margin: 0.5rem 0 0 0; /* Un poco de margen arriba */
+    margin: 0 0 0 0;
 }
 
 #selected-filters {
@@ -176,24 +175,22 @@
     display: none;
 }
 
-/* Flex Container */
 .flex {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
 }
 
 .flex__productos {
-    display: block; /* Cambia de grid a block */
-    max-width: 1345px;
-}
-
-.flex__productos-track {
-    display: grid; /* Mueve el grid aquí */
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
     justify-items: center;
+
+}
+
+.flex__productos-track {
+    display: contents;
 }
 
 @media (max-width: 1024px) {
@@ -217,33 +214,24 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    display: none !important;
+    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: left;
 }
 
-.card.active-page {
-    display: flex !important;
-}
-
-.card {
-    transition: opacity 0.3s ease;
-}
-
 /* Pagination */
 .pagination {
+    position: relative;
+    top: -25px;
+    left: -18px;
+    width: 200%;
+    overflow-x: hidden;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    margin-left: 5rem;
-    width: 100%;
-    position: static; /* Elimina posicionamiento absoluto */
-    left: auto;
-    top: auto;
+    margin-top: 2rem;
 }
 
 .pagination__Numbers {
@@ -263,6 +251,7 @@
     align-items: center;
     border-radius: 8px;
     transition: background-color .2s ease, color .2s ease-in;
+
 }
 
 .pagination__Numbers .button__pagination.active {
@@ -275,6 +264,10 @@
     background-color: var(--colorCafe);
     border: 1px solid var(--colorCafe);
     color: #ffffff;
+}
+
+.pagination #prevBtn {
+    display: none;
 }
 
 .pagination button {

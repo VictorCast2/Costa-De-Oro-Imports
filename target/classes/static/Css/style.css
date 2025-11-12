@@ -4,9 +4,9 @@
     --colorPrincipal: #f59e0b;
     --colorDark: #18181b;
     --colorLigth: #71717a;
+    --colorWhite: #ffff;
+    --colorCafe: #8e705c;
 }
-
-
 
 * {
     margin: 0;
@@ -42,7 +42,6 @@ body {
     margin-top: 1rem;
 }
 
-
 .hero {
     min-height: 100vh;
     position: relative;
@@ -63,7 +62,26 @@ body {
     gap: 2rem;
     justify-content: space-evenly;
     align-items: center;
+    padding-right: 2rem;
     z-index: 999;
+}
+
+.header__logo {
+    width: 250px; 
+    height: 90px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+    cursor: pointer;
+
 }
 
 .header.scrolled {
@@ -81,7 +99,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 850px;
+    max-width: 800px;
     min-width: 350px;
     min-height: 75px;
 }
@@ -101,15 +119,15 @@ body {
     transition: color .4s ease;
 }
 
-.item__link:hover{
+.item__link:hover {
     color: #A0522D;
 }
 
-.item__link.active{
+.item__link.active {
     color: #A0522D;
 }
 
-.item__link.active::before{
+.item__link.active::before {
     content: "";
     position: absolute;
     left: 0;
@@ -119,7 +137,6 @@ body {
     background: linear-gradient(to right, transparent, #A0522D, transparent);
 
 }
-
 
 .list__icon {
     margin-left: 1.5rem;
@@ -154,62 +171,7 @@ body {
     align-items: center;
 }
 
-.language-selector {
-    position: relative;
-    display: flex;
-    align-items: center;
-    font: 700 1.2rem "Urbanist";
-    cursor: pointer;
-}
 
-.language-dropdown {
-    position: relative;
-}
-
-.dropdown-toggle {
-    background: none;
-    border: none;
-    font: inherit;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    cursor: pointer;
-    color: inherit;
-}
-
-.dropdown-toggle i {
-    font-size: 2rem;
-}
-
-.dropdown-menu {
-    list-style: none;
-    position: absolute;
-    top: 120%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 0.4rem;
-    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1);
-    padding: 0.3rem 0;
-    display: none;
-    z-index: 100;
-    min-width: 4rem;
-}
-
-.dropdown-menu li {
-    padding: 0.4rem 1rem;
-    font: 500 0.95rem "Urbanist";
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.dropdown-menu li:hover {
-    background-color: #f3f4f6;
-}
-
-.language-selector:hover .dropdown-menu {
-    display: block;
-}
 
 /* Usuario opciones */
 .nav__menu {
@@ -236,7 +198,7 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.menu__sub hr{
+.menu__sub hr {
     border: 0;
     height: 1px;
     width: 100%;
@@ -268,12 +230,12 @@ body {
     text-decoration: none;
     color: var(--colorLigth);
     margin: 1px 0;
-    transition: background-color .4s ease,color .4s ease;
+    transition: background-color .4s ease, color .4s ease;
     padding: 0.4rem 0.6rem;
     border-radius: 10px;
 }
 
-.sub__link:hover{
+.sub__link:hover {
     color: #111827;
     background-color: #f3f4f6;
 }
@@ -286,23 +248,21 @@ body {
 
 
 /**Section hero__content */
-.content__information {
-    position: relative;
-    margin-left: 7rem;
-}
-
 .hero__carousel {
     padding: 140px 0 0 0;
 }
 
 .carousel__container {
     display: flex;
+    width: 100%;
     position: relative;
     height: 650px;
     transition: transform 0.5s ease-in-out;
 }
 
 .carousel__slide {
+    max-width: 1500px;
+    min-width: 800px;
     opacity: 0;
     visibility: hidden;
     position: absolute;
@@ -312,10 +272,67 @@ body {
     transition: opacity 0.5s ease, visibility 0.5s;
 }
 
-.carousel__slide.active {
-    opacity: 1;
-    visibility: visible;
+.slide__flex {
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.flex--tequila {
+    justify-content: center;
+}
+
+.flex--whisky{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    padding: 5.5rem 0 0 2rem;
+}
+
+.flex--RonesAguardientes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9rem;
+    position: relative;
+    top: 2rem;
+}
+
+
+.flex--RonesAguardientes .flex__ofertas{
+    position: absolute;
+    top: -2rem;
+    background-color: #1a3c8e;
+    padding: 0.5rem 0.8rem;
+    text-align: center;
+    border-radius: 38px;
+    font: 500 2.2rem var(--typografiaUrbanist);
+    color: var(--colorWhite);
+}
+
+.flex__RonesAguardiantes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex: 0 1 650px;
+    min-width: 350px;
+}
+
+/* HR vertical */
+.divider__vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 70%;
+    background: #1a3c8e;
+    border: none;
+    border-radius: 2px;
+    z-index: 10;
 }
 
 .carousel__arrows {
@@ -337,35 +354,124 @@ body {
     justify-content: center;
     align-items: center;
     color: #ffffff;
-    font-size: 3rem;
+    font-size: 2rem;
     cursor: pointer;
     pointer-events: all;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    width: 40px;
+    height: 45px;
     transition: background 0.3s;
 }
 
+.carousel__arrow--left {
+    position: relative;
+    right: 1%;
+    border-radius: 0 50px 50px 0;
+
+}
+
+.carousel__arrow--right {
+    position: relative;
+    left: 1%;
+    border-radius: 50px 0 0 50px;
+}
+
+.carousel__dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+}
+
+.carousel__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(245, 158, 11, 0.8);
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel__dot:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-color: #fbbf24;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    transform: scale(1.15);
+}
+
+.carousel__dot.active {
+    background-color: #f59e0b;
+    border-color: #fff;
+    transform: scale(1.4);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+}
+
+/* 🎯 Sombras dinámicas según el hero activo */
+.hero--paulaner .carousel__dot {
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); 
+}
+.hero--tequila .carousel__dot {
+    box-shadow: 0 0 8px rgba(75, 30, 26, 0.6); 
+}
+.hero--budweiser .carousel__dot {
+    box-shadow: 0 0 8px rgba(75, 22, 50, 0.6); 
+}
+.hero--whiskys .carousel__dot {
+    box-shadow: 0 0 8px rgba(27, 58, 47, 0.6); 
+}
+.hero--packmixtos .carousel__dot {
+    box-shadow: 0 0 8px rgba(47, 63, 104, 0.6); 
+}
+
+/* Estado activo con sombra más fuerte */
+.hero--paulaner .carousel__dot.active {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.9);
+}
+.hero--tequila .carousel__dot.active {
+    box-shadow: 0 0 14px rgba(75, 30, 26, 0.9);
+}
+.hero--budweiser .carousel__dot.active {
+    box-shadow: 0 0 14px rgba(75, 22, 50, 0.9);
+}
+.hero--whiskys .carousel__dot.active {
+    box-shadow: 0 0 14px rgba(27, 58, 47, 0.9);
+}
+.hero--packmixtos .carousel__dot.active {
+    box-shadow: 0 0 14px rgba(47, 63, 104, 0.9);
+}
+
+.carousel__slide.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
 
 
 .hero--paulaner {
     background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #f59e0b 100%);
 }
 
-.hero--heineken {
-    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #10b981 100%);
+.hero--tequila {
+    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #4b1e1a 100%);
 }
 
 .hero--budweiser {
-    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #c8102e 100%);
+    background-image: radial-gradient(120% 120% at 50% 80%, #ffffff 40%, #4B1632 100%);
 }
 
-.hero--guinness {
-    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #000000 100%);
+.hero--whiskys{
+    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #1b3a2f 100%);
 }
 
-
-
+.hero--packmixtos{
+    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #2f3f68 100%);
+}
 
 /* PAULANER - naranja */
 .hero--paulaner .carousel__dot.active,
@@ -374,52 +480,443 @@ body {
 
 }
 
-/* HEINEKEN - verde */
-.hero--heineken .carousel__dot.active,
-.hero--heineken .carousel__arrow {
-    background-color: #10b981;
+/* TEQUILA - vino tinto */
+.hero--tequila .carousel__dot.active,
+.hero--tequila .carousel__arrow {
+    background-color: #4b1e1a;
 
 }
 
 /* BUDWEISER - rojo */
 .hero--budweiser .carousel__dot.active,
 .hero--budweiser .carousel__arrow {
-    background-color: #c8102e;
+    background-color: #4B1632;
 }
 
+/* WHISKYS - verde */
+.hero--whiskys .carousel__dot.active,
+.hero--whiskys .carousel__arrow {
+    background-color: #1b3a2f;
+}
+
+/* PACK MIXTO - azul ahumado */
+.hero--packmixtos .carousel__dot.active,
+.hero--packmixtos .carousel__arrow {
+    background-color: #2f3f68;
+}
+
+.content__information {
+    position: relative;
+    margin: -3rem 0 0 4rem;
+    max-width: 650px;
+    min-width: 350px;
+}
+
+.information--vinos {
+    margin: -1rem 0 0 4rem;
+}
+
+.information--tequila {
+    margin-right: 10rem;
+}
+
+.information__ofertas {
+    margin: 0 0 0.9rem 1.7rem;
+}
+
+.information__ofertas .ofertas__text {
+    color: #d97706;
+    font: 700 3.5rem var(--typografiaUrbanist);
+    margin-bottom: 0.4rem;
+}
+
+.information__ofertas .text--vinos {
+    color: #A13A47;
+}
+
+.information__ofertas .text--tiempo {
+    background-color: #1a3c8e;
+    padding: 0.5rem 0.8rem;
+    text-align: center;
+    border-radius: 38px;
+    font: 500 2.2rem var(--typografiaUrbanist);
+    color: var(--colorWhite);
+    margin-bottom: 0.2rem;
+}
+
+
+.information__ofertas .text--brinda {
+    font: 500 2.2rem var(--typografiaUrbanist);
+    color: #333333;
+    margin-left: 0.3rem;
+}
 
 .content__information .information__title {
-    font: 700 6rem/1 "Geist";
-    width: 950px;
-    margin: 0 0 0 0.4em;
+    font: 700 3.5rem/1 "Geist";
+    margin: 0 0 0.2em 0.5em;
+    color: #333333;
 }
 
-.content__information .information__subtitulo {
-    font: 700 9.8rem/1 "Geist";
-    width: 950px;
-    color: #000000;
-    margin: 0 0 0.1em 1em;
+.content__information .title--tequila {
+    font: 700 3.5rem/1 "Geist";
+    width: 800px;
+    margin: 0 0 0.2em 0.5em;
+    color: #333333;
 }
+
+
+.content__information .information__tagline {
+    font: 500 1.45rem/1 "Geist";
+    color: #9c4420;
+    width: 950px;
+    margin: 0 0 0.4em 1.4em;
+}
+
+.content__information .tagline--vino {
+    color: #A13A47;
+}
+
+.content__information .tagline--tequila {
+    color: #4b1e1a;
+}
+
+
+
 
 .content__information .subtitulo--changed {
     font: 700 7.8rem/1 "Geist";
 }
 
 .content__information .information__text {
-    font: 600 1.4em/1.2 "Urbanist";
-    width: 900px;
-    color: #374151;
-    margin: 0 0 0 2em;
+    font: 600 1.5em/1.2 "Urbanist";
+    width: 550px;
+    color: #555555;
+    margin: 0 0 0 1.3em;
 
 }
 
+.content__information .text--vinos {
+    width: 610px;
+}
 
+.content__information .text--tequila {
+    width: 750px;
+}
+
+.information__precio {
+    position: relative;
+    top: 4rem;
+    right: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 350px;
+}
+
+.precio--aguardientes{
+    top: 0.2rem;
+    right: 6rem;
+}
+
+.precio--TequilaMezcal{
+    top: -2rem;
+    left: 4rem;
+}
+
+.information__precio .paulaner--1 {
+    font: 500 5.4rem/0.7 var(--typografiaGeist);
+    margin: 0 3.5rem -0.5rem 0;
+    color: #1a3c8e;
+}
+
+.information__precio .paulaner--2 {
+    font: 600 5.4rem var(--typografiaGeist);
+    color: #d97706;
+}
+
+.precio__texto {
+    margin-left: 4.5rem;
+}
+
+.information__precio .paulaner--cerveza {
+    font: 500 1.8rem/1 var(--typografiaGeist);
+    width: 400px;
+    color: #444;
+}
+
+/* Vinos */
+.information__precio .vinos--1 {
+    font: 500 5.4rem/0.7 var(--typografiaGeist);
+    margin: 0 0 -0.5rem 10rem;
+    width: 500px;
+    color: #1a3c8e;
+}
+
+.information__precio .vinos--2 {
+    font: 600 5.4rem var(--typografiaGeist);
+    margin-right: 2.5rem;
+    color: #A13A47;
+}
+
+.vinos--text {
+    margin-left: 4.5rem;
+}
+
+.information__precio .vinos--premium {
+    font: 500 1.8rem/1 var(--typografiaGeist);
+    width: 400px;
+    color: #444;
+}
+
+
+/* Aguardiantes,Ron y Ginebra */
+.information__precio .RonesAguardiantes--1 {
+    font: 500 6rem/0.7 var(--typografiaGeist);
+    margin: 0 0 -0.5rem 10rem;
+    width: 500px;
+    color: #1a3c8e;
+}
+
+.information__precio .RonesAguardiantes--2 {
+    font: 600 6rem var(--typografiaGeist);
+    margin-left:9.9rem;
+    width: 500px;
+    color: #A13A47;
+}
+
+.RonesAguardiantes--text {
+    margin:-1rem 0 0 4.5rem;
+}
+
+.RonesAguardiantes--text .RonesAguardiantes--premium {
+    font: 500 1.8rem/1 var(--typografiaGeist);
+    width: 400px;
+    color: #444;
+}
+
+/* Tequila Mezcal */
+.information__precio .TequilaMezcal--1 {
+    font: 500 2.2rem/0.7 var(--typografiaGeist);
+    width: 500px;
+    color: #1a3c8e;
+    position: relative;
+    top: 8rem;
+    left: 2rem;
+}
+
+.information__precio .TequilaMezcal--2 {
+    font: 600 12rem var(--typografiaGeist);
+    margin-left: 6rem;
+    color: #A13A47;
+}
+
+.TequilaMezcal--text {
+    margin:-2rem 0 0 4.5rem;
+}
+
+.TequilaMezcal--text .TequilaMezcal--premium {
+    font: 500 1.8rem/1 var(--typografiaGeist);
+    width: 400px;
+    color: #444;
+}
+
+.content__information .pocas__unidades {
+    font: 500 2rem "Geist";
+    margin: 0.5rem 0 1.3rem 2rem;
+    color: #c8102e;
+}
 
 .content__information .information__button {
-    margin: 1em 0 1em 2.5em;
+    margin: 2em 0 1em 1.8em;
+}
+
+.flex__whiskys{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+}
+
+.whiskys--one{
+    margin-right: 5rem;
+}
+
+.whiskys--changed{
+    position: relative;
+    left: -3rem;
+}
+
+.whiskys__img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.whiskys__img .img__licor{
+    z-index:2 ;
+}
+
+.whiskys__img .licor--one{
+    width: 300px;
+}
+
+.whiskys__img .licor--two{
+    position: relative;
+    top: 0.5rem;
+    width:200px;
+}
+
+.whiskys__img .img--tree{
+    position: relative;
+    top: 1.5rem;
+    width:250px;
+}
+
+.whiskys__img .img__vaso{
+    position: absolute;
+    top: 9.2rem;
+    left: 9rem;
+    width: 100%;
+    max-width: 150px;
+    z-index: 3;
+}
+
+.whiskys__img .vaso--changed{
+    top: 10rem;
+    left: 5.5rem;
+}
+
+.whiskys__img .vaso--changed2{
+    top: 11.5rem;
+    left: 7.8rem;
+}
+
+.whiskys__img .img__tiempo{
+    position: absolute;
+    top: 2rem;
+    right: -15rem;
+    background-color: #1a3c8e;
+    padding: 0.8rem 1.5rem;
+    width: 380px;
+    text-align: center;
+    border-radius:0 38px 38px 0;
+    color: var(--colorWhite);
+    font: 600 1.2rem var(--typografiaGeist);
+    z-index: 1;
+}
+
+.whiskys__img .tiempo--changed{
+    top: 1.5rem;
+    right: -18rem;
+}
+
+.whiskys__img .tiempo--malt{
+    top: 2.5rem;
+}
+
+.whiskys__informacion{
+    position: relative;
+    top:1rem;
+    left: -4rem;
+    width:550px;
+
+}
+.information--deluxe{
+    left: -1rem;
+}
+
+.information--malt{
+    left: -2rem;
+}
+
+.informacion__texto .texto__whisky{
+    font: 600 2rem var(--typografiaUrbanist);
+    width: 400px;
+    color: #1b3a2f;
+}
+
+.whiskys__informacion .informacion__precio{
+    position: relative;
+    top: 0;
+    left: 1.5rem;
+    font: 700 3rem var(--typografiaUrbanist);
+}
+
+.slide__pideahora{
+    position: relative;
+    top: 0.5rem;
+    left: 5rem;
+    width: 100%;
+    max-width:450px;
+    min-width:350px;
+}
+
+.pideahora--slide5{
+    top: 3rem;
+    left: 6.5rem;
 }
 
 
+
+.slide__pideahora .pideahora__btn{
+    cursor: pointer;
+    background-color: #1b3a2f;
+    color: #ffffff;
+    font: 600 1.2em "Urbanist";
+    text-decoration: none;
+    margin: 0 0.5rem 0 0;
+    padding: 0.9em 1em;
+    border-radius: 8px;
+}
+
+.slide__pideahora .btn--color{
+    background-color: transparent;
+    border: 2px solid #1b3a2f;
+    color: #1b3a2f;
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.slide__pideahora .btn--color:hover{
+    background-color: #1b3a2f;
+    color: var(--colorWhite);
+}
+
+/* PackMixto */
+.pideahora--slide5 .btn--slide4{
+    cursor: pointer;
+    background-color: #2f3f68;
+    color: #ffffff;
+    font: 600 1.2em "Urbanist";
+    text-decoration: none;
+    margin: 0 0.5rem 0 0;
+    padding: 0.9em 1em;
+    border-radius: 8px;
+}
+
+.pideahora--slide5 .btn--slide5:last-child{
+    background-color: transparent;
+    border: 2px solid #2f3f68;
+    color: #2f3f68;
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.pideahora--slide5 .btn--slide5:last-child:hover{
+    background-color: #2f3f68;
+    color: var(--colorWhite);
+}
+
+.pideahora__content{
+    margin-bottom: 2rem;
+}
+
+.pideahora__content .content__mensaje{
+    font: 600 2.2rem var(--typografiaGeist);
+}
 
 .information__button .button__item {
     cursor: pointer;
@@ -427,24 +924,57 @@ body {
     color: #ffffff;
     font: 600 1.2em "Urbanist";
     text-decoration: none;
-    margin: 0 2rem 0 0;
+    margin: 0 0.5rem 0 0;
     padding: 0.9em 1em;
+    border-radius: 8px;
 }
 
-.content__information .item--colorGren {
-    background-color: #10b981;
+.content__information .button__item:last-child {
+    background-color: transparent;
+    border: 2px solid #f59e0b;
+    color: #f59e0b;
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.content__information .button__item:last-child:hover {
+    background-color: #f59e0b;
+    color: var(--colorWhite);
+}
+
+.content__information .item--colorVinoTinto {
+    background-color: #4b1e1a;
+}
+
+.content__information .item--colorVinoTinto:last-child {
+    background-color: transparent;
+    border: 2px solid #4b1e1a;
+    color: #4b1e1a;
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.content__information .item--colorVinoTinto:last-child:hover {
+    background-color: #4b1e1a;
+    color: var(--colorWhite);
 }
 
 .content__information .item--colorRed {
-    background-color: #c8102e;
+    background-color: #A13A47;
 }
 
-.content__information .item--colorBlack {
-    background-color: #000000;
+.content__information .item--colorRed:last-child {
+    background-color: transparent;
+    border: 2px solid #A13A47;
+    color: #A13A47;
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.content__information .item--colorRed:last-child:hover {
+    background-color: #A13A47;
+    color: var(--colorWhite);
 }
 
 .button__precio {
-    margin-bottom: 2.5rem;
+    margin: -1rem 0 2rem 0;
 }
 
 .information__button .precio__shop {
@@ -466,75 +996,74 @@ body {
 }
 
 .information__img {
+    position: relative;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    max-width: 100%;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+}
+
+.img--RonesAguardiantes{
+    margin-left: 2rem;
 }
 
 .information__img img {
-    max-width: 400px;
-    transform: rotate(-20deg) translateY(-40rem) translateX(8rem);
+    width: 100%;
+    max-width: 350px;
+
 }
 
-.information__img .img--heineken {
-    transform: rotate(-20deg) translateY(-40rem) translateX(12rem);
+.information__img .paulaner--2 {
+    margin-left: -15rem;
 }
 
-.information__img .img--budweiser {
-    transform: rotate(-20deg) translateY(-40rem) translateX(12rem);
+.information__img .vinos--2 {
+    margin-left: -15rem;
 }
 
-.experencia__clientes {
-    display: flex;
+
+.information__img .img--Tequila {
+    transform: rotate(15deg);
+    max-width: 550px;
 }
 
-.information__clientes {
-    margin: 2.5rem 0 0 2rem;
-    display: flex;
-    position: relative;
+.information__img .img--RonesAguardiantes{
+    width: 250px;
+    z-index: 2;
 }
 
-.information__clientes img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-left: -15px;
-    border: 2px solid white;
+.information__img .RonesAguardiantes--2{
+    margin-left: -10rem;
     z-index: 1;
-    transition: transform 0.2s ease, z-index 0.2s;
 }
 
-.information__clientes img:first-child {
-    margin-left: 0;
+.information__img .img__TequilaMezcal{
+    width: 550px;
+    z-index: 1;
 }
 
-
-.cliente__satif {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4em;
-    margin: 2.5rem 0 0.5em 0.7em;
+.information__img .TequilaMezcal--3{
+    margin-left: -17.5rem;
 }
 
-.cliente__satif .clientes__count {
-    font: 600 1em "Geist";
-
-}
-
-.cliente__satif .clientes__satisfied {
-    font: 600 1em "Geist";
+.information__img .TequilaMezcal--3:nth-child(2){
+    z-index: 3;
 }
 
 /** Logos Cerveza */
 .logos {
-    min-height: 10vh;
+    min-height: 5vh;
+    margin-bottom: -3rem;
+    margin: 50px 0 50px 0;
+}
 
+.logos .logos__titles {
+    font: 600 2rem var(--typografiaGeist);
+    margin: 0 0 0 6rem;
 }
 
 .content__logos {
-    width: 100%;
+    width: 95%;
     padding: 20px 0;
     display: flex;
     overflow: hidden;
@@ -545,32 +1074,59 @@ body {
 }
 
 .logos__slide {
-    animation: 10s slide infinite linear;
-
-    img {
-        height: 75px;
-        margin: 0 50px;
-    }
+    animation: 25s slide infinite linear;
+    display: flex;
+    align-items: center;
+    animation-play-state: running;
 }
 
-.content__logos::before {
+.logos__slide img {
+    height: 75px;
+    margin: 0 40px;
+    transition: filter 0.5s ease, transform 0.3s ease;
+    filter: grayscale(100%);
+    cursor: pointer;
+}
+
+.logos__slide img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.content__logos:hover .logos__slide {
+    animation-play-state: paused;
+}
+
+.logos__slide img:nth-child(7),
+.logos__slide img:nth-child(9) {
+    height: 120px;
+}
+
+.logos__slide img:nth-child(11) {
+    height: 140px;
+}
+
+
+.content__logos::before,
+.content__logos::after {
     content: "";
-    z-index: 1;
     position: absolute;
     top: 0;
-    left: 0;
-    width: 200px;
+    width: 150px;
     height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+.content__logos::before {
+    left: 0;
+    background: linear-gradient(to right, #fff 0%, transparent 100%);
 }
 
 .content__logos::after {
-    content: "";
-    z-index: 1;
-    position: absolute;
-    top: 0;
     right: 0;
-    width: 200px;
-    height: 100%;
+    background: linear-gradient(to left, #fff 0%, transparent 100%);
 }
 
 @keyframes slide {
@@ -584,96 +1140,7 @@ body {
 }
 
 /** Section Innovacion */
-.innovacion {
-    padding-top: 80px;
-    min-height: 100vh;
-}
 
-.innovaccion__content {
-    display: flex;
-    gap: 2rem;
-    padding: 0 130px;
-}
-
-.innovaccion__content .content__item {
-    background-color: #ffbd27;
-    width: 550px;
-    height: 650px;
-    border-radius: 30px;
-}
-
-.content__item .item__titulo {
-    font: 600 2rem var(--typografiaGeist);
-    margin: 3rem 0 1.3rem 4rem;
-}
-
-.content__item .item__texto {
-    font: 400 1rem var(--typografiaUrbanist);
-    width: 300px;
-    margin: 0 0 1.3rem 4rem;
-}
-
-.content__item .item__btnExplore {
-    border-bottom: 1px solid #000000;
-    text-decoration: none;
-    padding-bottom: 0.5rem;
-    color: #000000;
-    margin: 0 0 0 4rem;
-    font: 500 1.1rem var(--typografiaUrbanist);
-
-}
-
-.content__item .item__imgInnovadora {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -1rem;
-}
-
-.innovaccion__content .item--beerElegante {
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.item--beerElegante .item__beerElegante {
-    background-color: #f6f6f6;
-    display: flex;
-    width: 700px;
-    height: 550px;
-    border-radius: 30px;
-}
-
-.beerElegante__descripcion .descripcion__titlte {
-    font: 600 2rem var(--typografiaGeist);
-    margin: 3rem 0 1.3rem 4rem;
-}
-
-.beerElegante__descripcion .descripcion__text {
-    font: 400 1rem var(--typografiaUrbanist);
-    width: 280px;
-    margin: 0 0 1.3rem 4rem;
-}
-
-.beerElegante__descripcion .descripcion__btn {
-    border-bottom: 1px solid #000000;
-    text-decoration: none;
-    padding-bottom: 0.5rem;
-    color: #000000;
-    margin: 0 0 0 4rem;
-    font: 500 1.1rem var(--typografiaUrbanist);
-}
-
-
-.descripcion__img img {
-    max-width: 100%;
-    width: 300px;
-}
-
-.descripcion__img .img__modern {
-    margin-left: 3rem;
-}
 
 /* Drawer Carrito */
 .cart-overlay {
@@ -850,7 +1317,7 @@ body {
     width: 100%;
     height: 50px;
     padding: 10px;
-    background: #7c5cff;
+    background: var(--colorCafe);
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -1261,15 +1728,83 @@ body {
 /* Oferta del dia */
 .ofertaDia {
     min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ofertaDia__product {
+    display: flex;
+    cursor: pointer;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0 0 0;
+    overscroll-behavior-inline: contain;
     background-color: #f6f6f6;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+
+.ofertaDia__product::-webkit-scrollbar {
+    height: 8px;
+    background: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ofertaDia__product::-webkit-scrollbar-thumb {
+    background-color: #b48b58;
+    border-radius: 4px;
+}
+
+.ofertaDia__product::-webkit-scrollbar-button {
+    display: none;
+}
+
+
+.ofertaDia__product:hover::-webkit-scrollbar,
+.ofertaDia__product.active::-webkit-scrollbar {
+    opacity: 1;
+}
+
+.ofertaDia__product {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.ofertaDia__product:hover,
+.ofertaDia__product.active {
+    scrollbar-color: #b48b58 transparent;
+}
+
+
+.ofertaDia__product::before,
+.ofertaDia__product::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: #f6f6f6;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.ofertaDia__product::before {
+    left: 0;
+}
+
+.ofertaDia__product::after {
+    right: 0;
 }
 
 
 .ofertaDia__product .product__flex {
     display: flex;
+    flex: 0 0 100%;
+    min-width: 300px;
     justify-content: center;
     align-content: center;
     gap: 5rem;
@@ -1342,9 +1877,24 @@ body {
     background-color: var(--colorDark);
     color: #ffff;
     font: 500 1.3rem var(--typografiaGeist);
-    padding: 20px 15px;
+    padding: 15px 15px;
     cursor: pointer;
+    border-radius: 8px;
     text-decoration: none;
+    margin-right: 1rem;
+}
+
+.flex__content .comprar--detalles {
+    background-color: transparent;
+    padding: 13px 15px;
+    border: 2px solid var(--colorDark);
+    color: var(--colorDark);
+    transition: background-color .4s ease, color .4s ease;
+}
+
+.flex__content .comprar--detalles:hover {
+    background-color: var(--colorDark);
+    color: var(--colorWhite);
 }
 
 
@@ -1400,17 +1950,17 @@ body {
     font-weight: 600;
     font: 600 1.2rem var(--typografiaGeist);
     color: var(--colorDark);
-    margin-bottom:0.7rem;
+    margin-bottom: 0.7rem;
 }
 
-.blog__card .card__text{
+.blog__card .card__text {
     width: 400px;
     font: 400 1rem var(--typografiaGeist);
     color: var(--colorLigth);
-    margin-bottom:1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.blog__card .card__tiempo{
+.blog__card .card__tiempo {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -1418,12 +1968,12 @@ body {
 
 }
 
-.card__tiempo .tiempo__item{
+.card__tiempo .tiempo__item {
     font: 500 0.8rem var(--typografiaGeist);
     color: var(--colorLigth);
 }
 
-.tiempo__item strong{
+.tiempo__item strong {
     color: var(--colorDark);
 }
 

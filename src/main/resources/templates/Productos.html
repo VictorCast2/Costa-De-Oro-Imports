@@ -11,14 +11,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet">
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
-          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Productos || Costa De Oro Imports</title>
     <meta name="description" content="">
     <meta name="autor" content="">
@@ -26,7 +26,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -142,7 +142,7 @@
             </div>
 
             <!-- Contenedor para mostrar filtros seleccionados -->
-            <div id="selected-filters"  class="selected-filters"></div>
+            <div id="selected-filters" class="selected-filters"></div>
 
             <div class="produtos__filter">
                 <div class="custom-select">
@@ -226,9 +226,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p, stat : ${productosActivos}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p, stat : ${productosActivos}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -243,13 +241,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -269,9 +265,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
