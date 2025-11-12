@@ -75,7 +75,7 @@ public class EmailServiceImpl implements EmailService {
             this.sendEmail(usuario.getCorreo(), "¡Bienvenido a Nuestro Sistema!", "email-bienvenida", variables);
 
         } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el email de bienvenida" + e.getMessage(), e);
+            throw new RuntimeException("error al enviar el email de bienvenida" + e.getMessage(), e);
         }
     }
 
@@ -95,7 +95,7 @@ public class EmailServiceImpl implements EmailService {
 
             this.sendEmail(usuario.getCorreo(), "Inicio de Sesión Exitoso - Seguridad", "email-login-exitoso", variables);
         } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el email de inicio de sesión exitoso" + e.getMessage(), e);
+            throw new RuntimeException("error al enviar el email de inicio de sesión exitoso" + e.getMessage(), e);
         }
     }
 
@@ -154,7 +154,7 @@ public class EmailServiceImpl implements EmailService {
                     variables
             );
         } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el email con el estado de la compra" + e.getMessage(), e);
+            throw new RuntimeException("error al enviar el email con el estado de la compra" + e.getMessage(), e);
         }
     }
 

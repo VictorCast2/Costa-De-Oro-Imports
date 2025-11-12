@@ -282,6 +282,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ========== VALIDACIONES ==========
+    //Descripcion de un producto
+    const toolbarOptions = [
+        [{ 'font': [] }, { 'size': [] }],           // Tipografía y tamaño
+        ['bold', 'italic', 'underline', 'strike'],  // Estilo de texto
+        [{ 'color': [] }, { 'background': [] }],    // Color del texto y fondo
+        [{ 'script': 'sub' }, { 'script': 'super' }],// Sub/superíndice
+        [{ 'header': '1' }, { 'header': '2' }, 'blockquote', 'code-block'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'align': [] }],
+        ['link', 'image', 'video'],                 // Enlaces, imágenes, videos
+        ['clean']                                   // Limpiar formato
+    ];
+
+    const quill = new Quill('#editor-container', {
+        modules: { toolbar: toolbarOptions },
+        theme: 'snow'
+    });
+
+    //Validaciones del formulario de agregar producto
     const fieldsProducto = {
         categoriaprincipal: {
             regex: /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
@@ -409,6 +429,57 @@ document.addEventListener("DOMContentLoaded", () => {
         // Validar categoría principal
         const valorCategoria = inputCategoria.value.trim();
         if (valorCategoria === "" || !fieldsProducto.categoriaprincipal.regex.test(valorCategoria)) {
+
+        // Validar inputs individuales (texto directo)
+        Object.keys(fieldsProducto).forEach(fieldId => {
+            const input = document.getElementById(fieldId);
+            const regex = fieldsProducto[fieldId].regex;
+            const inputBox = input.closest(".formulario__box");
+            const checkIcon = inputBox.querySelector(".ri-check-line");
+            const errorIcon = inputBox.querySelector(".ri-close-line");
+            const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
+            const label = inputBox.querySelector("label.box__label");
+
+            if (input.value.trim() === "") {
+                formularioValido = false;
+                checkIcon.style.display = "none";
+                errorIcon.style.display = "inline-block";
+                errorMessage.style.display = "block";
+                input.style.border = "2px solid #fd1f1f";
+                if (label) label.classList.add("error");
+                inputBox.classList.add("input-error");
+            } else if (!regex.test(input.value.trim())) {
+                // Campo con texto pero inválido → mostrar error
+                formularioValido = false;
+                checkIcon.style.display = "none";
+                errorIcon.style.display = "inline-block";
+                errorMessage.style.display = "block";
+                input.style.border = "2px solid #fd1f1f";
+                if (label) label.classList.add("error");
+                inputBox.classList.add("input-error");
+            } else {
+                // Campo válido
+                checkIcon.style.display = "inline-block";
+                errorIcon.style.display = "none";
+                errorMessage.style.display = "none";
+                input.style.border = "2px solid #0034de";
+                if (label) label.classList.remove("error");
+                inputBox.classList.remove("input-error");
+            }
+        });
+
+        // --- VALIDAR SUBCATEGORÍAS (MODO DIRECTO O TAGS) ---
+        const inputSub = document.getElementById("Subcategoria");
+        const hiddenSub = document.getElementById("subcategoriasHidden");
+        const subBox = inputSub.closest(".formulario__box");
+        const subCheck = subBox.querySelector(".ri-check-line");
+        const subErrorIcon = subBox.querySelector(".ri-close-line");
+        const subErrorMsg = subBox.parentNode.querySelector(".formulario__error");
+
+        const valorDirecto = inputSub.value.trim();
+        const valorTags = hiddenSub.value.trim();
+
+        if (valorDirecto === "" && valorTags === "") {
             formularioValido = false;
             checkIcon.style.display = "none";
             errorIcon.style.display = "inline-block";
@@ -429,6 +500,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Validar subcategorías
         if (subcategorias.length === 0) {
+
+        // Validar estado (radio buttons)
+        const estadoSeleccionado = Array.from(radiosEstado).some(radio => radio.checked);
+
+        if (!estadoSeleccionado) {
             formularioValido = false;
             mostrarErrorSubcategoria("Debes agregar al menos una subcategoría antes de continuar");
         } else {

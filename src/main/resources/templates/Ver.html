@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
         integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,7 +28,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -35,7 +36,11 @@
 
 <body>
     <header class="header">
-        <h1 class="header__logo">Costa De Oro Imports</h1>
+        <figure class="header__logo">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            </a>
+        </figure>
 
         <nav class="header__navbar">
             <ul class="navbar__list">

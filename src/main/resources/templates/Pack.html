@@ -27,7 +27,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -35,6 +35,7 @@
 
 <body>
     <header class="header">
+
         <figure class="header__logo">
             <a th:href="@{/}">
                 <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
@@ -54,66 +55,66 @@
         <div class="list__icon">
 
             <!-- Buscar -->
-                <span class="icon__item">
-                    <i class="ri-search-line"></i>
-                </span>
+            <span class="icon__item">
+                <i class="ri-search-line"></i>
+            </span>
 
-                <!-- Usuario -->
-                <span class="icon__item">
-                    <i class="ri-user-line"></i>
-                    <!-- Cuando el usuario NO está autenticado -->
-                    <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
-                        <div class="menu__sub">
-                            <a th:href="@{/auth/login}" class="sub__link">
-                                <p class="link__text">Iniciar Sesión</p>
-                            </a>
-                            <a th:href="@{/auth/registro}" class="sub__link">
-                                <p class="link__text">Registro</p>
-                            </a>
-                            <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
-                                <p class="link__text">Recordar Contraseña</p>
-                            </a>
-                        </div>
+            <!-- Usuario -->
+            <span class="icon__item">
+                <i class="ri-user-line"></i>
+                <!-- Cuando el usuario NO está autenticado -->
+                <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                    <div class="menu__sub">
+                        <a th:href="@{/auth/login}" class="sub__link">
+                            <p class="link__text">Iniciar Sesión</p>
+                        </a>
+                        <a th:href="@{/auth/registro}" class="sub__link">
+                            <p class="link__text">Registro</p>
+                        </a>
+                        <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                            <p class="link__text">Recordar Contraseña</p>
+                        </a>
                     </div>
-                    <!-- Cuando el usuario SÍ está autenticado -->
-                    <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
-                        <div class="menu__sub">
-                            <div class="sub__info">
-                                <i class="ri-user-line"></i>
-                                <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
-                                </h2>
-                            </div>
-                            <hr>
-                            <a th:href="@{/perfil/}" class="sub__link">
-                                <p class="link__text">Perfil</p>
-                            </a>
-                            <a th:href="@{/perfil/configuration}" class="sub__link">
-                                <p class="link__text">Configuracion</p>
-                            </a>
-                            <a th:href="@{/perfil/notificaciones}" class="sub__link">
-                                <p class="link__text">Notificaciones</p>
-                            </a>
-                            <a th:href="@{/perfil/pedidos}" class="sub__link">
-                                <p class="link__text">Sus Pedidos</p>
-                            </a>
-                            <a th:href="@{/auth/logout}" class="sub__link">
-                                <p class="link__text">Cerrar Seccion</p>
-                            </a>
+                </div>
+                <!-- Cuando el usuario SÍ está autenticado -->
+                <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                    <div class="menu__sub">
+                        <div class="sub__info">
+                            <i class="ri-user-line"></i>
+                            <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                            </h2>
                         </div>
+                        <hr>
+                        <a th:href="@{/perfil/}" class="sub__link">
+                            <p class="link__text">Perfil</p>
+                        </a>
+                        <a th:href="@{/perfil/configuration}" class="sub__link">
+                            <p class="link__text">Configuracion</p>
+                        </a>
+                        <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                            <p class="link__text">Notificaciones</p>
+                        </a>
+                        <a th:href="@{/perfil/pedidos}" class="sub__link">
+                            <p class="link__text">Sus Pedidos</p>
+                        </a>
+                        <a th:href="@{/auth/logout}" class="sub__link">
+                            <p class="link__text">Cerrar Seccion</p>
+                        </a>
                     </div>
-                </span>
+                </div>
+            </span>
 
-                <!-- Favorito -->
-                <span class="icon__item" id="go-fav">
-                    <i class="ri-heart-3-line"></i>
-                    <span class="icon__badge" id="fav-count"></span>
-                </span>
+            <!-- Favorito -->
+            <span class="icon__item" id="go-fav">
+                <i class="ri-heart-3-line"></i>
+                <span class="icon__badge" id="fav-count"></span>
+            </span>
 
-                <!-- Carrito -->
-                <span class="icon__item" id="cart-icon">
-                    <i class="ri-shopping-cart-2-line"></i>
-                    <span class="icon__badge" id="cart-count"></span>
-                </span>
+            <!-- Carrito -->
+            <span class="icon__item" id="cart-icon">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span class="icon__badge" id="cart-count"></span>
+            </span>
         </div>
     </header>
 
@@ -128,9 +129,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p, stat : ${packsActivos}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p, stat : ${packsActivos}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -145,13 +144,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -171,9 +168,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 

@@ -123,7 +123,7 @@ public class AuthenticationController {
     public String postRegistro(@ModelAttribute @Valid CreateUsuarioRequest usuarioRequest, BindingResult result) {
 
         if (result.hasErrors()) {
-            String mensaje = UriUtils.encode("Error en los datos del formulario", StandardCharsets.UTF_8);
+            String mensaje = UriUtils.encode("error en los datos del formulario", StandardCharsets.UTF_8);
             return "redirect:/auth/registro?mensaje=" + mensaje + "&success=false";
         }
         BaseResponse response = usuarioService.createUser(usuarioRequest);

@@ -68,6 +68,11 @@
                     <a th:href="@{/admin/compra/}" class="sidebar__text">Compras</a>
                 </li>
 
+                <li class="sidebar__item">
+                    <i class="ri-store-2-line"></i>
+                    <a href="DashboardProvedores.html" class="sidebar__text">Provedores</a>
+                </li>
+
                 <li class="sidebar__item active">
                     <i class="ri-group-line"></i>
                     <a href="" class="sidebar__text">Clientes</a>
@@ -75,19 +80,24 @@
 
                 <li class="sidebar__item">
                     <i class="ri-star-line"></i>
-                    <a href="" class="sidebar__text">Reseñas</a>
+                    <a href="DashboardReseñas.html" class="sidebar__text">Reseñas</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
 
                 <li class="sidebar__item">
                     <i class="ri-news-line"></i>
-                    <a href="" class="sidebar__text">Blog</a>
+                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-question-answer-line"></i>
-                    <a href="" class="sidebar__text">PQRS</a>
+                    <a href="DashboardPQRS.html" class="sidebar__text">PQRS</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-printer-line"></i>
+                    <a href="DashboardReportes.html" class="sidebar__text">Reportes</a>
                 </li>
             </ul>
 

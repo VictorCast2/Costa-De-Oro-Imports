@@ -1,4 +1,3 @@
-
 -- Insertar empresas
 INSERT INTO
     empresa (

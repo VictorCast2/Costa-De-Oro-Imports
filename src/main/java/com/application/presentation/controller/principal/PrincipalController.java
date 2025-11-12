@@ -28,7 +28,7 @@ public class PrincipalController {
     private final UsuarioService usuarioService;
     private final ProductoService productoService;
 
-    @GetMapping
+    @GetMapping({""})
     public String index(Model model) {
 
         List<ProductoResponse> productosMasVendidos = productoService.getProductosMasVendidosActivos();
