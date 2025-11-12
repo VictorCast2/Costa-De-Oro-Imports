@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     @Override
     public Usuario getUsuarioByCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo)
-                .orElseThrow(() -> new EntityNotFoundException("Error: El correo '" + correo + "' no exite"));
+                .orElseThrow(() -> new EntityNotFoundException("error: El correo '" + correo + "' no exite"));
     }
 
     @Override
@@ -67,11 +67,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         if (completeProfileRequest.tipoIdentificacion().equals(EIdentificacion.NIT)) {
             Rol rolPersonaJuridica = rolRepository.findByName(ERol.PERSONA_JURIDICA)
                     .orElseThrow(
-                            () -> new EntityNotFoundException("Error: el rol PERSONA_JURIDICA no existe en la BD"));
+                            () -> new EntityNotFoundException("error: el rol PERSONA_JURIDICA no existe en la BD"));
             usuario.setRol(rolPersonaJuridica);
         } else {
             Rol rolPersonaNatural = rolRepository.findByName(ERol.PERSONA_NATURAL)
-                    .orElseThrow(() -> new EntityNotFoundException("Error: el rol PERSONA_NATURAL no exite en la BD"));
+                    .orElseThrow(() -> new EntityNotFoundException("error: el rol PERSONA_NATURAL no exite en la BD"));
             usuario.setRol(rolPersonaNatural);
         }
 
@@ -102,11 +102,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         if (usuarioRequest.tipoIdentificacion().equals(EIdentificacion.NIT)) {
             Rol rolPersonaJuridica = rolRepository.findByName(ERol.PERSONA_JURIDICA)
                     .orElseThrow(
-                            () -> new EntityNotFoundException("Error: el rol PERSONA_JURIDICA no existe en la BD"));
+                            () -> new EntityNotFoundException("error: el rol PERSONA_JURIDICA no existe en la BD"));
             usuario.setRol(rolPersonaJuridica);
         } else {
             Rol rolPersonaNatural = rolRepository.findByName(ERol.PERSONA_NATURAL)
-                    .orElseThrow(() -> new EntityNotFoundException("Error: el rol PERSONA_NATURAL no exite en la BD"));
+                    .orElseThrow(() -> new EntityNotFoundException("error: el rol PERSONA_NATURAL no exite en la BD"));
             usuario.setRol(rolPersonaNatural);
         }
 
