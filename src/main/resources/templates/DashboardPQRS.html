@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../static/Css/DashboardCategoria.css">
+    <link rel="stylesheet" href="../static/Css/DashboardPQRS.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <title>Dashboard Categoria || Costa de oro import</title>
+    <title>Dashboard PQRS || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
@@ -55,9 +55,9 @@
                     <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
                 </li>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
-                    <a href="" class="sidebar__text">Categorias</a>
+                    <a href="DashboardCategoria.html" class="sidebar__text">Categorias</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -87,9 +87,9 @@
                     <a href="DashboardBlog.html" class="sidebar__text">Blog</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-question-answer-line"></i>
-                    <a href="DashboardPQRS.html" class="sidebar__text">PQRS</a>
+                    <a href="" class="sidebar__text">PQRS</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -201,375 +201,360 @@
 
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
-                        <h2 class="producto__titulo">Categoria</h2>
-                        <p class="producto__texto">Hay 0 Categoria registradas</p>
-                    </div>
-
-                    <div class="titleheader__btn">
-                        <a href="AgregarCategoria.html">Agregar Categoria</a>
+                        <h1 class="producto__titulo">PQRS</h1>
+                        <p class="producto__texto">Gestión de Peticiones, Quejas, Reclamos y Sugerencias</p>
                     </div>
                 </div>
 
-                <div class="body__table">
+                <div class="body__datos">
+                    <div class="datos__card">
+                        <div class="card__texto">
+                            <h2 class="texto__title">Pendientes
+                            </h2>
+
+                            <span class="texto__icon"><i class="ri-time-line"></i></span>
+                        </div>
+
+                        <div class="card__ingresos">
+                            <span class="ingresos__total">2</span>
+                        </div>
+
+                    </div>
+
+                    <div class="datos__card">
+                        <div class="card__texto">
+                            <h2 class="texto__title">En Proceso
+                            </h2>
+
+                            <span class="texto__icon"><i class="ri-error-warning-line"></i></span>
+                        </div>
+
+                        <div class="card__ingresos">
+                            <span class="ingresos__total">2</span>
+                        </div>
+                    </div>
+
+                    <div class="datos__card">
+                        <div class="card__texto">
+                            <h2 class="texto__title">Resueltos
+                            </h2>
+
+                            <span class="texto__icon"><i class="ri-checkbox-circle-line"></i></span>
+                        </div>
+
+                        <div class="card__ingresos">
+                            <span class="ingresos__total">2</span>
+                        </div>
+                    </div>
+
+                    <div class="datos__card">
+                        <div class="card__texto">
+                            <h2 class="texto__title">Total
+                            </h2>
+
+                            <span class="texto__icon"><i class="ri-chat-4-line"></i></span>
+                        </div>
+
+                        <div class="card__ingresos">
+                            <span class="ingresos__total">6</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="body__pqrs">
                     <div class="container__table">
                         <div class="table__filter">
-                            <input id="inputSearch" type="search" placeholder="Buscar Categoria">
 
+                            <input id="inputSearch" type="search" placeholder="Buscar por nombre o asunto...">
 
                             <div class="custom__select">
-                                <select id="filtro-estado">
-                                    <option value="todos">Estado</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
+                                <select id="filtro-solicitud">
+                                    <option value="Todos">Todos</option>
+                                    <option value="Peticion">Peticion</option>
+                                    <option value="Queja">Queja</option>
+                                    <option value="Reclamo">Reclamo</option>
+                                    <option value="Sugerencia">Sugerencia</option>
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
                             </div>
 
-
-                        </div>
-
-                        <div class="notification__table-container">
-                            <table class="notification__table">
-                                <thead>
-                                    <tr>
-                                        <th>Icono categoria</th>
-                                        <th>Nombre de categoria</th>
-                                        <th>Producto</th>
-                                        <th>Estados</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="favoritos-body">
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/vinoCategoria.png"
-                                                    alt="categoria de la bebida vino">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vino</td>
-                                        <td>12</td>
-                                        <td class="categoria__td">
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/whiskyCategoria.png"
-                                                    alt="categoria de la bebida whisky">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Whisky</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/cervezaCategoria.png"
-                                                    alt="categoria de la bebida cerveza">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Cerveza</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/tequilaCategoria.png"
-                                                    alt="categoria de la bebida tequila">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Tequila</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/mezcalCategoria.png"
-                                                    alt="categoria de la bebida mezcal">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Mezcal</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/ronCategoria.png"
-                                                    alt="categoria de la bebida ron">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Ron</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/aguardienteCategoria.png"
-                                                    alt="categoria de la bebida aguardiente">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Aguardiente</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/vodkaCategoria.png"
-                                                    alt="categoria de la bebida vodkas">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vodkas</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/iconoCategoria/ginebraCategoria.png"
-                                                    alt="categoria de la bebida ginebra">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Ginebras</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-
-                            <div class="table__pagination">
-                                <div class="pagination__span">
-                                    <span class="span__description"></span>
-                                </div>
-
-                                <div class="pagination__button">
-                                    <button class="button__pasar pasar--anterior">Anterior</button>
-                                    <button class="button__pasar pasar--siguiente">Siguiente</button>
-                                </div>
+                            <div class="custom__select">
+                                <select id="filtro-estado">
+                                    <option value="Todos">Todos</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="En Proceso">En Proceso</option>
+                                    <option value="Resuelto">Resuelto</option>
+                                </select>
+                                <i class="ri-arrow-down-s-line"></i>
                             </div>
 
                         </div>
+
+                        <div class="table__solicitudes">
+
+                            <div class="solicitudes__clientes">
+                                <div class="clientes__content" id="contenedor-cards">
+
+                                    <h2 class="content__title">Solicitudes (6)</h2>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Peticion">Peticion</button>
+                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
+                                                    Pendiente</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Solicitud de información sobre servicios</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> María González</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 4 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Peticion">Peticion</button>
+                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
+                                                    Pendiente</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Solicitud de información sobre servicios</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> María González</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 4 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Queja">Queja</button>
+                                                <button class="button__item EnProceso"><i
+                                                        class="ri-error-warning-line"></i> En Proceso</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Demora en la atención</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> Carlos Ramírez</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 2 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Reclamo">Reclamo</button>
+                                                <button class="button__item Resuelto"><i
+                                                        class="ri-checkbox-circle-line"></i> Resuelto</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Producto defectuoso</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> Ana Martínez</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 3 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Sugerencia">Sugerencia</button>
+                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
+                                                    Pendiente</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Mejora en la plataforma web</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> Luis Torres</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 5 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Peticion">Peticion</button>
+                                                <button class="button__item EnProceso"><i
+                                                        class="ri-error-warning-line"></i> En Proceso</button>
+
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Certificado de servicio</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> Sandra López</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 6 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="content__card">
+
+                                        <div class="card__estados">
+                                            <div class="estados__button">
+                                                <button class="button__item Queja">Queja</button>
+                                                <button class="button__item Resuelto"><i
+                                                        class="ri-checkbox-circle-line"></i> Resuelto</button>
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="dropdown__toggle">
+                                                    <i class="ri-more-2-fill"></i>
+                                                </button>
+
+                                                <div class="dropdown__menu">
+                                                    <button class="dropdown__item eliminar">
+                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
+                                                    </button>
+                                                    <button class="dropdown__item ocultar">
+                                                        <i class="ri-eye-line"></i> Ver
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card__information">
+                                            <h4 class="information__title">Mala atención al cliente</h4>
+                                            <p class="information__text"><i class="ri-user-line"></i> Pedro Sánchez</p>
+                                            <p class="information__date"><i class="ri-calendar-line"></i> 1 de noviembre
+                                                de 2025</p>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pagination PQRS -->
+                        <div class="table__pagination">
+                            <div class="pagination__button">
+                                <button class="button__pasar pasar--anterior">Anterior</button>
+                                <button class="button__pasar pasar--siguiente">Siguiente</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -579,8 +564,47 @@
     </div>
 
 
+    <div class="modal" id="modalDetalle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalle de la solicitud</h2>
+                <button class="close-btn" id="cerrarModal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="estados__button button--modal">
+                    <button class="button__item Queja">Queja</button>
+                    <button class="button__item Resuelto"><i class="ri-checkbox-circle-line"></i> Resuelto</button>
+                </div>
+
+                <h3>Mala atención al cliente</h3>
+                <div class="info-row fecha"><i class="ri-calendar-line"></i> 1 de noviembre de 2025</div>
+                <div class="info-row"><i class="ri-user-line"></i> <span>Nombre:</span> Pedro Sánchez</div>
+                <div class="info-row"><i class="ri-mail-line"></i> <span>Email:</span> pedro.sanchez@email.com</div>
+                <div class="info-row"><i class="ri-phone-line"></i> <span>Teléfono:</span> 305-678-9012</div>
+
+                <div class="mensaje">
+                    <label>Mensaje:</label>
+                    <p>El personal de atención fue grosero y no resolvió mi problema.</p>
+                </div>
+
+                <div class="cambiar-estado">
+                    <label>Cambiar estado:</label>
+                    <div class="custom__select">
+                        <select id="filtro-estado">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Proceso">En Proceso</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>
+                        <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../static/Js/DashboardCategoria.js"></script>
+    <script src="../static/Js/DashboardPQRS.js"></script>
 </body>
 
 </html>

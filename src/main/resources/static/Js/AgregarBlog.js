@@ -44,126 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // funcionamiento de las dos categorias en el formulario
-    const inputSub = document.getElementById("Subcategoria");
-    const listaSub = document.getElementById("subcategoriaLista");
-
-    // Creamos contenedor visual para tags dentro del input
-    const contenedorTags = document.createElement("div");
-    contenedorTags.id = "subcategoriaTags";
-    inputSub.parentNode.insertBefore(contenedorTags, inputSub);
-
-    let subcategorias = [];
-    let listaVisible = false;
-
-    inputSub.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const valor = inputSub.value.trim();
-            if (valor === "") return;
-            if (subcategorias.includes(valor.toLowerCase())) return;
-
-            subcategorias.push(valor.toLowerCase());
-            inputSub.value = "";
-            actualizarInterfaz();
-        }
-    });
-
-
-    // Mostrar la lista al hacer clic o enfocar el input
-    inputSub.addEventListener("focus", () => {
-        listaVisible = true;
-        listaSub.classList.add("visible");
-        listaSub.classList.remove("oculto");
-    });
-
-    // Ocultar la lista cuando haces clic fuera del input o de la lista
-    document.addEventListener("click", (e) => {
-        if (!inputSub.contains(e.target) && !listaSub.contains(e.target)) {
-            listaVisible = false;
-            listaSub.classList.remove("visible");
-            listaSub.classList.add("oculto");
-        }
-    });
-
-    function actualizarInterfaz() {
-        // Actualiza lista desplegable
-        listaSub.innerHTML = "";
-        subcategorias.forEach((sub) => {
-            const p = document.createElement("p");
-            p.innerHTML = `${sub} <i class="ri-close-line"></i>`;
-            p.querySelector("i").addEventListener("click", () => eliminarSubcategoria(sub));
-            listaSub.appendChild(p);
-        });
-
-        // Actualiza tags dentro del input
-        contenedorTags.innerHTML = "";
-        const visibles = subcategorias.slice(0, 2);
-        visibles.forEach((sub) => {
-            const tag = document.createElement("div");
-            tag.className = "sub-tag";
-            tag.innerHTML = `${sub} <i class="ri-close-line"></i>`;
-            tag.querySelector("i").addEventListener("click", () => eliminarSubcategoria(sub));
-            contenedorTags.appendChild(tag);
-        });
-
-        if (subcategorias.length > 2) {
-            const extra = document.createElement("div");
-            extra.className = "sub-tag";
-            extra.textContent = `+${subcategorias.length - 2}`;
-            contenedorTags.appendChild(extra);
-        }
-
-        // Mostrar/ocultar lista
-        if (subcategorias.length === 0) {
-            listaSub.classList.add("oculto");
-        } else if (listaVisible) {
-            listaSub.classList.add("visible");
-        }
-
-        // Actualizar el input oculto
-        document.getElementById("subcategoriasHidden").value = subcategorias.join(",");
-
-        requestAnimationFrame(() => {
-            // Medimos el ancho real ocupado por los tags
-            let offset = 0;
-            if (contenedorTags.children.length > 0) {
-                const lastTag = contenedorTags.lastElementChild;
-                offset = lastTag.offsetLeft + lastTag.offsetWidth + 5; // 
-            } else {
-                offset = 15; // margen por defecto si no hay tags
-            }
-
-            // Mueve el contenedor de los tags dentro del input
-            contenedorTags.style.position = "absolute";
-            contenedorTags.style.left = "30px"; // igual que tu label en CSS
-            contenedorTags.style.top = "22px";
-
-            // Mueve visualmente el input al mismo nivel, sin cambiar su ancho ni padding
-            inputSub.style.textIndent = offset + "px"; // solo mueve el punto de escritura
-            inputSub.focus();
-
-            // coloca el cursor al final
-            const len = inputSub.value.length;
-            inputSub.setSelectionRange(len, len);
-        });
-
-        // Mantiene el label arriba si existen subcategorías
-        if (subcategorias.length > 0) {
-            inputSub.classList.add("has-value");
-        } else {
-            inputSub.classList.remove("has-value");
-        }
-    }
-
-    function eliminarSubcategoria(valor) {
-        subcategorias = subcategorias.filter((s) => s !== valor);
-        actualizarInterfaz();
-    }
-
-    function obtenerSubcategorias() {
-        return subcategorias;
-    }
 
     // Imagen del producto
     const boxImagen = document.querySelector('.formulario__boximagen');
@@ -266,30 +146,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    //inputs de fecha y hora con js son mas bonitos que los nativos
+    flatpickr("#fechapublicacion", {
+        dateFormat: "Y-m-d", // formato YYYY-MM-DD
+        minDate: "today",   // no dejar elegir fechas pasadas
 
-    //Validaciones del formulario de agregar producto
-    const fieldsProducto = {
-        categoriaprincipal: {
-            regex: /^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
-            errorMessage: "La categoria principal debe tener al menos 3 letras donde la primera letra tiene que ser mayuscula y no contener números."
-        },
-        Subcategoria: {
-            regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s]{2,30}$/,
-            errorMessage: "Debes agregar al menos una subcategoría antes de continuar"
-        },
+    });
+
+    //Validaciones del formulario de agregar blog
+    const fieldsBlog = {
+        titulo: { regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/, errorMessage: "El titulo debe tener al menos 3 letras." },
+        fechapublicacion: { regex: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, errorMessage: "Por favor eliga una fecha de publicacion" },
+        historiacompleta: { regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/, errorMessage: "La historia completa debe tener al menos 3 letras y no contener números." },
     };
 
-    // Asignamos validaciones de escritura en tiempo real
-    Object.keys(fieldsProducto).forEach(fieldId => {
+
+    Object.keys(fieldsBlog).forEach(fieldId => {
         const input = document.getElementById(fieldId);
         const inputBox = input.closest(".formulario__box");
         const checkIcon = inputBox.querySelector(".ri-check-line");
         const errorIcon = inputBox.querySelector(".ri-close-line");
-        const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
+        const errorMessage = inputBox.nextElementSibling;
 
         input.addEventListener("input", () => {
             const value = input.value.trim();
-            const label = inputBox.querySelector("label.box__label");
+            const label = inputBox.querySelector("box__label");
 
             if (value === "") {
                 inputBox.classList.remove("input-error");
@@ -298,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 errorMessage.style.display = "none";
                 input.style.border = "";
                 if (label) label.classList.remove("error");
-            } else if (fieldsProducto[fieldId].regex.test(value)) {
+            } else if (fieldsBlog[fieldId].regex.test(value)) {
                 checkIcon.style.display = "inline-block";
                 errorIcon.style.display = "none";
                 errorMessage.style.display = "none";
@@ -325,39 +206,48 @@ document.addEventListener("DOMContentLoaded", () => {
     radiosEstado.forEach(radio => {
         radio.addEventListener('change', () => {
             errorEstado.style.display = 'none';
-            radiosCustom.forEach(r => r.classList.remove('error'));
+            radiosCustom.forEach(r => r.classList.remove('error')); // quita borde rojo
         });
     });
 
-    // Validación de imagen
+    //Validacion de la imagen 
     function validarImagenes() {
         const file = inputFile.files[0];
+
+        // Reiniciar errores y borde
         errorFormato.style.display = "none";
         errorVacio.style.display = "none";
-        boxImagen.style.border = "1px solid #ddd";
+        boxImagen.style.border = "1px solid #ddd"; // borde por defecto
 
+        // Si no hay archivo seleccionado
         if (!file) {
             errorVacio.style.display = "block";
-            boxImagen.style.border = "2px solid #e53935";
+            boxImagen.style.border = "2px solid #e53935"; // borde rojo
             return false;
         }
 
+        // Si el formato no es permitido
         if (!formatosPermitidos.includes(file.type)) {
             errorFormato.style.display = "block";
-            boxImagen.style.border = "2px solid #e53935";
+            boxImagen.style.border = "2px solid #e53935"; // borde rojo
             return false;
         }
 
+        // Si todo está correcto → volver al borde normal
         boxImagen.style.border = "1px solid #ddd";
         return true;
     }
 
-    // Validación de descripción del producto
+
+    // Descripción del producto (validación)
     const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
     const errorDescripcion = document.querySelector('.error--descripcion');
 
+    // Función de validación
     function validarDescripcion() {
-        const contenido = quill.getText().trim();
+        const contenido = quill.getText().trim(); // Obtiene solo texto plano (sin formato)
+
+        // Reiniciar estado
         errorDescripcion.style.display = 'none';
         boxDescripcion.classList.remove('error-border');
 
@@ -370,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
+    // Ocultar el error al escribir
     quill.on('text-change', () => {
         const contenido = quill.getText().trim();
         if (contenido.length > 0) {
@@ -378,77 +269,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- VALIDACIÓN GENERAL DEL FORMULARIO ---
-    const addform = document.getElementById("formularioProducto");
+
+    const addform = document.getElementById("formularioBlog");
 
     addform.addEventListener("submit", function (e) {
         let formularioValido = true;
         let selectsValidos = true;
 
-        // Validar inputs individuales (texto directo)
-        Object.keys(fieldsProducto).forEach(fieldId => {
+
+        // 2. Validar inputs (solo si el checkbox está marcado)
+        Object.keys(fieldsBlog).forEach(fieldId => {
             const input = document.getElementById(fieldId);
-            const regex = fieldsProducto[fieldId].regex;
+            const regex = fieldsBlog[fieldId].regex;
             const inputBox = input.closest(".formulario__box");
             const checkIcon = inputBox.querySelector(".ri-check-line");
             const errorIcon = inputBox.querySelector(".ri-close-line");
-            const errorMessage = inputBox.parentNode.querySelector(".formulario__error");
-            const label = inputBox.querySelector("label.box__label");
+            const errorMessage = inputBox.nextElementSibling;
+            const value = input.value.trim();
 
-            if (input.value.trim() === "") {
+            if (!regex.test(value)) {
                 formularioValido = false;
                 checkIcon.style.display = "none";
                 errorIcon.style.display = "inline-block";
                 errorMessage.style.display = "block";
                 input.style.border = "2px solid #fd1f1f";
-                if (label) label.classList.add("error");
-                inputBox.classList.add("input-error");
-            } else if (!regex.test(input.value.trim())) {
-                // Campo con texto pero inválido → mostrar error
-                formularioValido = false;
-                checkIcon.style.display = "none";
-                errorIcon.style.display = "inline-block";
-                errorMessage.style.display = "block";
-                input.style.border = "2px solid #fd1f1f";
-                if (label) label.classList.add("error");
+                const label = inputBox.querySelector("box__label");
+                if (label) label.classList.add("error"); // marcar error
                 inputBox.classList.add("input-error");
             } else {
-                // Campo válido
-                checkIcon.style.display = "inline-block";
-                errorIcon.style.display = "none";
-                errorMessage.style.display = "none";
-                input.style.border = "2px solid #0034de";
-                if (label) label.classList.remove("error");
-                inputBox.classList.remove("input-error");
+                const label = inputBox.querySelector("box__label");
+                if (label) label.classList.remove("error"); // quitar error si es válido
             }
         });
-
-        // --- VALIDAR SUBCATEGORÍAS (MODO DIRECTO O TAGS) ---
-        const inputSub = document.getElementById("Subcategoria");
-        const hiddenSub = document.getElementById("subcategoriasHidden");
-        const subBox = inputSub.closest(".formulario__box");
-        const subCheck = subBox.querySelector(".ri-check-line");
-        const subErrorIcon = subBox.querySelector(".ri-close-line");
-        const subErrorMsg = subBox.parentNode.querySelector(".formulario__error");
-
-        const valorDirecto = inputSub.value.trim();
-        const valorTags = hiddenSub.value.trim();
-
-        if (valorDirecto === "" && valorTags === "") {
-            formularioValido = false;
-            subCheck.style.display = "none";
-            subErrorIcon.style.display = "inline-block";
-            subErrorMsg.style.display = "block";
-            inputSub.style.border = "2px solid #fd1f1f";
-            subBox.classList.add("input-error");
-        } else {
-            subErrorMsg.style.display = "none";
-            subBox.classList.remove("input-error");
-            subErrorIcon.style.display = "none";
-            subCheck.style.display = "inline-block";
-            inputSub.style.border = "2px solid #0034de";
-        }
-
 
         // Validar estado (radio buttons)
         const estadoSeleccionado = Array.from(radiosEstado).some(radio => radio.checked);
@@ -456,22 +308,24 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!estadoSeleccionado) {
             formularioValido = false;
             errorEstado.style.display = 'block';
-            radiosCustom.forEach(r => r.classList.add('error'));
+            radiosCustom.forEach(r => r.classList.add('error')); // agrega borde rojo
         } else {
             radiosCustom.forEach(r => r.classList.remove('error'));
         }
 
-        // Validar imagen
+
+        // Validar imagen antes de enviar
         if (!validarImagenes()) {
             formularioValido = false;
         }
 
-        // Validar descripción
+
+        //validar descripcion antes de enviar
         if (!validarDescripcion()) {
             formularioValido = false;
         }
 
-        // Mostrar error general
+        // Mostrar error si algo está mal
         if (!formularioValido || !selectsValidos) {
             Swal.fire({
                 icon: "error",
@@ -490,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("loginSuccess", "true");
     });
 
-    // Al cargar la página, mostrar éxito si existe
+    // Al cargar la página, revisamos si hay bandera de login
     window.addEventListener("DOMContentLoaded", () => {
         if (sessionStorage.getItem("loginSuccess") === "true") {
             Swal.fire({

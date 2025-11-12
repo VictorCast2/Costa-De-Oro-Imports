@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../static/Css/DashboardProducto.css">
+    <link rel="stylesheet" href="../static/Css/DashboardReseñas.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <title>Dashboard Producto || Costa de oro import</title>
+    <title>Dashboard Reseñas || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
@@ -50,9 +50,9 @@
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-shopping-cart-2-line"></i>
-                    <a href="" class="sidebar__text">Productos</a>
+                    <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -75,9 +75,9 @@
                     <a href="DashboardClientes.html" class="sidebar__text">Clientes</a>
                 </li>
 
-                <li class="sidebar__item">
+                <li class="sidebar__item active">
                     <i class="ri-star-line"></i>
-                    <a href="DashboardReseñas.html" class="sidebar__text">Reseñas</a>
+                    <a href="" class="sidebar__text">Reseñas</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
@@ -201,12 +201,8 @@
 
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
-                        <h2 class="producto__titulo">Productos</h2>
-                        <p class="producto__texto">Hay 0 productos registrados</p>
-                    </div>
-
-                    <div class="titleheader__btn">
-                        <a href="AgregarProducto.html">Agregar Producto</a>
+                        <h2 class="producto__titulo">Reseñas</h2>
+                        <p class="producto__texto">Hay 0 reseñas registrados</p>
                     </div>
                 </div>
 
@@ -218,10 +214,12 @@
 
                             <div class="custom__select">
                                 <select id="filtro-estado">
-                                    <option value="todos">Estado</option>
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="Borrador">Borrador</option>
+                                    <option value="Seleccionar calificacion">Seleccionar calificacion</option>
+                                    <option value="Uno">Uno</option>
+                                    <option value="Dos">Dos</option>
+                                    <option value="Tres">Tres</option>
+                                    <option value="Cuatro">Cuatro</option>
+                                    <option value="Cinco">Cinco</option>
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
                             </div>
@@ -233,68 +231,31 @@
                             <table class="notification__table">
                                 <thead>
                                     <tr>
-                                        <th>Imagen</th>
-                                        <th>Nombre del producto</th>
-                                        <th>Categoria</th>
-                                        <th>Precio</th>
-                                        <th>Stock</th>
-                                        <th>Estados</th>
+                                        <th>Nombre blog</th>
+                                        <th>Usuario</th>
+                                        <th>Reseñas</th>
+                                        <th>Calificacion</th>
+                                        <th>Fecha</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
+                                        <td>El Sabor del Whisky Escocés</td>
+                                        <td>Carlos M. Herrera</td>
+                                        <td class="td__reseñas">Un whisky con notas de madera y vainilla, suave al
+                                            paladar pero con un final
+                                            ahumado intenso</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
                                             </div>
                                         </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProductoDestacado56.png"
-                                                    alt="">
-                                            </figure>
-
-                                        </td>
-                                        <td class="td__product">Vodka Smirnoff Green Apple Botella 275 ml</td>
-                                        <td>Vodka Saborizado</td>
-                                        <td>$24,00</td>
-                                        <td>50</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
+                                        <td>12/10/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -302,9 +263,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -317,55 +275,21 @@
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProductoDestacado7.png"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Whisky Johnnie Walker Double Black 700 ml</td>
-                                        <td>Blended Malt</td>
-                                        <td>$349.900</td>
-                                        <td>200</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
+                                        <td>Vinos del Valle Central Chileno</td>
+                                        <td>Andrea López</td>
+                                        <td class="td__reseñas">Probé el Cabernet Sauvignon 2019 y fue una joya. Cuerpo
+                                            medio, aromas a
+                                            frutos rojos y taninos suaves. Perfecto para carnes asadas.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
                                             </div>
                                         </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProductoDestacado__vino.png"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Tequila Olmeca Reposado 700 ml – Mixto</td>
-                                        <td>Tequila Reposado</td>
-                                        <td>$39.000</td>
-                                        <td>45</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
+                                        <td>20/02/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -373,9 +297,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -388,20 +309,21 @@
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Cócteles con Vodka: Recetas y Secretos</td>
+                                        <td>Diego Pardo</td>
+                                        <td class="td__reseñas">El vodka recomendado tiene una pureza increíble. Los
+                                            cócteles quedan
+                                            cristalinos y sin ese sabor fuerte que arruina la mezcla.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>05/03/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -409,9 +331,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -421,24 +340,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Ron Caribeño, el Espíritu del Trópico</td>
+                                        <td>Valentina Suárez</td>
+                                        <td class="td__reseñas">El ron oscuro tiene un equilibrio perfecto entre dulzura
+                                            y fuerza. Se nota
+                                            el toque de caña y caramelo. Muy recomendable.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
+                                        <td>08/04/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -446,9 +365,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -458,24 +374,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Cervezas Artesanales de Latinoamérica</td>
+                                        <td>Juan Esteban Rivas</td>
+                                        <td class="td__reseñas">La cerveza ámbar artesanal fue una sorpresa. Aromas
+                                            cítricos, espuma densa y
+                                            un retrogusto a miel. Volvería a comprarla sin dudar.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Borrador">Borrador</button>
-                                        </td>
-
+                                        <td>02/05/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -483,9 +399,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -495,24 +408,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Brindando con Champagne Francés</td>
+                                        <td>Natalia Cárdenas</td>
+                                        <td class="td__reseñas">Las burbujas finas y persistentes hacen de este
+                                            champagne una delicia.
+                                            Perfecto para celebraciones elegantes.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Borrador">Borrador</button>
-                                        </td>
-
+                                        <td>14/06/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -520,9 +433,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -532,24 +442,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Explorando el Malbec Argentino</td>
+                                        <td>Ricardo Peña</td>
+                                        <td class="td__reseñas">Excelente vino con notas a ciruela y chocolate amargo.
+                                            Se siente robusto y
+                                            muy bien equilibrado.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Borrador">Borrador</button>
-                                        </td>
-
+                                        <td>03/07/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -557,9 +467,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -569,24 +476,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Catas de Tequila Premium</td>
+                                        <td>Fernanda Jiménez</td>
+                                        <td class="td__reseñas">El tequila reposado que probé fue espectacular. Dulce,
+                                            con notas de agave
+                                            cocido y un toque de madera. Ideal para degustar solo.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>29/08/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -594,9 +501,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -606,24 +510,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Gin Tonic: La Elegancia en un Vaso</td>
+                                        <td>Sebastián Lozano</td>
+                                        <td class="td__reseñas">El gin tiene un aroma botánico impresionante. Se mezcla
+                                            bien con cítricos y
+                                            tónica premium. Refrescante y sofisticado.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
+                                        <td>10/09/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -631,9 +535,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -643,24 +544,24 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
                                     <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
+                                        <td>Licores Dulces y Digestivos</td>
+                                        <td>Camila Torres</td>
+                                        <td class="td__reseñas">El licor de café es una maravilla. Aromático, con el
+                                            punto justo de dulzura.
+                                            Perfecto para acompañar postres.</td>
+                                        <td class="td__calificacion">
+                                            <div class="stars">
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-fill"></i>
+                                                <i class="ri-star-line"></i>
+                                            </div>
                                         </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Borrador">Borrador</button>
-                                        </td>
-
+                                        <td>23/10/2025</td>
                                         <td class="menu__actions">
                                             <div class="dropdown">
                                                 <button class="dropdown__toggle">
@@ -668,9 +569,6 @@
                                                 </button>
 
                                                 <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
                                                     <button class="dropdown__item eliminar">
                                                         <i class="ri-delete-bin-5-line"></i> Eliminar
                                                     </button>
@@ -680,46 +578,8 @@
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
 
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img src="../static/Assets/Img/Productos/Productos__Destacados/ProdusctoDestacado__vino2.webp"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vino Lambrusco Botticello Bianco Dolce 750 ml</td>
-                                        <td>Vino Blanco</td>
-                                        <td>$39.000</td>
-                                        <td>120</td>
-                                        <td>
-                                            <button class="td__estados Borrador">Borrador</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    
                                 </tbody>
                             </table>
 
@@ -743,9 +603,50 @@
 
     </div>
 
+    <!-- Modal de detalle de reseña -->
+    <div class="modal" id="modalDetalle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalle de la reseña</h2>
+                <button class="close-btn" id="cerrarModal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-row">
+                    <i class="ri-news-line"></i>
+                    <span>Nombre Blog:</span>
+                    <span class="modal__span" id="modalNombreblog"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-user-line"></i>
+                    <span>Usuario:</span>
+                    <span class="modal__span" id="modalUsuario"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-calendar-line"></i>
+                    <span>Fecha:</span>
+                    <span class="modal__span" id="modalFecha"></span>
+                </div>
+
+                <div class="info-row">
+                    <i class="ri-star-line"></i>
+                    <span>Calificación:</span>
+                    <div class="stars start--modal" id="modalCalificacion"></div>
+                </div>
+
+                <div class="mensaje">
+                    <label>Reseña:</label>
+                    <p class="modal__span" id="modalReseña"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../static/Js/DashboardProducto.js"></script>
+    <script src="../static/Js/DashboardReseñas.js"></script>
 </body>
 
 </html>
