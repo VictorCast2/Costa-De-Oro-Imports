@@ -68,7 +68,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .custom__select select {
-    width: 180px;
+    width: 225px;
     height: 45px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -122,7 +122,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .notification__table td {
-    padding: 5px 16px;
+    padding: 15px 15px;
     text-align: left;
     vertical-align: middle;
     font: 600 1rem var(--typografiaUrbanist);
@@ -130,63 +130,106 @@ input[type="search"]::-webkit-search-cancel-button {
     color: var(--colorLigth);
 }
 
+.stars {
+    margin: 0rem 0 0 0.2rem;
 
-.td__product {
+}
+
+
+.stars i {
+    font-size: 1.1rem;
+    color: #ffc107;
+    margin-left: -0.3rem;
+}
+
+
+.td__reseñas {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 230px;
+    max-width: 350px;
 }
 
-
-.notification__table td .img__container {
-    width: 75px;
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
+/* Contenedor general */
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.notification__table td .img__container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    image-rendering: high-quality;
-}
-
-.td__estados {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Botón principal (ícono de los tres puntos) */
+.dropdown__toggle {
     background-color: transparent;
-    cursor: pointer;
-    width: 95%;
-    height: 20px;
-    padding: 0.7rem 0.4rem;
     border: none;
-    font: 800 0.75rem var(--typografiaUrbanist);
-    border-radius: 6px;
-
+    outline: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--colorLigth);
 }
 
-.td__estados.Exito {
-    background-color: #ceefce;
-    color: #3e2723;
+.dropdown__toggle:hover {
+    color: #6ea8ff;
 }
 
-.td__estados.Cancelar {
-    background-color: #f8bbd0;
-    color: #4a1f2b;
+/* Menú desplegable */
+.dropdown__menu {
+    position: absolute;
+    right: 0;
+    top: 110%;
+    min-width: 160px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 7px;
+    display: none;
+    z-index: 9999;
+}
+
+/* Mismo diseño, pero el menú se despliega hacia arriba */
+.dropdown__menu.up {
+    top: auto;
+    bottom: 110%;
+}
+
+/* Cada opción */
+.dropdown__item {
+    width: 100%;
+    background: none;
+    border-radius: 8px;
+    border: none;
+    text-align: left;
+    font-size: 0.95rem;
+    color: var(--colorLigth);
+    padding: 8px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown__item:hover {
+    background-color: #f2f2f2;
+    color: var(--colorDark);
+}
+
+/* Estilo para los botones específicos */
+.dropdown__item.eliminar i {
+    color: var(--colorLigth);
+    font-size: 1.1rem;
+}
+
+.dropdown__item.ocultar i {
+    color: var(--colorLigth);
+    font-size: 1.1rem;
+}
+
+/* Mostrar menú cuando se activa */
+.dropdown.show .dropdown__menu {
+    display: block;
 }
 
 
-.td__estados.Pendiente {
-    background-color: #fff9c4;
-    color: #5a4a1b;
-}
 
 /*Pagination de la tabla  */
 .table__pagination {
@@ -256,4 +299,150 @@ input[type="search"]::-webkit-search-cancel-button {
     background-color: var(--colorCafe);
     color: var(--colorWhite);
     border: none;
+}
+
+.swal-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-weight: 600;
+}
+
+.swal-popup {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Ventana modal */
+.modal {
+    display:none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 850px;
+    width: 100%;
+    padding: 25px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===== Cabecera ===== */
+.modal-header {
+    position: relative;
+    left: -30px;
+    top: -2rem;   
+    width: calc(100% + 60px);
+    border-bottom: 1px solid #e5e7eb;
+    padding:1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.modal-header h2 {
+    font: 600 1.55rem var(--typografiaGeist);
+    margin: 0;
+    color: #111827;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #111827;
+}
+
+.modal-body{
+    margin-top: -1rem;
+}
+
+
+.info-row {
+    display: flex;
+    align-items: center;
+    margin: 6px 0 15px 0;
+    font:500 1.1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+.info-row.fecha {
+    margin-bottom: 25px; 
+}
+
+
+.info-row i{
+    border-radius: 25px;
+    margin-right: 0.8rem;
+    font-size: 1.4rem;
+}
+
+.info-row .start--modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem 0 0 0.1rem;
+}
+
+.info-row .start--modal i{
+    color: #ffc107;
+    margin:-0.3rem 0 0 -0.1rem;
+    font-size: 1.3rem;
+    background-color: transparent;
+}
+
+.info-row .modal__span{
+    font:500 1.1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+}
+
+.info-row span {
+    font:600 1.1rem var(--typografiaUrbanist);
+    color: var(--colorLigth);
+    color: #111827;
+    margin-right: 6px;
+}
+
+.mensaje {
+    margin-top: 20px;
+}
+
+.mensaje label{
+    font:600 1.1rem var(--typografiaUrbanist);
+}
+
+.mensaje p {
+    background-color: #f9fafb;
+    padding: 15px;
+    font: 400 1.1rem var(--typografiaUrbanist);
+    border-radius: 6px;
+    color: #374151;
 }
