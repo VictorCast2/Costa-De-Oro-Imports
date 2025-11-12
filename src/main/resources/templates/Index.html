@@ -27,7 +27,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -36,7 +36,13 @@
 <body>
     <div class="hero">
         <header class="header">
-            <h1 class="header__logo">Costa De Oro Imports</h1>
+
+            <figure class="header__logo">
+                <a th:href="@{/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
+            </figure>
+
             <nav class="header__navbar">
                 <ul class="navbar__list">
                     <li class="item__link active"><a href="#" class="item__link active">Inicio</a></li>
@@ -48,20 +54,6 @@
             </nav>
 
             <div class="list__icon">
-
-                <span class="icon__item language-selector">
-                    <div class="language-dropdown">
-                        <button class="dropdown-toggle">
-                            <i class="ri-translate-2"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>Español</li>
-                            <li>English</li>
-                            <li>France</li>
-                            <li>Portugues</li>
-                        </ul>
-                    </div>
-                </span>
 
                 <!-- Buscar -->
                 <span class="icon__item">
@@ -130,190 +122,306 @@
 
         <section class="hero__carousel">
             <div class="carousel__container">
+
                 <!-- Slide 1: Paulaner -->
                 <div class="carousel__slide active" data-theme="paulaner">
-                    <div class="content__information">
-                        <h3 class="information__title">Paulaner</h3>
-                        <h2 class="information__subtitulo">Weissbier</h2>
-                        <p class="information__text">
-                            Desde Múnich, Alemania, llega esta tradicional cerveza de trigo con sabor suave y notas
-                            afrutadas de
-                            plátano y clavo de olor. Refrescante, turbia y con espuma cremosa, perfecta para disfrutar
-                            fría y
-                            acompañar platos ligeros. Una auténtica joya bávara elaborada según la Ley de Pureza de
-                            1516.
-                        </p>
-                        <div class="information__button">
-                            <div class="button__precio">
-                                <span class="precio__shop shop--changed">Apartir de</span>
-                                <span class="precio__shop shop--principal">$19.000</span>
-                                <span class="precio__shop shop--descuento">$15.000</span>
-                            </div>
-                            <a href="" class="button__item">Comprame Ahora</a>
-                        </div>
-                        <div class="experencia__clientes">
-                            <figure class="information__clientes">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostrotres.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="">
-                            </figure>
-                            <div class="cliente__satif">
-                                <span class="clientes__count">100<i class="ri-add-line"></i></span>
-                                <span class="clientes__satisfied">Clientes Satisfechos</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <figure class="information__img">
-                        <img th:src="@{/Assets/Img/CervezasHero/beer__maingood.png}" alt="">
-                    </figure>
-
-                </div>
-
-                <!-- Slide 2: Heinekein -->
-                <div class="carousel__slide" data-theme="heineken">
-                    <div class="content__information">
-                        <h3 class="information__title">Heineken</h3>
-                        <h2 class="information__subtitulo">Lager Beer</h2>
-                        <p class="information__text">
-                            Desde Ámsterdam, Países Bajos, llega esta reconocida lager europea con sabor
-                            equilibrado
-                            y notas suaves de malta y lúpulo. Refrescante, dorada y con espuma fina, perfecta
-                            para
-                            disfrutar
-                            bien fría y acompañar comidas ligeras o momentos casuales. Una cerveza icónica con
-                            más de
-                            150 años
-                            de historia y calidad mundial.
-                        </p>
-
-                        <div class="information__button">
-                            <div class="button__precio">
-                                <span class="precio__shop shop--changed">Apartir de</span>
-                                <span class="precio__shop shop--principal">$5.400</span>
-                                <span class="precio__shop shop--descuento">$3.900</span>
+                    <div class="slide__flex">
+                        <div class="content__information">
+                            <div class="information__ofertas">
+                                <p class="ofertas__text">Ofertas Imperdibles</p>
+                                <p class="ofertas__text text--tiempo">Del 31 de octubre al 02 de noviembre</p>
+                                <p class="ofertas__text text--brinda">Brinda con lo mejor de Alemania</p>
                             </div>
 
-                            <a href="" class="button__item item--colorGren">Comprame Ahora</a>
+                            <h1 class="information__title">Paulaner Weissbier</h1>
+                            <p class="information__tagline">El auténtico sabor de Baviera en tu mesa</p>
+                            <p class="information__text">
+                                Desde Múnich llega esta cerveza de trigo con notas suaves de plátano y clavo.
+                                Refrescante y cremosa, ideal para compartir momentos únicos.
+                            </p>
+
+                            <div class="information__button">
+                                <a href="" class="button__item">Comprar Ahora</a>
+                                <a href="" class="button__item">Explorar Detalles</a>
+                            </div>
+
                         </div>
 
-                        <div class="experencia__clientes">
-                            <figure class="information__clientes">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostrotres.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="">
-                            </figure>
+                        <figure class="information__img">
+                            <img loading="lazy" class="img--paulaner"
+                                th:src="@{/Assets/Img/CervezasHero/CervezaPaulaner.webp}"
+                                alt="cerveza paulaner de alemania">
 
-                            <div class="cliente__satif">
-                                <span class="clientes__count">100<i class="ri-add-line"></i></span>
-                                <span class="clientes__satisfied">Clientes Satisfechos</span>
+                            <img loading="lazy" class="img--paulaner paulaner--2"
+                                th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner2.webp}"
+                                alt="cerveza paulaner de alemania">
+
+                            <img loading="lazy" class="img--paulaner paulaner--2"
+                                th:src="@{/Assets/Img/CervezasHero/cervezaPaulaner3.webp}"
+                                alt="cerveza paulaner de alemania">
+                        </figure>
+
+                        <div class="information__precio">
+                            <p class="precio__paulaner paulaner--1">PAGA 1</p>
+                            <p class="precio__paulaner paulaner--2">LLEVE 2</p>
+                            <div class="precio__texto">
+                                <p class="precio__paulaner paulaner--cerveza">En Paulaner Weissbier,</p>
+                                <p class="precio__paulaner paulaner--cerveza">Paulaner Hefe-Weifbier &</p>
+                                <p class="precio__paulaner paulaner--cerveza">Paulaner Hefe-Weifbier,</p>
                             </div>
                         </div>
 
                     </div>
 
-                    <figure class="information__img">
-                        <img class="img--heineken" th:src="@{/Assets/Img/CervezasHero/cervezaHeineken.png}" alt="">
-                    </figure>
                 </div>
 
-                <!-- Slide 3: Budweiser -->
+                <!-- Slide 2: vinos -->
                 <div class="carousel__slide" data-theme="budweiser">
-                    <div class="content__information">
-                        <h3 class="information__title"> budweiser</h3>
-                        <h2 class="information__subtitulo subtitulo--changed">King Of Beers</h2>
-                        <p class="information__text">
-                            Desde St. Louis, Estados Unidos, llega esta emblemática lager americana con sabor
-                            suave y un ligero dulzor de malta. Refrescante, dorada y con espuma ligera, perfecta para
-                            disfrutar bien fría en encuentros casuales o celebraciones. Una cerveza legendaria con más
-                            de
-                            un siglo de historia, reconocida como “The King of Beers”.
-                        </p>
-
-                        <div class="information__button">
-                            <div class="button__precio">
-                                <span class="precio__shop shop--changed">Apartir de</span>
-                                <span class="precio__shop shop--principal">$9.500</span>
-                                <span class="precio__shop shop--descuento">$7.900</span>
+                    <div class="slide__flex">
+                        <div class="content__information information--vinos">
+                            <div class="information__ofertas">
+                                <p class="ofertas__text text--vinos">Ofertas Imperdibles</p>
+                                <p class="ofertas__text text--tiempo">Del 01 al 05 de noviembre</p>
+                                <p class="ofertas__text text--brinda">Celebra y brinda con tus favoritos</p>
                             </div>
 
-                            <a href="" class="button__item item--colorRed">Comprame Ahora</a>
+                            <h2 class="information__title">Vinos Terra Vega, Moelia y Lambrusco</h2>
+                            <p class="information__tagline tagline--vino">Tres vinos, un solo motivo para celebrar</p>
+                            <p class="information__text text--vinos">
+                                Disfruta tres expresiones únicas del arte vitivinícola:
+                                <strong>Terra Vega</strong>, con notas frutales y final equilibrado.
+                                <strong>Moelia</strong>, refinado y floral, con un cuerpo sedoso.
+                                <strong>Lambrusco Botticello</strong>, burbujeante y fresco, con el encanto de Italia.
+                            </p>
+
+                            <div class="information__button">
+                                <a href="" class="button__item item--colorRed">Comprar Ahora</a>
+                                <a href="" class="button__item item--colorRed">Explorar Detalles</a>
+                            </div>
+
                         </div>
 
-                        <div class="experencia__clientes">
-                            <figure class="information__clientes">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostrotres.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="">
-                            </figure>
+                        <figure class="information__img">
+                            <img loading="lazy" class="img--vinos"
+                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado4.webp}" alt="">
 
-                            <div class="cliente__satif">
-                                <span class="clientes__count">100<i class="ri-add-line"></i></span>
-                                <span class="clientes__satisfied">Clientes Satisfechos</span>
+                            <img loading="lazy" class="img--vinos vinos--2"
+                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados71Moelia.webp}"
+                                alt="">
+
+                            <img loading="lazy" class="img--vinos vinos--2"
+                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
+                                alt="">
+                        </figure>
+
+                        <div class="information__precio">
+                            <p class="precio__vinos vinos--1">Pague 2</p>
+                            <p class="precio__vinos vinos--2">Lleve 3</p>
+                            <div class="vinos--text">
+                                <p class="precio__vinos vinos--premium">En Vinos Terra Vega,</p>
+                                <p class="precio__vinos vinos--premium"> Moelia & Lambrusco Botticello</p>
                             </div>
                         </div>
 
                     </div>
-
-                    <figure class="information__img">
-                        <img class="img--budweiser" th:src="@{/Assets/Img/CervezasHero/budweiser.png}" alt="">
-                    </figure>
                 </div>
 
-                <!-- Slide 3: Guinness -->
-                <div class="carousel__slide" data-theme="guinness">
-                    <div class="content__information">
-                        <h3 class="information__title">Guinness</h3>
-                        <h2 class="information__subtitulo subtitulo--changed">Arthur Son</h2>
-                        <p class="information__text">
-                            Desde Dublín, Irlanda, llega esta emblemática stout negra con sabor
-                            intenso y notas tostadas de café y chocolate. Cremosa, oscura y con espuma densa, perfecta
-                            para disfrutar con calma en reuniones especiales o momentos de relajación. Una cerveza
-                            legendaria
-                            con más de dos siglos de historia, reconocida como un ícono mundial de la tradición
-                            cervecera.
-                        </p>
+                <!-- Slide 3: Tequila -->
+                <div class="carousel__slide" data-theme="tequila">
+                    <div class="slide__flex flex--tequila">
+                        <figure class="information__img">
+                            <img class="img--Tequila"
+                                th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados23.png}" alt="">
+                        </figure>
 
-                        <div class="information__button">
-                            <div class="button__precio">
-                                <span class="precio__shop shop--changed">Apartir de</span>
-                                <span class="precio__shop shop--principal">$50.000</span>
-                                <span class="precio__shop shop--descuento">$45.000</span>
+                        <div class="content__information information--tequila">
+                            <h3 class="information__title title--tequila">Tequila Don Julio 1942 Añejo 100% Agave Azul
+                                750 ml
+                            </h3>
+                            <p class="pocas__unidades">Pocas Unidades</p>
+                            <p class="information__tagline tagline--tequila">Un Tequila nacido del fuego</p>
+                            <p class="information__text text--tequila">
+                                Envejecido en barricas de roble por más de un año, Don Julio Añejo ofrece un sabor
+                                intenso y
+                                aterciopelado con notas de caramelo, vainilla y miel tostada.
+                                Una experiencia premium para disfrutar lentamente.
+                            </p>
+
+                            <div class="information__button">
+                                <div class="button__precio">
+                                    <span class="precio__shop shop--changed">Apartir de</span>
+                                    <span class="precio__shop shop--principal">$5.400</span>
+                                    <span class="precio__shop shop--descuento">$3.900</span>
+                                </div>
+
+                                <a href="" class="button__item item--colorVinoTinto">Comprame Ahora</a>
+                                <a href="" class="button__item item--colorVinoTinto">Explorar Detalles</a>
                             </div>
-                            <a href="" class="button__item item--colorBlack">Comprame Ahora</a>
-                        </div>
 
-                        <div class="experencia__clientes">
-                            <figure class="information__clientes">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostrotres.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}" alt="">
-                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Slide 4: whisky -->
+                <div class="carousel__slide" data-theme="whiskys">
+
+                    <div class="slide__flex flex--whisky">
+                        <div class="flex__whiskys whiskys--one">
+                            <figure class="whiskys__img">
+                                <img class="img__licor licor--one" loading="lazy"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__whisky.webp}"
+                                    alt="licor Whisky Buchanan's">
+
+                                <img class="img__vaso" loading="lazy"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
+                                    alt="vaso con whisky dentro">
+
+                                <figcaption class="img__tiempo">Del 31 de octubre al 5 de noviembre</figcaption>
                             </figure>
 
-                            <div class="cliente__satif">
-                                <span class="clientes__count">100<i class="ri-add-line"></i></span>
-                                <span class="clientes__satisfied">Clientes Satisfechos</span>
+                            <div class="whiskys__informacion">
+                                <div class="informacion__texto">
+                                    <p class="texto__whisky">James Buchanan's</p>
+                                    <p class="texto__whisky">Special Reserve 750 ml</p>
+                                </div>
+                                <p class="informacion__precio">$ 135.000</p>
                             </div>
                         </div>
 
+                        <div class="flex__whiskys">
+                            <figure class="whiskys__img">
+                                <img class="img__licor licor--two"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacadoWhiskys.webp}"
+                                    alt="">
+
+                                <img class="img__vaso vaso--changed" loading="lazy"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
+                                    alt="vaso con whisky dentro">
+
+                                <figcaption class="img__tiempo tiempo--changed">Del 01 al 5 de noviembre</figcaption>
+                            </figure>
+
+                            <div class="whiskys__informacion information--deluxe">
+                                <div class="informacion__texto">
+                                    <p class="texto__whisky">Buchanan's Deluxe</p>
+                                    <p class="texto__whisky">12 Años X 170ml</p>
+                                </div>
+                                <p class="informacion__precio">$158.000</p>
+                            </div>
+
+                        </div>
+
+                        <div class="flex__whiskys whiskys--changed">
+                            <figure class="whiskys__img">
+                                <img class="img__licor img--tree"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado12.png}"
+                                    alt="">
+
+                                <img class="img__vaso vaso--changed2" loading="lazy"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/vasoVidrioConWhisky.png}"
+                                    alt="vaso con whisky dentro">
+
+                                <figcaption class="img__tiempo tiempo--malt">Del 01 al 05 de noviembre</figcaption>
+                            </figure>
+
+                            <div class="whiskys__informacion information--malt">
+                                <div class="informacion__texto">
+                                    <p class="texto__whisky">Buchanan's Malt</p>
+                                    <p class="texto__whisky">Edition 170ml</p>
+                                </div>
+                                <p class="informacion__precio">$178.000</p>
+                            </div>
+
+                        </div>
 
                     </div>
 
-                    <figure class="information__img">
-                        <img th:src="@{/Assets/Img/CervezasHero/cervezaGuinness.png}" alt="">
-                    </figure>
+                    <div class="slide__pideahora">
+                        <div class="pideahora__content">
+                            <p class="content__mensaje">
+                                Pide ahora y recibe en 1 hora con el envio express
+                            </p>
+                        </div>
+
+                        <a class="pideahora__btn " href="">Comprar Ahora</a>
+                        <a class="pideahora__btn btn--color" href="">Explorar Detalles</a>
+                    </div>
+
+                </div>
+
+                <!-- Slide 5: Rones y Aguardiantes -->
+                <div class="carousel__slide" data-theme="packmixtos">
+                    <div class="slide__flex flex--RonesAguardientes">
+
+                        <p class="flex__ofertas">Durante Todo Noviembre</p>
+
+                        <div class="flex__RonesAguardiantes">
+                            <figure class="information__img img--RonesAguardiantes">
+                                <img loading="lazy" class="img--RonesAguardiantes"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados49.png}"
+                                    alt="">
+
+                                <img loading="lazy" class="img--RonesAguardiantes RonesAguardiantes--2"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado55.png}"
+                                    alt="">
+                            </figure>
+
+                            <div class="information__precio precio--aguardientes">
+                                <p class="precio__RonesAguardiantes RonesAguardiantes--1">Pague 2</p>
+                                <p class="precio__RonesAguardiantes RonesAguardiantes--2">Lleva 3</p>
+                                <div class="RonesAguardiantes--text">
+                                    <p class="precio__RonesAguardiantes RonesAguardiantes--premium">En Aguardientes
+                                        Antioqueño</p>
+                                    <p class="precio__RonesAguardiantes RonesAguardiantes--premium"> Ginebra Gordon's
+                                        London</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Línea divisoria vertical -->
+                        <hr class="divider__vertical">
+
+                        <div class="flex__RonesAguardiantes">
+                            <div class="information__precio precio--TequilaMezcal">
+                                <p class="precio__TequilaMezcal TequilaMezcal--1">Hasta</p>
+                                <p class="precio__RonesAguardiantes TequilaMezcal--2">20%</p>
+                                <div class="TequilaMezcal--text">
+                                    <p class="precio__TequilaMezcal TequilaMezcal--premium">En Tequila Gran centenario
+                                    </p>
+                                    <p class="precio__TequilaMezcal TequilaMezcal--premium">& Tequila Tradicional</p>
+                                </div>
+                            </div>
+
+                            <figure class="information__img">
+                                <img loading="lazy" class="img__TequilaMezcal"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados24.png}"
+                                    alt="">
+
+                                <img loading="lazy" class="img__TequilaMezcal TequilaMezcal--3"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados26.png}"
+                                    alt="">
+
+                                <img loading="lazy" class="img__TequilaMezcal TequilaMezcal--3"
+                                    th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados25.png}"
+                                    alt="">
+                            </figure>
+                        </div>
+
+                    </div>
+
+                    <div class="slide__pideahora pideahora--slide5">
+                        <div class="pideahora__content">
+                            <p class="content__mensaje">
+                                Pide ahora y recibe en 1 hora con el envio express
+                            </p>
+                        </div>
+
+                        <a class="pideahora__btn btn--slide4" href="">Comprar Ahora</a>
+                        <a class="pideahora__btn btn--slide5" href="">Explorar Detalles</a>
+                    </div>
+
                 </div>
 
                 <div class="carousel__arrows">
@@ -325,86 +433,12 @@
                     </button>
                 </div>
 
+                <div class="carousel__dots">
+                </div>
 
             </div>
-
         </section>
     </div>
-
-    <section class="logos">
-        <div class="logos__content">
-            <div class="content__logos" id="logos">
-                <figure class="logos__slide" id="slider">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaOne.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaTwo.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaTree.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaFour.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaFive.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaSix.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaSeven.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaEigth.png}" alt="">
-                    <img th:src="@{/Assets/Img/Logos__Marcas/logoCervezaNainpng.png}" alt="">
-                </figure>
-            </div>
-        </div>
-    </section>
-
-    <section class="innovacion">
-        <div class="innovaccion__content">
-
-            <div class="content__item">
-                <h2 class="item__titulo">Licores Innovadores</h2>
-                <p class="item__texto">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga repellat
-                </p>
-
-                <a href="" class="item__btnExplore">Explorar Mas <i class="ri-arrow-right-up-line"></i></a>
-
-                <figure class="item__imgInnovadora">
-                    <img loading="lazy" th:src="@{/Assets/Img/innovaccion/innovacionBeer.png}" alt="">
-                </figure>
-
-            </div>
-
-            <div class="content__item item--beerElegante">
-
-                <div class="item__beerElegante">
-
-                    <div class="beerElegante__descripcion">
-                        <h2 class="descripcion__titlte">Licores Elegantes</h2>
-                        <p class="descripcion__text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis delectus qui
-                        </p>
-
-                        <a href="" class="descripcion__btn">Explorar Mas <i class="ri-arrow-right-up-line"></i></a>
-                    </div>
-
-                    <figure class="descripcion__img">
-                        <img loading="lazy" th:src="@{/Assets/Img/innovaccion/innovacionBeer2.png}" alt="">
-                    </figure>
-
-                </div>
-
-                <div class="item__beerElegante">
-
-                    <div class="beerElegante__descripcion">
-                        <h2 class="descripcion__titlte">Licores Modernos</h2>
-                        <p class="descripcion__text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis delectus qui
-                        </p>
-
-                        <a href="" class="descripcion__btn">Explorar Mas <i class="ri-arrow-right-up-line"></i></a>
-                    </div>
-
-                    <figure class="descripcion__img">
-                        <img class="img__modern" loading="lazy" th:src="@{/Assets/Img/innovaccion/innovacionBeer3.png}"
-                            alt="">
-                    </figure>
-
-                </div>
-            </div>
-        </div>
-    </section>
 
     <main>
         <section class="productos">
@@ -420,9 +454,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p, stat : ${productosMasVendidos}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p, stat : ${productosMasVendidos}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -437,13 +469,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -463,9 +493,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -499,9 +530,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaWhisky}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaWhisky}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -516,13 +545,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -542,9 +569,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -579,9 +607,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaTequilaMezcal}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaTequilaMezcal}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -596,13 +622,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -622,9 +646,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -659,9 +684,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaVino}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaVino}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -676,13 +699,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -702,9 +723,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -740,9 +762,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaCerveza}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaCerveza}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -757,13 +777,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -783,9 +801,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -820,9 +839,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaRonAguardiente}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaRonAguardiente}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -837,13 +854,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -863,9 +878,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -900,9 +916,7 @@
                 <div class="flex">
                     <div class="flex__productos">
                         <div class="flex__productos-track">
-                            <div class="card"
-                                 th:each="p : ${productosConCategoriaVodkaGinebra}"
-                                 th:attr="data-id=${p.id},
+                            <div class="card" th:each="p : ${productosConCategoriaVodkaGinebra}" th:attr="data-id=${p.id},
                                      data-code=${p.codigoProducto},
                                      data-name=${p.nombre},
                                      data-brand=${p.marca},
@@ -917,13 +931,11 @@
                                      data-subcategory=${p.nombreSubCategoria},
                                      data-image=${p.imagen}">
 
-                                <div class="badge badge-green"
-                                     th:if="${p.precioRegular != 0}"
-                                     th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
+                                <div class="badge badge-green" th:if="${p.precioRegular != 0}"
+                                    th:text="${'-' + T(java.lang.Math).round(((p.precioRegular - p.precio) / p.precioRegular) * 100) + '%'}">
                                 </div>
 
-                                <img th:src="${p.imagen}"
-                                     alt="" width="250" height="250"/>
+                                <img th:src="${p.imagen}" alt="" width="250" height="250" />
 
                                 <span class="category" th:text="${p.nombreSubCategoria}"></span>
 
@@ -943,9 +955,10 @@
                                 </div>
 
                                 <div class="price-container">
-                                    <span class="price" th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
+                                    <span class="price"
+                                        th:text="${#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></span>
                                     <span class="price-old"
-                                          th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
+                                        th:text="${p.precioRegular != 0 ? #numbers.formatDecimal(p.precioRegular, 0, 'POINT', 0, 'POINT') : ''}">
                                     </span>
                                 </div>
 
@@ -1064,14 +1077,14 @@
 
             <div class="product__flex">
                 <figure class="flex__img">
-                    <img loading="lazy" th:src="@{/Assets/Img/OfertasDia/OfertaDelDia3.png}" alt="">
+                    <img loading="lazy" th:src="@{/Assets/Img/OfertasDia/OfertaDelDia1.png}" alt="">
                 </figure>
 
                 <div class="flex__content">
                     <span class="content__name">Oferta Especial</span>
                     <span class="content__descuento">-20%</span>
 
-                    <h2 class="content__title">Gran Oferta De Vinos</h2>
+                    <h2 class="content__title">Gran Oferta Exclusiva de Vinos Premium</h2>
                     <p class="content__description">
                         Descubre nuestra exclusiva selección de vinos de distintas cepas y regiones, pensados para
                         acompañar tus mejores momentos.
@@ -1093,9 +1106,119 @@
 
                     <div class="content__btn">
                         <a href="" class="content__comprar">Comprame Ahora</a>
+                        <a href="" class="content__comprar comprar--detalles">Explorar detalles</a>
                     </div>
                 </div>
             </div>
+
+            <div class="product__flex">
+                <figure class="flex__img">
+                    <img loading="lazy" th:src="@{/Assets/Img/OfertasDia/ofertasDelDia3.png}" alt="">
+                </figure>
+
+                <div class="flex__content">
+                    <span class="content__name">Oferta Especial</span>
+                    <span class="content__descuento">-50%</span>
+
+                    <h2 class="content__title">Gran Oferta Exclusiva de Whiskys Premium</h2>
+                    <p class="content__description">
+                        Descubre nuestra exclusiva selección de whiskys Buchanan’s,
+                        reconocidos por su sabor suave, aroma refinado y calidad excepcional.
+                        Aprovecha precios especiales por tiempo limitado y disfruta de la elegancia
+                        y el carácter único que solo un Buchanan’s puede ofrecer
+                    </p>
+
+                    <div class="content__precio">
+                        <span class="precio__new">$200.000</span>
+                        <span class="precio__old">$120.000</span>
+                    </div>
+
+                    <div class="content__time">
+                        <span>15 :</span>
+                        <span>21 :</span>
+                        <span>46 :</span>
+                        <span>08</span>
+                    </div>
+
+                    <div class="content__btn">
+                        <a href="" class="content__comprar">Comprame Ahora</a>
+                        <a href="" class="content__comprar comprar--detalles">Explorar detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product__flex">
+                <figure class="flex__img">
+                    <img loading="lazy" th:src="@{/Assets/Img/OfertasDia/OfertaDelDia4.png}" alt="">
+                </figure>
+
+                <div class="flex__content">
+                    <span class="content__name">Oferta Especial</span>
+                    <span class="content__descuento">-40%</span>
+
+                    <h2 class="content__title">Licores Premium para Cócteles</h2>
+                    <p class="content__description">
+                        Descubre nuestra selección exclusiva de licores finos, perfectos para quienes disfrutan de los
+                        sabores intensos y sofisticados.
+                        Cada botella combina tradición, calidad y un carácter distintivo que transforma cualquier
+                        ocasión en un momento especial.
+                    </p>
+
+                    <div class="content__precio">
+                        <span class="precio__new">$95.000</span>
+                        <span class="precio__old">$75.000</span>
+                    </div>
+
+                    <div class="content__time">
+                        <span>15 :</span>
+                        <span>21 :</span>
+                        <span>46 :</span>
+                        <span>08</span>
+                    </div>
+
+                    <div class="content__btn">
+                        <a href="" class="content__comprar">Comprame Ahora</a>
+                        <a href="" class="content__comprar comprar--detalles">Explorar detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product__flex">
+                <figure class="flex__img">
+                    <img loading="lazy" th:src="@{/Assets/Img/OfertasDia/OfertaDelDia5.png}" alt="">
+                </figure>
+
+                <div class="flex__content">
+                    <span class="content__name">Oferta Especial</span>
+                    <span class="content__descuento">-10%</span>
+
+                    <h2 class="content__title">Tequilas Premium para Momentos Únicos</h2>
+                    <p class="content__description">
+                        Descubre nuestra exclusiva selección de tequilas elaborados con agave 100% natural,
+                        pensados para los paladares que aprecian la tradición y la autenticidad mexicana.
+                        Cada botella ofrece un equilibrio perfecto entre suavidad, cuerpo y carácter, ideal
+                        para disfrutar solo, en cóctel o con un toque de lima.
+                    </p>
+
+                    <div class="content__precio">
+                        <span class="precio__new">$110.000</span>
+                        <span class="precio__old">$85.000</span>
+                    </div>
+
+                    <div class="content__time">
+                        <span>15 :</span>
+                        <span>21 :</span>
+                        <span>46 :</span>
+                        <span>08</span>
+                    </div>
+
+                    <div class="content__btn">
+                        <a href="" class="content__comprar">Comprame Ahora</a>
+                        <a href="" class="content__comprar comprar--detalles">Explorar detalles</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1103,7 +1226,7 @@
         <div class="blog__encabezado">
             <h2 class="encabezado__title">Blog Reciente</h2>
 
-            <a href="" class="encabezado__btn">Ver Todos <i class="ri-arrow-right-up-line"></i></a>
+            <a th:href="@{/blog}" class="encabezado__btn">Ver Todos <i class="ri-arrow-right-up-line"></i></a>
         </div>
         <div class="blog__flex">
             <div class="blog__card">
@@ -1122,6 +1245,44 @@
                 <img th:src="@{/Assets/Img/blog/blogTree.png}" alt="blog" />
                 <h4>Eco-Friendly Modern Interiors</h4>
                 <p><span>by</span> HomeStyleHarmony <span>on</span> Feb 25th, 2025</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="logos">
+
+        <h2 class="logos__titles">Tus marcas favoritas estan aqui</h2>
+
+        <div class="logos__content">
+            <div class="content__logos" id="logos">
+                <figure class="logos__slide" id="slider">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoCervezaOne.png}"
+                        alt="logo de cerveza heineken">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoCervezaTwo.png}"
+                        alt="logo de cerveza budweiser">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoCervezaFour.png}"
+                        alt="logo de cerveza corona">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoCervezaSix.png}"
+                        alt="logo de cerveza paulaner">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoBuchanans.webp}"
+                        alt="logo de whisky Buchanan’s">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoLambrusco.webp}"
+                        alt="logo de vino lambrusco">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoTerraVega.webp}"
+                        alt="logo de vino terra">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoJohnnieWalker.webp}"
+                        alt="logo de whisky johnnie walker">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoDonjulio.webp}"
+                        alt="logo de tequila donjulio">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoAguardiante.webp}"
+                        alt="logo de Aguardiente">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoRonmedellin.webp}"
+                        alt="logo de ron de medellin">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoVodka.webp}"
+                        alt="logo de vodka smirnoff">
+                    <img loading="lazy" th:src="@{/Assets/Img/Logos__Marcas/logoGinebra.webp}"
+                        alt="logo de ginebra tanquery">
+                </figure>
             </div>
         </div>
     </section>

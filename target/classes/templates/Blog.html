@@ -27,7 +27,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -35,7 +35,11 @@
 
 <body>
     <header class="header">
-        <h1 class="header__logo">Costa De Oro Imports</h1>
+        <figure class="header__logo">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            </a>
+        </figure>
 
         <nav class="header__navbar">
             <ul class="navbar__list">

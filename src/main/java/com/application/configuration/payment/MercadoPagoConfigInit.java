@@ -15,4 +15,5 @@ public class MercadoPagoConfigInit {
     public void init() {
         MercadoPagoConfig.setAccessToken(accessToken);
     }
+
 }

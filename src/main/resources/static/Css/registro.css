@@ -6,6 +6,7 @@
     --colorLigth: #71717a;
 }
 
+
 * {
     margin: 0;
     padding: 0;
@@ -17,41 +18,66 @@
     display: flex;
 }
 
-.form__imagen {
+.form__login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    top: -11%;
-    left: -1.1%;
+    left: 8%;
 }
-
-.form__imagen .imagen__login{
-    width: 100%;
-    max-width: 650px;
-    min-height: 100vh;
-
-}
-
-.form__registro{
-    margin-top: 60px;
-}
-
 
 .form .formulario__title {
     font: 700 2.2rem var(--typografiaGeist);
     text-align: center;
-    margin: 0 0 0.5rem 0;
+    margin: 0 8rem 0.5rem 0;
+}
+
+.container__otrascuentas{
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 2rem 0 0 2rem;
+}
+
+.otrascuentas__titles{
+    text-align: center;
+    font: 500 1rem var(--typografiaGeist);
+}
+
+.otrascuentas__btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--colorDark);
+    font: 700 1.1rem var(--typografiaUrbanist);
+    border: none;
+    outline: none;
+    width: 100%;
+    width: 550px;
+    height: 55px;
+    border-radius: 8px;
+    background-color:#F5FAFF ;
+}
+
+.otrascuentas__btn img{
+    max-width: 100%;
+    width: 25px;
 }
 
 
 .form .formulario__title2 {
     font: 700 1.1rem var(--typografiaUrbanist);
     text-align: center;
-    margin: 0 0 0 35%;
+    margin: 0 0 0 22%;
 }
 
-.formulario {
+.input--margintop{
     margin-top: 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
 }
 
 
@@ -65,31 +91,24 @@
     color: #8d8d8d;
     pointer-events: none;
     background-color: transparent;
-    left: 40px;
-    top: 18px;
+    left: 50px;
+    top: 20px;
     transform: translateY(0.6rem);
     transition: all 0.3s ease;
 }
 
-.input-box .label--form2 {
-    left: 70px;
-}
-
-
 .input-box input {
-    margin: 10px 0 20px 20px;
+    margin: 10px 0 25px 30px;
     background-color: transparent;
-    border: 1px solid #ccc;
-    font: 600 1rem var(--typografiaUrbanist);
+    border:1px solid #ccc;
     padding: 10px 15px;
+    font: 600 1rem var(--typografiaUrbanist);
     border-radius: 8px;
-    width: 400px;
+    width: 550px;
     height: 55px;
     letter-spacing: 1px;
     outline: none;
 }
-
-
 
 .input-box input:focus {
     outline: none;
@@ -108,65 +127,13 @@
     border-radius: 100px;
 }
 
-.custom-select-wrapper {
-    position: relative;
-    width: 400px;
-    margin: 10px 0 10px 20px;
-}
-
-.styled-select {
-    width: 100%;
-    height: 55px;
-    padding: 12px 16px;
-    padding-right: 40px;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font: 600 1rem var(--typografiaUrbanist);
-    color: #8d8d8d;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-}
-
-
-.styled-select option {
-    color: #333;
-    background-color: #ffffff;
-    font: 600 1rem var(--typografiaUrbanist);
-}
-
-.styled-select:focus {
-    outline: none;
-}
-
-.custom-arrow {
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    transition: transform 0.3s ease;
-    font-size: 16px;
-    color: #666;
-    pointer-events: none;
-}
-
-.custom-arrow.rotate {
-    transform: translateY(-50%) rotate(180deg);
-}
-
 
 .box__icon i {
     position: absolute;
     top: 25px;
-    left: 89%;
+    left: 72%;
     font: 900 1.2rem var(--typografiaUrbanist);
 
-}
-
-.icon--form2 i {
-    left: 85%;
 }
 
 .box__icon .ri-check-line {
@@ -185,29 +152,27 @@
     display: none;
 }
 
+.input-box.input-error label {
+    color: #fd1f1f !important;
+}
+
 .input__error {
     font: 600 1rem var(--typografiaUrbanist);
-    width: 400px;
-    margin: 0 0 10px 20px;
+    width: 500px;
+    margin: 0 0 15px 33px;
     display: none;
 }
 
 
 .error--changed {
-    margin: 30px 0 10px 20px;
+    margin: 30px 0 0 33px;
 }
 
-.error--form2 {
-    width: 400px;
-    margin: 0 0 10px 25px;
-}
 
-.error--email {
-    white-space: wrap;
-    width: 400px;
-    margin: 0 0 10px 30px;
+.input__advertencia i {
+    font-size: 1.7rem;
+    margin: -5px 10px 0 0;
 }
-
 
 .swal-title {
     font-family: 'Urbanist', sans-serif !important;
@@ -219,33 +184,32 @@
 }
 
 
-
-.formulario__input:nth-last-child(4) .input__error,
-.formulario__input:nth-last-child(2) .input__error {
-    margin-bottom: 15px;
-}
-
-
 .remember-forgot .forgot__label {
     accent-color: #0034de;
     font: 700 1rem var(--typografiaUrbanist);
-    margin-left: 20px;
+    margin-left: 30px;
 }
+
 
 .remember-forgot input {
     margin-right: 15px;
 }
 
-.formulario .formulario__complete {
-    color: #48f;
-    cursor: pointer;
-    margin-left: 16.5rem;
-    font: 600 1.1rem var(--typografiaUrbanist);
+.remember-forgot a {
+    color: gray;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    margin: 0 0 0 90px;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
 }
 
 
 .form .formulario__btn {
-    font: 700 1.2rem var(--typografiaUrbanist);
+    font: 700 1rem var(--typografiaUrbanist);
     background-color: #48f;
     color: #fff;
     width: 100%;
@@ -261,71 +225,74 @@
     transition: background-color .7s ease;
 }
 
-.form .formulario__btn:hover {
+.form .formulario__btn:hover{
     background-color: #0034de;
 }
 
 .formulario__btn-container {
     grid-column: span 2;
-    margin: 5px 0 0 10em;
+    margin:5px 0 0 30px;
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    max-width: 550px;
-    gap: 0.8rem;
 }
 
-.otrascuentas__titles{
-    text-align: center;
-    font: 500 1rem var(--typografiaGeist);
-    margin: -25px 0 0 0;
+.registre-link {
+    margin: 0 0 0 150px;
 }
 
-.otrascuentas__btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+.remember-forgot .forgot__color{
+    color: #48f;
+    margin-left: 120px;
+    font: 600 1.1rem var(--typografiaUrbanist);
+}
+.registre-link a {
+    font: 600 1.1rem var(--typografiaUrbanist);
+    margin: 20px 0 0 20px;
+
+}
+
+
+.registre-link p{
+    font: 600 1.1rem var(--typografiaUrbanist);
+}
+
+.registre-link p a {
+    color: #48f;
     text-decoration: none;
-    cursor: pointer;
-    color: var(--colorDark);
-    font: 700 1.1rem var(--typografiaUrbanist);
-    border: none;
-    outline: none;
+    font-weight: 600;
+    margin: 20px 0 0 20px;
+}
+
+.registre-link p a:hover {
+    text-decoration: underline;
+}
+
+
+.imagen__container {
+    position: relative;
+    top: -11%;
+    left: -1.1%;
+}
+
+.imagen__container .container__login{
     width: 100%;
-    width: 550px;
-    height: 55px;
-    border-radius:8px;
-    background-color:#F5FAFF ;
+    max-width: 650px;
+    min-height: 100vh;
 }
 
-.otrascuentas__btn img{
-    max-width: 100%;
-    width: 25px;
-}
-
-
-
-.icono__back {
+.icono__back{
     position: absolute;
-    top: 20px;
-    left:2em;
+    top: 30px;
+    left: -100%;
 }
 
-.icono__back .regresar {
+.icono__back .regresar{
     font: 500 1.2rem var(--typografiaUrbanist);
     text-decoration: none;
     color: #000000;
 }
 
-.icono__back i {
+.icono__back i{
     font-size: 20px;
     color: #000000;
 }
-
-
-
-
-
-

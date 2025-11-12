@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
     <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+        content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -167,7 +167,8 @@
                                     <span class="info__admin">Administrador
                                         <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
                                     </span>
-                                    <span class="info__title" th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                                    <span class="info__title"
+                                        th:text="${#authentication.principal?.correo}">mail@mail.com</span>
                                 </div>
                                 <hr>
 
@@ -369,8 +370,7 @@
                 <div class="body__card">
                     <div class="card__item">
                         <figure class="item__img">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados20.png}"
-                                alt="">
+                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados20.png}" alt="">
                         </figure>
 
                         <p class="item__description">
@@ -393,8 +393,7 @@
 
                     <div class="card__item">
                         <figure class="item__img img--fondo1">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado7.png}"
-                                alt="">
+                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado7.png}" alt="">
                         </figure>
 
                         <p class="item__description">
@@ -417,8 +416,7 @@
 
                     <div class="card__item">
                         <figure class="item__img img--fondo2">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado5.png}"
-                                alt="">
+                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado5.png}" alt="">
                         </figure>
 
                         <p class="item__description">
@@ -441,8 +439,7 @@
 
                     <div class="card__item">
                         <figure class="item__img img--fondo3">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados18.png}"
-                                alt="">
+                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados18.png}" alt="">
                         </figure>
 
                         <p class="item__description">
