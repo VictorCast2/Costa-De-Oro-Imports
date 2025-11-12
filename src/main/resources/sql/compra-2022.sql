@@ -1,4 +1,4 @@
-use db_beer;
+use railway;
 
 -- Insertar compras 2022
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 766982, 912709, '2022/07/26', 355, 'VERANO2022', 'CANCELADO', 'TARJETA_DEBITO');

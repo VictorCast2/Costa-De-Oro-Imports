@@ -95,7 +95,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
            return client.create(preferenceRequest);
        } catch (MPException | MPApiException e) {
-           throw new RuntimeException("Error al crear la preferencia de pago: " + e.getMessage());
+           throw new RuntimeException("error al crear la preferencia de pago: " + e.getMessage());
        }
     }
 
@@ -127,7 +127,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
             emailService.sendEmailEstadoPago(usuario, compra, estado);
         } catch (MPException | MPApiException e) {
-            throw new RuntimeException("Error al procesar el pago" + e.getMessage());
+            throw new RuntimeException("error al procesar el pago" + e.getMessage());
         }
     }
 

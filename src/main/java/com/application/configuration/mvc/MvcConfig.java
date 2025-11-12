@@ -66,7 +66,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 }
             } catch (IOException e) {
                 throw new RuntimeException(
-                        "Error: no se ha podido crear el directorio de imágenes " + ruta + " " + e.getMessage() + e);
+                        "error: no se ha podido crear el directorio de imágenes " + ruta + " " + e.getMessage() + e);
             }
         });
 
@@ -94,7 +94,7 @@ public class MvcConfig implements WebMvcConfigurer {
         // Validamos que el tipo exista en el mapa
         String directorio = directorios.get(tipo);
         if (directorio == null) {
-            throw new IllegalArgumentException("Error: tipo de directorio no válido " + tipo);
+            throw new IllegalArgumentException("error: tipo de directorio no válido " + tipo);
         }
 
         try {
@@ -118,7 +118,7 @@ public class MvcConfig implements WebMvcConfigurer {
             }
         } catch (IOException e) {
             throw new RuntimeException(
-                    "Error: ha ocurrido un error al copiar la imagen: " + nombreImagen + " " + e.getMessage(), e);
+                    "error: ha ocurrido un error al copiar la imagen: " + nombreImagen + " " + e.getMessage(), e);
         }
 
     }
