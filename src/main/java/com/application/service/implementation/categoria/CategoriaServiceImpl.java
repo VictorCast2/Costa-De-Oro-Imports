@@ -3,24 +3,20 @@ package com.application.service.implementation.categoria;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.repository.CategoriaRepository;
-import com.application.persistence.repository.SubCategoriaRepository;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
 import com.application.presentation.dto.categoria.response.SubCategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.service.interfaces.CloudinaryService;
-import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.categoria.CategoriaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +37,19 @@ public class CategoriaServiceImpl implements CategoriaService {
     public Categoria getCategoriaById(Long id) {
         return categoriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("La categoria con id: " + id + " no existe o ha sido eliminada"));
+    }
+
+    /**
+     * Obtiene una categoría como DTO de respuesta por su ID.
+     * Este método es para mostrar los datos de la categoria en EditarCategoria.html
+     *
+     * @param id ID de la categoría a buscar
+     * @return DTO con la información de la categoria, incluyendo subcategorías y cantidad de productos.
+     */
+    @Override
+    public CategoriaResponse getCategoriaResponseById(Long id) {
+        Categoria categoria = this.getCategoriaById(id);
+        return this.toResponse(categoria);
     }
 
     /**
@@ -80,7 +89,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     @Transactional
-    public GeneralResponse createCategoria(@NotNull CategoriaCreateRequest categoriaRequest) {
+    public BaseResponse createCategoria(@NotNull CategoriaCreateRequest categoriaRequest) {
 
         String imagen = this.cloudinaryService.subirImagen(categoriaRequest.imagen(), "imagen-categoria");
         Categoria categoria = Categoria.builder()
@@ -99,20 +108,20 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new GeneralResponse("Categoria creada exitosamente");
+        return new BaseResponse("Categoria creada exitosamente", true);
     }
 
     /**
      * Método para actualizar una categoría y subcategorias a partir de un DTO de creación.
      *
      * @param categoriaRequest DTO con los nuevos datos de la categoría y las subcategorias
-     * @param id ID de la categoría a actualizar
+     * @param id               ID de la categoría a actualizar
      * @return DTO con mensaje de éxito
      * @throws EntityNotFoundException si la categoría no existe
      */
     @Override
     @Transactional
-    public GeneralResponse updateCategoria(@NotNull CategoriaCreateRequest categoriaRequest, Long id) {
+    public BaseResponse updateCategoria(@NotNull CategoriaCreateRequest categoriaRequest, Long id) {
 
         Categoria categoria = this.getCategoriaById(id);
 
@@ -136,7 +145,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaRepository.save(categoria);
 
-        return new GeneralResponse("Categoria actualizada exitosamente");
+        return new BaseResponse("Categoria actualizada exitosamente", true);
     }
 
     /**
@@ -150,11 +159,11 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public BaseResponse changeEstadoCategoria(Long id) {
         Categoria categoria = this.getCategoriaById(id);
-
+/*
         if (!categoria.getProductos().isEmpty()) {
             return new BaseResponse("No es posible deshabilitar una categoria con producto asociados", false);
         }
-
+*/
         boolean nuevoEstado = !categoria.isActivo();
         categoria.setActivo(nuevoEstado);
         categoriaRepository.save(categoria);
