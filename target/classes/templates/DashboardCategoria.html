@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -12,14 +12,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
-        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <title>Dashboard Categoria || Costa De Oro Imports</title>
     <meta name="description" content="">
@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -142,8 +142,8 @@
                                 <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
-                                            con
-                                            notas</span> </p>
+                                                con
+                                                notas</span></p>
                                     <small> <i class="ri-time-line"></i> Hace 2 días</small>
                                 </div>
                             </div>
@@ -166,17 +166,17 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                            alt="Usuario">
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
+                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
                             <div class="menu__sub">
                                 <div class="sub__info">
-                                    <span class="info__admin">Administrador
-                                        <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
-                                    </span>
+                                        <span class="info__admin">Administrador
+                                            <span th:text="${#authentication.principal.nombres}"> Nombre y Apellido</span>
+                                        </span>
                                     <span class="info__title"
-                                        th:text="${#authentication.principal?.correo}">mail@mail.com</span>
+                                          th:text="${#authentication.principal?.correo}">mail@mail.com</span>
                                 </div>
                                 <hr>
 
@@ -213,7 +213,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a th:href="@{/admin/categoria/add}">Agregar Categoria</a>
+                        <a th:href="@{/admin/categoria/create-categoria}">Agregar Categoria</a>
                     </div>
                 </div>
 
@@ -238,330 +238,61 @@
                         <div class="notification__table-container">
                             <table class="notification__table">
                                 <thead>
-                                    <tr>
-                                        <th>Icono categoria</th>
-                                        <th>Nombre de categoria</th>
-                                        <th>Producto</th>
-                                        <th>Estados</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th>Icono categoria</th>
+                                    <th>Nombre de categoria</th>
+                                    <th>Producto</th>
+                                    <th>Estados</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/vinoCategoria.png}"
-                                                    alt="categoria de la bebida vino">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vino</td>
-                                        <td>12</td>
-                                        <td class="categoria__td">
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
+                                <tr th:each="categoria : ${categoriaList}">
+                                    <td>
+                                        <figure class="img__container">
+                                            <img th:src="${categoria.imagen}"
+                                                 th:alt="'icono de la categoría ' + ${categoria.nombre}">
+                                        </figure>
+                                    </td>
+                                    <td class="td__product" th:text="${categoria.nombre}"></td>
+                                    <td th:text="${categoria.totalProductos}"></td>
+                                    <td class="categoria__td">
+                                        <button class="td__estados"
+                                                th:classappend="${categoria.activo} ? ' Activo' : ' Inactivo'"
+                                                th:text="${categoria.activo} ? 'Activo' : 'Inactivo'">
+                                        </button>
+                                    </td>
 
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                    <td class="menu__actions">
+                                        <div class="dropdown">
+                                            <button class="dropdown__toggle">
+                                                <i class="ri-more-2-fill"></i>
+                                            </button>
+
+                                            <div class="dropdown__menu">
+                                                <button class="dropdown__item editar"
+                                                        th:attr="data-id=${categoria.id},
+                                                         data-nombre=${categoria.nombre}">
+                                                    <i class="ri-edit-box-line"></i> Editar
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/whiskyCategoria.png}"
-                                                    alt="categoria de la bebida whisky">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Whisky</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                                <button class="dropdown__item eliminar"
+                                                        th:attr="data-id=${categoria.id}, data-nombre=${categoria.nombre}">
+                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/cervezaCategoria.png}"
-                                                    alt="categoria de la bebida cerveza">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Cerveza</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                                <button class="dropdown__item ocultar"
+                                                        th:attr="data-id=${categoria.id}, data-nombre=${categoria.nombre}, data-activo=${categoria.activo}">
+                                                    <i class="ri-eye-line"></i>
+                                                    <span th:text="${categoria.activo} ? 'Ocultar' : 'Mostrar'">Ocultar</span>
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
                                             </div>
-                                        </td>
+                                        </div>
+                                    </td>
 
-                                    </tr>
+                                </tr>
 
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/tequilaCategoria.png}"
-                                                    alt="categoria de la bebida tequila">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Tequila</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/mezcalCategoria.png}"
-                                                    alt="categoria de la bebida mezcal">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Mezcal</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/ronCategoria.png}"
-                                                    alt="categoria de la bebida ron">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Ron</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Activo">Activo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/aguardienteCategoria.png}"
-                                                    alt="categoria de la bebida aguardiente">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Aguardiente</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/vodkaCategoria.png}"
-                                                    alt="categoria de la bebida vodkas">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Vodkas</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/iconoCategoria/ginebraCategoria.png}"
-                                                    alt="categoria de la bebida ginebra">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">Ginebras</td>
-                                        <td>12</td>
-                                        <td>
-                                            <button class="td__estados Inactivo">Inactivo</button>
-                                        </td>
-
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
+                                <tr th:if="${#lists.isEmpty(categoriaList)}" class="empty-row">
+                                    <td colspan="5" class="empty-message">No hay categorías registradas</td>
+                                </tr>
                                 </tbody>
                             </table>
 

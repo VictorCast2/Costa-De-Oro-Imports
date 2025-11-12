@@ -75,7 +75,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     @Override
     public String getImagenUrl(String publicId) {
         if (publicId == null || publicId.isEmpty()) {
-            throw new IllegalArgumentException("Error: no existe el publicId " + publicId);
+            return null;
         }
 
         try {

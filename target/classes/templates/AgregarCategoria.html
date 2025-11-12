@@ -168,7 +168,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -223,7 +223,7 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioProducto" action="">
+                            <form class="formulario__producto" id="formularioProducto" th:action="@{/admin/categoria/create-categoria}" method="post" enctype="multipart/form-data">
                                 <h2 class="producto__title">Información de la categoria
                                 </h2>
 
@@ -232,8 +232,8 @@
                                     <!-- CATEGORÍA PRINCIPAL -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="CategoriaPrincipal"
-                                                id="categoriaprincipal">
+                                            <input type="text" autocomplete="off" placeholder="" name="nombre"
+                                                   id="categoriaprincipal">
                                             <label class="box__label" for="categoriaprincipal">Categoria Principal</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -246,8 +246,7 @@
                                     <!-- CATEGORÍA Secundaria -->
                                     <div class="input__formulario">
                                         <div class="formulario__box" id="subcategoriaBox">
-                                            <input type="text" autocomplete="off" placeholder="" name="SubCategoria"
-                                                id="Subcategoria">
+                                            <input type="text" autocomplete="off" placeholder="" id="Subcategoria">
                                             <label class="box__label" for="Subcategoria">Sub-Categoría</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -257,7 +256,7 @@
                                         </div>
 
                                         <!-- Campo oculto para enviar las subcategorías -->
-                                        <input type="hidden" name="subcategoriasHidden" id="subcategoriasHidden">
+                                        <input type="hidden" name="subcategorias" id="subcategoriasHidden">
 
                                         <p class="formulario__error">
                                             Debes agregar al menos una subcategoría antes de continuar
@@ -270,13 +269,13 @@
 
                                         <div class="container__radio">
                                             <label class="radio__option activo">
-                                                <input type="radio" name="estado" value="activo">
+                                                <input type="radio" name="activo" value="true">
                                                 <span class="radio__custom"></span>
                                                 Activo
                                             </label>
 
                                             <label class="radio__option inactivo">
-                                                <input type="radio" name="estado" value="inactivo">
+                                                <input type="radio" name="activo" value="false">
                                                 <span class="radio__custom"></span>
                                                 Inactivo
                                             </label>
@@ -292,7 +291,7 @@
                                         <h2 class="formulario__title">Imágen de la categoria</h2>
                                         <div class="formulario__boximagen">
                                             <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
-                                            <input type="file" id="fileInput" accept="image/*" hidden>
+                                            <input type="file" id="fileInput" name="imagen" accept="image/*" hidden>
                                             <div class="preview-container" id="previewContainer"></div>
                                         </div>
 
@@ -310,6 +309,8 @@
                                         <div class="formulario__boxdescripcion">
                                             <div id="editor-container"></div>
                                         </div>
+
+                                        <input type="hidden" name="descripcion" id="descripcionHidden">
 
                                         <p class="formulario__error error--descripcion">
                                             Por favor, agrega una descripción de la categoria antes de continuar.

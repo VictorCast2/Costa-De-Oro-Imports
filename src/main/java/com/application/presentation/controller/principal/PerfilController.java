@@ -1,6 +1,7 @@
 package com.application.presentation.controller.principal;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.persistence.entity.empresa.Empresa;
 import com.application.persistence.entity.empresa.enums.ESector;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/perfil")
@@ -39,7 +41,11 @@ public class PerfilController {
             Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
-        String urlImagenEmpresa = cloudinaryService.getImagenUrl(usuario.getEmpresa().getImagen());
+
+        String urlImagenEmpresa = "";
+        if (usuario.getEmpresa() != null) {
+            urlImagenEmpresa = cloudinaryService.getImagenUrl(usuario.getEmpresa().getImagen());
+        }
 
         model.addAttribute("usuario", usuario); // datos del usuario
         model.addAttribute("mensaje", mensaje); // mensaje de los distintos formularios
