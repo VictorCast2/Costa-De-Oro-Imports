@@ -1,4 +1,4 @@
-use railway;
+USE db_beer;
 
 -- Insertar compras 2020
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 2135770, 2541566, '2020/10/04', 1439, 'DESCUENTO20', 'CANCELADO', 'TARJETA_CREDITO');
@@ -1003,7 +1003,7 @@ insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, es
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 404367, 481197, '2020/11/20', 1860, 'PROMO-2020', 'CANCELADO', 'TARJETA_CREDITO');
 
 -- Insertar detalle_venta 2020
-use railway;
+USE db_beer;
 -- Insertar compras del 2020
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 2135770, 2541566, '2020/10/04', 1439, 'DESCUENTO20', 'CANCELADO', 'TARJETA_CREDITO');
 insert into compra (iva, subtotal, total, fecha, usuario_id, cupon_descuento, estado, metodo_pago) values (0.19, 4001690, 4762011, '2020/11/03', 104, null, 'CANCELADO', 'PSE');

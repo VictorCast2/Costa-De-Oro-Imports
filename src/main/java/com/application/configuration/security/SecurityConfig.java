@@ -40,8 +40,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> auth
                                                 // Configurar endpoints privados
                                                 /* ----- Admin ----- */
-                                                .requestMatchers("/admin/categoria/**").hasRole("ADMIN")
-                                                .requestMatchers("/admin/producto/**").hasRole("ADMIN")
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
 
                                                 // Configurar endpoints públicos (sin autenticación)
                                                 // Principal Controller
@@ -51,7 +50,6 @@ public class SecurityConfig {
                                                 // Configurar endpoints públicos estáticos (sin autenticación)
                                                 .requestMatchers("/", "/Assets/**", "/Js/**", "/Css/**").permitAll()
 
-                                                // Vainas de VICTOR (NO VUELVAS A TOCAR NADA)
                                                 .requestMatchers(
                                                                 "/**", // Todas las rutas
                                                                 "/error/**", // Rutas de error

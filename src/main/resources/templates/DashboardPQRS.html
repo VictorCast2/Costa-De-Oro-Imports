@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="../static/Css/DashboardPQRS.css">
+    <link rel="stylesheet" th:href="@{/Css/DashboardPQRS.css}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,25 +40,27 @@
         <aside class="dashboard__sidebar">
 
             <figure class="sidebar__logo">
-                <img src="../static/Assets/Img/logos/logoDashboardYPrincipal.webp" alt="Logo dashboard">
+                <a th:href="@{/admin/principal/}">
+                    <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                </a>
             </figure>
 
             <ul class="sidebar__menu">
                 <li class="sidebar__item">
                     <i class="ri-home-4-line"></i>
-                    <a href="Dashboard.html" class="sidebar__text">Panel De Control</a>
+                    <a th:href="@{/admin/principal/}" class="sidebar__text">Panel De Control</a>
                 </li>
 
                 <p class="menu__title">Administracion De Tiendas</p>
 
                 <li class="sidebar__item">
                     <i class="ri-shopping-cart-2-line"></i>
-                    <a href="DashboardProducto.html" class="sidebar__text">Productos</a>
+                    <a th:href="@{/admin/producto/}" class="sidebar__text">Productos</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-list-unordered"></i>
-                    <a href="DashboardCategoria.html" class="sidebar__text">Categorias</a>
+                    <a th:href="@{/admin/categoria/}" class="sidebar__text">Categorias</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -72,7 +75,7 @@
 
                 <li class="sidebar__item">
                     <i class="ri-group-line"></i>
-                    <a href="DashboardClientes.html" class="sidebar__text">Clientes</a>
+                    <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -127,7 +130,7 @@
                             </div>
 
                             <div class="notif__item unread">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Su pedido ha sido realizado</strong> <br><span>esperando el envío</span>
                                     </p>
@@ -136,7 +139,7 @@
                             </div>
 
                             <div class="notif__item">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Jitu Chauhan</strong> <span>respondió a tu lista de pedidos pendientes
                                             con
@@ -146,13 +149,12 @@
                             </div>
 
                             <div class="notif__item">
-                                <img src="../static/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg" alt="User">
+                                <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroUno.jpeg}" alt="User">
                                 <div class="notif__text">
                                     <p><strong>Tienes mensajes nuevos</strong> <span>2 mensajes no leídos</span></p>
                                     <small> <i class="ri-time-line"></i> Hace 2 días</small>
                                 </div>
                             </div>
-
 
                             <div class="notif__footer">
                                 <a href="#">Ver todo</a>
@@ -195,6 +197,7 @@
 
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -607,7 +610,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../static/Js/DashboardPQRS.js"></script>
+    <script th:src="@{/Js/DashboardPQRS.js}"></script>
 </body>
 
 </html>
