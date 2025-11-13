@@ -160,7 +160,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -212,209 +212,63 @@
                         <div class="table__filter">
                             <input id="inputSearch" type="search" placeholder="Buscar Productos">
 
-
                             <div class="custom__select">
                                 <select id="filtro-estado">
                                     <option value="todos">Estado</option>
-                                    <option value="Exito">Exito</option>
+                                    <option value="Exito">Pagado</option>
                                     <option value="Pendiente">Pendiente</option>
-                                    <option value="Cancelar">Cancelar</option>
+                                    <option value="Cancelar">Cancelado</option>
+                                    <option value="Rechazado">Rechazado</option>
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
                             </div>
-
-
                         </div>
 
                         <div class="notification__table-container">
                             <table class="notification__table">
                                 <thead>
-                                    <tr>
-                                        <th>Imagen</th>
-                                        <th>Numero de orden</th>
-                                        <th>Cliente</th>
-                                        <th>Fecha y hora</th>
-                                        <th>Pago</th>
-                                        <th>Estados</th>
-                                        <th>Cantidad</th>
-                                    </tr>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Numero de orden</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha y hora</th>
+                                    <th>Pago</th>
+                                    <th>Estados</th>
+                                    <th>Cantidad</th>
+                                </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1007</td>
-                                        <td>Jennifer Sullivan</td>
-                                        <td>24/10/2025</td>
-                                        <td>Paypal</td>
-                                        <td>
-                                            <button class="td__estados Exito">Exito</button>
-                                        </td>
-                                        <td>$12,909</td>
+                                <tr th:each="compra : ${compras}">
+                                    <td>
+                                        <figure class="img__container">
+                                            <img th:src="${compra.usuarioImagenUrl}"
+                                                 th:alt="${compra.usuarioNombreCompleto}">
+                                        </figure>
+                                    </td>
+                                    <td class="td__product" th:text="${compra.numeroOrden}">FC#1007</td>
+                                    <td th:text="${compra.usuarioNombreCompleto}">Jennifer Sullivan</td>
+                                    <td th:text="${#temporals.format(compra.fecha, 'dd/MM/yyyy HH:mm')}">24/10/2025</td>
+                                    <td th:text="${compra.metodoPago}">Paypal</td>
+                                    <td>
+                                        <!-- Botón dinámico según el estado -->
+                                        <button th:classappend="'td__estados ' + ${compra.estado}"
+                                                th:text="${compra.estado}">Exito</button>
+                                    </td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(compra.total, 0, 'COMMA', 0, 'POINT')}"></td>
+                                </tr>
 
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado56.png}"
-                                                    alt="">
-                                            </figure>
-
-                                        </td>
-                                        <td class="td__product">FC#1006</td>
-                                        <td>Willie Hanson</td>
-                                        <td>20/10/2025</td>
-                                        <td>Nequi</td>
-                                        <td>
-                                            <button class="td__estados Cancelar">Cancelar</button>
-                                        </td>
-                                        <td>$366,000</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado7.png}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1005</td>
-                                        <td>Dori Stewart</td>
-                                        <td>20/09/2025</td>
-                                        <td>Paypal</td>
-                                        <td>
-                                            <button class="td__estados Cancelar">Cancelar</button>
-                                        </td>
-                                        <td>$8,190</td>
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado__vino.png}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1004</td>
-                                        <td>Ezequiel Rogerson</td>
-                                        <td>09/08/2025</td>
-                                        <td>Raya</td>
-                                        <td>
-                                            <button class="td__estados Exito">Exito</button>
-                                        </td>
-                                        <td>$23,110</td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1003</td>
-                                        <td>María Roux</td>
-                                        <td>20/06/2025</td>
-                                        <td>BACALAO</td>
-                                        <td>
-                                            <button class="td__estados Exito">Exito</button>
-                                        </td>
-                                        <td>$2.000</td>
-
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1002</td>
-                                        <td>Roberto Donald</td>
-                                        <td>12/02/2025</td>
-                                        <td>Paypal</td>
-                                        <td>
-                                            <button class="td__estados Exito">Exito</button>
-                                        </td>
-                                        <td>$56,000</td>
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1001</td>
-                                        <td>Diann Watson</td>
-                                        <td>20/07/2025</td>
-                                        <td>PSE</td>
-                                        <td>
-                                            <button class="td__estados Pendiente">Pendiente</button>
-                                        </td>
-                                        <td>$23,000</td>
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#1204</td>
-                                        <td>Keyner Reyes</td>
-                                        <td>20/10/2025</td>
-                                        <td>DaviPlata</td>
-                                        <td>
-                                            <button class="td__estados Pendiente">Pendiente</button>
-                                        </td>
-                                        <td>$23,000</td>
-
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <figure class="img__container">
-                                                <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                    alt="">
-                                            </figure>
-                                        </td>
-                                        <td class="td__product">FC#3032</td>
-                                        <td>Jose Andres</td>
-                                        <td>20/10/2025</td>
-                                        <td>Bancolombia</td>
-                                        <td>
-                                            <button class="td__estados Pendiente">Pendiente</button>
-                                        </td>
-                                        <td>$24,000</td>
-
-                                    </tr>
-
-
+                                <!-- Mensaje si no hay compras -->
+                                <tr th:if="${compras.empty}" class="empty-row">
+                                    <td colspan="7" class="empty-message">
+                                        No hay compras registradas
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
 
                             <div class="table__pagination">
                                 <div class="pagination__span">
-                                    <span class="span__description"></span>
+                                    <span class="span__description" th:text="'Total de compras: ' + ${#lists.size(compras)}"></span>
                                 </div>
 
                                 <div class="pagination__button">
@@ -422,7 +276,6 @@
                                     <button class="button__pasar pasar--siguiente">Siguiente</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

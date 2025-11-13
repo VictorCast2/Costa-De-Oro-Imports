@@ -12,8 +12,10 @@ import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
 import com.application.presentation.dto.compra.request.DetalleVentaRequest;
+import com.application.presentation.dto.compra.response.CompraDashboardResponse;
 import com.application.presentation.dto.compra.response.CompraResponse;
 import com.application.presentation.dto.compra.response.DetalleVentaResponse;
+import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.CompraService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class CompraServiceImpl implements CompraService {
     private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
     private final ProductoRepository productoRepository;
+    private final CloudinaryService cloudinaryService;
 
     /**
      * @param compraId
@@ -41,6 +44,34 @@ public class CompraServiceImpl implements CompraService {
     public Compra getCompraById(Long compraId) {
         return compraRepository.findById(compraId)
                 .orElseThrow(() -> new EntityNotFoundException("La compra con id: " + compraId + " no existe."));
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<CompraDashboardResponse> getCompraByOrderAndFechaDesc() {
+        List<Compra> compras = compraRepository.findAllComprasWithUsuarioOrderByFechaDesc();
+        return compras.stream()
+                .map(compra -> {
+                    Usuario usuario = compra.getUsuario();
+
+                    String nombreCompleto = usuario.getNombres() + usuario.getApellidos();
+
+                    String imagenUrl = cloudinaryService.getImagenUrl(usuario.getImagen());
+
+                    return new CompraDashboardResponse(
+                            compra.getCompraId(),
+                            "ORD-" + String.format("%04d", compra.getCompraId()),
+                            nombreCompleto,
+                            imagenUrl,
+                            compra.getEMetodoPago().getDescripcion(),
+                            compra.getTotal(),
+                            compra.getFecha(),
+                            compra.getEstado().getDescripcion()
+                    );
+                })
+                .toList();
     }
 
     /**
@@ -140,7 +171,7 @@ public class CompraServiceImpl implements CompraService {
                 Producto producto = detalleVenta.getProducto();
 
                 if (producto.getStock() < productoRepository.findStockByProductoId(producto.getProductoId())) {
-                    producto.setStock( producto.getStock() + detalleVenta.getCantidad());
+                    producto.setStock(producto.getStock() + detalleVenta.getCantidad());
                     productoRepository.save(producto);
                 }
 
