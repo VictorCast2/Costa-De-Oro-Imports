@@ -258,6 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarContadorProductos();
     }
 
+    // === Evento para redirigir a DetalleVenta ===
+    document.querySelectorAll(".clickable-row").forEach(row => {
+        row.addEventListener("click", () => {
+            const compraId = row.getAttribute("data-id");
+            if (compraId) {
+                window.location.href = `/admin/compra/detalle-compra/${compraId}`;
+            }
+        });
+    });
+
     // Inicializar
     inicializarPaginacion();
 

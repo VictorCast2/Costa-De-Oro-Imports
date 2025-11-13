@@ -4,6 +4,8 @@ import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.compra.response.CompraDashboardResponse;
 import com.application.presentation.dto.compra.response.CompraResponse;
+import com.application.presentation.dto.compra.response.DetalleCompraResponse;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
@@ -15,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +40,6 @@ public class CompraController {
                                   Model model) {
 
         List<CompraDashboardResponse> compraList = compraService.getCompraByOrderAndFechaDesc();
-
-
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
 
@@ -51,17 +51,33 @@ public class CompraController {
         return "DashboardCompra";
     }
 
-    @GetMapping("/detalle-compra")
-    public String DetalleCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
-                                  @RequestParam(value = "mensaje", required = false) String mensaje,
-                                  Model model) {
+    @GetMapping("/detalle-compra/{id}")
+    public String DetalleCompra(@PathVariable Long id,
+                                @AuthenticationPrincipal CustomUserPrincipal principal,
+                                @RequestParam(name = "mensaje", required = false) String mensaje,
+                                @RequestParam(name = "success", required = false) Boolean success,
+                                Model model) {
 
+        DetalleCompraResponse detalleCompra = compraService.getDetalleCompra(id);
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
 
         model.addAttribute("usuario", usuario);
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
+        model.addAttribute("detalleCompra", detalleCompra);
         model.addAttribute("mensaje", mensaje);
+        model.addAttribute("success", success);
 
         return "DetalleCompra";
+    }
+
+    @GetMapping("detalle-compra/cambiar-estado/{id}")
+    public String changeEstadoCompra(@PathVariable Long id,
+                                     @RequestParam String estado) {
+        BaseResponse response = compraService.changeEstadoCompra(id, estado);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/compra/detalle-compra/{id}?mensaje=" + mensaje + "&success=" + success;
     }
 
 }

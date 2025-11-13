@@ -12,9 +12,8 @@ import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
 import com.application.presentation.dto.compra.request.DetalleVentaRequest;
-import com.application.presentation.dto.compra.response.CompraDashboardResponse;
-import com.application.presentation.dto.compra.response.CompraResponse;
-import com.application.presentation.dto.compra.response.DetalleVentaResponse;
+import com.application.presentation.dto.compra.response.*;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.CompraService;
 import jakarta.persistence.EntityNotFoundException;
@@ -56,7 +55,7 @@ public class CompraServiceImpl implements CompraService {
                 .map(compra -> {
                     Usuario usuario = compra.getUsuario();
 
-                    String nombreCompleto = usuario.getNombres() + usuario.getApellidos();
+                    String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
 
                     String imagenUrl = cloudinaryService.getImagenUrl(usuario.getImagen());
 
@@ -72,6 +71,52 @@ public class CompraServiceImpl implements CompraService {
                     );
                 })
                 .toList();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public DetalleCompraResponse getDetalleCompra(Long compraId) {
+        Compra compra = compraRepository.findCompraWithDetalles(compraId)
+                .orElseThrow(() -> new EntityNotFoundException("La compra con id: " + compraId + " no existe."));
+
+        Usuario usuario = compra.getUsuario();
+        String ciudadEmpresa = (usuario.getEmpresa() != null) ? usuario.getEmpresa().getCiudad() : "";
+
+        List<DetalleProductoResponse> productoList = compra.getDetalleVentas().stream()
+                .map(detalleVenta -> new DetalleProductoResponse(
+                        detalleVenta.getProducto().getProductoId(),
+                        detalleVenta.getProducto().getNombre(),
+                        cloudinaryService.getImagenUrl(detalleVenta.getProducto().getImagen()),
+                        detalleVenta.getProducto().getMarca(),
+                        detalleVenta.getProducto().getETipo().name(),
+                        detalleVenta.getPrecioUnitario(),
+                        detalleVenta.getCantidad(),
+                        detalleVenta.getSubtotal()
+                ))
+                .toList();
+
+        return new DetalleCompraResponse(
+                compra.getCompraId(),
+                "#FC" + String.format("%04d", compra.getCompraId()),
+                compra.getEMetodoPago().getDescripcion(),
+                compra.getSubtotal(),
+                compra.getCuponDescuento(),
+                compra.getIva(),
+                compra.getTotal(),
+                compra.getFecha(),
+                compra.getEstado().getDescripcion(),
+
+                usuario.getUsuarioId(),
+                usuario.getNombres() + " " + usuario.getApellidos(),
+                usuario.getCorreo(),
+                usuario.getTelefono(),
+                usuario.getDireccion(),
+                ciudadEmpresa,
+
+                productoList
+        );
     }
 
     /**
@@ -194,6 +239,32 @@ public class CompraServiceImpl implements CompraService {
             compra.setEstado(EEstado.CANCELADO);
             compraRepository.save(compra);
         }
+    }
+
+    /**
+     * @param compraId
+     * @param estado
+     * @return
+     */
+    @Override
+    public BaseResponse changeEstadoCompra(Long compraId, String estado) {
+        Compra compra = this.getCompraById(compraId);
+
+        EEstado nuevoEstado = mapearStringAEstado(estado);
+        compra.setEstado(nuevoEstado);
+        compraRepository.save(compra);
+
+        return new BaseResponse("Estado cambiado exitosamente", true);
+    }
+
+    private EEstado mapearStringAEstado(String estado) {
+        return switch (estado.toLowerCase()) {
+          case "pagado" -> EEstado.PAGADO;
+          case "pendiente" -> EEstado.PENDIENTE;
+          case "cancelado" -> EEstado.CANCELADO;
+          case "rechazado" -> EEstado.RECHAZADO;
+          default -> throw new IllegalArgumentException("Estado Invalido " + estado);
+        };
     }
 
     /**

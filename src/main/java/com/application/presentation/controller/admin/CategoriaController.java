@@ -72,7 +72,6 @@ public class CategoriaController {
 
     @GetMapping("/update-categoria/{id}")
     public String editarCategoria(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal principal,
-                                  @RequestParam(value = "mensaje", required = false) String mensaje,
                                   Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
@@ -81,7 +80,6 @@ public class CategoriaController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("urlImagenUsuario", urlImagenUsuario);
         model.addAttribute("categoria", categoria);
-        model.addAttribute("mensaje", mensaje);
         model.addAttribute("categoriaId", id);
         return "EditarCategoria";
     }

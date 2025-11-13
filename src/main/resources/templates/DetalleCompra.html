@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -166,7 +166,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -213,168 +213,133 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a href="DashboardCompra.html">Volver a todas las compras</a>
+                        <a th:href="@{/admin/compra/}">Volver a todas las compras</a>
                     </div>
                 </div>
 
                 <div class="body__table">
                     <div class="container__table">
                         <div class="table__filter">
-
                             <div class="filter__titulo">
-                                <h2 class="titulo__pedidos">
-                                    ID del pedido:</h2>
-                                <span class="titulo__id">#FC001</span>
-                                <button class="titulo__estado Pendiente">Pendiente</button>
+                                <h2 class="titulo__pedidos">ID del pedido:</h2>
+                                <span class="titulo__id" th:text="${detalleCompra.numeroOrden}">#FC001</span>
+                                <button th:classappend="'titulo__estado ' + ${detalleCompra.estado}"
+                                        th:text="${detalleCompra.estado}">Pendiente</button>
                             </div>
 
-
                             <div class="filter__estados">
-
                                 <div class="custom__select">
-                                    <select id="filtro-estado">
-                                        <option value="todos">Estado</option>
-                                        <option value="Exito">Exito</option>
-                                        <option value="Cancelar">Cancelar</option>
-                                        <option value="Pendiente">Pendiente</option>
+                                    <select id="filtro-estado" name="estado">
+                                        <option value="" disabled selected>Estado</option>
+                                        <option value="Pagado" th:selected="${detalleCompra.estado == 'Pagado'}">Pagado</option>
+                                        <option value="Pendiente" th:selected="${detalleCompra.estado == 'Pendiente'}">Pendiente</option>
+                                        <option value="Cancelado" th:selected="${detalleCompra.estado == 'Cancelado'}">Cancelado</option>
+                                        <option value="Rechazado" th:selected="${detalleCompra.estado == 'Rechazado'}">Rechazado</option>
                                     </select>
                                     <i class="ri-arrow-down-s-line"></i>
                                 </div>
 
-                                <button class="estados__btn">Guardar</button>
-
+                                <button type="button" class="estados__btn" id="guardar-estado">Guardar</button>
                                 <button class="estados__factura">Descargar factura</button>
                             </div>
 
+                            <!-- Campo oculto -->
+                            <input type="hidden" id="compraId" th:value="${detalleCompra.compraId}">
                         </div>
 
                         <div class="table__information">
-
                             <div class="information__detalleClientes">
                                 <h4 class="detalleClientes__titulo">Detalles del cliente</h4>
 
-                                <p class="detalleClientes__nombreCliente">Keyner alfonso</p>
-                                <p class="detalleClientes__correoCliente">anderalex@example.com</p>
-                                <p class="detalleClientes__telefonoCliente">+3006431563</p>
-                                <a class="detalleClientes__perfil" href="Perfil.html">Ver perfil</a>
+                                <p class="detalleClientes__nombreCliente" th:text="${detalleCompra.usuarioNombreCompleto}">Keyner alfonso</p>
+                                <p class="detalleClientes__correoCliente" th:text="${detalleCompra.usuarioCorreo}">anderalex@example.com</p>
+                                <p class="detalleClientes__telefonoCliente" th:text="${detalleCompra.usuarioTelefono}">+3006431563</p>
+                                <a class="detalleClientes__perfil" th:href="@{/perfil/{id}(id=${detalleCompra.usuarioId})}">Ver perfil</a>
                             </div>
 
                             <div class="information__direccionEnvio">
                                 <h4 class="direccionEnvio__titulo">Dirección de envío</h4>
 
-                                <p class="direccionEnvio__apellidoCliente">Reyes tejedor</p>
-                                <p class="direccionEnvio__direccionCliente">Calle 45 #18-22, Apto 302 </p>
-                                <p class="direccionEnvio__ciudadCliente">Cartagena, Bolivar</p>
-                                <p class="direccionEnvio__barrioCliente">San pedro martin</p>
+                                <p class="direccionEnvio__apellidoCliente" th:text="${detalleCompra.usuarioNombreCompleto}">Reyes tejedor</p>
+                                <p class="direccionEnvio__direccionCliente" th:text="${detalleCompra.usuarioDireccion}">Calle 45 #18-22, Apto 302</p>
+                                <p class="direccionEnvio__ciudadCliente" th:text="${detalleCompra.ciudadEmpresa}">Cartagena, Bolivar</p>
+                                <p class="direccionEnvio__barrioCliente" th:text="${detalleCompra.ciudadEmpresa}">San pedro martin</p>
                             </div>
 
                             <div class="information__detallePedidos">
                                 <h4 class="detallePedidos__titulo">Detalles del pedido</h4>
 
-                                <p class="detallePedidos__idpedido">ID del pedido: <span
-                                        class="idpedido__cliente">FC001</span></p>
-                                <p class="detallePedidos__fechaPedido">Fecha del pedido: <span
-                                        class="fechaPedido__cliente">25/10/2025</span></p>
-                                <p class="detallePedidos__totalPedido">Total del pedido: <span
-                                        class="totalPedido__cliente">$734,28</span></p>
-                                <p class="detallePedidos__metodoPago">Metodo de pago: <span
-                                        class="metodoPago__cliente">Nequi</span> </p>
+                                <p class="detallePedidos__idpedido">
+                                    ID del pedido: <span class="idpedido__cliente" th:text="${detalleCompra.numeroOrden}">FC001</span>
+                                </p>
+                                <p class="detallePedidos__fechaPedido">
+                                    Fecha del pedido: <span class="fechaPedido__cliente"
+                                                            th:text="${#temporals.format(detalleCompra.fecha, 'dd/MM/yyyy')}">25/10/2025</span>
+                                </p>
+                                <p class="detallePedidos__totalPedido">
+                                    Total del pedido:
+                                    <span class="totalPedido__cliente"
+                                          th:text="${'$' + #numbers.formatDecimal(detalleCompra.total, 0, 'COMMA', 0, 'POINT')}">
+                                    </span>
+                                </p>
+                                <p class="detallePedidos__metodoPago">
+                                    Método de pago: <span class="metodoPago__cliente" th:text="${detalleCompra.metodoPago}">Nequi</span>
+                                </p>
                             </div>
                         </div>
 
+                        <!-- Tabla de productos -->
                         <div class="notification__table-container">
                             <table class="notification__table">
                                 <thead>
-                                    <tr>
-                                        <th>Productos</th>
-                                        <th>Precio</th>
-                                        <th>Cantidad</th>
-                                        <th>Total</th>
-                                    </tr>
+                                <tr>
+                                    <th>Productos</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
                                 </thead>
-                                <tbody id="favoritos-body">
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProdusctoDestacado__vino2.webp}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Vino Lambrusco Botticello Bianco Dolce
-                                                    750 ml</span>
-                                            </div>
-                                        </td>
-                                        <td>$39.000</td>
-                                        <td>2</td>
-                                        <td>$39.000</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado59.png}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Ginebra Premium Hendrick's Importada
-                                                    Escocesa 750 ml</span>
-                                            </div>
-                                        </td>
-                                        <td>$39.000</td>
-                                        <td>2</td>
-                                        <td>$39.000</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado67.png}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Vino Tinto Terra Vega Merlot 750
-                                                    ml</span>
-                                            </div>
-                                        </td>
-                                        <td>$39.000</td>
-                                        <td>2</td>
-                                        <td>$39.000</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/Productos/Productos__Destacados/ProductoDestacado63.png}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Vodka Smirnoff Sabor Lulo Premium 750
-                                                    ml</span>
-                                            </div>
-                                        </td>
-                                        <td>$39.000</td>
-                                        <td>2</td>
-                                        <td>$39.000</td>
-                                    </tr>
-
-
+                                <tbody>
+                                <tr th:each="producto : ${detalleCompra.productos}">
+                                    <td class="td__producto">
+                                        <div class="producto__info">
+                                            <figure class="img__container">
+                                                <img th:src="${producto.imagen}" th:alt="${producto.nombre}">
+                                            </figure>
+                                            <span class="producto__nombre" th:text="${producto.nombre}">Nombre del producto</span>
+                                        </div>
+                                    </td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(producto.precioUnitario, 0, 'COMMA', 0, 'POINT')}">$0</td>
+                                    <td th:text="${producto.cantidad}">0</td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(producto.subtotal, 0, 'COMMA', 0, 'POINT')}">$0</td>
+                                </tr>
                                 </tbody>
                             </table>
 
+                            <!-- Totales -->
                             <div class="table__subtotal">
                                 <div class="subtotal__span">
-                                    <p class="span__texto">Subtotal: <span
-                                            class="texto__precio precio--subtotal">$80,00</span></p>
-                                    <p class="span__texto">Costo de envío <span
-                                            class="texto__precio precio--envio">$10,00</span></p>
-                                    <p class="span__texto">Total general <span
-                                            class="texto__precio precio--general">$90,00</span></p>
+                                    <p class="span__texto">
+                                        Subtotal:
+                                        <span class="texto__precio precio--subtotal"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.subtotal, 0, 'COMMA', 0, 'POINT')}">$80,000</span>
+                                    </p>
+                                    <p class="span__texto">
+                                        IVA:
+                                        <span class="texto__precio precio--envio"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.iva, 0, 'COMMA', 0, 'POINT')}">$10,000</span>
+                                    </p>
+                                    <p class="span__texto">
+                                        Total general:
+                                        <span class="texto__precio precio--general"
+                                              th:text="${'$' + #numbers.formatDecimal(detalleCompra.total, 0, 'COMMA', 0, 'POINT')}">$90,000</span>
+                                    </p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
+
             </section>
         </main>
 

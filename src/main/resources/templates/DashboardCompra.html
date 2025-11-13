@@ -215,9 +215,9 @@
                             <div class="custom__select">
                                 <select id="filtro-estado">
                                     <option value="todos">Estado</option>
-                                    <option value="Exito">Pagado</option>
+                                    <option value="Pagado">Pagado</option>
                                     <option value="Pendiente">Pendiente</option>
-                                    <option value="Cancelar">Cancelado</option>
+                                    <option value="Cancelado">Cancelado</option>
                                     <option value="Rechazado">Rechazado</option>
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
@@ -238,7 +238,9 @@
                                 </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
-                                <tr th:each="compra : ${compras}">
+                                <tr th:each="compra : ${compras}"
+                                    th:data-id="${compra.compraId}"
+                                    class="clickable-row">
                                     <td>
                                         <figure class="img__container">
                                             <img th:src="${compra.usuarioImagenUrl}"
