@@ -28,29 +28,23 @@
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
-    <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
-    <meta property="og:description"
-          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
-    <meta property="og:image" content="">
-    <meta property="og:url" content="">
-    <meta property="og:type" content="website">
 </head>
 
 <body>
 <header class="header">
     <h1 class="header__logo">Costa De Oro Imports</h1>
 
-        <nav class="header__navbar">
-            <ul class="navbar__list">
-                <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
-                <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
-                <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
-                <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
-                <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
-            </ul>
-        </nav>
+    <nav class="header__navbar">
+        <ul class="navbar__list">
+            <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
+            <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
+            <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
+            <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
+            <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
+        </ul>
+    </nav>
 
-        <div class="list__icon">
+    <div class="list__icon">
 
                 <span class="icon__item language-selector">
                     <div class="language-dropdown">
@@ -66,15 +60,15 @@
                     </div>
                 </span>
 
-            <!-- Buscar -->
-            <span class="icon__item">
+        <!-- Buscar -->
+        <span class="icon__item">
                 <i class="ri-search-line"></i>
             </span>
 
-            <!-- Usuario -->
-            <span class="icon__item">
+        <!-- Usuario -->
+        <span class="icon__item">
                 <i class="ri-user-line"></i>
-                <!-- Cuando el usuario NO está autenticado -->
+            <!-- Cuando el usuario NO está autenticado -->
                 <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
                     <div class="menu__sub">
                         <a th:href="@{/auth/login}" class="sub__link">
@@ -88,7 +82,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- Cuando el usuario SÍ está autenticado -->
+            <!-- Cuando el usuario SÍ está autenticado -->
                 <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
                     <div class="menu__sub">
                         <div class="sub__info">
@@ -116,18 +110,18 @@
                 </div>
             </span>
 
-            <!-- Favorito -->
-            <span class="icon__item" id="go-fav">
+        <!-- Favorito -->
+        <span class="icon__item" id="go-fav">
                 <i class="ri-heart-3-line"></i>
                 <span class="icon__badge" id="fav-count"></span>
             </span>
 
-            <!-- Carrito -->
-            <span class="icon__item" id="cart-icon">
+        <!-- Carrito -->
+        <span class="icon__item" id="cart-icon">
                 <i class="ri-shopping-cart-2-line"></i>
                 <span class="icon__badge" id="cart-count"></span>
             </span>
-        </div>
+    </div>
 </header>
 
 <main class="main__content">

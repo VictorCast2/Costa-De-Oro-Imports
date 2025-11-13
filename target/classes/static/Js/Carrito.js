@@ -229,8 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             cartTableBody.appendChild(tr);
 
-            paginationText.textContent = `Mostrando 0 a 0 de 0 entradas`;
-            paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove())
+            paginationText.textContent = `Mostrando 0-0 de 0`;
+            paginationButtonsContainer.innerHTML = "";
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
             thereSpan.textContent = `Hay 0 productos en el carrito.`;
@@ -281,15 +281,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Render botones de paginación ---
     function renderPaginationButtons() {
-
-         // Elimina botones de página previos (manteniendo Anterior/Siguiente)
-         paginationButtonsContainer.querySelectorAll(".button__item").forEach(btn => btn.remove());
+        paginationButtonsContainer.innerHTML = "";
         const totalPages = Math.ceil(cart.length / rowsPerPage);
 
         for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
-            btn.classList.add("button__item");
+            btn.classList.add("pagination__btn");
             if (i === currentPage) btn.classList.add("active");
 
             btn.addEventListener("click", () => {
@@ -297,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTable();
             });
 
-            nextPageBtn.before(btn); // inserta antes del botón "Siguiente"
+            paginationButtonsContainer.appendChild(btn);
         }
 
         prevPageBtn.disabled = currentPage === 1;
