@@ -575,7 +575,7 @@
     color: white;
     border: none;
     padding: 15px 10px;
-    font:600 1rem var(--typografiaGeist) ;
+    font: 600 1rem var(--typografiaGeist);
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.25s ease;
@@ -632,18 +632,297 @@
     text-align: left;
 }
 
-/* Pagination */
-.pagination {
+
+
+/* Vista Lista - Mismo HTML, diferentes estilos */
+.flex__productos.list-view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* DOS COLUMNAS */
+    gap: 20px;
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+
+.flex__productos.list-view .flex__productos-track {
+    display: contents; /* Para que los hijos directos sean grid items */
+}
+
+/* Card en vista lista */
+.flex__productos.list-view .card {
+    display: grid;
+    grid-template-columns:150px 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas:
+        "image category"
+        "image country"
+        "image description"
+        "image stars"
+        "image price";
+    gap: 8px 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 200px;
+    align-items: start;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
     position: relative;
-    top: -25px;
-    left: -18px;
-    width: 200%;
-    overflow-x: hidden;
+    cursor: pointer;
+    text-align: left;
+    overflow: hidden;
+}
+
+/* Imagen en vista lista */
+.flex__productos.list-view .card img {
+    grid-area: image;
+    width: 100% !important;
+    height: 180px !important;
+    object-fit: contain;
+    margin-bottom: 0 !important;
+    justify-self: start;
+}
+
+/* Categoría en vista lista */
+.flex__productos.list-view .card .category {
+    grid-area: category;
+    font: 600 0.9rem "Urbanist";
+    color: #f472b6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    align-self: end;
+}
+
+/* País en vista lista */
+.flex__productos.list-view .card .pais {
+    grid-area: country;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    align-self: start;
+}
+
+.flex__productos.list-view .card .pais img {
+    width: 30px !important;
+    height: 30px !important;
+    margin-bottom: 0 !important;
+}
+
+.flex__productos.list-view .card .pais .pais__name {
+    font: 600 1.2rem "Urbanist";
+    color: #111827;
+    margin: 0;
+}
+
+/* Descripción en vista lista */
+.flex__productos.list-view .card .description {
+    grid-area: description;
+    font: 400 1rem/1.4 "Urbanist";
+    color: #636465;
+    margin: 2px 0 0 0;
+    width: 100%;
+}
+
+/* Estrellas - VISIBLES en vista lista */
+.flex__productos.list-view .card .stars {
+    grid-area: stars;
+    display: flex !important;
+    color: #f59e0b;
+    margin: 4px 0 0 0;
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.flex__productos.list-view .card .stars i {
+    margin: -2px;
+}
+
+/* Precios en vista lista */
+.flex__productos.list-view .card .price-container {
+    grid-area: price;
+    display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 2rem;
+    width: 100%;
+    margin: 8px 0 0 0;
+}
+
+.flex__productos.list-view .card .price {
+    font: 900 1.2rem "Urbanist";
+    color: #111827;
+}
+
+.flex__productos.list-view .card .price-old {
+    font: 600 1rem "Urbanist";
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+/* Badge en vista lista */
+.flex__productos.list-view .card .badge {
+    position: absolute;
+    top: 45px;
+    left: 0px;
+    font: 600 1rem "Urbanist";
+    padding: 8px 12px;
+    z-index: 2;
+    background-color: #34d399;
+    color: white;
+    border-radius: 0 5px 5px 0;
+}
+
+/* ÍCONOS EXACTAMENTE COMO LOS TUYOS */
+.flex__productos.list-view .card .card-icons {
+    position: absolute;
+    top: 50%;
+    right: -60px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: right 0.4s ease;
+}
+
+.flex__productos.list-view .card .card-icons i {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.flex__productos.list-view .card .card-icons i:hover {
+    transform: scale(1.1);
+    background-color: #000000;
+    color: #ffff;
+}
+
+.flex__productos.list-view .card:hover .card-icons {
+    right: 10px;
+}
+
+/* Responsive para vista lista */
+@media (max-width: 1024px) {
+    .flex__productos.grid-view {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flex__productos.list-view .card {
+        grid-template-columns: 80px 1fr;
+        gap: 4px 20px;
+        min-height: 150px;
+    }
+
+    .flex__productos.list-view .card img {
+        height: 100px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .flex__productos.grid-view {
+        grid-template-columns: 1fr;
+    }
+
+    .flex__productos.list-view .card {
+        grid-template-columns: 70px 1fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-areas:
+            "image category"
+            "image country"
+            "image description"
+            "image stars"
+            "image price"
+            "image actions";
+        gap: 4px 15px;
+        padding: 12px;
+        min-height: 160px;
+    }
+
+    .flex__productos.list-view .card img {
+        height: 90px !important;
+    }
+
+    /*  */
+    .flex__productos.list-view .card .card-icons {
+        position: static;
+        transform: none;
+        flex-direction: row;
+        grid-area: actions;
+        justify-content: center;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #e5e7eb;
+        right: auto;
+        gap: 15px;
+    }
+
+    .flex__productos.list-view .card .card-icons i {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .flex__productos.grid-view {
+        grid-template-columns: 1fr;
+    }
+
+    .flex__productos.list-view .card {
+        grid-template-columns: 60px 1fr;
+        gap: 4px 12px;
+        padding: 10px;
+        min-height: 150px;
+    }
+
+    .flex__productos.list-view .card img {
+        height: 80px !important;
+    }
+
+    .flex__productos.list-view .card .description {
+        font-size: 0.9rem;
+    }
+
+    .flex__productos.list-view .card .stars {
+        font-size: 0.9rem;
+    }
+
+    .flex__productos.list-view .card .price {
+        font-size: 1.1rem;
+    }
+
+    .flex__productos.list-view .card .price-old {
+        font-size: 0.9rem;
+    }
+
+    .flex__productos.list-view .card .card-icons {
+        gap: 10px;
+    }
+
+    .flex__productos.list-view .card .card-icons i {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin: 1rem 0 2rem 0; 
+    padding-left: 0; 
+    width: 100%;
+    max-width: 1320px; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .pagination__Numbers {
@@ -663,7 +942,6 @@
     align-items: center;
     border-radius: 8px;
     transition: background-color .2s ease, color .2s ease-in;
-
 }
 
 .pagination__Numbers .button__pagination.active {
@@ -697,4 +975,33 @@
     background-color: var(--colorCafe);
     border: 1px solid var(--colorCafe);
     color: #ffffff;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1320px) {
+    .pagination {
+        padding-left: 20px; 
+    }
+}
+
+
+@media (max-width: 768px) {
+    .pagination {
+        justify-content: center; 
+        padding-left: 0;
+    }
+    
+    .pagination__Numbers {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
