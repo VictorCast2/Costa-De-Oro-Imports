@@ -696,3 +696,37 @@ input[type="search"]::-webkit-search-cancel-button {
     border-color: #8e6b43;
     outline: 4px solid #d8bfa3;
 }
+
+#submitEstado {
+    display: none !important;
+}
+
+/* Estilos para mostrar el estado actual en el modal */
+.estado-actual {
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.estado-actual.Queja {
+    background-color: #ffedd4;
+    color: #c2410c;
+}
+
+.estado-actual.Resuelto {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.estado-actual.Pendiente {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.estado-actual.EnProceso {
+    background-color: #dbeafe;
+    color: #1e40af;
+}

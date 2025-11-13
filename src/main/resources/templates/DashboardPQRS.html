@@ -337,41 +337,6 @@
 
                                         <div class="card__estados">
                                             <div class="estados__button">
-                                                <button class="button__item Peticion">Peticion</button>
-                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
-                                                    Pendiente</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Solicitud de información sobre servicios</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> María González</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 4 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
                                                 <button class="button__item Queja">Queja</button>
                                                 <button class="button__item EnProceso"><i
                                                         class="ri-error-warning-line"></i> En Proceso</button>
@@ -564,6 +529,7 @@
     </div>
 
 
+    <!-- Modal Detalle solicitud -->
     <div class="modal" id="modalDetalle">
         <div class="modal-content">
             <div class="modal-header">
@@ -573,31 +539,35 @@
 
             <div class="modal-body">
                 <div class="estados__button button--modal">
-                    <button class="button__item Queja">Queja</button>
-                    <button class="button__item Resuelto"><i class="ri-checkbox-circle-line"></i> Resuelto</button>
+                    <button class="button__item"></button>
+                    <button class="button__item"></button>
                 </div>
 
                 <h3>Mala atención al cliente</h3>
-                <div class="info-row fecha"><i class="ri-calendar-line"></i> 1 de noviembre de 2025</div>
-                <div class="info-row"><i class="ri-user-line"></i> <span>Nombre:</span> Pedro Sánchez</div>
-                <div class="info-row"><i class="ri-mail-line"></i> <span>Email:</span> pedro.sanchez@email.com</div>
-                <div class="info-row"><i class="ri-phone-line"></i> <span>Teléfono:</span> 305-678-9012</div>
+                <div class="info-row fecha"><i class="ri-calendar-line"></i> <span>Fecha:</span> </div>
+                <div class="info-row"><i class="ri-user-line"></i> <span>Nombre:</span> </div>
+                <div class="info-row"><i class="ri-mail-line"></i> <span>Email:</span> </div>
+                <div class="info-row"><i class="ri-phone-line"></i> <span>Teléfono:</span> </div>
 
                 <div class="mensaje">
                     <label>Mensaje:</label>
-                    <p>El personal de atención fue grosero y no resolvió mi problema.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, mollitia nam hic dolore debitis deleniti? Facilis aut nemo tempora, delectus, consequuntur veritatis impedit vitae tenetur aperiam quibusdam, facere et perspiciatis.</p>
                 </div>
 
                 <div class="cambiar-estado">
                     <label>Cambiar estado:</label>
-                    <div class="custom__select">
-                        <select id="filtro-estado">
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="En Proceso">En Proceso</option>
-                            <option value="Resuelto">Resuelto</option>
-                        </select>
-                        <i class="ri-arrow-down-s-line"></i>
-                    </div>
+                    <form id="formEstado">
+                        <div class="custom__select">
+                            <select id="filtro-estado">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Proceso">En Proceso</option>
+                                <option value="Resuelto">Resuelto</option>
+                            </select>
+                            <i class="ri-arrow-down-s-line"></i>
+                        </div>
+                        <!-- Botón invisible -->
+                        <button type="submit" id="submitEstado" style="display: none;">Enviar</button>
+                    </form>
                 </div>
             </div>
         </div>
