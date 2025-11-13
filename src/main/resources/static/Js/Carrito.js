@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartTableBody.appendChild(tr);
 
             paginationText.textContent = `Mostrando 0-0 de 0`;
-            paginationButtonsContainer.innerHTML = "";
+            paginationButtonsContainer.querySelectorAll(".pagination__btn").forEach(btn => btn.remove())
             prevPageBtn.disabled = true;
             nextPageBtn.disabled = true;
             thereSpan.textContent = `Hay 0 productos en el carrito.`;
