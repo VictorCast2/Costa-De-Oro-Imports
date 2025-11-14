@@ -51,11 +51,6 @@ public class PrincipalController {
         return "Index";
     }
 
-    @GetMapping("/cards")
-    public String pruebacard() {
-        return "pruebacard";
-    }
-
     @GetMapping("/paks")
     public String pack(Model model) {
 
