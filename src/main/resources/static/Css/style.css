@@ -8,8 +8,6 @@
     --colorCafe: #8e705c;
 }
 
-
-
 * {
     margin: 0;
     padding: 0;
@@ -70,7 +68,7 @@ body {
 }
 
 .header__logo {
-    width: 250px; 
+    width: 250px;
     height: 90px;
     overflow: hidden;
     display: flex;
@@ -81,7 +79,7 @@ body {
 .header__logo img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover;
     display: block;
     cursor: pointer;
 
@@ -418,19 +416,19 @@ body {
 
 /* 🎯 Sombras dinámicas según el hero activo */
 .hero--paulaner .carousel__dot {
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); 
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
 }
 .hero--tequila .carousel__dot {
-    box-shadow: 0 0 8px rgba(75, 30, 26, 0.6); 
+    box-shadow: 0 0 8px rgba(75, 30, 26, 0.6);
 }
 .hero--budweiser .carousel__dot {
-    box-shadow: 0 0 8px rgba(75, 22, 50, 0.6); 
+    box-shadow: 0 0 8px rgba(75, 22, 50, 0.6);
 }
 .hero--whiskys .carousel__dot {
-    box-shadow: 0 0 8px rgba(27, 58, 47, 0.6); 
+    box-shadow: 0 0 8px rgba(27, 58, 47, 0.6);
 }
 .hero--packmixtos .carousel__dot {
-    box-shadow: 0 0 8px rgba(47, 63, 104, 0.6); 
+    box-shadow: 0 0 8px rgba(47, 63, 104, 0.6);
 }
 
 /* Estado activo con sombra más fuerte */
@@ -1604,6 +1602,7 @@ body {
     color: #9ca3af;
     text-decoration: line-through;
 }
+
 
 /** Banner de descuento */
 .banner {

@@ -177,6 +177,22 @@
                             </div>
 
                             <div class="formulario__input">
+                                <div class="custom-select-wrapper">
+                                    <select class="styled-select" id="TipoSolicitud">
+                                        <option disabled selected>Tipo de solicitud</option>
+                                        <option value="Peticion">Peticion</option>
+                                        <option value="Queja">Queja</option>
+                                        <option value="Reclamo">Reclamo</option>
+                                        <option value="Sugerencia">Sugerencia</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
+                                </div>
+                                <p class="input__error error--TipoSolicitud">
+                                    Por favor, seleccione un tipo de solicitud.
+                                </p>
+                            </div>
+
+                            <div class="formulario__input">
                                 <div class="input-box">
                                     <input type="email" autocomplete="off" placeholder="" name="Email" id="email1">
                                     <label for="email">Email</label>

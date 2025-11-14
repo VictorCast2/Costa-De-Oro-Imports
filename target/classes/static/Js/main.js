@@ -16,7 +16,7 @@ export function addProductToCart({ name, price, img, qty = 1, openDrawer = true 
 
     const existing = cart.find(p => p.name === name);
     if (existing) {
-        existing.qty += qty;  // 🔥 ahora suma la cantidad correcta
+        existing.qty += qty;
     } else {
         cart.push({ name, price, img, qty });
     }

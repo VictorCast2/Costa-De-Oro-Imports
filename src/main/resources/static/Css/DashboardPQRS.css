@@ -10,6 +10,7 @@
     --colorWhite: #ffffff;
 }
 
+
 /* Section body */
 .content__body {
     margin-left: 260px;
@@ -584,7 +585,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .modal-header {
     position: relative;
     left: -30px;
-    top: -2rem;   
+    top: -2rem;
     width: calc(100% + 60px);
     border-bottom: 1px solid #e5e7eb;
     padding:1.2rem 2rem;
@@ -634,7 +635,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .info-row.fecha {
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
 }
 
 
@@ -694,4 +695,38 @@ input[type="search"]::-webkit-search-cancel-button {
 .cambiar-estado select:focus {
     border-color: #8e6b43;
     outline: 4px solid #d8bfa3;
+}
+
+#submitEstado {
+    display: none !important;
+}
+
+/* Estilos para mostrar el estado actual en el modal */
+.estado-actual {
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.estado-actual.Queja {
+    background-color: #ffedd4;
+    color: #c2410c;
+}
+
+.estado-actual.Resuelto {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.estado-actual.Pendiente {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.estado-actual.EnProceso {
+    background-color: #dbeafe;
+    color: #1e40af;
 }

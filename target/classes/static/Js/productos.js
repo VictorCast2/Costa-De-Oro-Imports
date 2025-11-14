@@ -305,7 +305,30 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarFiltrosAplicados();
     }
 
-    //boton de limpiar todo
+    // vista grid y lista
+    const btnGrid = document.getElementById('btn-grid');
+    const btnList = document.getElementById('btn-list');
+    const flexProductos = document.querySelector('.flex__productos');
 
+    const savedView = localStorage.getItem('productView') || 'grid';
+    applyView(savedView);
+
+    btnGrid.addEventListener('click', () => {
+        applyView('grid');
+        localStorage.setItem('productView', 'grid');
+    });
+
+    btnList.addEventListener('click', () => {
+        applyView('list');
+        localStorage.setItem('productView', 'list');
+    });
+
+    function applyView(viewType) {
+        flexProductos.classList.remove('grid-view', 'list-view');
+        flexProductos.classList.add(viewType + '-view');
+
+        btnGrid.classList.toggle('active', viewType === 'grid');
+        btnList.classList.toggle('active', viewType === 'list');
+    }
 
 });
