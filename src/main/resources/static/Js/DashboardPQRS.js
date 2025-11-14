@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardsPerPage = 6;
     let currentPage = 1;
     const totalPages = Math.ceil(cards.length / cardsPerPage);
+    let permitirScroll = false;
 
     // Crear botones de número dinámicamente
     const createPaginationButtons = () => {
@@ -147,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (i === currentPage) button.classList.add("active");
             button.addEventListener("click", () => {
                 currentPage = i;
+                permitirScroll = true;
                 updatePagination();
             });
             // Insertar los botones numéricos antes del botón "Siguiente"
@@ -180,14 +182,22 @@ document.addEventListener("DOMContentLoaded", () => {
         prevButton.disabled = currentPage === 1;
         nextButton.disabled = currentPage === totalPages;
 
-        // Mantener el scroll cerca del paginador
-        paginationContainer.scrollIntoView({ behavior: "smooth", block: "end" });
+        // Si se cambia de página, mantener el scroll cerca del paginador
+        if (permitirScroll) {
+            const offsetTop = paginationContainer.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth"
+            });
+            permitirScroll = false;
+        }
     };
 
     // Eventos de Anterior y Siguiente
     prevButton.addEventListener("click", () => {
         if (currentPage > 1) {
             currentPage--;
+            permitirScroll = true;
             updatePagination();
         }
     });
@@ -195,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextButton.addEventListener("click", () => {
         if (currentPage < totalPages) {
             currentPage++;
+            permitirScroll = true;
             updatePagination();
         }
     });
@@ -218,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener("click", (e) => {
 
-        // ---- 1Manejo del dropdown (abrir/cerrar) ----
+        // ---- Manejo del dropdown (abrir/cerrar) ----
         const dropdowns = document.querySelectorAll(".dropdown");
         dropdowns.forEach((dropdown) => {
             const toggle = dropdown.querySelector(".dropdown__toggle");
@@ -231,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // ---- 2️Eliminar (SweetAlert) ----
+        // ---- Eliminar (SweetAlert) ----
         if (e.target.closest(".eliminar")) {
             e.stopPropagation();
 
@@ -302,4 +313,5 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cerrarModal) {
         cerrarModal.addEventListener("click", cerrarModalVentana);
     }
+
 });
