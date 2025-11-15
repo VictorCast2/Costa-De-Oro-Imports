@@ -93,12 +93,12 @@
 }
 
 
-.filter__titulo .titulo__estado.Exito{
+.filter__titulo .titulo__estado.Pagado {
     background-color: #ceefce;
     color: #3e2723;
 }
 
-.filter__titulo .titulo__estado.Cancelar {
+.filter__titulo .titulo__estado.Cancelado {
     background-color: #f8bbd0;
     color: #4a1f2b;
 }
@@ -107,6 +107,11 @@
 .filter__titulo .titulo__estado.Pendiente {
     background-color: #fff9c4;
     color: #5a4a1b;
+}
+
+.filter__titulo .titulo__estado.Rechazado {
+    background-color: #ffcdd2;
+    color: #5d4037;
 }
 
 .filter__estados{
@@ -343,7 +348,7 @@
 }
 
 .span__texto .precio--envio{
-    margin-left: 43%;
+    margin-left: 65%;
 }
 
 .span__texto .precio--general{
