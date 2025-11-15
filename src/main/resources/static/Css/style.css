@@ -416,7 +416,7 @@ body {
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
 }
 
-/* 🎯 Sombras dinámicas según el hero activo */
+/* Sombras dinámicas según el hero activo */
 .hero--paulaner .carousel__dot {
     box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); 
 }
@@ -1941,21 +1941,39 @@ body {
     gap: 2rem;
 }
 
-.blog__card img {
-    max-width: 100%;
-    width: 430px;
+.card__img {
+    width: 430px;        
     height: 250px;
-    margin-bottom: 1rem;
+    overflow: hidden;       
     border-radius: 10px;
+    margin-bottom: 1rem;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
 }
 
+.card__img img {
+    cursor: pointer;
+    width: 100%;
+    object-fit: cover; 
+    border-radius: 10px;
+    transition: transform 0.4s ease;
+}
+
+.card__img img:hover{
+    transform: scale(1.1);
+}
+
 .blog__card .card__title {
+    display: block;
+    text-decoration: none;
     font-size: 1.2rem;
     font-weight: 600;
     font: 600 1.2rem var(--typografiaGeist);
     color: var(--colorDark);
     margin-bottom: 0.7rem;
+}
+
+.blog__card .card__title:hover{
+    color: var(--colorCafe);
 }
 
 .blog__card .card__text {
@@ -1981,12 +1999,6 @@ body {
 .tiempo__item strong {
     color: var(--colorDark);
 }
-
-
-
-
-/**Section Figuras */
-
 
 /* Footer */
 
