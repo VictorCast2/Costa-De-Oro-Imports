@@ -35,7 +35,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -167,7 +167,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                              alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -214,7 +214,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a th:href="@{/admin/clientes/add}">Agregar nuevo cliente</a>
+                        <a th:href="@{/admin/clientes/create-cliente}">Agregar nuevo cliente</a>
                     </div>
                 </div>
 
@@ -228,430 +228,68 @@
                         <div class="notification__table-container">
                             <table class="notification__table">
                                 <thead>
-                                    <tr>
-                                        <th>Nombre Cliente</th>
-                                        <th>Correo electronico</th>
-                                        <th>Teléfono</th>
-                                        <th>Total gastado</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th>Nombre Cliente</th>
+                                    <th>Correo electrónico</th>
+                                    <th>Teléfono</th>
+                                    <th>Total gastado</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
+
                                 <tbody id="favoritos-body">
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Keyner Alfons Reyes Tejedor</span>
-                                            </div>
-                                        </td>
-                                        <td>KeinerReyes@gmail.com</td>
-                                        <td>310554778</td>
-                                        <td>$490,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                <tr th:each="cliente : ${usuarioList}">
+
+                                    <!-- Nombre e imagen -->
+                                    <td class="td__producto">
+                                        <div class="producto__info">
+                                            <figure class="img__container">
+                                                <img th:src="${cliente.imagen()}" alt="Foto cliente">
+                                            </figure>
+                                            <span class="producto__nombre" th:text="${cliente.nombreCompleto()}"></span>
+                                        </div>
+                                    </td>
+
+                                    <!-- Correo -->
+                                    <td th:text="${cliente.correo()}"></td>
+
+                                    <!-- Teléfono -->
+                                    <td th:text="${cliente.telefono()}"></td>
+
+                                    <!-- Total gastado -->
+                                    <td th:text="'$' + ${#numbers.formatDecimal(cliente.totalGastado(), 0, 'COMMA', 0, 'POINT')}"></td>
+
+                                    <!-- Acciones -->
+                                    <td class="menu__actions">
+                                        <div class="dropdown">
+                                            <button class="dropdown__toggle">
+                                                <i class="ri-more-2-fill"></i>
+                                            </button>
+
+                                            <div class="dropdown__menu">
+                                                <button class="dropdown__item editar"
+                                                        th:attr="data-id=${cliente.usuarioId},
+                                                         data-nombre=${cliente.nombreCompleto}">
+                                                    <i class="ri-edit-box-line"></i> Editar
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Jose Andres Torres Dias</span>
-                                            </div>
-                                        </td>
-                                        <td>TorresDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$49,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                                <button class="dropdown__item eliminar"
+                                                        th:attr="data-id=${cliente.usuarioId}, data-nombre=${cliente.nombreCompleto}">
+                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Victor Jose Castillo Castro</span>
-                                            </div>
-                                        </td>
-                                        <td>CastilloCastro@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                                <button class="dropdown__item ocultar"
+                                                        th:attr="data-id=${cliente.usuarioId}, data-nombre=${cliente.nombreCompleto}, data-activo=${cliente.isEnabled}">
+                                                    <i class="ri-eye-line"></i>
+                                                    <span th:text="${cliente.isEnabled} ? 'Ocultar' : 'Mostrar'">Ocultar</span>
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
                                             </div>
-                                        </td>
+                                        </div>
+                                    </td>
 
-                                    </tr>
+                                </tr>
 
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Yublain Verbel Dias Torrez</span>
-                                            </div>
-                                        </td>
-                                        <td>VerbelDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Keyner Alfons Reyes Tejedor</span>
-                                            </div>
-                                        </td>
-                                        <td>KeinerReyes@gmail.com</td>
-                                        <td>310554778</td>
-                                        <td>$490,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Jose Andres Torres Dias</span>
-                                            </div>
-                                        </td>
-                                        <td>TorresDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$49,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Victor Jose Castillo Castro</span>
-                                            </div>
-                                        </td>
-                                        <td>CastilloCastro@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Yublain Verbel Dias Torrez</span>
-                                            </div>
-                                        </td>
-                                        <td>VerbelDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCinco.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Keyner Alfons Reyes Tejedor</span>
-                                            </div>
-                                        </td>
-                                        <td>KeinerReyes@gmail.com</td>
-                                        <td>310554778</td>
-                                        <td>$490,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Jose Andres Torres Dias</span>
-                                            </div>
-                                        </td>
-                                        <td>TorresDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$49,00</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroDos.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Victor Jose Castillo Castro</span>
-                                            </div>
-                                        </td>
-                                        <td>CastilloCastro@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td class="td__producto">
-                                            <div class="producto__info">
-                                                <figure class="img__container">
-                                                    <img th:src="@{/Assets/Img/ExperenciaUsuarios/rostroSeis.jpeg}"
-                                                        alt="">
-                                                </figure>
-                                                <span class="producto__nombre">Yublain Verbel Dias Torrez</span>
-                                            </div>
-                                        </td>
-                                        <td>VerbelDias@gmail.com</td>
-                                        <td>300314527</td>
-                                        <td>$349.900</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item editar">
-                                                        <i class="ri-edit-box-line"></i> Editar
-                                                    </button>
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
+                                <tr th:if="${#lists.isEmpty(usuarioList)}" class="empty-row">
+                                    <td colspan="5" class="empty-message">No hay clientes registrados</td>
+                                </tr>
                                 </tbody>
                             </table>
 

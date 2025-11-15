@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //FILTRO DE PRODUCTOS (por texto y estado)
-    //FILTRO DE PRODUCTOS (por texto y estado)
     (() => {
         const searchInput = document.getElementById("inputSearch");
         const stateSelect = document.getElementById("filtro-estado");

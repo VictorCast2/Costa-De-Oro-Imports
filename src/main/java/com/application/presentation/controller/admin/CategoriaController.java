@@ -11,6 +11,8 @@ import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.categoria.CategoriaServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
+import com.application.service.interfaces.categoria.CategoriaService;
+import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,8 +31,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoriaController {
 
-    private final CategoriaServiceImpl categoriaService;
-    private final UsuarioServiceImpl usuarioService;
+    private final CategoriaService categoriaService;
+    private final UsuarioService usuarioService;
     private final CloudinaryService cloudinaryService;
 
     @GetMapping({"/", ""})
@@ -71,8 +73,8 @@ public class CategoriaController {
     }
 
     @GetMapping("/update-categoria/{id}")
-    public String editarCategoria(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal principal,
-                                  @RequestParam(value = "mensaje", required = false) String mensaje,
+    public String editarCategoria(@PathVariable Long id,
+                                  @AuthenticationPrincipal CustomUserPrincipal principal,
                                   Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
@@ -81,7 +83,6 @@ public class CategoriaController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("urlImagenUsuario", urlImagenUsuario);
         model.addAttribute("categoria", categoria);
-        model.addAttribute("mensaje", mensaje);
         model.addAttribute("categoriaId", id);
         return "EditarCategoria";
     }
