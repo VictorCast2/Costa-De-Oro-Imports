@@ -4,7 +4,9 @@ import com.application.persistence.entity.comentario.Comentario;
 import com.application.persistence.entity.compra.Compra;
 import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.empresa.Empresa;
+import com.application.persistence.entity.factura.FacturaProveedor;
 import com.application.persistence.entity.pqrs.Peticion;
+import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.rol.Rol;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
 import jakarta.persistence.*;
@@ -78,6 +80,16 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Compra> compras = new HashSet<>();
 
+    // Cardinalidad con la tabla producto (relación bidireccional)
+    @Builder.Default
+    @OneToMany(mappedBy = "proveedor", fetch = FetchType.LAZY)
+    private Set<Producto> productos = new HashSet<>();
+
+    // Cardinalidad con la tabla factura proveedor (relación bidireccional)
+    @Builder.Default
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private Set<FacturaProveedor> facturas = new HashSet<>();
+
     // Cardinalidad con la tabla comentarios (relación bidireccional)
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
@@ -98,6 +110,30 @@ public class Usuario {
     public void deleteCompra(Compra compra) {
         compra.setUsuario(null);
         this.compras.remove(compra);
+    }
+
+    // Agregar proveedor a producto y viceversa (bidireccional)
+    public void addProducto(Producto producto) {
+        producto.setProveedor(this);
+        this.productos.add(producto);
+    }
+
+    // Eliminar proveedor de producto y viceversa (bidireccional)
+    public void deleteProducto(Producto producto) {
+        producto.setProveedor(null);
+        this.productos.remove(producto);
+    }
+
+    // Agregar proveedor a factura y viceversa (bidireccional)
+    public void addFactura(FacturaProveedor factura) {
+        factura.setUsuario(this);
+        this.facturas.add(factura);
+    }
+
+    // Eliminar proveedor de factura y viceversa (bidireccional)
+    public void deleteFactura(FacturaProveedor factura) {
+        factura.setUsuario(null);
+        this.facturas.remove(factura);
     }
 
     // Agregar usuario a petición y viceversa (bidireccional)

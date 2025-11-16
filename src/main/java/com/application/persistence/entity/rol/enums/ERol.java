@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ERol {
     ADMIN("Admin"), // Administrador de la Aplicacion
+    PROVEEDOR("Proveedor"), // Provee los productos
     INVITADO("Invitado"), // Usuario no logueado
     PERSONA_CONTACTO("Persona Contacto"), // Usuario afiliado a una empresa
     PERSONA_JURIDICA("Persona Jurídica"), // Usuario que cuanta con un NIT
