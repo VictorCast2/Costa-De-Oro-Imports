@@ -28,10 +28,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     u.isEnabled
                 )
                 FROM Usuario u
-                LEFT JOIN u.compras c ON c.fecha >= :fechaInicio
+                LEFT JOIN u.compras c 
+                    ON c.fecha >= :fechaInicio 
+                    AND c.estado = com.application.persistence.entity.compra.enums.EEstado.PAGADO
                 WHERE u.accountNonLocked = true
                 GROUP BY u.usuarioId, u.imagen, u.nombres, u.apellidos, u.correo, u.telefono, u.isEnabled
                 ORDER BY u.usuarioId DESC
             """)
     List<UsuarioGastoResponse> obtenerUsuariosConGastoUltimoAnio(@Param("fechaInicio") LocalDateTime fechaInicio);
+
 }

@@ -10,6 +10,7 @@ public record HistoriaCreateRequest(
         @NotNull MultipartFile imagen,
         @NotBlank String titulo,
         @NotBlank String descripcion,
-        @NotBlank String historiaCompleta
+        @NotBlank String historiaCompleta,
+        boolean activo
 ) {
 }

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //Menú desplegable del perfil 
+    //Menú desplegable del perfil
     const subMenu = document.getElementById("SubMenu");
     const profileImage = document.getElementById("user__admin");
 
@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    //FILTRO DE PRODUCTOS (por texto y estado)
     //FILTRO DE PRODUCTOS (por texto y estado)
     (() => {
         const searchInput = document.getElementById("inputSearch");
@@ -153,8 +154,12 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (e.target.closest(".editar")) {
             const btnEditar = e.target.closest(".editar");
 
+            // Obtenemos los datos del botón
             const id = btnEditar.getAttribute("data-id");
             const nombre = btnEditar.getAttribute("data-nombre");
+            const descripcion = btnEditar.getAttribute("data-descripcion");
+            const imagen = btnEditar.getAttribute("data-imagen");
+            const activo = btnEditar.getAttribute("data-activo");
 
             Swal.fire({
                 title: "¿Estás seguro?",
@@ -171,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Redirigimos al endpoint del @Controller
+                    // Redirige al endpoint con el ID correcto
                     window.location.href = `/admin/categoria/update-categoria/${id}`;
                 }
             });
@@ -214,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    //pagination de la tabla 
+    //pagination de la tabla
     const filasPorPagina = 12;
     const tablaBody = document.getElementById("favoritos-body");
     const filas = tablaBody.querySelectorAll("tr");

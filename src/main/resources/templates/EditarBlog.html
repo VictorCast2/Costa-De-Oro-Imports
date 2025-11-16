@@ -224,16 +224,16 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioBlog" action="">
-                                <h2 class="producto__title">Información del blog
-                                </h2>
+                            <form class="formulario__producto" id="formularioBlog" th:action="@{/admin/blog/update-blog/{id}(id=${historiaResponse.id})}" method="post" enctype="multipart/form-data">
+                                <h2 class="producto__title">Información del blog</h2>
 
                                 <div class="producto__input">
+                                    <!-- Campo oculto para el ID -->
+                                    <input type="hidden" id="historiaId" th:value="${historiaResponse.id}">
 
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="Titulo"
-                                                id="titulo">
+                                            <input type="text" autocomplete="off" placeholder="" name="titulo" id="titulo" th:value="${historiaResponse.titulo}">
                                             <label class="box__label" for="titulo">Titulo del blog</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -245,8 +245,7 @@
 
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="FechaPublicacion"
-                                                id="fechapublicacion">
+                                            <input type="text" autocomplete="off" placeholder="" name="" id="fechapublicacion" th:value="${historiaResponse.fecha}">
                                             <label class="box__label" for="fechapublicacion">Fecha Publicacion</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -260,8 +259,11 @@
                                         <h2 class="formulario__title">Imágenes del blog</h2>
                                         <div class="formulario__boximagen">
                                             <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
-                                            <input type="file" id="fileInput" accept="image/*" hidden>
-                                            <div class="preview-container" id="previewContainer"></div>
+                                            <input type="file" id="fileInput" name="imagen" accept="image/*" hidden>
+                                            <div class="preview-container" id="previewContainer">
+                                                <!-- Imagen precargada -->
+                                                <img th:if="${historiaResponse.imagen}" th:src="${historiaResponse.imagen}" alt="Imagen actual del blog" class="preview-image" id="previewImage">
+                                            </div>
                                         </div>
 
                                         <p class="formulario__error error--formato">
@@ -276,16 +278,15 @@
                                     <h2 class="input__estados">Estados del blog</h2>
 
                                     <div class="input__formulario estados__container">
-
                                         <div class="container__radio">
                                             <label class="radio__option activo">
-                                                <input type="radio" name="estado" value="activo">
+                                                <input type="radio" name="activo" value="true" th:checked="${historiaResponse.activo}">
                                                 <span class="radio__custom"></span>
                                                 Activo
                                             </label>
 
                                             <label class="radio__option inactivo">
-                                                <input type="radio" name="estado" value="inactivo">
+                                                <input type="radio" name="activo" value="false" th:checked="${!historiaResponse.activo}">
                                                 <span class="radio__custom"></span>
                                                 Inactivo
                                             </label>
@@ -294,27 +295,27 @@
                                         <p class="formulario__error error--estado">
                                             Por favor, debes seleccionar un estado del blog
                                         </p>
-
                                     </div>
 
                                     <h2 class="input__estados">Descripciónes del blog</h2>
 
                                     <div class="input__formulario" id="formulario__area">
                                         <div class="formulario__box">
-                                            <textarea autocomplete="off" placeholder="" name="HistoriaCompleta"
-                                                id="historiacompleta"></textarea>
-                                            <label class="box__label label--area" for="historiacompleta">Historia Completa</label>
+                                            <textarea autocomplete="off" placeholder="" name="descripcion" id="descripcion" th:text="${historiaResponse.descripcion}"></textarea>
+                                            <label class="box__label label--area" for="descripcion">Descripción Historia</label>
                                             <span class="box__icon icon--area"><i class="ri-check-line"></i></span>
                                             <span class="box__icon icon--area"><i class="ri-close-line"></i></span>
                                         </div>
                                         <p class="formulario__error error--textarea">
-                                            La historia completa debe tener al menos 3 letras y no contener números.
+                                            La historia descripción debe tener al menos 3 letras y no contener números.
                                         </p>
                                     </div>
 
                                     <div class="input__formulario" id="formulario__descripcion">
                                         <div class="formulario__boxdescripcion">
                                             <div id="editor-container"></div>
+                                            <!-- Campo oculto para enviar el contenido del editor -->
+                                            <input type="hidden" name="historiaCompleta" id="historiaCompleta" th:value="${historiaResponse.historiaCompleta}">
                                         </div>
 
                                         <p class="formulario__error error--descripcion">
@@ -322,11 +323,8 @@
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Crear Blog</button>
-
-
+                                    <button type="submit" class="input__btn">Actualizar Blog</button>
                                 </div>
-
                             </form>
 
                         </div>
