@@ -113,13 +113,13 @@
 }
 
 
-#formulario__imagen {
+.formulario__imagen {
     position: relative;
     grid-column: 1 / -1;
 }
 
 /* Aplica al input */
-#formulario__imagen .formulario__boximagen {
+.formulario__imagen .formulario__boximagen {
     position: relative;
     cursor: pointer;
     width: 15%;
@@ -303,9 +303,9 @@
 
 .input__formulario .formulario__error {
     font: 600 1rem var(--typografiaUrbanist);
-    width: 480px;
+    width: 95%;
     margin: 10px 0 10px 20px;
-    display: none;
+    display:none ;
 }
 
 
