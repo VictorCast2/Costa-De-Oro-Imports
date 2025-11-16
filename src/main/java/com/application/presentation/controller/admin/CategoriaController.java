@@ -1,25 +1,19 @@
 package com.application.presentation.controller.admin;
 
 import com.application.configuration.custom.CustomUserPrincipal;
-import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
-import com.application.presentation.dto.general.response.GeneralResponse;
-import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.categoria.CategoriaServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
-
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -72,7 +66,6 @@ public class CategoriaController {
 
     @GetMapping("/update-categoria/{id}")
     public String editarCategoria(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal principal,
-                                  @RequestParam(value = "mensaje", required = false) String mensaje,
                                   Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
@@ -81,7 +74,6 @@ public class CategoriaController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("urlImagenUsuario", urlImagenUsuario);
         model.addAttribute("categoria", categoria);
-        model.addAttribute("mensaje", mensaje);
         model.addAttribute("categoriaId", id);
         return "EditarCategoria";
     }
