@@ -22,7 +22,7 @@ public class HistoriaServiceImpl implements HistoriaService {
     private final CloudinaryService cloudinaryService;
 
     /**
-     * Obtener una Historia por Id
+     * Obtener una Historia por id
      * Este método es de uso interno para otros métodos del servicio
      *
      * @param id ID de la historia a buscar

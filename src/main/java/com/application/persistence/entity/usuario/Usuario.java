@@ -4,6 +4,7 @@ import com.application.persistence.entity.comentario.Comentario;
 import com.application.persistence.entity.compra.Compra;
 import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.empresa.Empresa;
+import com.application.persistence.entity.pqrs.Peticion;
 import com.application.persistence.entity.rol.Rol;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
 import jakarta.persistence.*;
@@ -82,6 +83,11 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Comentario> comentarios = new HashSet<>();
 
+    // Cardinalidad con la tabla peticiones (relación bidireccional)
+    @Builder.Default
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Peticion> peticiones = new HashSet<>();
+
     // Agregar usuario a compra y viceversa (bidireccional)
     public void addCompra(Compra compra) {
         compra.setUsuario(this);
@@ -92,5 +98,17 @@ public class Usuario {
     public void deleteCompra(Compra compra) {
         compra.setUsuario(null);
         this.compras.remove(compra);
+    }
+
+    // Agregar usuario a petición y viceversa (bidireccional)
+    public void addPeticion(Peticion peticion) {
+        peticion.setUsuario(this);
+        this.peticiones.add(peticion);
+    }
+
+    // Eliminar usuario de petición y viceversa (bidireccional)
+    public void deletePeticion(Peticion peticion) {
+        peticion.setUsuario(null);
+        this.peticiones.remove(peticion);
     }
 }
