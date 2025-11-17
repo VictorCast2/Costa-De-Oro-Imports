@@ -12004,6 +12004,10 @@ insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, su
 insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, subtotal) values (71, 13423, 11, 0, 0);
 insert into detalle_venta (cantidad, compra_id, producto_id, precio_unitario, subtotal) values (82, 15787, 44, 0, 0);
 
+
+UPDATE detalle_venta
+SET cantidad = FLOOR(1 + (RAND() * 10));
+
 -- Actualizar precio_unitario y subtotal en detalle_venta
 UPDATE detalle_venta dv
 INNER JOIN producto p ON dv.producto_id = p.producto_id
@@ -12021,5 +12025,30 @@ JOIN (
 SET 
     c.subtotal = dv_sum.suma_subtotal,
     c.total = dv_sum.suma_subtotal * 1.19;
+
+-- Ejecutar esto primero:
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM detalle_venta
+WHERE detalle_venta_id NOT IN (
+    SELECT detalle_venta_id FROM (
+        SELECT detalle_venta_id
+        FROM detalle_venta
+        ORDER BY RAND()
+        LIMIT 7500
+    ) AS random_sample
+);
+
+
+
+DELETE FROM compra
+WHERE compra_id NOT IN (
+    SELECT compra_id FROM (
+        SELECT DISTINCT compra_id
+        FROM detalle_venta
+    ) AS compras_validas
+);
+
+-- Reactivar safe mode al finalizar
+SET SQL_SAFE_UPDATES = 1;
     
     

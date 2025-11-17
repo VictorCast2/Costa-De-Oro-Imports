@@ -1114,3 +1114,35 @@ VALUES (
 
 -- Setear la misma imagen a todas las empresas
 UPDATE empresa SET imagen = 'gestion-ventas/perfil-empresa/perfil-empresa' WHERE activo = 1 LIMIT 1000;
+
+-- Empresas Proveedoras
+INSERT INTO `empresa` (`activo`, `nit`, `telefono`, `correo`, `razon_social`, `ciudad`, `direccion`, `imagen`, `e_sector`) VALUES
+-- Para Vino
+(1, '9002456789', '6013812345', 'ventas@vinacolombia.com', 'Vinos de Colombia S.A.', 'Bogotá', 'Carrera 15 #88-64', 'gestion-ventas/perfil-empresa/proveedor1', NULL),
+
+-- Para Whisky
+(1, '8009876543', '6042897654', 'contacto@distribuidorawhisky.com', 'Distribuidora de Whisky Internacional Ltda', 'Medellín', 'Calle 10 #42-35', 'gestion-ventas/perfil-empresa/proveedor2', NULL),
+
+-- Para Ron
+(1, '8901234561', '6053124567', 'info@roncaribe.com', 'Ron del Caribe S.A.S.', 'Cartagena', 'Avenida San Martín #23-45', 'gestion-ventas/perfil-empresa/proveedor3', NULL),
+
+-- Para Vodka
+(1, '8901234562', '6014237890', 'ventas@vodkapremium.com', 'Importadora de Vodka Premium S.A.', 'Bogotá', 'Calle 127 #15-32', 'gestion-ventas/perfil-empresa/proveedor4', NULL),
+
+-- Para Tequila
+(1, '8901234563', '6045678901', 'contacto@tequilamexico.com', 'Tequilas Mexicanos Ltda', 'Medellín', 'Carrera 70 #12-45', 'gestion-ventas/perfil-empresa/proveedor5', NULL),
+
+-- Para Ginebra
+(1, '8901234564', '6056789012', 'info@ginbotanico.com', 'Ginebras Botánicas Internacionales S.A.S.', 'Cali', 'Avenida 6N #23-67', 'gestion-ventas/perfil-empresa/proveedor6', NULL),
+
+-- Para Mezcal
+(1, '8901234565', '6017890123', 'ventas@mezcalartesanal.com', 'Mezcal Artesanal de Oaxaca S.A.', 'Bogotá', 'Carrera 11 #84-23', 'gestion-ventas/perfil-empresa/proveedor7', NULL),
+
+-- Para Cerveza (Bavaria como solicitaste)
+(1, '8600001234', '6017456321', 'proveedores@bavaria.co', 'Bavaria S.A.', 'Bogotá', 'Avenida Boyacá #101-25', 'gestion-ventas/perfil-empresa/proveedor8', NULL),
+
+-- Para Aguardiente
+(1, '8901234566', '6048901234', 'contacto@aguardienteantioqueno.com', 'Aguardiente Antioqueño Ltda', 'Medellín', 'Calle 50 #45-78', 'gestion-ventas/perfil-empresa/proveedor9', NULL),
+
+-- Para Brandy
+(1, '8901234567', '6019012345', 'info@brandyespanol.com', 'Brandy Español de Importación S.A.', 'Bogotá', 'Carrera 7 #115-60', 'gestion-ventas/perfil-empresa/proveedor10', NULL);

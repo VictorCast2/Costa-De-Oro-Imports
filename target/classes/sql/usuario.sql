@@ -2103,5 +2103,37 @@ insert into usuario (account_non_expired, account_non_locked, credentials_non_ex
 insert into usuario (account_non_expired, account_non_locked, credentials_non_expired, is_enabled, empresa_id, rol_id, numero_identificacion, telefono, direccion, password, apellidos, nombres, imagen, tipo_identificacion, correo) values (1, 1, 1, 1, null, 5, '1037715456', '3214942560', 'Transversal 706 # 779-809', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Novic', 'Quincey', 'perfil-user.jpg', 'CC', 'quinceynovic5844@gmail.com');
 insert into usuario (account_non_expired, account_non_locked, credentials_non_expired, is_enabled, empresa_id, rol_id, numero_identificacion, telefono, direccion, password, apellidos, nombres, imagen, tipo_identificacion, correo) values (1, 1, 1, 1, null, 5, '1030342282', '3218477636', 'Carrera 751 # 215-950', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Novak', 'Sebastiano', 'perfil-user.jpg', 'CC', 'sebastianonovak9183@gmail.com');
 
+-- Insertar usuario con rol PROVEEDOR
+INSERT INTO `usuario` (`account_non_expired`, `account_non_locked`, `credentials_non_expired`, `is_enabled`, `empresa_id`, `rol_id`, `numero_identificacion`, `telefono`, `correo`, `direccion`, `password`, `apellidos`, `nombres`, `imagen`, `tipo_identificacion`) VALUES
+-- Proveedor de Vino
+(1, 1, 1, 1, 102, 6, '1023456789', '3101234567', 'carlos.mendoza@vinacolombia.com', 'Carrera 15 #88-64', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Mendoza', 'Carlos', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Whisky
+(1, 1, 1, 1, 103, 6, '1123456789', '3112345678', 'andres.ramirez@distribuidorawhisky.com', 'Calle 10 #42-35', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Ramírez', 'Andrés', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Ron
+(1, 1, 1, 1, 104, 6, '1223456789', '3123456789', 'javier.rodriguez@roncaribe.com', 'Avenida San Martín #23-45', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Rodríguez', 'Javier', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Vodka
+(1, 1, 1, 1, 105, 6, '1323456789', '3134567890', 'sandra.gomez@vodkapremium.com', 'Calle 127 #15-32', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Gómez', 'Sandra', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Tequila
+(1, 1, 1, 1, 106, 6, '1423456789', '3145678901', 'miguel.lopez@tequilamexico.com', 'Carrera 70 #12-45', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'López', 'Miguel', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Ginebra
+(1, 1, 1, 1, 107, 6, '1523456789', '3156789012', 'laura.martinez@ginbotanico.com', 'Avenida 6N #23-67', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Martínez', 'Laura', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Mezcal
+(1, 1, 1, 1, 108, 6, '1623456789', '3167890123', 'ricardo.hernandez@mezcalartesanal.com', 'Carrera 11 #84-23', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Hernández', 'Ricardo', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Cerveza (Bavaria)
+(1, 1, 1, 1, 109, 6, '1723456789', '3178901234', 'alejandro.garcia@bavaria.co', 'Avenida Boyacá #101-25', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'García', 'Alejandro', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Aguardiente
+(1, 1, 1, 1, 110, 6, '1823456789', '3189012345', 'camilo.velez@aguardienteantioqueno.com', 'Calle 50 #45-78', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Vélez', 'Camilo', 'gestion-ventas/perfil-usuario/perfil-user', 'CC'),
+
+-- Proveedor de Brandy
+(1, 1, 1, 1, 111, 6, '1923456789', '3190123456', 'diana.castro@brandyespanol.com', 'Carrera 7 #115-60', '$2a$10$rj3PmRqB76o2VrobVRdCf.s2Q4S3HDnvVHeAmi8Uxdp.GWrLoqiMq', 'Castro', 'Diana', 'gestion-ventas/perfil-usuario/perfil-user', 'CC');
+
 -- Setear la misma imagen a todos los usuarios
 UPDATE usuario SET imagen = 'gestion-ventas/perfil-usuario/perfil-user' WHERE is_enabled = 1 LIMIT 5000;
