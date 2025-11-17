@@ -121,11 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    /* Nota: Debe de enviarte a la pagina de EditarProducto.html con
-                    spring boot easy no? con un get en el controlldor easy no?
-                    una vez lo hagas borrar este comentario por favor*/
-                    window.location.href = "/EditarProducto.html";
-
+                    window.location.href = "/admin/provedores/update";
                 }
             });
         }
@@ -243,5 +239,4 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = cards.length;
         productoTexto.textContent = `Hay ${total} proveedores registrados`;
     }
-
 });
