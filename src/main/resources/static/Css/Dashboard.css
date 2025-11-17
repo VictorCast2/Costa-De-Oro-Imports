@@ -42,8 +42,8 @@
     flex-shrink: 0;
     background-color: transparent;
     border-right: 1px solid #ddd;
-
 }
+
 
 .dashboard__sidebar .sidebar__menu {
     list-style-type: none;
@@ -61,7 +61,7 @@
     font-size: 18px;
     color: #333;
     cursor: pointer;
-    margin: 8px 20px;
+    margin: 6px 20px;
     border-radius: 8px;
     position: relative;
     transition: background-color 0.4s ease, color 0.4s ease;
