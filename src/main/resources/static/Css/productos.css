@@ -917,7 +917,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
-    margin: 1rem 0 2rem 0;
+    margin: 2rem 0 2rem 0;
     padding-left: 0;
     width: 100%;
     max-width: 1320px;
@@ -954,10 +954,6 @@
     background-color: var(--colorCafe);
     border: 1px solid var(--colorCafe);
     color: #ffffff;
-}
-
-.pagination #prevBtn {
-    display: none;
 }
 
 .pagination button {

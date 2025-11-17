@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     verProductos();
 
-
     //filtrar los productos
     const sidebar = document.getElementById('sidebar-filtros');
     const closeBtn = document.getElementById('close-sidebar');
@@ -103,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
 
     // rango de precio
     const minRange = document.getElementById('minRange');
@@ -279,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
             actualizarFiltrosAplicados();
         });
 
-        // Evita cerrar manualmente el bloque “Filtros aplicados”
+        // Evita cerrar manualmente el bloque "Filtros aplicados"
         if (filtrosToggle) {
             filtrosToggle.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -331,4 +329,170 @@ document.addEventListener('DOMContentLoaded', () => {
         btnList.classList.toggle('active', viewType === 'list');
     }
 
+    // ==================== PAGINACIÓN CORREGIDA ====================
+    const productsPerPage = 16;
+    const cardsContainer = document.querySelector('.flex__productos-track');
+    const cards = document.querySelectorAll('.card');
+    const pageNumbersContainer = document.querySelector('.pagination__Numbers');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentPage = 1;
+    let totalPages = Math.ceil(cards.length / productsPerPage);
+
+    // Inicializar paginación
+    function initializePagination() {
+        createPageNumbers();
+        showPage(1);
+        updateButtons();
+    }
+
+    // Crear números de página
+    function createPageNumbers() {
+        pageNumbersContainer.innerHTML = '';
+
+        // Mostrar máximo 5 números de página
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+
+        // Ajustar si estamos cerca del final
+        if (endPage - startPage < 4) {
+            startPage = Math.max(1, endPage - 4);
+        }
+
+        // Botón primera página si es necesario
+        if (startPage > 1) {
+            const firstPage = document.createElement('div');
+            firstPage.className = 'button__pagination';
+            firstPage.textContent = '1';
+            firstPage.addEventListener('click', () => showPage(1));
+            pageNumbersContainer.appendChild(firstPage);
+
+            // Agregar puntos suspensivos si hay más páginas
+            if (startPage > 2) {
+                const dots = document.createElement('div');
+                dots.className = 'button__pagination dots';
+                dots.textContent = '...';
+                dots.style.cursor = 'default';
+                dots.style.pointerEvents = 'none';
+                pageNumbersContainer.appendChild(dots);
+            }
+        }
+
+        // Números de página
+        for (let i = startPage; i <= endPage; i++) {
+            const pageNumber = document.createElement('div');
+            pageNumber.className = 'button__pagination';
+            pageNumber.textContent = i;
+            pageNumber.addEventListener('click', () => {
+                showPage(i);
+            });
+            pageNumbersContainer.appendChild(pageNumber);
+        }
+
+        // Botón última página si es necesario
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement('div');
+                dots.className = 'button__pagination dots';
+                dots.textContent = '...';
+                dots.style.cursor = 'default';
+                dots.style.pointerEvents = 'none';
+                pageNumbersContainer.appendChild(dots);
+            }
+
+            const lastPage = document.createElement('div');
+            lastPage.className = 'button__pagination';
+            lastPage.textContent = totalPages;
+            lastPage.addEventListener('click', () => showPage(totalPages));
+            pageNumbersContainer.appendChild(lastPage);
+        }
+
+        updateActivePage();
+    }
+
+    // Mostrar página específica
+    function showPage(page) {
+        currentPage = page;
+
+        // Ocultar todos los productos
+        cards.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Calcular rango de productos a mostrar
+        const startIndex = (page - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+
+        // Mostrar productos de la página actual
+        for (let i = startIndex; i < endIndex && i < cards.length; i++) {
+            cards[i].style.display = 'block';
+        }
+
+        // Recrear números de página
+        createPageNumbers();
+        updateButtons();
+
+        // Scroll suave hacia arriba
+        window.scrollTo({
+            top: cardsContainer.offsetTop - 100,
+            behavior: 'smooth'
+        });
+    }
+
+    // Actualizar página activa
+    function updateActivePage() {
+        const pageButtons = document.querySelectorAll('.button__pagination:not(.dots)');
+        pageButtons.forEach((button) => {
+            if (parseInt(button.textContent) === currentPage) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+
+    // Actualizar estado de los botones
+    function updateButtons() {
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+
+        // Estilos visuales para botones deshabilitados
+        if (currentPage === 1) {
+            prevBtn.style.opacity = '0.5';
+            prevBtn.style.cursor = 'not-allowed';
+        } else {
+            prevBtn.style.opacity = '1';
+            prevBtn.style.cursor = 'pointer';
+        }
+
+        if (currentPage === totalPages) {
+            nextBtn.style.opacity = '0.5';
+            nextBtn.style.cursor = 'not-allowed';
+        } else {
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+        }
+    }
+
+    // Event listeners para paginación
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            showPage(currentPage - 1);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            showPage(currentPage + 1);
+        }
+    });
+
+    // Inicializar paginación si hay productos
+    if (cards.length > 0) {
+        initializePagination();
+    } else {
+        // Ocultar paginación si no hay productos
+        document.querySelector('.pagination').style.display = 'none';
+    }
 });
