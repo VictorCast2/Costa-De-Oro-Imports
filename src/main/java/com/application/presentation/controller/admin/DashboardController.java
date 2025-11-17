@@ -12,16 +12,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/admin/principal")
+@RequestMapping("/admin")
 public class DashboardController {
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
-    @GetMapping({"/", ""})
+    @GetMapping({"/principal/", "/principal"})
     public String Dashboard(@AuthenticationPrincipal CustomUserPrincipal principal,
             @RequestParam(value = "mensaje", required = false) String mensaje,
             Model model) {
+
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("mensaje", mensaje);
+
+        return "Dashboard";
+    }
+
+    @GetMapping("prediccion/")
+    public String DashboardPrediccion(@AuthenticationPrincipal CustomUserPrincipal principal,
+                            @RequestParam(value = "mensaje", required = false) String mensaje,
+                            Model model) {
 
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
 
