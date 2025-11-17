@@ -75,6 +75,11 @@ public class PrincipalController {
         return "Blog";
     }
 
+    @GetMapping("/blog/info")
+    public String blogInformation() {
+        return "BlogInformation";
+    }
+
     @GetMapping("/contacto")
     public String contacto() {
         return "Contactos";
