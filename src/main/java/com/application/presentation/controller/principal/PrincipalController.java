@@ -3,6 +3,7 @@ package com.application.presentation.controller.principal;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.producto.request.FiltroRequest;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.producto.ProductoServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
@@ -13,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -66,8 +66,67 @@ public class PrincipalController {
 
         List<ProductoResponse> productosActivos = productoService.getProductosActivos();
 
+        // Países
+        List<String> paises = productoService.getPaisesProducto();
+
+        // Marcas
+        List<String> marcas = productoService.getMarcasProductos();
+
+        // Categorías y subcategorías
+        Map<String, List<String>> categorias = productoService.getCategoriasActivasConSubcategorias();
+
         model.addAttribute("productosActivos", productosActivos);
+        model.addAttribute("paises", paises);
+        model.addAttribute("marcas", marcas);
+        model.addAttribute("categorias", categorias);
         return "Productos";
+    }
+
+    @GetMapping("/api/productos/mas-vendidos")
+    @ResponseBody
+    public List<ProductoResponse> getProductosMasVendidos() {
+        return productoService.getProductosMasVendidos();
+    }
+
+    @GetMapping("/api/productos/precio-asc")
+    @ResponseBody
+    public List<ProductoResponse> getProductosPrecioAsc() {
+        return productoService.getProductosPorPrecioAsc();
+    }
+
+    @GetMapping("/api/productos/precio-desc")
+    @ResponseBody
+    public List<ProductoResponse> getProductosPrecioDesc() {
+        return productoService.getProductosPorPrecioDesc();
+    }
+
+    @GetMapping("/api/productos/nombre-asc")
+    @ResponseBody
+    public List<ProductoResponse> getProductosNombreAsc() {
+        return productoService.getProductosPorNombreAsc();
+    }
+
+    @GetMapping("/api/productos/nombre-desc")
+    @ResponseBody
+    public List<ProductoResponse> getProductosNombreDesc() {
+        return productoService.getProductosPorNombreDesc();
+    }
+
+    @PostMapping("/api/productos/filtrar")
+    @ResponseBody
+    public List<ProductoResponse> filtrarProductos(@RequestBody FiltroRequest filtros) {
+        // Convertir listas vacías a null para el repository
+        FiltroRequest filtrosProcesados = new FiltroRequest(
+                filtros.paises().isEmpty() ? null : filtros.paises(),
+                filtros.marcas().isEmpty() ? null : filtros.marcas(),
+                filtros.categorias().isEmpty() ? null : filtros.categorias(),
+                filtros.subcategorias().isEmpty() ? null : filtros.subcategorias(),
+                filtros.precioMin(),
+                filtros.precioMax(),
+                filtros.ordenarPor()
+        );
+
+        return productoService.filtrarProductos(filtrosProcesados);
     }
 
     @GetMapping("/blog")

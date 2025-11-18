@@ -174,25 +174,12 @@
                         <!-- Input de búsqueda -->
                         <li><input type="text" class="filter-input" placeholder="Buscar país..."></li>
                         <!-- Paises -->
-                        <li><label><input type="checkbox"> Alemania</label></li>
-                        <li><label><input type="checkbox"> Argentina</label></li>
-                        <li><label><input type="checkbox"> Belgica</label></li>
-                        <li><label><input type="checkbox"> Chile</label></li>
-                        <li><label><input type="checkbox"> Colombia</label></li>
-                        <li><label><input type="checkbox"> Republica Dominicana</label></li>
-                        <li><label><input type="checkbox"> Estados Unidos</label></li>
-                        <li><label><input type="checkbox"> Escocia</label></li>
-                        <li><label><input type="checkbox"> España</label></li>
-                        <li><label><input type="checkbox"> Francia</label></li>
-                        <li><label><input type="checkbox"> Guatemala</label></li>
-                        <li><label><input type="checkbox"> Holanda</label></li>
-                        <li><label><input type="checkbox"> Irlanda</label></li>
-                        <li><label><input type="checkbox"> Italia</label></li>
-                        <li><label><input type="checkbox"> México</label></li>
-                        <li><label><input type="checkbox"> Puerto Rico</label></li>
-                        <li><label><input type="checkbox"> Reino Unido</label></li>
-                        <li><label><input type="checkbox"> Russia</label></li>
-                        <li><label><input type="checkbox"> Suecia</label></li>
+                        <li th:each="pais : ${paises}">
+                            <label>
+                                <input type="checkbox" th:value="${pais}">
+                                <span th:text="${pais}"></span>
+                            </label>
+                        </li>
                     </ul>
                 </li>
 
@@ -203,49 +190,12 @@
                         <!-- Input de búsqueda -->
                         <li><input type="text" class="filter-input" placeholder="Buscar marca..."></li>
                         <!-- Marcas -->
-                        <li><label><input type="checkbox"> Buchanan's</label></li>
-                        <li><label><input type="checkbox"> Johnnie Walker</label></li>
-                        <li><label><input type="checkbox"> The Famous Grouse</label></li>
-                        <li><label><input type="checkbox"> Glenfiddich</label></li>
-                        <li><label><input type="checkbox"> Jose Cuervo</label></li>
-                        <li><label><input type="checkbox"> Patrón</label></li>
-                        <li><label><input type="checkbox"> Don Julio</label></li>
-                        <li><label><input type="checkbox"> El Jimador</label></li>
-                        <li><label><input type="checkbox"> Gran Centenario</label></li>
-                        <li><label><input type="checkbox"> Moelia</label></li>
-                        <li><label><input type="checkbox"> El Enemigo</label></li>
-                        <li><label><input type="checkbox"> Catena</label></li>
-                        <li><label><input type="checkbox"> Nuit Dorée</label></li>
-                        <li><label><input type="checkbox"> Terra Vega</label></li>
-                        <li><label><input type="checkbox"> Conquesta</label></li>
-                        <li><label><input type="checkbox"> Oro Veneto</label></li>
-                        <li><label><input type="checkbox"> Lambrusco Botticello</label></li>
-                        <li><label><input type="checkbox"> Casillero</label></li>
-                        <li><label><input type="checkbox"> Paulaner</label></li>
-                        <li><label><input type="checkbox"> Águila</label></li>
-                        <li><label><input type="checkbox"> Club Colombia</label></li>
-                        <li><label><input type="checkbox"> Corona</label></li>
-                        <li><label><input type="checkbox"> Estrella Galicia</label></li>
-                        <li><label><input type="checkbox"> Miller</label></li>
-                        <li><label><input type="checkbox"> Budweiser</label></li>
-                        <li><label><input type="checkbox"> Heineken</label></li>
-                        <li><label><input type="checkbox"> Guinness</label></li>
-                        <li><label><input type="checkbox"> Stella Artois</label></li>
-                        <li><label><input type="checkbox"> Poker</label></li>
-                        <li><label><input type="checkbox"> La Hechicera</label></li>
-                        <li><label><input type="checkbox"> Zacapa</label></li>
-                        <li><label><input type="checkbox"> Medellín</label></li>
-                        <li><label><input type="checkbox"> Barceló</label></li>
-                        <li><label><input type="checkbox"> Bacardí</label></li>
-                        <li><label><input type="checkbox"> Aguardiente Antioqueño</label></li>
-                        <li><label><input type="checkbox"> Smirnoff</label></li>
-                        <li><label><input type="checkbox"> Absolut</label></li>
-                        <li><label><input type="checkbox"> Tito's</label></li>
-                        <li><label><input type="checkbox"> Gordon's</label></li>
-                        <li><label><input type="checkbox"> Tanqueray</label></li>
-                        <li><label><input type="checkbox"> Hendrick's</label></li>
-                        <li><label><input type="checkbox"> Monkey 47</label></li>
-                        <li><label><input type="checkbox"> Beefeater</label></li>
+                        <li th:each="marca : ${marcas}">
+                            <label>
+                                <input type="checkbox" th:value="${marca}">
+                                <span th:text="${marca}"></span>
+                            </label>
+                        </li>
                     </ul>
                 </li>
 
@@ -253,119 +203,31 @@
                 <li class="menu__item">
                     <button class="menu__toggle">Categoría</button>
                     <ul class="submenu">
+
                         <!-- Input de búsqueda -->
-                        <li>
-                            <input type="text" class="filter-input" placeholder="Buscar categoría...">
+                        <li><input type="text" class="filter-input" placeholder="Buscar categoría..."></li>
+
+                        <!-- Categorías agrupadas -->
+                        <li class="category-group"
+                            th:each="entry : ${categorias}">
+
+                            <!-- Categoría -->
+                            <label class="category-main">
+                                <input type="checkbox" class="parent-checkbox">
+                                <span th:text="${entry.key}"></span>
+                            </label>
+
+                            <!-- Subcategorías -->
+                            <ul class="subcategory-list">
+                                <li th:each="sub : ${entry.value}">
+                                    <label>
+                                        <input type="checkbox" th:value="${sub}">
+                                        <span th:text="${sub}"></span>
+                                    </label>
+                                </li>
+                            </ul>
                         </li>
 
-                        <!-- Whiskys -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Whiskys
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Blended Scotch</label></li>
-                                <li><label><input type="checkbox"> Single Malt</label></li>
-                                <li><label><input type="checkbox"> Blended Malt</label></li>
-                            </ul>
-                        </li>
-                        <!-- Tequila -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Tequila
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Añejo Cristalino</label></li>
-                                <li><label><input type="checkbox"> Tequila Blanco</label></li>
-                                <li><label><input type="checkbox"> Tequila Reposado</label></li>
-                                <li><label><input type="checkbox"> Tequila Añejo</label></li>
-                            </ul>
-                        </li>
-                        <!-- Mezcal -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Mezcal
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Mezcal Ancestral</label></li>
-                                <li><label><input type="checkbox"> Mezcal Artesanal</label></li>
-                                <li><label><input type="checkbox"> Mezcal Industrial</label></li>
-                                <li><label><input type="checkbox"> Mezcal Añejo</label></li>
-                                <li><label><input type="checkbox"> Mezcal Reposado</label></li>
-                            </ul>
-                        </li>
-                        <!-- Vinos -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Vinos
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Vino Tinto</label></li>
-                                <li><label><input type="checkbox"> Vino Blanco</label></li>
-                                <li><label><input type="checkbox"> Vino Rosado</label></li>
-                                <li><label><input type="checkbox"> Vino Espumoso</label></li>
-                            </ul>
-                        </li>
-                        <!-- Cervezas -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Cervezas
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Cerveza Lager</label></li>
-                                <li><label><input type="checkbox"> Cerveza Ale</label></li>
-                                <li><label><input type="checkbox"> Cerveza Artesanal</label></li>
-                                <li><label><input type="checkbox"> Cerveza Importada</label></li>
-                            </ul>
-                        </li>
-                        <!-- Ron -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Ron
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Ron añejo</label></li>
-                                <li><label><input type="checkbox"> Ron blanco</label></li>
-                                <li><label><input type="checkbox"> Ron dorado</label></li>
-                                <li><label><input type="checkbox"> Ron oscuro</label></li>
-                            </ul>
-                        </li>
-                        <!-- Aguardiente -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Aguardiente
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Aguardiente tradicional</label></li>
-                                <li><label><input type="checkbox"> Aguardiente sin azúcar</label></li>
-                                <li><label><input type="checkbox"> Aguardiente de frutas</label></li>
-                                <li><label><input type="checkbox"> Aguardiente artesanal</label></li>
-                            </ul>
-                        </li>
-                        <!-- Vodka -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Vodka
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Vodka Saborizado</label></li>
-                                <li><label><input type="checkbox"> Vodka Premium</label></li>
-                                <li><label><input type="checkbox"> Vodka Artesanal</label></li>
-                                <li><label><input type="checkbox"> Ron oscuro</label></li>
-                            </ul>
-                        </li>
-                        <!-- Ginebra -->
-                        <li class="category-group">
-                            <label class="category-main">
-                                <input type="checkbox" class="parent-checkbox"> Ginebra
-                            </label>
-                            <ul class="subcategory-list">
-                                <li><label><input type="checkbox"> Plymouth Gin</label></li>
-                                <li><label><input type="checkbox"> Old Tom Gin</label></li>
-                                <li><label><input type="checkbox"> Ginebra Premium</label></li>
-                                <li><label><input type="checkbox"> London Dry Gin</label></li>
-                            </ul>
-                        </li>
                     </ul>
                 </li>
 
@@ -377,13 +239,13 @@
                             <div class="price-range">
                                 <div class="price-values">
                                     <span id="rangeMin">$0</span>
-                                    <span id="rangeMax">$10 000 000</span>
+                                    <span id="rangeMax">$1 000 000</span>
                                 </div>
 
                                 <div class="slider-container">
-                                    <input type="range" id="minRange" min="0" max="10000000" value="203400"
+                                    <input type="range" id="minRange" min="0" max="1000000" value="20000"
                                            step="1000">
-                                    <input type="range" id="maxRange" min="0" max="10000000" value="4071200"
+                                    <input type="range" id="maxRange" min="0" max="1000000" value="571200"
                                            step="1000">
                                 </div>
                             </div>

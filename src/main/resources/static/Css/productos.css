@@ -1001,3 +1001,36 @@
         justify-content: center;
     }
 }
+
+/* Clase para ocultar elementos sin afectar el layout */
+.card.hidden {
+    display: none;
+}
+
+/* Mensaje de no resultados */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 2rem 0;
+    border: 2px dashed #e5e7eb;
+}
+
+.no-results h3 {
+    color: #6b7280;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.no-results p {
+    color: #9ca3af;
+    font-size: 1.1rem;
+}
+
+/* Transición suave para los filtros */
+.card {
+    transition: all 0.3s ease;
+}
