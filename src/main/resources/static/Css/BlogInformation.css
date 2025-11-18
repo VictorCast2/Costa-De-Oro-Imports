@@ -270,18 +270,18 @@
     font: 600 1rem var(--typografiaUrbanist);
     width: 100%;
     margin: 10px 0 10px 0px;
-    display:none;
+    display: none;
 }
 
-.error--changed{
+.error--changed {
     margin: 10px 0 20px 0px;
 }
 
-.error--changed2{
+.error--changed2 {
     margin: 10px 0 20px 0px;
 }
 
-.error--changed3{
+.error--changed3 {
     margin: 20px 0 10px 0px;
 }
 
@@ -348,7 +348,7 @@
 }
 
 .rating__container.input-error {
-    border:2px solid #fd1f1f !important;
+    border: 2px solid #fd1f1f !important;
 }
 
 .rating__container.input-error .rating__label {

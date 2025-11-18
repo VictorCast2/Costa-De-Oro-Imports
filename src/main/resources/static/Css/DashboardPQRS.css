@@ -545,7 +545,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 
 .modal {
-    display:none;
+    display: none;
     position: fixed;
     z-index: 100;
     left: 0;
@@ -588,7 +588,7 @@ input[type="search"]::-webkit-search-cancel-button {
     top: -2rem;
     width: calc(100% + 60px);
     border-bottom: 1px solid #e5e7eb;
-    padding:1.2rem 2rem;
+    padding: 1.2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -615,7 +615,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 
-.button--modal{
+.button--modal {
     margin-top: -0.5rem;
 }
 
@@ -630,7 +630,7 @@ input[type="search"]::-webkit-search-cancel-button {
     display: flex;
     align-items: center;
     margin: 6px 0 15px 0;
-    font:500 1rem var(--typografiaUrbanist);
+    font: 500 1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
 }
 
@@ -645,7 +645,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .info-row span {
-    font:600 1rem var(--typografiaUrbanist);
+    font: 600 1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
     color: #111827;
     margin-right: 6px;
@@ -655,8 +655,8 @@ input[type="search"]::-webkit-search-cancel-button {
     margin-top: 20px;
 }
 
-.mensaje label{
-    font:600 1rem var(--typografiaUrbanist);
+.mensaje label {
+    font: 600 1rem var(--typografiaUrbanist);
 }
 
 .mensaje p {
@@ -672,7 +672,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .cambiar-estado label {
-    font:600 1rem var(--typografiaUrbanist);
+    font: 600 1rem var(--typografiaUrbanist);
     color: #111827;
     display: block;
     margin-bottom: 10px;

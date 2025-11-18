@@ -53,7 +53,7 @@
     letter-spacing: 1px;
 }
 
-.notification__there{
+.notification__there {
     font: 500 1.1rem var(--typografiaUrbanist);
     color: #000000;
     margin: 0 0 0 150px;
@@ -82,14 +82,14 @@
 }
 
 .estado-stock {
-    background-color: #1e7e34; 
+    background-color: #1e7e34;
 }
 
 .estado-agotado {
-    background-color: #dc3545; 
+    background-color: #dc3545;
 }
 
-.content__carrito{
+.content__carrito {
     display: inline-block;
     padding: 5px 10px;
     cursor: pointer;
@@ -97,7 +97,7 @@
     border: none;
     font: 600 0.85rem var(--typografiaUrbanist);
     color: #fff;
-    background-color: #1e7e34; 
+    background-color: #1e7e34;
 }
 
 .notification__table tbody tr:hover {

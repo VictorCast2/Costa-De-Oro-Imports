@@ -31,6 +31,19 @@ public class ProvedoresController {
         return "DashboardProvedores";
     }
 
+    @GetMapping("/nueva-compra")
+    public String nuevaCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
+                                    @RequestParam(value = "mensaje", required = false) String mensaje,
+                                    Model model) {
+
+        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("mensaje", mensaje);
+
+        return "NuevaCompra";
+    }
+
     @GetMapping("/add")
     public String agregarProvedores(@AuthenticationPrincipal CustomUserPrincipal principal,
                                    @RequestParam(value = "mensaje", required = false) String mensaje,

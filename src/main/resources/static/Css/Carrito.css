@@ -37,7 +37,7 @@
 
 .container__add {
     position: absolute;
-    top:13%;
+    top: 13%;
     left: 78%;
     font: 600 1.2rem var(--typografiaUrbanist);
     width: 100%;
@@ -205,7 +205,7 @@
 }
 
 .swal-popup {
-    font:var(--typografiaUrbanist) ;
+    font: var(--typografiaUrbanist);
 }
 
 
@@ -292,11 +292,13 @@
 
 }
 
-.carrito__free .free__name, .carrito__free .free__subtotal{
+.carrito__free .free__name,
+.carrito__free .free__subtotal {
     font: 500 1.15rem var(--typografiaGeist);
 }
 
-.carrito__total .total__name, .carrito__total .total__subtotal{
+.carrito__total .total__name,
+.carrito__total .total__subtotal {
     font: 500 1.15rem var(--typografiaGeist);
 }
 
@@ -389,7 +391,7 @@
     margin: 10px 0 20px 25px;
 }
 
-.wrapper--hora{
+.wrapper--hora {
     width: 450px;
     margin: 10px 0 20px 22px;
 }
@@ -445,7 +447,7 @@
 
 }
 
-.icon--barrio i{
+.icon--barrio i {
     left: 95%;
 }
 
@@ -455,7 +457,7 @@
     border-radius: 50%;
     padding: 1px 1px;
     color: #fff;
-    display:none ;
+    display: none;
 }
 
 .box__icon .ri-close-line {
@@ -470,33 +472,33 @@
     font: 600 1rem var(--typografiaUrbanist);
     width: 100%;
     margin: 0 0 10px 20px;
-    display:none ;
+    display: none;
 }
 
-.error--direccion{
+.error--direccion {
     margin: 0 0 10px 10px;
 }
 
 
-.error--apartamento{
+.error--apartamento {
     margin: 0 0 10px 10px;
 }
 
-.error--departamento{
+.error--departamento {
     margin: 0 0 10px -25px;
 }
 
-.error--ciudad{
+.error--ciudad {
     margin: 0 0 10px -45px;
 }
 
-.error--barrio{
+.error--barrio {
     margin: 0 0 10px -115px;
 }
 
 .error--fecha,
-.error--hora{
-    margin:0 0 10px -85px ;
+.error--hora {
+    margin: 0 0 10px -85px;
 }
 
 .swal-title {
@@ -644,10 +646,10 @@
     width: 100%;
 }
 
-.opciones__envios .envios__titulo{
+.opciones__envios .envios__titulo {
     font: 700 1.5rem var(--typografiaGeist);
     text-align: left;
-    margin:0 0 0 1.4rem;
+    margin: 0 0 0 1.4rem;
 
 }
 
@@ -694,13 +696,13 @@
     transform: translate(-50%, -50%) scale(1);
 }
 
-.envios__container{
-    margin:1rem 0 0 1.5rem;
+.envios__container {
+    margin: 1rem 0 0 1.5rem;
     display: flex;
     gap: 0.8rem;
 }
 
-.envios__container .container__item{
+.envios__container .container__item {
     width: 100%;
     height: 150px;
     border: 1px solid #6b7280;
@@ -710,17 +712,17 @@
 
 }
 
-.container__item .item__titulo{
+.container__item .item__titulo {
     font: 700 1.2rem var(--typografiaGeist);
 }
 
-.container__item p{
+.container__item p {
     color: var(--colorDark);
     font: 400 1rem var(--typografiaGeist);
-    margin-top:0.6rem;
+    margin-top: 0.6rem;
 }
 
-.formulario__pago{
+.formulario__pago {
     margin: 4% 0 0 168%;
     cursor: pointer;
     width: 150px;
@@ -771,7 +773,7 @@
 
 }
 
-.envio__content .envio__subtitulo{
+.envio__content .envio__subtitulo {
     font: 500 1rem var(--typografiaUrbanist);
     margin-bottom: 1rem;
 }
@@ -831,13 +833,13 @@
     transform: scale(1.2);
 }
 
-.box--tiempo input{
+.box--tiempo input {
     width: 450px;
 }
 
 
 
-.btn__envio{
+.btn__envio {
     font: 600 1.3rem var(--typografiaUrbanist);
     width: 100%;
     max-width: 150px;
