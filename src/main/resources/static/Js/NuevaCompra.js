@@ -204,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
         activarValidacionesFila(nuevaFila);
     });
 
-
     function activarValidacionesFila(fila) {
         const inputs = fila.querySelectorAll(".validar-input");
         const selects = fila.querySelectorAll(".validar-select");
