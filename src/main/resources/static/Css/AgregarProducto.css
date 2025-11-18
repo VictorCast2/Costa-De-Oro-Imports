@@ -1,7 +1,5 @@
 @import url("./DashboardProducto.css");
 
-
-
 :root {
     --typografiaGeist: "Geist";
     --typografiaUrbanist: "Urbanist";
@@ -31,10 +29,8 @@
     border: 1px solid #ccc;
 }
 
-
 .body__registrarproducto {
     display: flex;
-
 }
 
 .registrarproducto__productoinformacion {
