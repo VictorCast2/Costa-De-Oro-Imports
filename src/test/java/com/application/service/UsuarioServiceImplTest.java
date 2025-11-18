@@ -29,174 +29,172 @@ import static org.mockito.Mockito.*;
 
 class UsuarioServiceImplTest {
 
-    @Mock private UsuarioRepository usuarioRepository;
-    @Mock private RolRepository rolRepository;
-    @Mock private CloudinaryService cloudinaryService;
-    @Mock private EmailService emailService;
-    @Mock private PasswordEncoder encoder;
+        @Mock
+        private UsuarioRepository usuarioRepository;
+        @Mock
+        private RolRepository rolRepository;
+        @Mock
+        private CloudinaryService cloudinaryService;
+        @Mock
+        private EmailService emailService;
+        @Mock
+        private PasswordEncoder encoder;
 
-    @InjectMocks
-    private UsuarioServiceImpl usuarioService;
+        @InjectMocks
+        private UsuarioServiceImpl usuarioService;
 
-    private Usuario usuario;
-    private Rol rolNatural;
-    private Rol rolJuridico;
+        private Usuario usuario;
+        private Rol rolNatural;
+        private Rol rolJuridico;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+        @BeforeEach
+        void setUp() {
+                MockitoAnnotations.openMocks(this);
 
-        rolNatural = new Rol(1L, ERol.PERSONA_NATURAL);
-        rolJuridico = new Rol(2L, ERol.PERSONA_JURIDICA);
+                rolNatural = new Rol(1L, ERol.PERSONA_NATURAL);
+                rolJuridico = new Rol(2L, ERol.PERSONA_JURIDICA);
 
-        usuario = Usuario.builder()
-                .usuarioId(1L)
-                .correo("test@mail.com")
-                .password("12345")
-                .rol(rolNatural)
-                .build();
-    }
+                usuario = Usuario.builder()
+                                .usuarioId(1L)
+                                .correo("test@mail.com")
+                                .password("12345")
+                                .rol(rolNatural)
+                                .build();
+        }
 
-    // ============== loadUserByUsername ==============
+        // ============== loadUserByUsername ==============
 
-    @Test
-    void loadUserByUsername_usuarioExiste_devuelveUserDetails() {
-        when(usuarioRepository.findByCorreo("test@mail.com"))
-                .thenReturn(Optional.of(usuario));
+        @Test
+        void loadUserByUsername_usuarioExiste_devuelveUserDetails() {
+                when(usuarioRepository.findByCorreo("test@mail.com"))
+                                .thenReturn(Optional.of(usuario));
 
-        assertNotNull(usuarioService.loadUserByUsername("test@mail.com"));
-    }
+                assertNotNull(usuarioService.loadUserByUsername("test@mail.com"));
+        }
 
-    @Test
-    void loadUserByUsername_usuarioNoExiste_lanzaExcepcion() {
-        when(usuarioRepository.findByCorreo("no@mail.com"))
-                .thenReturn(Optional.empty());
+        @Test
+        void loadUserByUsername_usuarioNoExiste_lanzaExcepcion() {
+                when(usuarioRepository.findByCorreo("no@mail.com"))
+                                .thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () ->
-                usuarioService.loadUserByUsername("no@mail.com"));
-    }
+                assertThrows(UsernameNotFoundException.class, () -> usuarioService.loadUserByUsername("no@mail.com"));
+        }
 
-    // ============== getUsuarioByCorreo ==============
+        // ============== getUsuarioByCorreo ==============
 
-    @Test
-    void getUsuarioByCorreo_existe_retornaUsuario() {
-        when(usuarioRepository.findByCorreo("test@mail.com"))
-                .thenReturn(Optional.of(usuario));
+        @Test
+        void getUsuarioByCorreo_existe_retornaUsuario() {
+                when(usuarioRepository.findByCorreo("test@mail.com"))
+                                .thenReturn(Optional.of(usuario));
 
-        Usuario result = usuarioService.getUsuarioByCorreo("test@mail.com");
-        assertEquals("test@mail.com", result.getCorreo());
-    }
+                Usuario result = usuarioService.getUsuarioByCorreo("test@mail.com");
+                assertEquals("test@mail.com", result.getCorreo());
+        }
 
-    @Test
-    void getUsuarioByCorreo_noExiste_lanzaExcepcion() {
-        when(usuarioRepository.findByCorreo("x"))
-                .thenReturn(Optional.empty());
+        @Test
+        void getUsuarioByCorreo_noExiste_lanzaExcepcion() {
+                when(usuarioRepository.findByCorreo("x"))
+                                .thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () ->
-                usuarioService.getUsuarioByCorreo("x"));
-    }
+                assertThrows(RuntimeException.class, () -> usuarioService.getUsuarioByCorreo("x"));
+        }
 
-    // ============== createUser ==============
+        // ============== createUser ==============
 
-    @Test
-    void createUser_correoExistente_retornaError() {
-        when(usuarioRepository.existsByCorreo("test@mail.com"))
-                .thenReturn(true);
+        @Test
+        void createUser_correoExistente_retornaError() {
+                when(usuarioRepository.existsByCorreo("test@mail.com"))
+                                .thenReturn(true);
 
-        BaseResponse response = usuarioService.createUser(
-                new CreateUsuarioRequest(EIdentificacion.CC,"1","a","b","1","test@mail.com","123")
-        );
+                BaseResponse response = usuarioService.createUser(
+                                new CreateUsuarioRequest(EIdentificacion.CC, "1", "a", "b", "1", "test@mail.com",
+                                                "123"));
 
-        assertFalse(response.success());
-    }
+                assertFalse(response.success());
+        }
 
-    @Test
-    void createUser_exitoso_retornaOk() {
-        when(usuarioRepository.existsByCorreo("new@mail.com")).thenReturn(false);
-        when(encoder.encode(any())).thenReturn("encrypted");
-        when(rolRepository.findByName(any())).thenReturn(Optional.of(rolNatural));
+        @Test
+        void createUser_exitoso_retornaOk() {
+                when(usuarioRepository.existsByCorreo("new@mail.com")).thenReturn(false);
+                when(encoder.encode(any())).thenReturn("encrypted");
+                when(rolRepository.findByName(any())).thenReturn(Optional.of(rolNatural));
 
-        BaseResponse response = usuarioService.createUser(
-                new CreateUsuarioRequest(EIdentificacion.CC,"1","a","b","1","new@mail.com","123")
-        );
+                BaseResponse response = usuarioService.createUser(
+                                new CreateUsuarioRequest(EIdentificacion.CC, "1", "a", "b", "1", "new@mail.com",
+                                                "123"));
 
-        assertTrue(response.success());
-    }
+                assertTrue(response.success());
+        }
 
-    // ============== updateUser ==============
+        // ============== updateUser ==============
 
-    @Test
-    void updateUser_actualizaCorrectamente() {
-        CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
+        @Test
+        void updateUser_actualizaCorrectamente() {
+                CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
 
-        when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
+                when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
 
-        GeneralResponse response = usuarioService.updateUser(
-                principal,
-                new UpdateUsuarioRequest(EIdentificacion.CC,"1","Nuevo","Apellido","123","correo@new.com")
-        );
+                GeneralResponse response = usuarioService.updateUser(
+                                principal,
+                                new UpdateUsuarioRequest(EIdentificacion.CC, "1", "Nuevo", "Apellido", "123",
+                                                "correo@new.com"));
 
-    }
+        }
 
-    // ============== setUserPhoto ==============
+        // ============== setUserPhoto ==============
 
-    @Test
-    void setUserPhoto_actualizaImagen() {
-        CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
+        @Test
+        void setUserPhoto_actualizaImagen() {
+                CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
 
-        when(usuarioRepository.findByCorreo(anyString()))
-                .thenReturn(Optional.of(usuario));
+                when(usuarioRepository.findByCorreo(anyString()))
+                                .thenReturn(Optional.of(usuario));
 
-        MockMultipartFile mockFile = new MockMultipartFile(
-                "file",
-                "test.jpg",
-                "image/jpeg",
-                new byte[]{1, 2}
-        );
+                MockMultipartFile mockFile = new MockMultipartFile(
+                                "file",
+                                "test.jpg",
+                                "image/jpeg",
+                                new byte[] { 1, 2 });
 
-        when(cloudinaryService.subirImagen(any(MultipartFile.class), anyString()))
-                .thenReturn("newImage.jpg");
+                when(cloudinaryService.subirImagen(any(MultipartFile.class), anyString()))
+                                .thenReturn("newImage.jpg");
 
-        GeneralResponse response = usuarioService.setUserPhoto(
-                principal,
-                new SetUsuarioPhotoRequest(mockFile, "original.jpg")
-        );
+                GeneralResponse response = usuarioService.setUserPhoto(
+                                principal,
+                                new SetUsuarioPhotoRequest(mockFile, "original.jpg"));
 
-        assertEquals("Imagen asignada exitosamente", response.mensaje());
-    }
+                assertEquals("Imagen asignada exitosamente", response.mensaje());
+        }
 
+        // ============== updatePassword ==============
 
-    // ============== updatePassword ==============
+        @Test
+        void updatePassword_contrasenaActualIncorrecta() {
+                CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
 
-    @Test
-    void updatePassword_contrasenaActualIncorrecta() {
-        CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
+                when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
+                when(encoder.matches("wrong", usuario.getPassword())).thenReturn(false);
 
-        when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
-        when(encoder.matches("wrong", usuario.getPassword())).thenReturn(false);
+                BaseResponse response = usuarioService.updatePassword(
+                                principal,
+                                new UpdatePasswordRequest("wrong", "newPass"));
 
-        BaseResponse response = usuarioService.updatePassword(
-                principal,
-                new UpdatePasswordRequest("wrong","newPass")
-        );
+                assertFalse(response.success());
+        }
 
-        assertFalse(response.success());
-    }
+        @Test
+        void updatePassword_exitosa() {
+                CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
 
-    @Test
-    void updatePassword_exitosa() {
-        CustomUserPrincipal principal = new CustomUserPrincipal(usuario);
+                when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
+                when(encoder.matches("12345", usuario.getPassword())).thenReturn(true);
+                when(encoder.matches("newPass", usuario.getPassword())).thenReturn(false);
+                when(encoder.encode("newPass")).thenReturn("encryptedNew");
 
-        when(usuarioRepository.findByCorreo(anyString())).thenReturn(Optional.of(usuario));
-        when(encoder.matches("12345", usuario.getPassword())).thenReturn(true);
-        when(encoder.matches("newPass", usuario.getPassword())).thenReturn(false);
-        when(encoder.encode("newPass")).thenReturn("encryptedNew");
-
-        BaseResponse response = usuarioService.updatePassword(
-                principal,
-                new UpdatePasswordRequest("12345","newPass")
-        );
-        assertTrue(response.success());
-    }
+                BaseResponse response = usuarioService.updatePassword(
+                                principal,
+                                new UpdatePasswordRequest("12345", "newPass"));
+                assertTrue(response.success());
+        }
 
 }
