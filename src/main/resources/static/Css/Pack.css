@@ -25,12 +25,14 @@
 }
 
 .flex__productos {
-    display: block; /* Cambia de grid a block */
+    display: block;
+    /* Cambia de grid a block */
     max-width: 1345px;
 }
 
 .flex__productos-track {
-    display: grid; /* Mueve el grid aquí */
+    display: grid;
+    /* Mueve el grid aquí */
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
     justify-items: center;
@@ -81,7 +83,8 @@
     margin-bottom: 3rem;
     margin-left: 5rem;
     width: 100%;
-    position: static; /* Elimina posicionamiento absoluto */
+    position: static;
+    /* Elimina posicionamiento absoluto */
     left: auto;
     top: auto;
 }

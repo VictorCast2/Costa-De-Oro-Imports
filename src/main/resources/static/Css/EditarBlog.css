@@ -111,11 +111,11 @@
 
 
 /* TexArea */
-#formulario__area{
+#formulario__area {
     grid-column: 1 / -1;
 }
 
-#formulario__area .formulario__box textarea{
+#formulario__area .formulario__box textarea {
     width: 95%;
 }
 
@@ -133,7 +133,7 @@
     letter-spacing: 1px;
     outline: none;
     field-sizing: content;
-    overflow: hidden; 
+    overflow: hidden;
     transition: border-color .1s ease, outline .1s ease;
 }
 
@@ -345,7 +345,7 @@
 }
 
 .formulario__boximagen.error-border {
-    border: 2px solid #e53935; 
+    border: 2px solid #e53935;
 }
 
 #formulario__descripcion {
@@ -403,7 +403,7 @@
 }
 
 .formulario__boxdescripcion.error-border {
-    border: 2px solid #e53935 !important; 
+    border: 2px solid #e53935 !important;
 }
 
 
@@ -466,7 +466,7 @@
     font: 900 1.2rem var(--typografiaUrbanist);
 }
 
-.icon--area i{
+.icon--area i {
     left: 95.8%;
 }
 
@@ -497,7 +497,7 @@
     margin: 10px 0 10px 10px;
 }
 
-.input__formulario .error--textarea{
+.input__formulario .error--textarea {
     width: 550px;
 }
 

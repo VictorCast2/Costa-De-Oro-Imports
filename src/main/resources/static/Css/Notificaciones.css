@@ -11,38 +11,38 @@
 }
 
 
-.Notificaciones{
+.Notificaciones {
     min-height: 100vh;
     position: relative;
     padding-top: 150px;
 }
 
-.Notificaciones__container{
+.Notificaciones__container {
     display: flex;
     justify-content: space-around;
 }
 
-.hr__horinzontal{
+.hr__horinzontal {
     position: relative;
     top: -33px;
     left: 0px;
     border: 0;
     height: 1px;
-    border-top: 1px solid #ccc; 
+    border-top: 1px solid #ccc;
 }
 
-.container__nav{
+.container__nav {
     margin-top: 30px;
 }
 
 
-.container__nav .nav__opciones{
+.container__nav .nav__opciones {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
 }
 
-.nav__opciones .opciones__btn{
+.nav__opciones .opciones__btn {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -59,11 +59,11 @@
     transition: background-color .5s ease;
 }
 
-.nav__opciones .opciones__btn i{
+.nav__opciones .opciones__btn i {
     margin: 0 5px 0 10px;
 }
 
-.nav__opciones .hr__separar{
+.nav__opciones .hr__separar {
     border: 0;
     height: 1px;
     border-bottom: 1px solid #ccc;
@@ -72,40 +72,40 @@
 
 
 
-.nav__opciones .opciones__btn:hover{
+.nav__opciones .opciones__btn:hover {
     background-color: #f0f3f2;
 }
 
 
-.nav__opciones .opciones__btn.active{
+.nav__opciones .opciones__btn.active {
     background-color: #18181b;
     color: var(--colorWhite);
 }
 
-.hr__vertical{
+.hr__vertical {
     position: absolute;
-    top:12.5%;
-    left:27%;
+    top: 12.5%;
+    left: 27%;
     border: 0;
-    border-left: 1px solid #ccc; 
-    height: 825px  
+    border-left: 1px solid #ccc;
+    height: 825px
 }
 
-.container__main{
+.container__main {
     margin-top: 20px;
 }
 
-.main__notificaciones{
+.main__notificaciones {
     margin: 0 60px 0 0;
     padding-bottom: 80px;
 }
 
-.main__notificaciones .notificaciones__title{
+.main__notificaciones .notificaciones__title {
     font: 600 2rem var(--typografiaGeist);
     margin-bottom: 1rem
 }
 
-.main__notificaciones .notificaciones__text{
+.main__notificaciones .notificaciones__text {
     width: 900px;
     font: 600 1.3rem var(--typografiaGeist);
     border-bottom: 1px solid #ccc;
@@ -113,11 +113,11 @@
 }
 
 
-.notificaciones__switch{
+.notificaciones__switch {
     position: relative;
 }
 
-.notificaciones__switch .switch__semanal{
+.notificaciones__switch .switch__semanal {
     font: 600 1rem var(--typografiaGeist);
     padding-top: 1rem;
     margin-bottom: 0.2rem;
@@ -132,17 +132,17 @@
     height: 26px;
 }
 
-.label--resumen{
+.label--resumen {
     top: 40%;
     left: 88%;
 }
 
-.label--texto{
+.label--texto {
     top: 56.5%;
     left: 88%;
 }
 
-.label--pago{
+.label--pago {
     top: 63.5%;
     left: 88%;
 }
@@ -185,60 +185,60 @@ input:checked+.slider__label:before {
     transform: translateX(24px);
 }
 
-.notificaciones__switch .switch__text{
+.notificaciones__switch .switch__text {
     font: 500 1rem var(--typografiaGeist);
     color: var(--colorLigth);
     margin-bottom: 1.5rem;
 }
 
-.notificaciones__resumen .resumen_semanal{
+.notificaciones__resumen .resumen_semanal {
     font: 600 1rem var(--typografiaGeist);
     margin-bottom: 0.2rem;
 }
 
-.notificaciones__resumen .resumen__text{
+.notificaciones__resumen .resumen__text {
     width: 800px;
     font: 500 1rem var(--typografiaGeist);
     color: var(--colorLigth);
     margin-bottom: 3rem;
 }
 
-.notificaciones__subtitulos{
+.notificaciones__subtitulos {
     font: 600 1.3rem var(--typografiaGeist);
     border-bottom: 1px solid #ccc;
     padding-bottom: 0.8rem;
 }
 
-.notificaciones__mensaje .mensaje__text{
+.notificaciones__mensaje .mensaje__text {
     font: 600 1rem var(--typografiaGeist);
-    margin:1.7rem 0;
+    margin: 1.7rem 0;
 }
 
-.notificaciones__mensaje .mensaje__pago{
+.notificaciones__mensaje .mensaje__pago {
     font: 600 1rem var(--typografiaGeist);
     margin-bottom: 0.2rem;
 }
 
-.notificaciones__mensaje .mensaje__llamaremos{
+.notificaciones__mensaje .mensaje__llamaremos {
     font: 500 1rem var(--typografiaGeist);
     color: var(--colorLigth);
     margin-bottom: 3rem;
 }
 
-.notificaciones__web .web__title{
+.notificaciones__web .web__title {
     font: 600 1.3rem var(--typografiaGeist);
     border-bottom: 1px solid #ccc;
     padding-bottom: 0.8rem;
     margin-bottom: 1rem;
 }
 
-.web__chexbox{
+.web__chexbox {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.web__chexbox label{
+.web__chexbox label {
     font: 600 1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
 }

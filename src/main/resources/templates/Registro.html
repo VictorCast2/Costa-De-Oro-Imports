@@ -18,7 +18,7 @@
         integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" th:href="@{/Css/Registro.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
     <title>Registro</title>
     <meta name="description" content="">
     <meta name="autor" content="">
@@ -36,10 +36,9 @@
     th:data-mensaje-error="${mensajeError}">
     <div class="contenido__form">
 
-        <figure class="form__imagen">
-            <img class="imagen__login" th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
+        <figure class="imagen__container">
+            <img th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
         </figure>
-
 
         <div class="form__registro">
 
@@ -159,14 +158,16 @@
                     <div class="formulario__input">
                         <div class="remember-forgot">
                             <label class="forgot__label" id="terms-label"><input type="checkbox" name="terminos">Acepto
-                                Terminos Y
-                                Condiciones</label>
+                                Terminos Y Condiciones</label>
                         </div>
                     </div>
 
 
                     <div class="formulario__input formulario__btn-container">
                         <button class="formulario__btn" type="submit">Registrar</button>
+                    </div>
+
+                    <div class="formulario__input container__otrascuentas">
 
                         <span class="otrascuentas__titles">O con</span>
 
@@ -181,7 +182,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" th:src="@{/Js/registro.js}"></script>
+    <script th:src="@{/Js/registro.js}"></script>
 </body>
 
 </html>

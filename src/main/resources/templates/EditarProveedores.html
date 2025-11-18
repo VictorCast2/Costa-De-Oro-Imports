@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" th:href="@{/Css/EditarProveedores.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +87,7 @@
 
             <li class="sidebar__item">
                 <i class="ri-pie-chart-line"></i>
-                <a href="" class="sidebar__text">Predicciones</a>
+                <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
             </li>
 
             <p class="menu__title">Configuracion Del Sitio</p>
