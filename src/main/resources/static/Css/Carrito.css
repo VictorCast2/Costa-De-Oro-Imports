@@ -12,15 +12,15 @@
 
 
 .table__container {
-    min-height: 150vh;
+    min-height: 120vh;
     position: relative;
-    padding-top: 120px;
+    padding-top: 150px;
 }
 
 
 .container__enlaces {
     position: absolute;
-    top: 8%;
+    top:14%;
     left: 10%;
 }
 
