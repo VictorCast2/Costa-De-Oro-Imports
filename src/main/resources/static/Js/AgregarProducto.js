@@ -458,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Ocultar advertencias y errores de select al interactuar
-    [selectCategoriaPrincipal, selectpáises, selectCategoriaSecundaria, selectmarca, selecttipoProducto,selecttipoProveedores].forEach(select => {
+    [selectCategoriaPrincipal, selectpáises, selectCategoriaSecundaria, selectmarca, selecttipoProducto, selecttipoProveedores].forEach(select => {
         select.addEventListener("change", () => {
 
             if (select.selectedIndex > 0) {

@@ -2,10 +2,10 @@
     --typografiaGeist: "Geist";
     --typografiaUrbanist: "Urbanist";
     --colorPrincipal: #f59e0b;
+    --colorCafe: #8e705c;
     --colorDark: #18181b;
     --colorLigth: #71717a;
 }
-
 
 * {
     margin: 0;
@@ -13,40 +13,136 @@
     box-sizing: border-box;
 }
 
-
-.contenido__form{
+.contenido__form {
     display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+    flex-wrap: nowrap;
 }
 
-.form__login{
+.imagen__container {
+    width: 50%;
+    min-width: 300px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.imagen__container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(80%);
+
+}
+
+.form__login {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    left: 8%;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+@media (max-width: 1200px) {
+    .contenido__form {
+        flex-direction: row;
+    }
+
+    .imagen__container {
+        width: 40%;
+        height: 100vh;
+    }
+
+    .form__login {
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 992px) {
+    .contenido__form {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .imagen__container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .form__login {
+        max-width: 100%;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .imagen__container {
+        height: 250px;
+    }
+
+    .form .formulario__title {
+        font-size: 1.7rem;
+    }
+
+    .form .formulario__title2 {
+        font-size: 1rem;
+    }
+
+    .input-box input {
+        width: 100%;
+    }
+
+    .formulario__btn {
+        width: 100%;
+    }
+
+    .otrascuentas__btn {
+        width: 100%;
+    }
+
+    .remember-forgot .forgot__label {
+        margin-left: 0;
+    }
+
+    .remember-forgot a {
+        margin-left: 0;
+    }
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .form .formulario__title {
     font: 700 2.2rem var(--typografiaGeist);
     text-align: center;
-    margin: 0 8rem 0.5rem 0;
 }
 
-.container__otrascuentas{
+.container__otrascuentas {
     width: 100%;
-    max-width: 550px;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    margin: 2rem 0 0 2rem;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0 2rem 0;
 }
 
-.otrascuentas__titles{
+.otrascuentas__titles {
     text-align: center;
     font: 500 1rem var(--typografiaGeist);
 }
 
-.otrascuentas__btn{
+.otrascuentas__btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,30 +154,36 @@
     border: none;
     outline: none;
     width: 100%;
-    width: 550px;
     height: 55px;
     border-radius: 8px;
-    background-color:#F5FAFF ;
+    background-color: #F5FAFF;
 }
 
-.otrascuentas__btn img{
+.otrascuentas__btn img {
     max-width: 100%;
     width: 25px;
+}
+
+.formulario {
+    width: 100%;
 }
 
 
 .form .formulario__title2 {
     font: 700 1.1rem var(--typografiaUrbanist);
     text-align: center;
-    margin: 0 0 0 22%;
 }
 
-.input--margintop{
+.input--margintop {
     margin-top: 1rem;
 }
 
 
+
 .input-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 }
 
@@ -91,36 +193,36 @@
     color: #8d8d8d;
     pointer-events: none;
     background-color: transparent;
-    left: 50px;
+    left: 20px;
     top: 20px;
     transform: translateY(0.6rem);
     transition: all 0.3s ease;
 }
 
 .input-box input {
-    margin: 10px 0 25px 30px;
+    margin: 10px 0 10px 0px;
     background-color: transparent;
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
     padding: 10px 15px;
     font: 600 1rem var(--typografiaUrbanist);
     border-radius: 8px;
-    width: 550px;
+    width: 100%;
     height: 55px;
     letter-spacing: 1px;
     outline: none;
 }
 
 .input-box input:focus {
-    outline: none;
-    border: 2px solid #0034de;
+    border-color: #8e6b43;
+    outline: 4px solid #d8bfa3;
 }
 
 .input-box input:focus~label,
 .input-box input:not(:placeholder-shown)~label {
     background-color: #fff;
-    transform: translateY(-80%) translateX(-10px) scale(0.9);
-    padding: 0 5px;
-    color: #0034de;
+    transform: translateY(-100%) translateX(-10px) scale(0.9);
+    padding: 0 6px;
+    color: #8e6b43;
     font-weight: bold;
     letter-spacing: 1px;
     border: none;
@@ -131,7 +233,7 @@
 .box__icon i {
     position: absolute;
     top: 25px;
-    left: 72%;
+    left: 90%;
     font: 900 1.2rem var(--typografiaUrbanist);
 
 }
@@ -158,8 +260,8 @@
 
 .input__error {
     font: 600 1rem var(--typografiaUrbanist);
-    width: 500px;
-    margin: 0 0 15px 33px;
+    width: 100%;
+    margin: 0 0 15px 0px;
     display: none;
 }
 
@@ -183,11 +285,17 @@
     font-family: 'Urbanist', sans-serif !important;
 }
 
+.remember-forgot {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .remember-forgot .forgot__label {
-    accent-color: #0034de;
+    accent-color: var(--colorCafe);
     font: 700 1rem var(--typografiaUrbanist);
-    margin-left: 30px;
 }
 
 
@@ -207,15 +315,21 @@
     text-decoration: underline;
 }
 
+.formulario__btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .form .formulario__btn {
     font: 700 1rem var(--typografiaUrbanist);
-    background-color: #48f;
+    background-color: var(--colorCafe);
     color: #fff;
     width: 100%;
-    width: 550px;
     height: 55px;
-    margin: 30px 10em 30px 0;
+    margin: 30px 0 30px 0px;
     border-radius: 8px;
     border: none;
     position: relative;
@@ -225,26 +339,24 @@
     transition: background-color .7s ease;
 }
 
-.form .formulario__btn:hover{
-    background-color: #0034de;
+.form .formulario__btn:hover {
+    background-color: #7a5e4d;
 }
 
-.formulario__btn-container {
-    grid-column: span 2;
-    margin:5px 0 0 30px;
-    display: flex;
-    justify-content: center;
-}
 
 .registre-link {
-    margin: 0 0 0 150px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
-.remember-forgot .forgot__color{
-    color: #48f;
+.remember-forgot .forgot__color {
+    color: var(--colorCafe);
     margin-left: 120px;
     font: 600 1.1rem var(--typografiaUrbanist);
 }
+
 .registre-link a {
     font: 600 1.1rem var(--typografiaUrbanist);
     margin: 20px 0 0 20px;
@@ -252,12 +364,12 @@
 }
 
 
-.registre-link p{
+.registre-link p {
     font: 600 1.1rem var(--typografiaUrbanist);
 }
 
 .registre-link p a {
-    color: #48f;
+    color: var(--colorCafe);
     text-decoration: none;
     font-weight: 600;
     margin: 20px 0 0 20px;
@@ -268,31 +380,53 @@
 }
 
 
-.imagen__container {
-    position: relative;
-    top: -11%;
-    left: -1.1%;
-}
 
-.imagen__container .container__login{
-    width: 100%;
-    max-width: 650px;
-    min-height: 100vh;
-}
-
-.icono__back{
+.icono__back {
     position: absolute;
-    top: 30px;
-    left: -100%;
+    top: 10px;
+    left: 0;
 }
 
-.icono__back .regresar{
-    font: 500 1.2rem var(--typografiaUrbanist);
+.icono__back .regresar {
+    font: 500 1.5rem var(--typografiaUrbanist);
     text-decoration: none;
-    color: #000000;
+    color: #ffff;
 }
 
-.icono__back i{
-    font-size: 20px;
-    color: #000000;
+.icono__back i {
+    font-size: 28px;
+    color: #ffff;
+}
+
+@media (max-width: 992px) {
+    .icono__back {
+        top: 15px;
+        left: 15px;
+    }
+
+    .icono__back i {
+        font-size: 24px;
+    }
+
+    .icono__back .regresar {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .icono__back {
+        top: 10px;
+        left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .icono__back i {
+        font-size: 20px;
+    }
+
+    .icono__back .regresar {
+        font-size: 1rem;
+    }
 }

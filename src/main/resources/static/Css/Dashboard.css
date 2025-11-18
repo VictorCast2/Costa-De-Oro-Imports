@@ -116,7 +116,7 @@
 /* Contenido */
 .dashboard__content {
     flex: 1;
-    padding:20px;
+    padding: 20px;
 }
 
 
@@ -626,7 +626,7 @@
     margin-left: 1.4rem;
 }
 
-.item--dispersión{
+.item--dispersión {
     flex: 0 1 1200px;
 }
 

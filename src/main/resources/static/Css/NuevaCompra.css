@@ -77,7 +77,7 @@
     transition: all 0.3s ease;
 }
 
-.formulario__box .label--compra{
+.formulario__box .label--compra {
     top: 14px;
     left: 20px;
 }
@@ -89,7 +89,7 @@
     font: 600 1rem var(--typografiaUrbanist);
     padding: 10px 15px;
     border-radius: 8px;
-    width:91.5%;
+    width: 91.5%;
     height: 25px;
     letter-spacing: 1px;
     outline: none;
@@ -138,12 +138,12 @@
 
 
 .compra__fila .formulario__box input,
-.compra__fila .customselect__styled select{
+.compra__fila .customselect__styled select {
     width: 90% !important;
 }
 
 .compra__fila .formulario__box input:nth-of-type(1) {
-    margin-left:0.1rem;
+    margin-left: 0.1rem;
 }
 
 .compra__fila .input__formulario {
@@ -208,11 +208,11 @@
     font: 900 1.2rem var(--typografiaUrbanist);
 }
 
-.icon--compras i{
+.icon--compras i {
     left: 87%;
 }
 
-.icon--total i{
+.icon--total i {
     left: 96%;
 }
 
@@ -229,22 +229,22 @@
     border-radius: 50%;
     padding: 1px 1px;
     color: #fff;
-    display:none;
+    display: none;
 }
 
 .input__formulario .formulario__error {
     font: 600 1rem var(--typografiaUrbanist);
     width: 100%;
     margin: 10px 0 10px 20px;
-    display:none;
+    display: none;
 }
 
-.input__formulario .error--compras{
+.input__formulario .error--compras {
     margin: 10px 0 10px 5px;
 }
 
 
-.btn-agregar-fila{
+.btn-agregar-fila {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -262,7 +262,7 @@
     transition: background-color .5s ease, border .5s ease;
 }
 
-.btn-agregar-fila i{
+.btn-agregar-fila i {
     font-size: 1.8rem;
 }
 
@@ -272,15 +272,16 @@
 }
 
 
-#formulario__compra{
-    grid-column: 1 / -1; /* Ocupa todo el ancho del grid principal */
+#formulario__compra {
+    grid-column: 1 / -1;
+    /* Ocupa todo el ancho del grid principal */
 }
 
-#formulario__compra .formulario__box input{
+#formulario__compra .formulario__box input {
     width: 96% !important;
 }
 
-.btn__formulario{
+.btn__formulario {
     cursor: pointer;
     width: 260px;
     height: 50px;

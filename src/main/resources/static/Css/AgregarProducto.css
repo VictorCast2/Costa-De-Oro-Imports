@@ -109,7 +109,7 @@
     border-radius: 100px;
 }
 
-#formulario__proveedores{
+#formulario__proveedores {
     grid-column: 1 / -1;
 }
 
@@ -387,7 +387,8 @@
 }
 
 .formulario__boxdescripcion.error-border {
-    border: 2px solid #e53935 !important; /* Rojo */
+    border: 2px solid #e53935 !important;
+    /* Rojo */
 }
 
 
@@ -438,7 +439,7 @@
     pointer-events: none;
 }
 
-.custom-proveedores{
+.custom-proveedores {
     position: absolute;
     top: 50%;
     right: -101%;

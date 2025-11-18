@@ -116,7 +116,7 @@
 /* Contenido */
 .dashboard__content {
     flex: 1;
-    padding:20px;
+    padding: 20px;
 }
 
 
@@ -430,13 +430,13 @@
     padding: 20px;
 }
 
-.content__body .body__title{
+.content__body .body__title {
     font: 600 2rem var(--typografiaGeist);
-    margin:0 0 2rem 0;
+    margin: 0 0 2rem 0;
 }
 
 
-.item--dispersión{
+.item--dispersión {
     flex: 0 1 1200px;
     height: 550px;
     border: 1px solid #f3f4f6;
@@ -463,11 +463,11 @@
     position: relative;
 }
 
-.item__header .header__btn i{
+.item__header .header__btn i {
     font-size: 2rem;
     color: var(--colorLigth);
     border: none;
-    background-color:transparent;
+    background-color: transparent;
     cursor: pointer;
     outline: none;
     transition: color 0.3s ease;
@@ -484,7 +484,7 @@
     background-color: #fff;
     border: 1px solid #eee;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 8px;
     display: none;
     white-space: nowrap;

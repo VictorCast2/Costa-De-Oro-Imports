@@ -55,12 +55,12 @@
 }
 
 
-.provedores__principal{
+.provedores__principal {
     width: 100%;
     margin-top: 2.5rem;
 }
 
-.principal__container{
+.principal__container {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -70,7 +70,7 @@
     margin-top: 1rem;
 }
 
-.container__card{
+.container__card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -84,7 +84,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.container__card .card__img{
+.container__card .card__img {
     background-color: #f3f4f6;
     width: 75px;
     height: 75px;
@@ -96,48 +96,48 @@
     margin-top: -1rem;
 }
 
-.container__card .card__img img{
+.container__card .card__img img {
     width: 65%;
-    height:65%;
+    height: 65%;
     object-fit: cover;
 }
 
-.container__card .card__information{
+.container__card .card__information {
     margin-bottom: -1rem;
     width: 100%;
     height: auto;
     border-radius: 0 0 15px 15px;
 }
 
-.card__information .information__title{
+.card__information .information__title {
     font: 600 1.15rem var(--typografiaGeist);
     text-align: center;
-    margin:0.5rem 0 -0.4rem 0;
+    margin: 0.5rem 0 -0.4rem 0;
     color: var(--colorDark);
 }
 
-.card__information .information__title:hover{
+.card__information .information__title:hover {
     color: var(--colorCafe);
     cursor: pointer;
     transition: color .3s ease;
 }
 
-.card__information .information__text{
-    font:500 0.95rem var(--typografiaGeist);
+.card__information .information__text {
+    font: 500 0.95rem var(--typografiaGeist);
     margin-bottom: 0.5rem;
     text-align: center;
     color: var(--colorLigth);
 }
 
 
-.card__information .information__text:nth-of-type(1){
-    font:500 0.95rem var(--typografiaGeist);
-    margin-bottom:-0.3rem;
+.card__information .information__text:nth-of-type(1) {
+    font: 500 0.95rem var(--typografiaGeist);
+    margin-bottom: -0.3rem;
     text-align: center;
     color: var(--colorLigth);
 }
 
-.information__ventas{
+.information__ventas {
     margin-top: 2rem;
     display: flex;
     justify-content: space-around;
@@ -145,13 +145,13 @@
     gap: 0.5rem;
 }
 
-.ventas__item{
+.ventas__item {
     display: flex;
     flex-direction: column;
 }
 
 .ventas__item .item__brutatitulo,
-.ventas__item .item__ganadatitulo{
+.ventas__item .item__ganadatitulo {
     font: 500 0.95rem var(--typografiaGeist);
     margin-bottom: 0.3rem;
     color: var(--colorLigth);
@@ -159,7 +159,7 @@
 
 
 .ventas__item .item__brutaprecio,
-.ventas__item .item__ganadaprecio{
+.ventas__item .item__ganadaprecio {
     font: 600 1.1rem var(--typografiaGeist);
     color: var(--colorDark);
 }
@@ -236,7 +236,7 @@
 /* Contenedor general */
 .dropdown {
     background-color: red;
-    position:absolute;
+    position: absolute;
     top: 1rem;
     width: 0;
     right: 2.5rem;

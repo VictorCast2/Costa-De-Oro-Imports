@@ -25,14 +25,14 @@
 <div class="contenido__form">
 
     <figure class="imagen__container">
-        <img class="container__login" th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
+        <img th:src="@{/Assets/Img/comprarNosotros/Elegirnos.png}" alt="">
     </figure>
 
     <div class="form__login">
 
         <div class="icono__back">
             <i class="ri-arrow-left-s-line"></i>
-            <a class="regresar" th:href="@{/}">Regresar a inicio</a>
+            <a class="regresar" th:href="@{/}">Regresar A Inicio</a>
         </div>
 
         <form class="form" th:action="@{/auth/login}" method="post">
@@ -72,7 +72,7 @@
                 <div class="formulario__input">
                     <div class="remember-forgot">
                         <label class="forgot__label">Olvidaste tu contraseña? </label>
-                        <a class="forgot__color" th:href="@{/auth/recordar-contrasenna}" >Recordar contraseña</a>
+                        <a class="forgot__color" th:href="@{/auth/recordar-contrasenna}">Recordar contraseña</a>
                     </div>
                 </div>
 
