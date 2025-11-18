@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -86,7 +87,7 @@
 
                 <li class="sidebar__item">
                     <i class="ri-pie-chart-line"></i>
-                    <a href="" class="sidebar__text">Predicciones</a>
+                    <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
@@ -317,6 +318,30 @@
                                         </div>
                                         <p class="formulario__error error--tipoProducto">
                                             Seleccione el tipo de producto que quiere que sea su producto
+                                        </p>
+                                    </div>
+
+                                    <h2 class="input__inventario">Nombre Del Proveedor</h2>
+
+                                    <!-- Proveedores -->
+                                    <div class="input__formulario" id="formulario__proveedores">
+                                        <div class="formulario__customselect">
+                                            <select class="customselect__styled" id="Proveedores">
+                                                <option disabled selected>Asignar Proveedores</option>
+                                                <option value="Vino">Vino</option>
+                                                <option value="Cerveza">Cerveza</option>
+                                                <option value="Whisky">Whisky</option>
+                                                <option value="Tequila">Tequila</option>
+                                                <option value="Vodka">Vodka</option>
+                                                <option value="Ginebra">Ginebra</option>
+                                                <option value="Aguardiente">Aguardiente</option>
+                                                <option value="Ron">Ron</option>
+                                                <option value="Mezcal">Mezcal</option>
+                                            </select>
+                                            <i class="fa-solid fa-chevron-down custom-proveedores" id="arrowIcon"></i>
+                                        </div>
+                                        <p class="formulario__error error--Proveedores">
+                                            Tiene que seleccionar un proveedor por favor.
                                         </p>
                                     </div>
 

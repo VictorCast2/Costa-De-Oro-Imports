@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" th:href="@{/Css/DashboardProvedores.css}">
+    <link rel="stylesheet" th:href="@{/Css/DashboardPredicciones.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,13 +21,16 @@
           integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <title>Dashboard Provedores || Costa De Oro Imports</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>Dashboard Predicciones || Costa de oro import</title>
     <meta name="description" content="">
     <meta name="autor" content="">
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
-    <meta property="og:description" content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -82,9 +85,9 @@
                 <a th:href="@{/admin/resenna}" class="sidebar__text">Reseñas</a>
             </li>
 
-            <li class="sidebar__item">
+            <li class="sidebar__item active">
                 <i class="ri-pie-chart-line"></i>
-                <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
+                <a href="" class="sidebar__text">Predicciones</a>
             </li>
 
             <p class="menu__title">Configuracion Del Sitio</p>
@@ -99,10 +102,10 @@
                 <a th:href="@{/admin/pqrs}" class="sidebar__text">PQRS</a>
             </li>
 
-            <li class="sidebar__item active">
+            <li class="sidebar__item">
                 <i class="ri-printer-line"></i>
-                <a href="" class="sidebar__text">Reportes</a>
-            </li>
+                <a th:href="@{/admin/reportes}" class="sidebar__text">Reportes</a>
+            </li>0
         </ul>
 
     </aside>
@@ -160,7 +163,6 @@
                             </div>
                         </div>
 
-
                         <div class="notif__footer">
                             <a href="#">Ver todo</a>
                         </div>
@@ -199,7 +201,6 @@
                             <a th:href="@{/auth/logout}" class="sub__link">
                                 <p class="link__text">Cerrar Seccion</p>
                             </a>
-
                         </div>
                     </div>
                 </div>
@@ -207,28 +208,39 @@
             </div>
         </header>
 
+        <!-- graficas,notificaciones etc -->
         <section class="content__body">
+            <h2 class="body__title">Resumen de predicciones de ventas</h2>
 
-            <div class="body__titleheader">
-                <div class="titleheader__producto">
-                    <h2 class="producto__titulo">Reportes</h2>
-                    <p class="producto__texto"></p>
+            <div class="body__grafico">
+                <div class="grafico__item item--dispersión">
+                    <div class="item__header">
+                        <h2 class="header__title">Predicciones de Ventas (Años vs Ventas Totales)</h2>
+                        <span class="header__btn" id="menuPrediccionBtn">
+                                <i class="ri-menu-line"></i>
+
+                                <div class="prediccion__menu" id="prediccionMenu">
+                                    <p id="prediccionTexto">Generar Prediccion</p>
+                                    <!-- <p class="menu__option" id="downloadPNG">Descargar En PNG</p>
+                                    <p class="menu__option" id="downloadSVG">Descargar En SVG</p>
+                                    <p class="menu__option" id="downloadCSV">Descargar En CSV</p> -->
+                                </div>
+                            </span>
+                    </div>
+                    <div id="chartVentas"></div>
                 </div>
-
-                <!-- <div class="titleheader__btn">
-                    <a href=""></a>
-                </div> -->
             </div>
-
-
 
         </section>
     </main>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script th:src="@{/Js/DashboardReportes.js}"></script>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script th:src="@{/Js/DashboardPredicciones.js}"></script>
 </body>
 
 </html>
