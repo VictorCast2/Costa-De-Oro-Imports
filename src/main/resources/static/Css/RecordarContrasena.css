@@ -18,14 +18,44 @@
     color: var(--colorLigth);
 }
 
+@media (max-width: 992px) {
+
+    .form .formulario__title {
+        font-size: 1.9rem;
+    }
+
+    .form .formulario__subtitulo {
+        width: 90%;
+        margin: 0 auto;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .form .formulario__title {
+        font-size: 1.4rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .form .formulario__subtitulo {
+        width: 100%;
+        font-size: 0.95rem;
+        margin: 1rem auto;
+        padding: 0 1rem;
+        text-align: center;
+    }
+}
+
+
 .form .formulario__btn {
     font: 700 1rem var(--typografiaUrbanist);
     background-color: var(--colorCafe);
     color: #fff;
     width: 100%;
-    width: 550px;
     height: 55px;
-    margin: -10px 10em 30px 0;
+    margin: 0px 0 30px 0px;
     border-radius: 8px;
     border: none;
     position: relative;

@@ -16,24 +16,91 @@
 
 .contenido__form{
     display: flex;
-}
-
-.form__imagen {
-    position: relative;
-    top: -11%;
-    left: -1.1%;
-}
-
-.form__imagen .imagen__login{
+    align-items: stretch;
     width: 100%;
-    max-width: 650px;
     min-height: 100vh;
+    flex-wrap: nowrap;
+}
 
+.imagen__container {
+    width: 43%;
+    min-width: 200px;
+    height: 100vh; 
+    overflow: hidden; 
+}
+
+.imagen__container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   
+    object-position: center;
+    filter: brightness(80%);
+
+}
+
+/* Pantallas pequeñas (hasta 768px) */
+@media (max-width: 768px) {
+
+    .contenido__form {
+        flex-direction: column;
+    }
+
+    .imagen__container {
+        width: 100%;
+        height: 250px;
+    }
+
+    .formulario {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Botones que ocupaban 2 columnas vuelven a 1 */
+    .formulario__btn-container,
+    .container__otrascuentas {
+        grid-column: span 1 !important;
+        width: 100%;
+    }
+}
+
+/* Pantallas medianas (769px – 1024px) */
+@media (max-width: 1024px) {
+
+    .contenido__form {
+        flex-direction: column;
+    }
+
+    .imagen__container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .formulario {
+        grid-template-columns: 1fr !important;
+    }
+
+    .formulario__btn-container,
+    .container__otrascuentas {
+        grid-column: span 1 !important;
+    }
 }
 
 .form__registro{
-    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
 }
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 
 
 .form .formulario__title {
@@ -46,10 +113,10 @@
 .form .formulario__title2 {
     font: 700 1.1rem var(--typografiaUrbanist);
     text-align: center;
-    margin: 0 0 0 35%;
 }
 
 .formulario {
+    width: 100%;
     margin-top: 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -57,6 +124,10 @@
 
 
 .input-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 }
 
@@ -66,7 +137,7 @@
     color: #8d8d8d;
     pointer-events: none;
     background-color: transparent;
-    left: 40px;
+    left: 28px;
     top: 18px;
     transform: translateY(0.6rem);
     transition: all 0.3s ease;
@@ -78,13 +149,13 @@
 
 
 .input-box input {
-    margin: 10px 0 20px 20px;
+    margin: 10px 10px 10px 10px;
     background-color: transparent;
     border: 1px solid #ccc;
     font: 600 1rem var(--typografiaUrbanist);
     padding: 10px 15px;
     border-radius: 8px;
-    width: 400px;
+    width: 100%;
     height: 55px;
     letter-spacing: 1px;
     outline: none;
@@ -111,8 +182,7 @@
 
 .custom-select-wrapper {
     position: relative;
-    width: 400px;
-    margin: 10px 0 10px 20px;
+    margin: 10px 10px 10px 10px;
 }
 
 .styled-select {
@@ -162,7 +232,7 @@
 .box__icon i {
     position: absolute;
     top: 25px;
-    left: 89%;
+    left: 88%;
     font: 900 1.2rem var(--typografiaUrbanist);
 
 }
@@ -189,8 +259,8 @@
 
 .input__error {
     font: 600 1rem var(--typografiaUrbanist);
-    width: 400px;
-    margin: 0 0 10px 20px;
+    width: 100%;
+    margin: 0 0 10px 10px;
     display: none;
 }
 
@@ -200,13 +270,13 @@
 }
 
 .error--form2 {
-    width: 400px;
+    width: 100%;
     margin: 0 0 10px 25px;
 }
 
 .error--email {
     white-space: wrap;
-    width: 400px;
+    width: 100%;
     margin: 0 0 10px 30px;
 }
 
@@ -238,22 +308,14 @@
     margin-right: 15px;
 }
 
-.formulario .formulario__complete {
-    color: var(--colorCafe);
-    cursor: pointer;
-    margin-left: 16.5rem;
-    font: 600 1.1rem var(--typografiaUrbanist);
-}
-
 
 .form .formulario__btn {
-    font: 700 1.2rem var(--typografiaUrbanist);
-    background-color:var(--colorCafe);
+    font: 700 1rem var(--typografiaUrbanist);
+    background-color: var(--colorCafe);
     color: #fff;
-    width: 100%;
-    width: 550px;
+    width: 70%;
     height: 55px;
-    margin: 30px 10em 30px 0;
+    margin: 30px 0 30px 0px;
     border-radius: 8px;
     border: none;
     position: relative;
@@ -269,19 +331,26 @@
 
 .formulario__btn-container {
     grid-column: span 2;
-    margin: 5px 0 0 10em;
+    width: 100%;
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    align-items: center;
+}
+
+.container__otrascuentas{
+    grid-column: span 2;
     width: 100%;
-    max-width: 550px;
-    gap: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.5rem 0 0 0;
 }
 
 .otrascuentas__titles{
     text-align: center;
     font: 500 1rem var(--typografiaGeist);
-    margin: -25px 0 0 0;
 }
 
 .otrascuentas__btn{
@@ -295,10 +364,9 @@
     font: 700 1.1rem var(--typografiaUrbanist);
     border: none;
     outline: none;
-    width: 100%;
-    width: 550px;
+    width: 70%;
     height: 55px;
-    border-radius:8px;
+    border-radius: 8px;
     background-color:#F5FAFF ;
 }
 
@@ -309,22 +377,24 @@
 
 
 
-.icono__back {
+.icono__back{
     position: absolute;
-    top: 20px;
-    left:2em;
+    top: 10px;
+    left: 0;
 }
 
-.icono__back .regresar {
-    font: 500 1.2rem var(--typografiaUrbanist);
+.icono__back .regresar{
+    font: 500 1.5rem var(--typografiaUrbanist);
     text-decoration: none;
-    color: #000000;
+    color: #ffff;
 }
 
-.icono__back i {
-    font-size: 20px;
-    color: #000000;
+.icono__back i{
+    font-size: 28px;
+    color: #ffff;
 }
+
+
 
 
 

@@ -1,15 +1,2 @@
 @import url("./registro.css");
 
-
-
-.form__registro{
-    margin-top:100px;
-}
-
-
-.form .formulario__title2 {
-    font: 700 1.1rem var(--typografiaUrbanist);
-    text-align: center;
-    margin: 0 0 0 25%;
-}
-
