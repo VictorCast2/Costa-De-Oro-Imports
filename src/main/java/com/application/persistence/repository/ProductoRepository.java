@@ -1,7 +1,8 @@
 package com.application.persistence.repository;
 
 import com.application.persistence.entity.producto.Producto;
-import com.application.persistence.entity.producto.enums.ETipo;
+import com.application.presentation.dto.grafica.columnasApiladas.StockCategoriaDTO;
+import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -129,4 +130,35 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
             @Param("precioMin") Double precioMin,
             @Param("precioMax") Double precioMax
     );
+
+    @Query("SELECT new com.application.presentation.dto.grafica.columnasApiladas.StockCategoriaDTO(" +
+            "c.nombre, SUM(p.stock)) " +
+            "FROM Producto p " +
+            "JOIN p.categoria c " +
+            "WHERE p.activo = true " +
+            "GROUP BY c.categoriaId, c.nombre " +
+            "ORDER BY SUM(p.stock) DESC")
+    List<StockCategoriaDTO> findStockPorCategoria();
+
+    @Query("SELECT COALESCE(SUM(p.stock), 0) FROM Producto p WHERE p.activo = true")
+    Long findStockTotal();
+
+    @Query("""
+                SELECT new com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse(
+                    p.productoId,
+                    p.nombre,
+                    p.imagen,
+                    p.precio,
+                    SUM(dv.cantidad) as totalVentas
+                )
+                FROM Producto p
+                JOIN p.detalleVentas dv
+                JOIN dv.compra c
+                WHERE c.estado = 'PAGADO'
+                AND p.activo = true
+                GROUP BY p.productoId, p.nombre, p.imagen, p.precio
+                ORDER BY totalVentas DESC
+                LIMIT 4
+            """)
+    List<ProductoMasVendidoResponse> findTopProductosMasVendidos();
 }

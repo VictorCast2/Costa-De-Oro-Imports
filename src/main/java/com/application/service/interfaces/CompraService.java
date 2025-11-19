@@ -9,6 +9,8 @@ import com.application.presentation.dto.compra.response.CompraResponse;
 public interface CompraService {
 
     Compra getCompraById(Long compraId);
+    Double getIngresoAnual();
+    Long getTotalCompasAnuales();
 
     CompraResponse createCompra(CustomUserPrincipal principal, CompraCreateRequest compraRequest);
 

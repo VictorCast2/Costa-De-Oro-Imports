@@ -44,6 +44,26 @@ public class CompraServiceImpl implements CompraService {
     }
 
     /**
+     * Método para obtener el ingreso anual
+     * @return cantidad de ingresos del año actual
+     */
+    @Override
+    public Double getIngresoAnual() {
+        Double ingresos = compraRepository.getIngresosAnuales();
+        return ingresos != null ? ingresos : 0.0;
+    }
+
+    /**
+     * Método para obtener el total de compras del presente año
+     * @return cantidad de compras
+     */
+    @Override
+    public Long getTotalCompasAnuales() {
+        Long totalCompras = compraRepository.getTotalComprasAnuales();
+        return totalCompras != null ? totalCompras : 0;
+    }
+
+    /**
      * @param compraRequest
      * @return
      */

@@ -37,4 +37,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             """)
     List<UsuarioGastoResponse> obtenerUsuariosConGastoUltimoAnio(@Param("fechaInicio") LocalDateTime fechaInicio);
 
+    @Query(value = """
+                SELECT COUNT(*) 
+                FROM usuario u
+                JOIN rol r ON u.rol_id = r.rol_id
+                WHERE r.rol IN ('PERSONA_CONTACTO', 'PERSONA_JURIDICA', 'PERSONA_NATURAL')
+            """, nativeQuery = true)
+    Long totalClientes();
+
 }

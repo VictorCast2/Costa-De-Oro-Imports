@@ -82,6 +82,12 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     }
 
     @Override
+    public Long getTotalClientes() {
+        Long totalCliente = usuarioRepository.totalClientes();
+        return totalCliente != null ? totalCliente : 0;
+    }
+
+    @Override
     public GeneralResponse completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest completeProfileRequest) {
         Usuario usuario = this.getUsuarioByCorreo(principal.getCorreo());
         String encryptedPassword = encoder.encode(completeProfileRequest.password());

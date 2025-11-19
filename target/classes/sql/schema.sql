@@ -146,10 +146,11 @@ CREATE TABLE `historia` (
     PRIMARY KEY (`historia_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- TABLA FACTURA_PROVEEDOR
 CREATE TABLE `factura_proveedor` (
     `activo` bit(1) NOT NULL,
     `fecha_emision` date DEFAULT NULL,
-    `total` int NOT NULL,
+    `total` double NOT NULL,
     `factura_id` bigint NOT NULL AUTO_INCREMENT,
     `fecha_registro` datetime(6) DEFAULT NULL,
     `usuario_id` bigint DEFAULT NULL,
@@ -159,6 +160,7 @@ CREATE TABLE `factura_proveedor` (
     CONSTRAINT `fk_factura_proveedor` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- TABLA DETALLE_FACTURA
 CREATE TABLE `detalle_factura` (
     `cantidad` int NOT NULL,
     `precio_compra` int NOT NULL,
@@ -190,6 +192,7 @@ CREATE TABLE `comentario` (
     CONSTRAINT `fk_comentario_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`usuario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- TABLA PETICIONES (PQRS)
 CREATE TABLE `peticiones` (
     `activo` bit(1) NOT NULL,
     `fecha` date DEFAULT NULL,

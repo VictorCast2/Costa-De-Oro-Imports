@@ -1,6 +1,5 @@
 package com.application.persistence.entity.factura;
 
-import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,7 +29,7 @@ public class FacturaProveedor {
     private LocalDate fechaEmision;
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
-    private int total;
+    private double total;
     private boolean activo;
 
     // Cardinalidad con la tabla Usuario

@@ -15,6 +15,7 @@ public interface UsuarioService {
     Usuario getUsuarioByCorreo(String correo);
     ClienteResponse getClienteById(Long clienteId);
     List<UsuarioGastoResponse> getUsuarioGastoUltimoAnio();
+    Long getTotalClientes();
 
     GeneralResponse completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest completeProfileRequest);
     BaseResponse createUser(CreateUsuarioRequest usuarioRequest);
