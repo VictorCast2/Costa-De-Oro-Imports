@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     // Efecto glassmorphism solo al hacer scroll
-    const header = document.querySelector('.content__header');
+    const header = document.querySelector(".content__header");
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
         if (window.scrollY > 10) {
-            header.classList.add('scrolled');
+            header.classList.add("scrolled");
         } else {
-            header.classList.remove('scrolled');
+            header.classList.remove("scrolled");
         }
     });
 
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     // Abrir y cerrar menú
     const menuBtn = document.getElementById("menuPrediccionBtn");
     const menu = document.getElementById("prediccionMenu");
@@ -69,7 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ====== GENERADOR DE DATOS CON SUBPICOS EN TODAS LAS LÍNEAS (DET.) ======
-    function generateYearWiseSalesWithContinuousSubPeaks(baseYear, count, yrange, seed = 12345) {
+    function generateYearWiseSalesWithContinuousSubPeaks(
+        baseYear,
+        count,
+        yrange,
+        seed = 12345
+    ) {
         var series = [];
         var lastValue = 1200; // Valor inicial en $
 
@@ -82,17 +85,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
             for (var mp = 0; mp < mainPoints; mp++) {
                 // Pico grande determinista
-                var mainChange = Math.floor(seededRandom(seed + year * 10 + mp) * 350 - 200);
+                var mainChange = Math.floor(
+                    seededRandom(seed + year * 10 + mp) * 350 - 200
+                );
                 var mainValue = mainStart + mainChange;
 
-                if (mainValue > yrange.max) mainValue = yrange.max - seededRandom(seed + year * 20 + mp) * 50;
-                if (mainValue < yrange.min) mainValue = yrange.min + seededRandom(seed + year * 30 + mp) * 50;
+                if (mainValue > yrange.max)
+                    mainValue = yrange.max - seededRandom(seed + year * 20 + mp) * 50;
+                if (mainValue < yrange.min)
+                    mainValue = yrange.min + seededRandom(seed + year * 30 + mp) * 50;
 
                 // Subpicos deterministas
                 var subPeaks = 10; // cantidad de micro-picos por tramo
                 for (var sp = 0; sp < subPeaks; sp++) {
-                    var microChange = Math.floor(seededRandom(seed + year * 40 + mp * 10 + sp) * 20 - 10);
-                    var y = mainStart + ((mainValue - mainStart) * (sp + 1) / subPeaks) + microChange;
+                    var microChange = Math.floor(
+                        seededRandom(seed + year * 40 + mp * 10 + sp) * 20 - 10
+                    );
+                    var y =
+                        mainStart +
+                        ((mainValue - mainStart) * (sp + 1)) / subPeaks +
+                        microChange;
 
                     series.push([year + (mp + sp / subPeaks) / mainPoints, y]);
                 }
@@ -107,55 +119,152 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ====== DATOS ======
-    var salesData = generateYearWiseSalesWithContinuousSubPeaks(2017, 9, { min: 1000, max: 2500 });
+    var salesData = generateYearWiseSalesWithContinuousSubPeaks(2017, 9, {
+        min: 1000,
+        max: 2500,
+    });
 
     // ====== OPCIONES DEL CHART ======
     var optionsProye = {
-        series: [{
-            name: 'Ventas Totales',
-            data: salesData
-        }],
+        series: [
+            {
+                name: "Ventas Totales",
+                data: salesData,
+            },
+        ],
         chart: {
-            type: 'area',
+            type: "area",
             stacked: false,
             height: 450,
-            zoom: { type: 'x', enabled: true, autoScaleYaxis: true },
+            zoom: { type: "x", enabled: true, autoScaleYaxis: true },
             toolbar: { show: false },
-            fontFamily: 'Geist, sans-serif'
+            fontFamily: "Geist, sans-serif",
         },
         dataLabels: { enabled: false },
-        stroke: { curve: 'straight', width: 3 },
+        stroke: { curve: "straight", width: 3 },
         markers: { size: 0 },
         fill: {
-            type: 'gradient',
+            type: "gradient",
             gradient: {
-                shade: 'light',
-                type: 'vertical',
+                shade: "light",
+                type: "vertical",
                 shadeIntensity: 1,
-                gradientToColors: ['#00BFFF'],
+                gradientToColors: ["#00BFFF"],
                 inverseColors: false,
                 opacityFrom: 0.6,
                 opacityTo: 0,
-                stops: [0, 100]
-            }
+                stops: [0, 100],
+            },
         },
         yaxis: {
-            labels: { formatter: val => `$${val.toFixed(0)}`, style: { fontFamily: 'Geist, sans-serif', fontSize: '14px', fontWeight: 400 } },
-            title: { text: 'Ventas Totales', style: { fontFamily: 'Geist, sans-serif', fontSize: '13px', fontWeight: 700 } }
+            labels: {
+                formatter: (val) => `$${val.toFixed(0)}`,
+                style: {
+                    fontFamily: "Geist, sans-serif",
+                    fontSize: "14px",
+                    fontWeight: 400,
+                },
+            },
+            title: {
+                text: "Ventas Totales",
+                style: {
+                    fontFamily: "Geist, sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                },
+            },
         },
         xaxis: {
-            type: 'numeric',
-            title: { text: 'Años', style: { fontFamily: 'Geist, sans-serif', fontSize: '14px', fontWeight: 700 } },
-            labels: { formatter: val => Math.floor(val), style: { fontFamily: 'Geist, sans-serif', fontSize: '13px' } }
+            type: "numeric",
+            title: {
+                text: "Años",
+                style: {
+                    fontFamily: "Geist, sans-serif",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                },
+            },
+            labels: {
+                formatter: (val) => Math.floor(val),
+                style: { fontFamily: "Geist, sans-serif", fontSize: "13px" },
+            },
         },
-        tooltip: { y: { formatter: val => `$${val.toFixed(0)}`, style: { fontFamily: 'Geist, sans-serif' } } }
+        tooltip: {
+            y: {
+                formatter: (val) => `$${val.toFixed(0)}`,
+                style: { fontFamily: "Geist, sans-serif" },
+            },
+        },
     };
 
     // ====== RENDERIZAR ======
-    var chartProye = new ApexCharts(document.querySelector("#chartVentas"), optionsProye);
+    var chartProye = new ApexCharts(
+        document.querySelector("#chartVentas"),
+        optionsProye
+    );
     chartProye.render();
 
-    //Predecir compras
+    // ====== GENERAR PREDICCIÓN REAL ======
+    function getLastYearValues() {
+        const ultimoAño = Math.floor(salesData[salesData.length - 1][0]);
+        const datos = salesData.filter(p => Math.floor(p[0]) === ultimoAño);
+        return datos.map(p => p[1]);
+    }
 
+    function generarDatosParaPrediccion() {
+        const prev = getLastYearValues();
+        const nuevos = [];
 
-})
+        for (let mes = 1; mes <= 12; mes++) {
+            const base = prev[(mes - 1) % prev.length];
+
+            nuevos.push({
+                mes,
+                cantidadProductos: Math.floor(base / 150),
+                totalUnidades: Math.floor(base / 12),
+                precioPromedio: (base / Math.floor(base / 12)) * 0.85
+            });
+        }
+        return nuevos;
+    }
+
+    async function predecirProximoAnio() {
+        const ultimoAño = Math.floor(salesData[salesData.length - 1][0]);
+        const añoAPredecir = ultimoAño + 1;
+
+        const datosMeses = generarDatosParaPrediccion();
+
+        for (let i = 0; i < datosMeses.length; i++) {
+            const d = datosMeses[i];
+
+            // 🟩 CORREGIDO → Enviar "anio"
+            const body = {
+                anio: añoAPredecir,
+                mes: d.mes,
+                cantidadProductos: d.cantidadProductos,
+                totalUnidades: d.totalUnidades,
+                precioPromedio: d.precioPromedio
+            };
+
+            const response = await fetch("/admin/prediccion/generar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            const resultado = await response.json();
+            salesData.push([añoAPredecir + i / 12, resultado]);
+        }
+
+        chartProye.updateSeries([{ name: "Ventas Totales", data: salesData }]);
+
+        Toastify({
+            text: `Predicción generada para el año ${añoAPredecir}`,
+            duration: 3000,
+            style: { background: "#0a7bff" }
+        }).showToast();
+    }
+
+    document.getElementById("prediccionTexto").addEventListener("click", predecirProximoAnio);
+
+});
