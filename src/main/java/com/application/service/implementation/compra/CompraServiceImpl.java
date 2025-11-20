@@ -46,77 +46,23 @@ public class CompraServiceImpl implements CompraService {
     }
 
     /**
-     * @return
+     * Método para obtener el ingreso anual
+     * @return cantidad de ingresos del año actual
      */
     @Override
-    public List<CompraDashboardResponse> getCompraByOrderAndFechaDesc() {
-        List<Compra> compras = compraRepository.findAllComprasWithUsuarioOrderByFechaDesc();
-        return compras.stream()
-                .map(compra -> {
-                    Usuario usuario = compra.getUsuario();
-
-                    String nombreCompleto = usuario.getNombres() + " " + usuario.getApellidos();
-
-                    String imagenUrl = cloudinaryService.getImagenUrl(usuario.getImagen());
-
-                    return new CompraDashboardResponse(
-                            compra.getCompraId(),
-                            "ORD-" + String.format("%04d", compra.getCompraId()),
-                            nombreCompleto,
-                            imagenUrl,
-                            compra.getEMetodoPago().getDescripcion(),
-                            compra.getTotal(),
-                            compra.getFecha(),
-                            compra.getEstado().getDescripcion()
-                    );
-                })
-                .toList();
+    public Double getIngresoAnual() {
+        Double ingresos = compraRepository.getIngresosAnuales();
+        return ingresos != null ? ingresos : 0.0;
     }
 
     /**
-     * @return
+     * Método para obtener el total de compras del presente año
+     * @return cantidad de compras
      */
     @Override
-    public DetalleCompraResponse getDetalleCompra(Long compraId) {
-        Compra compra = compraRepository.findCompraWithDetalles(compraId)
-                .orElseThrow(() -> new EntityNotFoundException("La compra con id: " + compraId + " no existe."));
-
-        Usuario usuario = compra.getUsuario();
-        String ciudadEmpresa = (usuario.getEmpresa() != null) ? usuario.getEmpresa().getCiudad() : "";
-
-        List<DetalleProductoResponse> productoList = compra.getDetalleVentas().stream()
-                .map(detalleVenta -> new DetalleProductoResponse(
-                        detalleVenta.getProducto().getProductoId(),
-                        detalleVenta.getProducto().getNombre(),
-                        cloudinaryService.getImagenUrl(detalleVenta.getProducto().getImagen()),
-                        detalleVenta.getProducto().getMarca(),
-                        detalleVenta.getProducto().getETipo().name(),
-                        detalleVenta.getPrecioUnitario(),
-                        detalleVenta.getCantidad(),
-                        detalleVenta.getSubtotal()
-                ))
-                .toList();
-
-        return new DetalleCompraResponse(
-                compra.getCompraId(),
-                "#FC" + String.format("%04d", compra.getCompraId()),
-                compra.getEMetodoPago().getDescripcion(),
-                compra.getSubtotal(),
-                compra.getCuponDescuento(),
-                compra.getIva(),
-                compra.getTotal(),
-                compra.getFecha(),
-                compra.getEstado().getDescripcion(),
-
-                usuario.getUsuarioId(),
-                usuario.getNombres() + " " + usuario.getApellidos(),
-                usuario.getCorreo(),
-                usuario.getTelefono(),
-                usuario.getDireccion(),
-                ciudadEmpresa,
-
-                productoList
-        );
+    public Long getTotalCompasAnuales() {
+        Long totalCompras = compraRepository.getTotalComprasAnuales();
+        return totalCompras != null ? totalCompras : 0;
     }
 
     /**

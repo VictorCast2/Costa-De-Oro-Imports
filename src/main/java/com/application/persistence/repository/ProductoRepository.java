@@ -1,7 +1,8 @@
 package com.application.persistence.repository;
 
 import com.application.persistence.entity.producto.Producto;
-import com.application.persistence.entity.producto.enums.ETipo;
+import com.application.presentation.dto.grafica.columnasApiladas.StockCategoriaDTO;
+import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -69,4 +70,95 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     @Query("SELECT p.stock FROM Producto p WHERE p.productoId = :productoId")
     Integer findStockByProductoId(@Param("productoId") Long productoId);
+
+    @Query("SELECT DISTINCT p.pais FROM Producto p ORDER BY p.pais ASC")
+    List<String> findDistinctPaises();
+
+    @Query("SELECT DISTINCT p.marca FROM Producto p ORDER BY p.marca ASC")
+    List<String> findDistinctMarcas();
+
+    @Query("SELECT p FROM Producto p ORDER BY p.precio ASC")
+    List<Producto> findAllOrderByPrecioAsc();
+
+    @Query("SELECT p FROM Producto p ORDER BY p.precio DESC")
+    List<Producto> findAllOrderByPrecioDesc();
+
+    @Query("SELECT p FROM Producto p ORDER BY p.nombre ASC")
+    List<Producto> findAllOrderByNombreAsc();
+
+    @Query("SELECT p FROM Producto p ORDER BY p.nombre DESC")
+    List<Producto> findAllOrderByNombreDesc();
+
+    @Query("""
+                SELECT DISTINCT c.nombre, sc.nombre
+                FROM Producto p
+                JOIN p.categoria c
+                LEFT JOIN p.subCategoria sc
+                WHERE c.activo = true
+                ORDER BY c.nombre ASC, sc.nombre ASC
+            """)
+    List<Object[]> findCategoriasActivasConSubcategorias();
+
+    @Query("""
+                SELECT p, SUM(d.cantidad) AS totalVendido
+                FROM DetalleVenta d
+                JOIN d.producto p
+                GROUP BY p.productoId
+                ORDER BY totalVendido DESC
+            """)
+    List<Object[]> findProductosMasVendidos();
+
+    @Query("""
+                SELECT p 
+                FROM Producto p 
+                LEFT JOIN p.categoria c
+                LEFT JOIN p.subCategoria sc
+                WHERE p.activo = true
+                  AND (:paises IS NULL OR p.pais IN :paises)
+                  AND (:marcas IS NULL OR p.marca IN :marcas)
+                  AND (:categorias IS NULL OR c.nombre IN :categorias)
+                  AND (:subcategorias IS NULL OR sc.nombre IN :subcategorias)
+                  AND (:precioMin IS NULL OR p.precio >= :precioMin)
+                  AND (:precioMax IS NULL OR p.precio <= :precioMax)
+                ORDER BY p.nombre ASC
+            """)
+    List<Producto> findByFiltros(
+            @Param("paises") List<String> paises,
+            @Param("marcas") List<String> marcas,
+            @Param("categorias") List<String> categorias,
+            @Param("subcategorias") List<String> subcategorias,
+            @Param("precioMin") Double precioMin,
+            @Param("precioMax") Double precioMax
+    );
+
+    @Query("SELECT new com.application.presentation.dto.grafica.columnasApiladas.StockCategoriaDTO(" +
+            "c.nombre, SUM(p.stock)) " +
+            "FROM Producto p " +
+            "JOIN p.categoria c " +
+            "WHERE p.activo = true " +
+            "GROUP BY c.categoriaId, c.nombre " +
+            "ORDER BY SUM(p.stock) DESC")
+    List<StockCategoriaDTO> findStockPorCategoria();
+
+    @Query("SELECT COALESCE(SUM(p.stock), 0) FROM Producto p WHERE p.activo = true")
+    Long findStockTotal();
+
+    @Query("""
+                SELECT new com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse(
+                    p.productoId,
+                    p.nombre,
+                    p.imagen,
+                    p.precio,
+                    SUM(dv.cantidad) as totalVentas
+                )
+                FROM Producto p
+                JOIN p.detalleVentas dv
+                JOIN dv.compra c
+                WHERE c.estado = 'PAGADO'
+                AND p.activo = true
+                GROUP BY p.productoId, p.nombre, p.imagen, p.precio
+                ORDER BY totalVentas DESC
+                LIMIT 4
+            """)
+    List<ProductoMasVendidoResponse> findTopProductosMasVendidos();
 }

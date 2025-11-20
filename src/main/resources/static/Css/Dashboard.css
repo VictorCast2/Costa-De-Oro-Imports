@@ -504,7 +504,7 @@
 /* 1. Ganancias - rojo pastel */
 .datos__card:nth-child(1) .card__title .title__icon {
     padding: 0.5rem 0.8rem;
-    margin-left: 9rem;
+    margin-left: 9.5rem;
     background-color: #FFD6D6;
 }
 
@@ -517,7 +517,7 @@
 /* 2. Compras - amarillo pastel */
 .datos__card:nth-child(2) .card__title .title__icon {
     padding: 0.6rem 0.8rem;
-    margin-left: 9.5rem;
+    margin-left: 10rem;
     background-color: #FFF7CC;
     color: #333;
 }
@@ -525,7 +525,7 @@
 /* 3. Clientes - azul pastel */
 .datos__card:nth-child(3) .card__title .title__icon {
     padding: 0.6rem 0.8rem;
-    margin-left: 10.2rem;
+    margin-left: 10.5rem;
     background-color: #CFE9FF;
 }
 
@@ -827,7 +827,7 @@
 
 .card__item {
     flex: 0 1 270px;
-    height: 320px;
+    height: 340px;
     border: 1px solid #f3f4f6;
     background-color: var(--colorWhite);
     border-radius: 15px;
@@ -870,7 +870,7 @@
 
 .card__item .item__description {
     font: 400 1.1rem var(--typografiaGeist);
-    margin: -2rem 0 0.4rem 1rem;
+    margin: -2rem 0 0.6rem 1rem;
 }
 
 .price-container {
@@ -891,7 +891,7 @@
 }
 
 .stars {
-    margin: 0.5rem 0 0 1rem;
+    margin: 0.6rem 0 0 1rem;
 
 }
 

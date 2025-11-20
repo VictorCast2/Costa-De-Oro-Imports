@@ -1,7 +1,7 @@
 package com.application.service.interfaces.historia;
 
 import com.application.persistence.entity.historia.Historia;
-import com.application.presentation.dto.general.response.GeneralResponse;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.historia.request.HistoriaCreateRequest;
 import com.application.presentation.dto.historia.response.HistoriaResponse;
 
@@ -18,13 +18,13 @@ public interface HistoriaService {
     List<HistoriaResponse> getHistoriasActivas();
 
     // CRUD
-    GeneralResponse createHistoria(HistoriaCreateRequest historiaRequest);
+    BaseResponse createHistoria(HistoriaCreateRequest historiaRequest);
 
-    GeneralResponse updateHistoria(HistoriaCreateRequest historiaRequest, Long id);
+    BaseResponse updateHistoria(HistoriaCreateRequest historiaRequest, Long id);
 
-    GeneralResponse changeEstadoHistoria(Long id);
+    BaseResponse changeEstadoHistoria(Long id);
 
-    GeneralResponse deleteHistoria(Long id);
+    BaseResponse deleteHistoria(Long id);
 
     // Utils
     HistoriaResponse toResponse(Historia historia);

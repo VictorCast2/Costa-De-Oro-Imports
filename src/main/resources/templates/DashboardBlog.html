@@ -35,7 +35,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -171,7 +171,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                              alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -218,7 +218,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a th:href="@{/admin/blog/add}">Agregar nuevo blog</a>
+                        <a th:href="@{/admin/blog/create-blog}">Agregar nuevo blog</a>
                     </div>
                 </div>
 
@@ -242,377 +242,91 @@
 
                         <div class="blog__content">
 
-                            <div class="content__card">
+                            <div class="content__card" th:each="historia : ${historiaList}">
+
+                                <!-- Imagen -->
                                 <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogOne.png}" alt="imagen del blog registrado">
+                                    <img th:src="${historia.imagen}" alt="imagen del blog registrado">
                                 </figure>
 
                                 <div class="card__information">
                                     <div class="information__buttons">
-                                        <button class="buttons__estado Activo">Activo</button>
 
+                                        <!-- ESTADO: cambia la clase según activo -->
+                                        <button class="buttons__estado"
+                                                th:classappend="${historia.activo} ? ' Activo' : ' Inactivo'"
+                                                th:text="${historia.activo} ? 'Activo' : 'Inactivo'">
+                                        </button>
+
+                                        <!-- Dropdown -->
                                         <div class="dropdown">
                                             <button class="dropdown__toggle">
                                                 <i class="ri-more-2-fill"></i>
                                             </button>
 
                                             <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
+                                                <button class="dropdown__item editar"
+                                                        th:attr="data-id=${historia.id},
+                                                            data-titulo=${historia.titulo}">
                                                     <i class="ri-edit-box-line"></i> Editar
                                                 </button>
-                                                <button class="dropdown__item eliminar">
+
+                                                <button class="dropdown__item eliminar"
+                                                        th:attr="data-id=${historia.id},
+                                                            data-titulo=${historia.titulo}">
                                                     <i class="ri-delete-bin-5-line"></i> Eliminar
                                                 </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
+
+                                                <button class="dropdown__item ocultar"
+                                                        th:attr="data-id=${historia.id},
+                                                            data-titulo=${historia.titulo}, data-activo=${historia.activo}">
+                                                    <i class="ri-eye-line"></i>
+                                                    <span th:text="${historia.activo} ? 'Ocultar' : 'Mostrar'"></span>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <a href="" class="information__title">Mastering Modern Minimalism</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
+                                    <!-- TÍTULO -->
+                                    <a href="#" class="information__title"
+                                       th:text="${historia.titulo}">
+                                    </a>
+
+                                    <!-- DESCRIPCIÓN -->
+                                    <p class="information__text"
+                                       th:text="${historia.descripcion}">
                                     </p>
 
+                                    <!-- FECHA + TIEMPO DE LECTURA -->
                                     <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
+                                        <span class="tiempo__item"
+                                              th:text="${#temporals.format(historia.fecha, 'dd MMMM yyyy')}">
+                                        </span>
 
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTwo.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Inactivo">Inactivo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <!-- Aquí puedes adaptar el cálculo del tiempo si deseas -->
+                                        <span class="tiempo__item">
+                                            Tiempo De Lectura: <strong>6min</strong>
+                                        </span>
                                     </div>
 
-                                    <a href="" class="information__title">The Fusion of Tech and Design</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
                                 </div>
                             </div>
 
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTree.png}" alt="imagen del blog registrado">
-                                </figure>
+                            <div class="no-data"
+                                 th:if="${historiaList == null or #lists.isEmpty(historiaList)}">
 
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Activo">Activo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">Eco-Friendly Modern Interiors</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
+                                <div class="no-data__card">
+                                    <i class="ri-file-list-3-line no-data__icon"></i>
+                                    <h2 class="no-data__title">Aún no hay historias registradas</h2>
+                                    <p class="no-data__text">
+                                        Crea tu primera historia para comenzar a construir tu blog.
                                     </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogOne.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Activo">Activo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">Mastering Modern Minimalism</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTwo.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Inactivo">Inactivo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">The Fusion of Tech and Design</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTree.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Activo">Activo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">Eco-Friendly Modern Interiors</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogOne.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Activo">Activo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">Mastering Modern Minimalism</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2025</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTwo.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Inactivo">Inactivo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">The Fusion of Tech and Design</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content__card">
-                                <figure class="card__img">
-                                    <img th:src="@{/Assets/Img/blog/blogTree.png}" alt="imagen del blog registrado">
-                                </figure>
-
-                                <div class="card__information">
-                                    <div class="information__buttons">
-                                        <button class="buttons__estado Inactivo">Inactivo</button>
-
-                                        <div class="dropdown">
-                                            <button class="dropdown__toggle">
-                                                <i class="ri-more-2-fill"></i>
-                                            </button>
-
-                                            <div class="dropdown__menu">
-                                                <button class="dropdown__item editar">
-                                                    <i class="ri-edit-box-line"></i> Editar
-                                                </button>
-                                                <button class="dropdown__item eliminar">
-                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                </button>
-                                                <button class="dropdown__item ocultar">
-                                                    <i class="ri-eye-line"></i> Ocultar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a href="" class="information__title">Eco-Friendly Modern Interiors</a>
-                                    <p class="information__text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam ipsam illum
-                                        fugiat obcaecati aut, repudiandae natus numquam eveniet nemo
-                                    </p>
-
-                                    <div class="card__tiempo">
-                                        <span class="tiempo__item">25 Agosto 2024</span>
-                                        <span class="tiempo__item">Tiempo De Lectura: <strong>6min</strong></span>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
+
 
                         <div class="table__pagination">
                             <div class="pagination__button">

@@ -14,14 +14,15 @@ import java.util.List;
 public interface CompraService {
 
     Compra getCompraById(Long compraId);
+    Double getIngresoAnual();
+    Long getTotalCompasAnuales();
     List<CompraDashboardResponse> getCompraByOrderAndFechaDesc();
     DetalleCompraResponse getDetalleCompra(Long compraId);
-
     CompraResponse createCompra(CustomUserPrincipal principal, CompraCreateRequest compraRequest);
     void updateEstadoCompra(Long compraId, EEstado estado);
     void updateStockProductoByCompraIdAndEstadoCompra(Long compraId, EEstado estado);
     void limpiarComprasConEstadoPendiente();
     BaseResponse changeEstadoCompra(Long compraId, String estado);
-
     CompraResponse toResponse(Compra compra);
+
 }

@@ -3,7 +3,9 @@ package com.application.persistence.entity.producto;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.entity.compra.DetalleVenta;
+import com.application.persistence.entity.factura.DetalleFactura;
 import com.application.persistence.entity.producto.enums.ETipo;
+import com.application.persistence.entity.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,10 +60,23 @@ public class Producto {
     )
     private SubCategoria subCategoria;
 
+    // Cardinalidad con la tabla Usuario
+    @ManyToOne
+    @JoinColumn(name = "usuario_id",
+            referencedColumnName = "usuario_id",
+            foreignKey = @ForeignKey(name = "fk_producto_proveedor")
+    )
+    private Usuario proveedor;
+
     // Cardinalidad con la tabla detálle ventas
     @Builder.Default
     @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private Set<DetalleVenta> detalleVentas = new HashSet<>();
+
+    // Cardinalidad con la tabla detálle facturas
+    @Builder.Default
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
+    private Set<DetalleFactura> detalleFacturas = new HashSet<>();
 
     // Agregar producto a detalle_venta y viceversa (bidireccional)
     public void addDetalleVenta(DetalleVenta detalleVenta) {
@@ -74,4 +89,17 @@ public class Producto {
         detalleVenta.setProducto(null);
         this.detalleVentas.remove(detalleVenta);
     }
+
+    // Agregar producto a detalle_factura y viceversa (bidireccional)
+    public void addDetalleFactura(DetalleFactura detalleFactura) {
+        detalleFactura.setProducto(this);
+        this.detalleFacturas.add(detalleFactura);
+    }
+
+    // Eliminar producto a detalle_factura y viceversa (bidireccional)
+    public void deleteDetalleFactura(DetalleFactura detalleFactura) {
+        detalleFactura.setProducto(null);
+        this.detalleFacturas.remove(detalleFactura);
+    }
+
 }
