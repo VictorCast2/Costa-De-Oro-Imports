@@ -60,7 +60,7 @@
     padding: 1rem 0 1rem 0;
 }
 
-.blog__content{
+.blog__content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,7 +72,7 @@
     box-sizing: border-box;
 }
 
-.blog__content .content__card{
+.blog__content .content__card {
     flex: 1 1 350px;
     max-width: 400px;
     min-width: 320px;
@@ -88,7 +88,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s ease; 
+    transition: all 0.4s ease;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -96,7 +96,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
 }
 
-.content__card .card__img{
+.content__card .card__img {
     position: relative;
     top: -2.5rem;
     width: 100%;
@@ -107,7 +107,7 @@
     align-items: center;
 }
 
-.card__img img{
+.card__img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -115,11 +115,11 @@
     transform-origin: center center;
 }
 
-.card__img img:hover{
+.card__img img:hover {
     transform: scale(1.1);
 }
 
-.information__buttons{
+.information__buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -127,7 +127,7 @@
     padding: 0 0.5rem 0 1rem;
 }
 
-.information__buttons .buttons__estado{
+.information__buttons .buttons__estado {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -142,47 +142,47 @@
     border-radius: 5px;
 }
 
-.information__buttons .buttons__estado.Activo{
+.information__buttons .buttons__estado.Activo {
     background-color: #ceefce;
     color: #3e2723;
 }
 
-.information__buttons .buttons__estado.Inactivo{
+.information__buttons .buttons__estado.Inactivo {
     background-color: #f8bbd0;
     color: #4a1f2b;
 }
 
-.card__information .information__title{
+.card__information .information__title {
     text-decoration: none;
     color: var(--colorDark);
-    margin:0 0 -0.5rem 1rem;
+    margin: 0 0 -0.5rem 1rem;
     font: 600 1.1rem var(--typografiaGeist);
 }
 
-.card__information .information__title:hover{
+.card__information .information__title:hover {
     color: var(--colorCafe);
 }
 
-.card__information .information__text{
+.card__information .information__text {
     max-width: 350px;
     margin-left: 1rem;
     font: 500 0.89rem var(--typografiaUrbanist);
     color: var(--colorLigth);
 }
 
-.card__tiempo{
+.card__tiempo {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem 0 1rem;
 }
 
-.card__tiempo .tiempo__item{
+.card__tiempo .tiempo__item {
     font: 500 0.755rem var(--typografiaGeist);
     color: var(--colorLigth);
 }
 
-.tiempo__item strong{
+.tiempo__item strong {
     color: var(--colorDark);
     font-weight: 400;
 }

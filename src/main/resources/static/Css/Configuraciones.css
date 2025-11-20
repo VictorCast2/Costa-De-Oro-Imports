@@ -11,38 +11,38 @@
 }
 
 
-.Configuraciones{
+.Configuraciones {
     min-height: 100vh;
     position: relative;
     padding-top: 150px;
 }
 
-.Configuraciones__container{
+.Configuraciones__container {
     display: flex;
     justify-content: space-around;
 }
 
-.hr__horinzontal{
+.hr__horinzontal {
     position: relative;
     top: -33px;
     left: 0px;
     border: 0;
     height: 1px;
-    border-top: 1px solid #ccc; 
+    border-top: 1px solid #ccc;
 }
 
-.container__nav{
+.container__nav {
     margin-top: 30px;
 }
 
 
-.container__nav .nav__opciones{
+.container__nav .nav__opciones {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
 }
 
-.nav__opciones .opciones__btn{
+.nav__opciones .opciones__btn {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -59,11 +59,11 @@
     transition: background-color .5s ease;
 }
 
-.nav__opciones .opciones__btn i{
+.nav__opciones .opciones__btn i {
     margin: 0 5px 0 10px;
 }
 
-.nav__opciones .hr__separar{
+.nav__opciones .hr__separar {
     border: 0;
     height: 1px;
     border-bottom: 1px solid #ccc;
@@ -72,41 +72,41 @@
 
 
 
-.nav__opciones .opciones__btn:hover{
+.nav__opciones .opciones__btn:hover {
     background-color: #f0f3f2;
 }
 
 
-.nav__opciones .opciones__btn.active{
+.nav__opciones .opciones__btn.active {
     background-color: #18181b;
     color: var(--colorWhite);
 }
 
-.hr__vertical{
+.hr__vertical {
     position: absolute;
-    top:8.5%;
-    left:27%;
+    top: 8.5%;
+    left: 27%;
     border: 0;
-    border-left: 1px solid #ccc; 
-    height: 1257px; 
+    border-left: 1px solid #ccc;
+    height: 1257px;
 }
 
-.container__main{
+.container__main {
     margin: 20px 0 0 0;
 }
 
 /* Autenticar */
-.formulario__autenticar{
+.formulario__autenticar {
     padding-bottom: 30px;
 }
 
-.formulario__autenticar .container__title{
+.formulario__autenticar .container__title {
     font: 600 2rem var(--typografiaGeist);
     margin: 0 0 0.5rem 0;
     color: var(--colorDark);
 }
 
-.formulario__autenticar .container__text{
+.formulario__autenticar .container__text {
     font: 600 1.1rem var(--typografiaUrbanist);
     margin: 0 0 1rem 0;
     color: var(--colorLigth);
@@ -116,7 +116,7 @@
     padding: 0 0 0 25%;
     display: flex;
     gap: 20px;
-    margin:0 0 15px -245px;
+    margin: 0 0 15px -245px;
 }
 
 .switch__title {
@@ -209,15 +209,15 @@ input:checked+.slider__label:before {
     outline: none;
 }
 
-.box--contra input{
+.box--contra input {
     font: 700 1.2rem var(--typografiaUrbanist);
     max-width: 450px;
 }
 
 
 .input-box input:focus {
-    border: 1px solid #3366ff;  
-    outline: 4px solid #b3c7ff;  
+    border: 1px solid #3366ff;
+    outline: 4px solid #b3c7ff;
 }
 
 .input-box input:focus~.label,
@@ -240,7 +240,7 @@ input:checked+.slider__label:before {
 
 }
 
-.icon--changed i{
+.icon--changed i {
     left: 42%;
 }
 
@@ -249,7 +249,7 @@ input:checked+.slider__label:before {
     border-radius: 50%;
     padding: 1px 1px;
     color: #fff;
-    display:none;
+    display: none;
 }
 
 .box__icon .ri-close-line {
@@ -257,26 +257,26 @@ input:checked+.slider__label:before {
     border-radius: 50%;
     padding: 1px 1px;
     color: #fff;
-    display:none;
+    display: none;
 }
 
 
 .input__error {
     font: 500 1rem var(--typografiaUrbanist);
     margin: 20px 0 0 20px;
-    display:none;
+    display: none;
 }
 
 
-.error--respuesta1{
+.error--respuesta1 {
     margin: 10px 0 0px -15px;
 }
 
-.error--respuesta2{
+.error--respuesta2 {
     margin: 10px 0 0px -15px;
 }
 
-.error--pasword{
+.error--pasword {
     margin: 10px 0 0px -55px;
 }
 
@@ -353,33 +353,33 @@ input:checked+.slider__label:before {
     font: 600 1.1rem var(--typografiaUrbanist);
 }
 
-.formulario__pass{
+.formulario__pass {
     margin: 80px 0 20px 0;
     border-top: 1px solid #ccc;
-    padding:50px 0;
+    padding: 50px 0;
 }
 
-.formulario__pass .pass__title{
+.formulario__pass .pass__title {
     font: 600 2rem var(--typografiaGeist);
     margin-bottom: 10px;
 }
 
-.formulario__contra{
+.formulario__contra {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
     margin: 0 0 0 55px;
 }
 
-.registre__link{
+.registre__link {
     margin: 0 0 0 -55px;
 }
 
-.registre__link p{
+.registre__link p {
     font: 600 1rem var(--typografiaUrbanist);
 }
 
-.registre__link p a{
+.registre__link p a {
     font: 700 1rem var(--typografiaUrbanist);
     color: #8e705c;
     text-decoration: none;
@@ -388,7 +388,7 @@ input:checked+.slider__label:before {
 
 
 
-.formulario__button{
+.formulario__button {
     margin: 5px 0 0 -55px;
     padding: 12px;
     background-color: #007bff;
@@ -401,28 +401,28 @@ input:checked+.slider__label:before {
     font: 600 1.1rem var(--typografiaUrbanist);
 }
 
-.eliminar__cuenta{
+.eliminar__cuenta {
     border-top: 1px solid #ccc;
     padding: 50px 0;
 }
 
-.delete__container .container__title{
+.delete__container .container__title {
     font: 600 2rem var(--typografiaGeist);
     margin-bottom: 10px;
 }
 
-.delete__container .container__text{
+.delete__container .container__text {
     font: 600 1rem var(--typografiaUrbanist);
     margin-bottom: 10px;
     color: var(--colorLigth);
 }
 
-.checkbox-wrapper .wrapper__text{
+.checkbox-wrapper .wrapper__text {
     font: 600 1rem var(--typografiaUrbanist);
     margin-bottom: 10px;
 }
 
-.btn-delete{
+.btn-delete {
     background-color: #f8d7da;
     color: #fff;
     border: none;
@@ -432,7 +432,7 @@ input:checked+.slider__label:before {
     border-radius: 6px;
     cursor: not-allowed;
     opacity: 0.6;
-    font:500 1rem var(--typografiaUrbanist);
+    font: 500 1rem var(--typografiaUrbanist);
     transition: all 0.3s ease;
 }
 
@@ -447,5 +447,5 @@ input:checked+.slider__label:before {
 }
 
 .swal-popup {
-    font:var(--typografiaUrbanist) ;
+    font: var(--typografiaUrbanist);
 }

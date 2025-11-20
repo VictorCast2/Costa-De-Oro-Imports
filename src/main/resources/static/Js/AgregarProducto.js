@@ -413,6 +413,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const errormarca = document.querySelector(".error--marca");
     const selecttipoProducto = document.getElementById("tipoProducto");
     const errortipoProducto = document.querySelector(".error--tipoProducto");
+    const selecttipoProveedores = document.getElementById("Proveedores");
+    const errortipoProveedores = document.querySelector(".error--Proveedores");
 
     Object.keys(fieldsProducto).forEach(fieldId => {
         const input = document.getElementById(fieldId);
@@ -456,7 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Ocultar advertencias y errores de select al interactuar
-    [selectCategoriaPrincipal, selectpáises, selectCategoriaSecundaria, selectmarca, selecttipoProducto].forEach(select => {
+    [selectCategoriaPrincipal, selectpáises, selectCategoriaSecundaria, selectmarca, selecttipoProducto, selecttipoProveedores].forEach(select => {
         select.addEventListener("change", () => {
 
             if (select.selectedIndex > 0) {
@@ -483,6 +485,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (select === selecttipoProducto && select.selectedIndex > 0) {
                 errortipoProducto.style.display = "none";
+            }
+
+            if (select === selecttipoProveedores && select.selectedIndex > 0) {
+                errortipoProveedores.style.display = "none";
             }
 
         });
@@ -603,6 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const categoriaSecundariaSeleccionada = selectCategoriaSecundaria.selectedIndex > 0;
         const marcaSeleccionada = selectmarca.selectedIndex > 0;
         const tipoProductoSeleccionada = selecttipoProducto.selectedIndex > 0;
+        const tipoProveedoresSeleccionada = selecttipoProveedores.selectedIndex > 0;
 
 
         if (!CategoriaPrincipalSeleccionada) {
@@ -633,6 +640,12 @@ document.addEventListener("DOMContentLoaded", () => {
             selectsValidos = false;
             errortipoProducto.style.display = "block";
             selecttipoProducto.style.border = "2px solid #fd1f1f";
+        }
+
+        if (!tipoProveedoresSeleccionada) {
+            selectsValidos = false;
+            errortipoProveedores.style.display = "block";
+            selecttipoProveedores.style.border = "2px solid #fd1f1f";
         }
 
         // Validar estado (radio buttons)

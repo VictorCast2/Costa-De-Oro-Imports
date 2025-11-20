@@ -286,14 +286,14 @@ body {
     justify-content: center;
 }
 
-.flex--whisky{
+.flex--whisky {
     display: flex;
-    justify-content:center;
+    justify-content: center;
     align-items: center;
     padding: 5.5rem 0 0 2rem;
 }
 
-.flex--RonesAguardientes{
+.flex--RonesAguardientes {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -303,7 +303,7 @@ body {
 }
 
 
-.flex--RonesAguardientes .flex__ofertas{
+.flex--RonesAguardientes .flex__ofertas {
     position: absolute;
     top: -2rem;
     background-color: #1a3c8e;
@@ -314,7 +314,7 @@ body {
     color: var(--colorWhite);
 }
 
-.flex__RonesAguardiantes{
+.flex__RonesAguardiantes {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -414,19 +414,23 @@ body {
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
 }
 
-/* 🎯 Sombras dinámicas según el hero activo */
+/* Sombras dinámicas según el hero activo */
 .hero--paulaner .carousel__dot {
     box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
 }
+
 .hero--tequila .carousel__dot {
     box-shadow: 0 0 8px rgba(75, 30, 26, 0.6);
 }
+
 .hero--budweiser .carousel__dot {
     box-shadow: 0 0 8px rgba(75, 22, 50, 0.6);
 }
+
 .hero--whiskys .carousel__dot {
     box-shadow: 0 0 8px rgba(27, 58, 47, 0.6);
 }
+
 .hero--packmixtos .carousel__dot {
     box-shadow: 0 0 8px rgba(47, 63, 104, 0.6);
 }
@@ -435,15 +439,19 @@ body {
 .hero--paulaner .carousel__dot.active {
     box-shadow: 0 0 14px rgba(245, 158, 11, 0.9);
 }
+
 .hero--tequila .carousel__dot.active {
     box-shadow: 0 0 14px rgba(75, 30, 26, 0.9);
 }
+
 .hero--budweiser .carousel__dot.active {
     box-shadow: 0 0 14px rgba(75, 22, 50, 0.9);
 }
+
 .hero--whiskys .carousel__dot.active {
     box-shadow: 0 0 14px rgba(27, 58, 47, 0.9);
 }
+
 .hero--packmixtos .carousel__dot.active {
     box-shadow: 0 0 14px rgba(47, 63, 104, 0.9);
 }
@@ -467,11 +475,11 @@ body {
     background-image: radial-gradient(120% 120% at 50% 80%, #ffffff 40%, #4B1632 100%);
 }
 
-.hero--whiskys{
+.hero--whiskys {
     background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #1b3a2f 100%);
 }
 
-.hero--packmixtos{
+.hero--packmixtos {
     background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #2f3f68 100%);
 }
 
@@ -617,12 +625,12 @@ body {
     max-width: 350px;
 }
 
-.precio--aguardientes{
+.precio--aguardientes {
     top: 0.2rem;
     right: 6rem;
 }
 
-.precio--TequilaMezcal{
+.precio--TequilaMezcal {
     top: -2rem;
     left: 4rem;
 }
@@ -683,13 +691,13 @@ body {
 
 .information__precio .RonesAguardiantes--2 {
     font: 600 6rem var(--typografiaGeist);
-    margin-left:9.9rem;
+    margin-left: 9.9rem;
     width: 500px;
     color: #A13A47;
 }
 
 .RonesAguardiantes--text {
-    margin:-1rem 0 0 4.5rem;
+    margin: -1rem 0 0 4.5rem;
 }
 
 .RonesAguardiantes--text .RonesAguardiantes--premium {
@@ -715,7 +723,7 @@ body {
 }
 
 .TequilaMezcal--text {
-    margin:-2rem 0 0 4.5rem;
+    margin: -2rem 0 0 4.5rem;
 }
 
 .TequilaMezcal--text .TequilaMezcal--premium {
@@ -734,7 +742,7 @@ body {
     margin: 2em 0 1em 1.8em;
 }
 
-.flex__whiskys{
+.flex__whiskys {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -743,43 +751,43 @@ body {
     position: relative;
 }
 
-.whiskys--one{
+.whiskys--one {
     margin-right: 5rem;
 }
 
-.whiskys--changed{
+.whiskys--changed {
     position: relative;
     left: -3rem;
 }
 
-.whiskys__img{
+.whiskys__img {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
 }
 
-.whiskys__img .img__licor{
-    z-index:2 ;
+.whiskys__img .img__licor {
+    z-index: 2;
 }
 
-.whiskys__img .licor--one{
+.whiskys__img .licor--one {
     width: 300px;
 }
 
-.whiskys__img .licor--two{
+.whiskys__img .licor--two {
     position: relative;
     top: 0.5rem;
-    width:200px;
+    width: 200px;
 }
 
-.whiskys__img .img--tree{
+.whiskys__img .img--tree {
     position: relative;
     top: 1.5rem;
-    width:250px;
+    width: 250px;
 }
 
-.whiskys__img .img__vaso{
+.whiskys__img .img__vaso {
     position: absolute;
     top: 9.2rem;
     left: 9rem;
@@ -788,17 +796,17 @@ body {
     z-index: 3;
 }
 
-.whiskys__img .vaso--changed{
+.whiskys__img .vaso--changed {
     top: 10rem;
     left: 5.5rem;
 }
 
-.whiskys__img .vaso--changed2{
+.whiskys__img .vaso--changed2 {
     top: 11.5rem;
     left: 7.8rem;
 }
 
-.whiskys__img .img__tiempo{
+.whiskys__img .img__tiempo {
     position: absolute;
     top: 2rem;
     right: -15rem;
@@ -806,66 +814,67 @@ body {
     padding: 0.8rem 1.5rem;
     width: 380px;
     text-align: center;
-    border-radius:0 38px 38px 0;
+    border-radius: 0 38px 38px 0;
     color: var(--colorWhite);
     font: 600 1.2rem var(--typografiaGeist);
     z-index: 1;
 }
 
-.whiskys__img .tiempo--changed{
+.whiskys__img .tiempo--changed {
     top: 1.5rem;
     right: -18rem;
 }
 
-.whiskys__img .tiempo--malt{
+.whiskys__img .tiempo--malt {
     top: 2.5rem;
 }
 
-.whiskys__informacion{
+.whiskys__informacion {
     position: relative;
-    top:1rem;
+    top: 1rem;
     left: -4rem;
-    width:550px;
+    width: 550px;
 
 }
-.information--deluxe{
+
+.information--deluxe {
     left: -1rem;
 }
 
-.information--malt{
+.information--malt {
     left: -2rem;
 }
 
-.informacion__texto .texto__whisky{
+.informacion__texto .texto__whisky {
     font: 600 2rem var(--typografiaUrbanist);
     width: 400px;
     color: #1b3a2f;
 }
 
-.whiskys__informacion .informacion__precio{
+.whiskys__informacion .informacion__precio {
     position: relative;
     top: 0;
     left: 1.5rem;
     font: 700 3rem var(--typografiaUrbanist);
 }
 
-.slide__pideahora{
+.slide__pideahora {
     position: relative;
     top: 0.5rem;
     left: 5rem;
     width: 100%;
-    max-width:450px;
-    min-width:350px;
+    max-width: 450px;
+    min-width: 350px;
 }
 
-.pideahora--slide5{
+.pideahora--slide5 {
     top: 3rem;
     left: 6.5rem;
 }
 
 
 
-.slide__pideahora .pideahora__btn{
+.slide__pideahora .pideahora__btn {
     cursor: pointer;
     background-color: #1b3a2f;
     color: #ffffff;
@@ -876,20 +885,20 @@ body {
     border-radius: 8px;
 }
 
-.slide__pideahora .btn--color{
+.slide__pideahora .btn--color {
     background-color: transparent;
     border: 2px solid #1b3a2f;
     color: #1b3a2f;
     transition: background-color .4s ease, color .4s ease;
 }
 
-.slide__pideahora .btn--color:hover{
+.slide__pideahora .btn--color:hover {
     background-color: #1b3a2f;
     color: var(--colorWhite);
 }
 
 /* PackMixto */
-.pideahora--slide5 .btn--slide4{
+.pideahora--slide5 .btn--slide4 {
     cursor: pointer;
     background-color: #2f3f68;
     color: #ffffff;
@@ -900,23 +909,23 @@ body {
     border-radius: 8px;
 }
 
-.pideahora--slide5 .btn--slide5:last-child{
+.pideahora--slide5 .btn--slide5:last-child {
     background-color: transparent;
     border: 2px solid #2f3f68;
     color: #2f3f68;
     transition: background-color .4s ease, color .4s ease;
 }
 
-.pideahora--slide5 .btn--slide5:last-child:hover{
+.pideahora--slide5 .btn--slide5:last-child:hover {
     background-color: #2f3f68;
     color: var(--colorWhite);
 }
 
-.pideahora__content{
+.pideahora__content {
     margin-bottom: 2rem;
 }
 
-.pideahora__content .content__mensaje{
+.pideahora__content .content__mensaje {
     font: 600 2.2rem var(--typografiaGeist);
 }
 
@@ -1005,7 +1014,7 @@ body {
     max-width: 400px;
 }
 
-.img--RonesAguardiantes{
+.img--RonesAguardiantes {
     margin-left: 2rem;
 }
 
@@ -1029,26 +1038,26 @@ body {
     max-width: 550px;
 }
 
-.information__img .img--RonesAguardiantes{
+.information__img .img--RonesAguardiantes {
     width: 250px;
     z-index: 2;
 }
 
-.information__img .RonesAguardiantes--2{
+.information__img .RonesAguardiantes--2 {
     margin-left: -10rem;
     z-index: 1;
 }
 
-.information__img .img__TequilaMezcal{
+.information__img .img__TequilaMezcal {
     width: 550px;
     z-index: 1;
 }
 
-.information__img .TequilaMezcal--3{
+.information__img .TequilaMezcal--3 {
     margin-left: -17.5rem;
 }
 
-.information__img .TequilaMezcal--3:nth-child(2){
+.information__img .TequilaMezcal--3:nth-child(2) {
     z-index: 3;
 }
 
@@ -1939,21 +1948,39 @@ body {
     gap: 2rem;
 }
 
-.blog__card img {
-    max-width: 100%;
+.card__img {
     width: 430px;
     height: 250px;
-    margin-bottom: 1rem;
+    overflow: hidden;
     border-radius: 10px;
+    margin-bottom: 1rem;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
 }
 
+.card__img img {
+    cursor: pointer;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.4s ease;
+}
+
+.card__img img:hover {
+    transform: scale(1.1);
+}
+
 .blog__card .card__title {
+    display: block;
+    text-decoration: none;
     font-size: 1.2rem;
     font-weight: 600;
     font: 600 1.2rem var(--typografiaGeist);
     color: var(--colorDark);
     margin-bottom: 0.7rem;
+}
+
+.blog__card .card__title:hover {
+    color: var(--colorCafe);
 }
 
 .blog__card .card__text {
@@ -1979,12 +2006,6 @@ body {
 .tiempo__item strong {
     color: var(--colorDark);
 }
-
-
-
-
-/**Section Figuras */
-
 
 /* Footer */
 

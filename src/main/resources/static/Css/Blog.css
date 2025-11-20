@@ -10,17 +10,17 @@
     --colorWhite: #ffffff;
 }
 
-.blog{
+.blog {
     min-height: 100vh;
     padding-top: 150px;
 }
 
-.blog__container .container__title{
+.blog__container .container__title {
     font: 700 2.5rem var(--typografiaGeist);
     margin: 0 0 2rem 5rem;
 }
 
-.container__home{
+.container__home {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,31 +28,52 @@
     margin-right: 6rem;
 }
 
-.home__img img{
-    max-width: 100%;
+.home__img {
     width: 800px;
     height: 400px;
+    overflow: hidden;
     border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
 }
 
-.home__description{
+.home__img img {
+    cursor: pointer;
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.home__img img:hover {
+    transform: scale(1.1);
+}
+
+.home__description {
     width: 400px;
 }
 
-.home__description .description__titulo{
+.home__description .description__titulo {
+    display: block;
+    text-decoration: none;
     width: 450px;
     font: 600 1.8rem var(--typografiaGeist);
+    color: var(--colorDark);
     margin-bottom: 1rem;
 }
 
-.home__description .description__texto{
+.home__description .description__titulo:hover {
+    color: var(--colorCafe);
+}
+
+.home__description .description__texto {
     width: 400px;
     color: var(--colorLigth);
     font: 500 1rem var(--typografiaGeist);
     margin-bottom: 1rem;
 }
 
-.home__description .description__tiempo{
+.home__description .description__tiempo {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -60,12 +81,12 @@
 
 }
 
-.description__tiempo .tiempo__item{
+.description__tiempo .tiempo__item {
     font: 500 0.8rem var(--typografiaGeist);
     color: var(--colorLigth);
 }
 
-.tiempo__item strong{
+.tiempo__item strong {
     color: var(--colorDark);
 }
 
@@ -79,51 +100,11 @@
     gap: 2rem;
 }
 
-.blog__card img {
-    max-width: 100%;
-    width: 430px;
-    height: 250px;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
-}
-
-.blog__card .card__title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    font: 600 1.2rem var(--typografiaGeist);
-    color: var(--colorDark);
-    margin-bottom:0.7rem;
-}
-
-.blog__card .card__text{
-    width: 400px;
-    font: 400 1rem var(--typografiaGeist);
-    color: var(--colorLigth);
-    margin-bottom:1.5rem;
-}
-
-.blog__card .card__tiempo{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.card__tiempo .tiempo__item{
-    font: 500 0.8rem var(--typografiaGeist);
-    color: var(--colorLigth);
-}
-
-.tiempo__item strong{
-    color: var(--colorDark);
-}
 
 /* Pagination */
 .pagination {
     position: relative;
-    top:20px;
+    top: 20px;
     right: 86.5%;
     width: 200%;
     overflow-x: hidden;

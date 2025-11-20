@@ -93,12 +93,12 @@
 }
 
 
-.filter__titulo .titulo__estado.Exito{
+.filter__titulo .titulo__estado.Pagado {
     background-color: #ceefce;
     color: #3e2723;
 }
 
-.filter__titulo .titulo__estado.Cancelar {
+.filter__titulo .titulo__estado.Cancelado {
     background-color: #f8bbd0;
     color: #4a1f2b;
 }
@@ -109,12 +109,17 @@
     color: #5a4a1b;
 }
 
-.filter__estados{
+.filter__titulo .titulo__estado.Rechazado {
+    background-color: #ffcdd2;
+    color: #5d4037;
+}
+
+.filter__estados {
     display: flex;
     gap: 0.5rem;
 }
 
-.filter__estados .estados__btn{
+.filter__estados .estados__btn {
     text-decoration: none;
     position: relative;
     left: 1.2rem;
@@ -128,16 +133,16 @@
     transition: background-color .5s ease;
 }
 
-.filter__estados .estados__btn:hover{
+.filter__estados .estados__btn:hover {
     background-color: #7a5e4d;
 }
 
-.filter__estados .estados__factura{
+.filter__estados .estados__factura {
     text-decoration: none;
     position: relative;
     left: 1.2rem;
     cursor: pointer;
-    background-color:var(--colorLigth);
+    background-color: var(--colorLigth);
     color: var(--colorWhite);
     border-radius: 8px;
     border: none;
@@ -146,8 +151,8 @@
     transition: background-color .5s ease;
 }
 
-.filter__estados .estados__factura:hover{
-    background-color:#6b7280;
+.filter__estados .estados__factura:hover {
+    background-color: #6b7280;
 }
 
 .custom__select {
@@ -320,32 +325,32 @@
     word-wrap: break-word;
 }
 
-.table__subtotal{
+.table__subtotal {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.subtotal__span .span__texto{
+.subtotal__span .span__texto {
     font: 500 1rem var(--typografiaGeist);
     border-bottom: 1px solid #ddd;
-    padding:0rem 0 1rem 0;
+    padding: 0rem 0 1rem 0;
     width: 400px;
 }
 
-.subtotal__span .span__texto:last-child{
+.subtotal__span .span__texto:last-child {
     border-bottom: none;
 }
 
 
-.span__texto .precio--subtotal{
+.span__texto .precio--subtotal {
     margin-left: 53%;
 }
 
-.span__texto .precio--envio{
-    margin-left: 43%;
+.span__texto .precio--envio {
+    margin-left: 65%;
 }
 
-.span__texto .precio--general{
+.span__texto .precio--general {
     margin-left: 46%;
 }

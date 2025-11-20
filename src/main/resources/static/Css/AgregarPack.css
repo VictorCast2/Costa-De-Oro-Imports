@@ -16,13 +16,13 @@
     position: relative;
     left: 1.2rem;
     cursor: pointer;
-    background-color:#eeee;
+    background-color: #eeee;
     color: var(--colorDark);
     border-radius: 8px;
     padding: 0.8rem 1rem;
     border: 1px solid #eee;
     font: 600 1rem var(--typografiaGeist);
-    transition: background-color .5s ease,border .5s ease;
+    transition: background-color .5s ease, border .5s ease;
 }
 
 .titleheader__btn a:hover {
@@ -164,7 +164,8 @@
 .radio__custom {
     width: 15px;
     height: 15px;
-    border: 1px solid #ddd; /* borde base */
+    border: 1px solid #ddd;
+    /* borde base */
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -172,23 +173,26 @@
 }
 
 /* Cuando está seleccionado o en foco */
-.radio__option input[type="radio"]:checked + .radio__custom,
-.radio__option input[type="radio"]:focus + .radio__custom {
-    background-color: #8e6b43;   /* color de fondo */
+.radio__option input[type="radio"]:checked+.radio__custom,
+.radio__option input[type="radio"]:focus+.radio__custom {
+    background-color: #8e6b43;
+    /* color de fondo */
     border-color: #8e6b43;
-    box-shadow: 0 0 0 4px #d8bfa3; /* efecto de focus */
+    box-shadow: 0 0 0 4px #d8bfa3;
+    /* efecto de focus */
 }
 
 /* Círculo vacío en el centro (efecto dona) */
-.radio__option input[type="radio"]:checked + .radio__custom::before,
-.radio__option input[type="radio"]:focus + .radio__custom::before {
+.radio__option input[type="radio"]:checked+.radio__custom::before,
+.radio__option input[type="radio"]:focus+.radio__custom::before {
     content: "";
     position: absolute;
     top: 3px;
     left: 3px;
     width: 9px;
     height: 9px;
-    background-color: white; /* color del hueco */
+    background-color: white;
+    /* color del hueco */
     border-radius: 50%;
 }
 
@@ -445,7 +449,7 @@
 }
 
 
-.input__btn{
+.input__btn {
     cursor: pointer;
     padding: 1rem 1.5rem;
     background-color: var(--colorCafe);
@@ -458,6 +462,6 @@
     transition: background-color .5s ease;
 }
 
-.input__btn:hover{
+.input__btn:hover {
     background-color: #7a5e4d;
 }

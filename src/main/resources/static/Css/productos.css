@@ -10,7 +10,6 @@
     --colorWhite: #ffffff;
 }
 
-
 .productos {
     min-height: 100vh;
     padding-top: 195px;
@@ -637,7 +636,8 @@
 /* Vista Lista - Mismo HTML, diferentes estilos */
 .flex__productos.list-view {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* DOS COLUMNAS */
+    grid-template-columns: repeat(2, 1fr);
+    /* DOS COLUMNAS */
     gap: 20px;
     width: 100%;
     max-width: 1320px;
@@ -646,13 +646,14 @@
 
 
 .flex__productos.list-view .flex__productos-track {
-    display: contents; /* Para que los hijos directos sean grid items */
+    display: contents;
+    /* Para que los hijos directos sean grid items */
 }
 
 /* Card en vista lista */
 .flex__productos.list-view .card {
     display: grid;
-    grid-template-columns:150px 1fr;
+    grid-template-columns: 150px 1fr;
     grid-template-rows: auto auto auto auto auto;
     grid-template-areas:
         "image category"

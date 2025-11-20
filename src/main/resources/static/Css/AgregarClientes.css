@@ -1,7 +1,5 @@
 @import url("./DashboardProducto.css");
 
-
-
 :root {
     --typografiaGeist: "Geist";
     --typografiaUrbanist: "Urbanist";
@@ -53,7 +51,7 @@
 
 .formulario__producto .producto__title {
     font: 600 1.3rem var(--typografiaGeist);
-    margin:2.5rem 0 0.5rem 1.2rem;
+    margin: 2.5rem 0 0.5rem 1.2rem;
     grid-column: 1 / -1;
 }
 
@@ -134,7 +132,7 @@
 
 .input__formulario .formulario__title {
     font: 600 1.3rem var(--typografiaGeist);
-    margin:1.2rem 0 1.5rem 1.2rem;
+    margin: 1.2rem 0 1.5rem 1.2rem;
 }
 
 
@@ -148,7 +146,7 @@
     height: 148px;
     border-radius: 18px;
     overflow: hidden;
-    background-color:var(--colorWhite);
+    background-color: var(--colorWhite);
     display: none;
     justify-content: center;
     align-items: center;
@@ -191,23 +189,23 @@
 
 
 .formulario__boximagen.error-border {
-    border: 2px solid #e53935; 
+    border: 2px solid #e53935;
 }
 
-.formulario__mensaje{
+.formulario__mensaje {
     position: absolute;
-    bottom: 7rem;
+    top: 7rem;
     left: 13.5rem;
     font: 600 1rem var(--typografiaUrbanist);
 }
 
-.formulario__btn{
+.formulario__btn {
     position: relative;
     bottom: 0rem;
     left: 1.2rem;
 }
 
-.formulario__btn button{
+.formulario__btn button {
     background-color: #eeee;
     color: var(--colorDark);
     border: none;
@@ -220,7 +218,7 @@
     transition: background-color .5s ease, border .5s ease;
 }
 
-.formulario__btn button:hover{
+.formulario__btn button:hover {
     background-color: #ddd;
     border: 1px solid #ccc;
 }
