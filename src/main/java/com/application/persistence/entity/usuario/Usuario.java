@@ -2,6 +2,7 @@ package com.application.persistence.entity.usuario;
 
 import com.application.persistence.entity.comentario.Comentario;
 import com.application.persistence.entity.compra.Compra;
+import com.application.persistence.entity.compra.DetalleVenta;
 import com.application.persistence.entity.empresa.Empresa;
 import com.application.persistence.entity.factura.FacturaProveedor;
 import com.application.persistence.entity.pqrs.Peticion;

@@ -19,7 +19,7 @@ public class ProvedoresController {
     private UsuarioServiceImpl usuarioService;
 
     @GetMapping({"", "/"})
-    public String DashboardProvedores(@AuthenticationPrincipal CustomUserPrincipal principal,
+    public String DashboardResenna(@AuthenticationPrincipal CustomUserPrincipal principal,
                                    @RequestParam(value = "mensaje", required = false) String mensaje,
                                    Model model) {
 
@@ -29,45 +29,6 @@ public class ProvedoresController {
         model.addAttribute("mensaje", mensaje);
 
         return "DashboardProvedores";
-    }
-
-    @GetMapping("/nueva-compra")
-    public String nuevaCompra(@AuthenticationPrincipal CustomUserPrincipal principal,
-                                    @RequestParam(value = "mensaje", required = false) String mensaje,
-                                    Model model) {
-
-        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("mensaje", mensaje);
-
-        return "NuevaCompra";
-    }
-
-    @GetMapping("/add")
-    public String agregarProvedores(@AuthenticationPrincipal CustomUserPrincipal principal,
-                                   @RequestParam(value = "mensaje", required = false) String mensaje,
-                                   Model model) {
-
-        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("mensaje", mensaje);
-
-        return "AgregarProveedores";
-    }
-
-    @GetMapping("/update")
-    public String actualizarProvedores(@AuthenticationPrincipal CustomUserPrincipal principal,
-                                    @RequestParam(value = "mensaje", required = false) String mensaje,
-                                    Model model) {
-
-        Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("mensaje", mensaje);
-
-        return "EditarProveedores";
     }
 
 }

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" th:href="@{/Css/EditarProducto.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,11 +83,6 @@
                 <li class="sidebar__item">
                     <i class="ri-star-line"></i>
                     <a th:href="@{/admin/resenna}" class="sidebar__text">Reseñas</a>
-                </li>
-
-                <li class="sidebar__item">
-                    <i class="ri-pie-chart-line"></i>
-                    <a th:href="@{/admin/prediccion}" class="sidebar__text">Predicciones</a>
                 </li>
 
                 <p class="menu__title">Configuracion Del Sitio</p>
@@ -318,30 +313,6 @@
                                         </div>
                                         <p class="formulario__error error--tipoProducto">
                                             Seleccione el tipo de producto que quiere que sea su producto
-                                        </p>
-                                    </div>
-
-                                    <h2 class="input__inventario">Nombre Del Proveedor</h2>
-
-                                    <!-- Proveedores -->
-                                    <div class="input__formulario" id="formulario__proveedores">
-                                        <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="Proveedores">
-                                                <option disabled selected>Asignar Proveedores</option>
-                                                <option value="Vino">Vino</option>
-                                                <option value="Cerveza">Cerveza</option>
-                                                <option value="Whisky">Whisky</option>
-                                                <option value="Tequila">Tequila</option>
-                                                <option value="Vodka">Vodka</option>
-                                                <option value="Ginebra">Ginebra</option>
-                                                <option value="Aguardiente">Aguardiente</option>
-                                                <option value="Ron">Ron</option>
-                                                <option value="Mezcal">Mezcal</option>
-                                            </select>
-                                            <i class="fa-solid fa-chevron-down custom-proveedores" id="arrowIcon"></i>
-                                        </div>
-                                        <p class="formulario__error error--Proveedores">
-                                            Tiene que seleccionar un proveedor por favor.
                                         </p>
                                     </div>
 

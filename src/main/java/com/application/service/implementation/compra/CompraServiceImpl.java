@@ -12,9 +12,8 @@ import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
 import com.application.presentation.dto.compra.request.DetalleVentaRequest;
-import com.application.presentation.dto.compra.response.*;
-import com.application.presentation.dto.general.response.BaseResponse;
-import com.application.service.interfaces.CloudinaryService;
+import com.application.presentation.dto.compra.response.CompraResponse;
+import com.application.presentation.dto.compra.response.DetalleVentaResponse;
 import com.application.service.interfaces.CompraService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,6 @@ public class CompraServiceImpl implements CompraService {
     private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
     private final ProductoRepository productoRepository;
-    private final CloudinaryService cloudinaryService;
 
     /**
      * @param compraId
@@ -162,7 +160,7 @@ public class CompraServiceImpl implements CompraService {
                 Producto producto = detalleVenta.getProducto();
 
                 if (producto.getStock() < productoRepository.findStockByProductoId(producto.getProductoId())) {
-                    producto.setStock(producto.getStock() + detalleVenta.getCantidad());
+                    producto.setStock( producto.getStock() + detalleVenta.getCantidad());
                     productoRepository.save(producto);
                 }
 
@@ -185,32 +183,6 @@ public class CompraServiceImpl implements CompraService {
             compra.setEstado(EEstado.CANCELADO);
             compraRepository.save(compra);
         }
-    }
-
-    /**
-     * @param compraId
-     * @param estado
-     * @return
-     */
-    @Override
-    public BaseResponse changeEstadoCompra(Long compraId, String estado) {
-        Compra compra = this.getCompraById(compraId);
-
-        EEstado nuevoEstado = mapearStringAEstado(estado);
-        compra.setEstado(nuevoEstado);
-        compraRepository.save(compra);
-
-        return new BaseResponse("Estado cambiado exitosamente", true);
-    }
-
-    private EEstado mapearStringAEstado(String estado) {
-        return switch (estado.toLowerCase()) {
-          case "pagado" -> EEstado.PAGADO;
-          case "pendiente" -> EEstado.PENDIENTE;
-          case "cancelado" -> EEstado.CANCELADO;
-          case "rechazado" -> EEstado.RECHAZADO;
-          default -> throw new IllegalArgumentException("Estado Invalido " + estado);
-        };
     }
 
     /**

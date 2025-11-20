@@ -1,6 +1,7 @@
 package com.application.presentation.controller.principal;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.persistence.entity.compra.Compra;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
 import com.application.presentation.dto.compra.response.CompraResponse;
 import com.application.service.interfaces.CompraService;

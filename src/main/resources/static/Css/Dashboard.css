@@ -14,7 +14,7 @@
 }
 
 .sidebar__logo {
-    width: 250px;
+    width: 250px; 
     height: 90px;
     overflow: hidden;
     display: flex;
@@ -27,7 +27,7 @@
 .sidebar__logo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; 
     display: block;
     cursor: pointer;
 
@@ -42,8 +42,8 @@
     flex-shrink: 0;
     background-color: transparent;
     border-right: 1px solid #ddd;
-}
 
+}
 
 .dashboard__sidebar .sidebar__menu {
     list-style-type: none;
@@ -61,7 +61,7 @@
     font-size: 18px;
     color: #333;
     cursor: pointer;
-    margin: 6px 20px;
+    margin: 8px 20px;
     border-radius: 8px;
     position: relative;
     transition: background-color 0.4s ease, color 0.4s ease;
@@ -112,6 +112,7 @@
     padding: 1.5rem 0 0 0;
 
 }
+
 
 /* Contenido */
 .dashboard__content {
@@ -432,7 +433,7 @@
 
 .body__welcome {
     background: url("../Assets/Img/Dashboard/ImagenDashboard2.png") center center / cover no-repeat;
-    width: 100%;
+    width: 101%;
     height: 255px;
     border-radius: 15px;
 
@@ -603,7 +604,7 @@
     position: relative;
     top: -3.5rem;
     left: -2.5rem;
-    background: transparent !important;
+    background: transparent !important; 
 }
 
 .item--mapa .mapa__title {
@@ -626,7 +627,7 @@
     margin-left: 1.4rem;
 }
 
-.item--dispersión {
+.item--dispersión{
     flex: 0 1 1200px;
 }
 

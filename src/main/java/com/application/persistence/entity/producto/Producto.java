@@ -101,5 +101,4 @@ public class Producto {
         detalleFactura.setProducto(null);
         this.detalleFacturas.remove(detalleFactura);
     }
-
 }
