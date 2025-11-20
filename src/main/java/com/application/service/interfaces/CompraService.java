@@ -3,12 +3,11 @@ package com.application.service.interfaces;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.compra.Compra;
 import com.application.persistence.entity.compra.enums.EEstado;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.compra.request.CompraCreateRequest;
 import com.application.presentation.dto.compra.response.CompraDashboardResponse;
 import com.application.presentation.dto.compra.response.CompraResponse;
 import com.application.presentation.dto.compra.response.DetalleCompraResponse;
-import com.application.presentation.dto.general.response.BaseResponse;
-
 import java.util.List;
 
 public interface CompraService {
