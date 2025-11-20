@@ -160,39 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         actualizarInterfaz();
     }
 
-
     // Imagen del producto - CORREGIDO: Usar el input file que ya existe en el HTML
-    // ========== EDITOR DE DESCRIPCIÓN ==========
-    const toolbarOptions = [
-        ['bold', 'italic', 'underline'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['link', 'clean']
-    ];
-
-    const quill = new Quill('#editor-container', {
-        modules: {
-            toolbar: toolbarOptions
-        },
-        theme: 'snow',
-        placeholder: 'Describe la categoría...'
-    });
-
-    // Actualizar campo oculto cuando cambie el contenido
-    quill.on('text-change', function () {
-        const contenidoTextoPlano = quill.getText().trim();
-        document.getElementById('descripcionHidden').value = contenidoTextoPlano;
-
-        // Validación visual en tiempo real
-        const errorDescripcion = document.querySelector('.error--descripcion');
-        const boxDescripcion = document.querySelector('.formulario__boxdescripcion');
-
-        if (contenidoTextoPlano.length > 0) {
-            errorDescripcion.style.display = 'none';
-            boxDescripcion.classList.remove('error-border');
-        }
-    });
-
-    // ========== MANEJO DE IMAGEN ==========
     const boxImagen = document.querySelector('.formulario__boximagen');
     const inputFile = document.getElementById('fileInput'); // Usar el input existente
     const previewContainer = document.getElementById('previewContainer');
@@ -478,5 +446,4 @@ document.addEventListener("DOMContentLoaded", () => {
         // Caso éxito
         sessionStorage.setItem("loginSuccess", "true");
     });
-
 });
