@@ -32,8 +32,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                     ON c.fecha >= :fechaInicio 
                     AND c.estado = com.application.persistence.entity.compra.enums.EEstado.PAGADO
                 WHERE u.accountNonLocked = true
+                AND u.rol.name IN ('INVITADO', 'PERSONA_CONTACTO', 'PERSONA_JURIDICA', 'PERSONA_NATURAL')
                 GROUP BY u.usuarioId, u.imagen, u.nombres, u.apellidos, u.correo, u.telefono, u.isEnabled
-                ORDER BY u.usuarioId DESC
+                ORDER BY COALESCE(SUM(c.total), 0) DESC
             """)
     List<UsuarioGastoResponse> obtenerUsuariosConGastoUltimoAnio(@Param("fechaInicio") LocalDateTime fechaInicio);
 

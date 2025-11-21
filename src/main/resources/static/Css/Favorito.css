@@ -137,6 +137,11 @@
     color: #6b7280;
 }
 
+.list__icon {
+    margin-left: 1.5rem;
+    display: flex;
+    gap: 1.3rem;
+}
 
 /*Pagination de la tabla  */
 .table__pagination {
