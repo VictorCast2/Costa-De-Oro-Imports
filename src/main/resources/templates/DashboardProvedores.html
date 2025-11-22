@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
 <div class="container__dashboard">
 
     <aside class="dashboard__sidebar">
@@ -217,7 +217,7 @@
                 </div>
 
                 <div class="titleheader__btn">
-                    <a th:href="@{/admin/provedores/add}">Agregar Proveedores</a>
+                    <a th:href="@{/admin/provedores/create-proveedor}">Agregar Proveedores</a>
                 </div>
             </div>
 
@@ -235,14 +235,18 @@
                                 <button class="dropdown__item compra">
                                     <i class="ri-shopping-bag-4-line"></i> Nueva compra
                                 </button>
-                                <button class="dropdown__item editar">
+                                <button class="dropdown__item editar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}">
                                     <i class="ri-edit-box-line"></i> Editar
                                 </button>
-                                <button class="dropdown__item eliminar">
+                                <button class="dropdown__item eliminar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}">
                                     <i class="ri-delete-bin-5-line"></i> Eliminar
                                 </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
+                                <button class="dropdown__item ocultar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}, data-activo=${proveedor.isEnabled}">
+                                    <i class="ri-eye-line"></i>
+                                    <span th:text="${proveedor.isEnabled} ? 'Ocultar' : 'Mostrar'">Ocultar</span>
                                 </button>
                             </div>
                         </div>

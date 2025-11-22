@@ -65,7 +65,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                           AND c.estado = com.application.persistence.entity.compra.enums.EEstado.PAGADO
                           AND YEAR(c.fecha) = YEAR(CURRENT_DATE)
                     ), 0
-                ) AS double)
+                ) AS double),
+                u.isEnabled
             )
             FROM Usuario u
             JOIN u.empresa e
@@ -74,8 +75,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                 AND fp.activo = true
                 AND YEAR(fp.fechaEmision) = YEAR(CURRENT_DATE)
             WHERE r.name = com.application.persistence.entity.rol.enums.ERol.PROVEEDOR
-              AND u.isEnabled = true
-            GROUP BY u.usuarioId, e.imagen, e.razonSocial, u.nombres, u.apellidos, u.correo
+              AND u.accountNonLocked = true
+            GROUP BY u.usuarioId, e.imagen, e.razonSocial, u.nombres, u.apellidos, u.correo, u.isEnabled
             ORDER BY COALESCE(SUM(fp.total), 0) DESC
             """)
     List<ProveedorEstadisticasResponse> findProveedoresConEstadisticas();

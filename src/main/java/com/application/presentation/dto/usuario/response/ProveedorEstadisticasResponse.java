@@ -7,6 +7,7 @@ public record ProveedorEstadisticasResponse(
         String nombreCompleto,
         String correo,
         Double totalGastado,
-        Double totalGanado
+        Double totalGanado,
+        boolean isEnabled
 ) {
 }
