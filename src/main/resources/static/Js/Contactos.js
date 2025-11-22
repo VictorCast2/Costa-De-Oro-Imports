@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initCart();
 
     rederigirFav();
+
+    toggleMenu();
 
 
     // --- VALIDACIONES DE CONTACTOS ---

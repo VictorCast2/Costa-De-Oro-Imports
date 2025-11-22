@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, toggleMenu } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     inicialHeart();
 
     initCart();
+
+    toggleMenu();
 
     //rellenar la tabla mediante localStogare 
     const cartTableBody = document.getElementById("favoritos-body");

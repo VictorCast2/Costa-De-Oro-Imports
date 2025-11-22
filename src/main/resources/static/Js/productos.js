@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, verProductos } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, verProductos, toggleMenu } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     finalizarCompra();
 
     verProductos();
+
+    toggleMenu();
 
 
     //filtrar los productos

@@ -40,6 +40,7 @@
         </figure>
 
         <nav class="header__navbar">
+            <div id="close-menu" class="close-menu">×</div>
             <ul class="navbar__list">
                 <li class="list__item"><a href="Index.html" class="item__link">Inicio</a></li>
                 <li class="list__item"><a href="Pack.html" class="item__link">Packs</a></li>
@@ -51,7 +52,17 @@
 
         <div class="list__icon">
 
-            <span class="icon__item">
+            <span class="icon__item" id="menu-toggle">
+                <i class="ri-menu-line"></i>
+            </span>
+
+            <!-- BUSQUEDA PARA MOVIL/TABLET -->
+            <span class="icon__item icon-search-mobile">
+                <i class="ri-search-line"></i>
+            </span>
+
+            <!-- BUSQUEDA PARA ESCRITORIO -->
+            <span class="icon__item" id="icon-search">
                 <i class="ri-search-line"></i>
             </span>
 
