@@ -151,7 +151,7 @@
 
                                 <form id="formFoto" th:action="@{/perfil/colocar-imagen-usuario}" method="post"
                                     enctype="multipart/form-data">
-                                    <div class="card__img">
+                                    <div class="card__img--user">
                                         <figure class="img__user">
                                             <img id="preview" th:src="${urlImagenUsuario}"
                                                 th:alt="${usuario.imagen}">
@@ -321,7 +321,7 @@
 
                                 <form id="formFotoEmpresa" th:action="@{/perfil/colocar-imagen-empresa}" method="post"
                                     enctype="multipart/form-data">
-                                    <div class="card__img">
+                                    <div class="card__img--user">
                                         <figure class="img__user user--empresar">
                                             <img id="previewEmpresa"
                                                 th:src="${urlImagenEmpresa}"
