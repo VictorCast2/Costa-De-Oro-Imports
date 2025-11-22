@@ -229,4 +229,5 @@ public class EmailServiceImpl implements EmailService {
             case CANCELADO -> "🚫";
         };
     }
+
 }

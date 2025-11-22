@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, finalizarCompra, addProductToCart } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, finalizarCompra, addProductToCart, toggleMenu } from "./main.js";
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //finalizar compra
     finalizarCompra();
+
+    toggleMenu();
 
     //rellenar la tabla con paginación 
     const favTableBody = document.getElementById("favoritos-body");
