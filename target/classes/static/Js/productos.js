@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             categorias: obtenerValoresCategoriasPadre('.parent-checkbox:checked'),
             subcategorias: obtenerValoresCheckbox('.subcategory-list input[type="checkbox"]:checked'),
             precioMin: parseFloat(minRange.value) || 0,
-            precioMax: parseFloat(maxRange.value) || 10000000
+            precioMax: parseFloat(maxRange.value) || 1000000
         };
 
         filtrosActivos = { ...filtrosActivos, ...nuevosFiltros };
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                  filtrosActivos.categorias.length > 0 ||
                                  filtrosActivos.subcategorias.length > 0 ||
                                  filtrosActivos.precioMin > 0 ||
-                                 filtrosActivos.precioMax < 10000000;
+                                 filtrosActivos.precioMax < 1000000;
 
         console.log('Hay filtros activos:', hayFiltrosActivos);
 
@@ -784,8 +784,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Resetear rango de precio a valores por defecto
         if (minRange && maxRange) {
-            minRange.value = 203400;
-            maxRange.value = 4071200;
+            minRange.value = 0;
+            maxRange.value = 1000000;
 
             // Actualizar visualización
             const event = new Event('input');

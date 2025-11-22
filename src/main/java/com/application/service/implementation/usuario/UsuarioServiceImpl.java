@@ -11,6 +11,7 @@ import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
 import com.application.presentation.dto.usuario.response.ClienteResponse;
+import com.application.presentation.dto.usuario.response.ProveedorEstadisticasResponse;
 import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
 import com.application.service.implementation.ImagenServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
@@ -77,6 +78,22 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                         usuario.telefono(),
                         usuario.totalGastado(),
                         usuario.isEnabled()
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<ProveedorEstadisticasResponse> getProveedorConEstadisticas() {
+        List<ProveedorEstadisticasResponse> proveedores = usuarioRepository.findProveedoresConEstadisticas();
+        return proveedores.stream()
+                .map(proveedor -> new ProveedorEstadisticasResponse(
+                        proveedor.usuarioId(),
+                        cloudinaryService.getImagenUrl(proveedor.imagenEmpresa()),
+                        proveedor.nombreEmpresa(),
+                        proveedor.nombreCompleto(),
+                        proveedor.correo(),
+                        proveedor.totalGastado(),
+                        proveedor.totalGanado()
                 ))
                 .toList();
     }

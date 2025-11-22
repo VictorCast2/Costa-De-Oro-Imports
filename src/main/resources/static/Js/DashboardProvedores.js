@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //llevar a la pagina de nueva compra
+    // llevar a la pagina de nueva compra
     document.querySelectorAll(".dropdown__item.compra").forEach(boton => {
         boton.addEventListener("click", () => {
             window.location.href = "/admin/provedores/nueva-compra";
