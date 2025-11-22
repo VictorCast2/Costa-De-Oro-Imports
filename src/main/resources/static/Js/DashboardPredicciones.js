@@ -1,14 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-
     // Efecto glassmorphism solo al hacer scroll
-    const header = document.querySelector('.content__header');
+    const header = document.querySelector(".content__header");
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
         if (window.scrollY > 10) {
-            header.classList.add('scrolled');
+            header.classList.add("scrolled");
         } else {
-            header.classList.remove('scrolled');
+            header.classList.remove("scrolled");
         }
     });
 
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     //Grafica de proyeccion
     // ========== DATOS MENSUALES ==========
     const ventas = {
@@ -57,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
         2024: [200, 220, 210, 230, 260, 240, 300, 280, 330, 300, 350, 320],
         2025: [220, 210, 240, 200, 260, 230, 290, 250, 310, 280, 340, 300]
     };
-
 
     const meses = [
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -103,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         stroke: { width: 3, curve: "smooth" },
         markers: { size: 5 },
-
         fill: {
             type: "gradient",
             gradient: {
