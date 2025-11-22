@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //Menú desplegable del perfil 
+    //Menú desplegable del perfil
     const subMenu = document.getElementById("SubMenu");
     const profileImage = document.getElementById("user__admin");
 
@@ -44,6 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // ========== PRECARGAR IMAGEN DEL CLIENTE ==========
+    function precargarImagenCliente() {
+        const imagenActual = document.querySelector('#previewContainer img');
+        if (imagenActual && imagenActual.src) {
+            // Mostrar la imagen actual en el preview container
+            previewContainer.style.display = "flex";
+            boxImagen.style.border = "1px solid #0034de";
+
+            // Cambiar el texto del mensaje
+            const formularioMensaje = document.querySelector('.formulario__mensaje');
+            if (formularioMensaje) {
+                formularioMensaje.textContent = "Imagen actual del cliente. Haga clic en 'Subir' para cambiar.";
+            }
+        }
+    }
 
     /* Cargar la imagen del usuario con js */
     const fileInput = document.getElementById("fileInput");
@@ -55,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const boxImagen = document.querySelector(".formulario__boximagen");
 
     const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-    const tamañoMaximo = 1 * 1024 * 1024; // 1 MB
+    const tamañoMaximo = 5 * 1024 * 1024; // 5 MB - CAMBIADO DE 1MB A 5MB
     let selectedFile = null;
 
     // Abrir explorador al hacer clic en "Subir"
@@ -89,9 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Validar tamaño
+        // Validar tamaño (5MB máximo)
         if (file.size > tamañoMaximo) {
-            errorFormato.textContent = "La imagen no debe superar 1 MB.";
+            errorFormato.textContent = "La imagen no debe superar 5 MB."; // ACTUALIZADO EL MENSAJE
             errorFormato.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return;
@@ -129,29 +144,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 30);
     }
 
-    // Función de validación final (para el submit)
+    // Función de validación final (para el submit) - MODIFICADA PARA EDICIÓN
     function validarImagenes() {
         const file = fileInput.files[0];
+        const tieneImagenActual = document.querySelector('#previewContainer img') !== null;
 
         errorFormato.style.display = "none";
         errorVacio.style.display = "none";
         boxImagen.style.border = "1px solid #ddd";
 
-        if (!file) {
+        // En edición, la imagen no es obligatoria si ya hay una imagen actual
+        if (!file && !tieneImagenActual) {
             errorVacio.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;
         }
 
-        if (!formatosPermitidos.includes(file.type)) {
+        if (file && !formatosPermitidos.includes(file.type)) {
             errorFormato.textContent = "Solo se permiten archivos JPG, PNG o WEBP.";
             errorFormato.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;
         }
 
-        if (file.size > tamañoMaximo) {
-            errorFormato.textContent = "La imagen no debe superar 1 MB.";
+        if (file && file.size > tamañoMaximo) {
+            errorFormato.textContent = "La imagen no debe superar 5 MB."; // ACTUALIZADO EL MENSAJE
             errorFormato.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;
@@ -161,12 +178,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    // Botón "Limpiar"
+    // Botón "Limpiar" - MODIFICADO PARA EDICIÓN
     resetButton.addEventListener("click", (e) => {
         e.preventDefault();
         fileInput.value = "";
-        previewContainer.innerHTML = "";
-        previewContainer.style.display = "none";
+
+        // Solo limpiar si no hay imagen actual precargada
+        const imagenActual = document.querySelector('#previewContainer img[th\\:src]');
+        if (!imagenActual) {
+            previewContainer.innerHTML = "";
+            previewContainer.style.display = "none";
+        } else {
+            // Si hay imagen actual, restaurarla
+            previewContainer.innerHTML = `<img th:src="${imagenActual.getAttribute('th:src')}" alt="Imagen actual del cliente" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px;">`;
+            previewContainer.style.display = "flex";
+        }
+
         selectedFile = null;
 
         // Quitar errores visuales
@@ -174,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
         errorVacio.style.display = "none";
         boxImagen.style.border = "1px solid #ddd";
     });
-
 
     //Validaciones del formulario de agregar clientes
     const fieldsClientes = {
@@ -249,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let formularioValido = true;
         let selectsValidos = true;
 
-
         // 2. Validar inputs (solo si el checkbox está marcado)
         Object.keys(fieldsClientes).forEach(fieldId => {
             const input = document.getElementById(fieldId);
@@ -283,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
             selectTipoIdentificacion.style.border = "2px solid #fd1f1f";
         }
 
-        // Validar imagen antes de enviar
+        // Validar imagen antes de enviar - USANDO LA NUEVA VALIDACIÓN
         if (!validarImagenes()) {
             formularioValido = false;
         }
@@ -307,22 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("loginSuccess", "true");
     });
 
-    // Al cargar la página, revisamos si hay bandera de login
-    window.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("loginSuccess") === "true") {
-            Swal.fire({
-                title: "Registro exitoso",
-                icon: "success",
-                timer: 3000,
-                draggable: true,
-                timerProgressBar: true,
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-            sessionStorage.removeItem("loginSuccess");
-        }
-    });
-
+    // ========== INICIALIZAR PRECARGA DE IMAGEN ==========
+    precargarImagenCliente();
 });

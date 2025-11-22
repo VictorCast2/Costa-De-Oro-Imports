@@ -10,6 +10,7 @@
     --colorWhite: #ffffff;
 }
 
+
 /* Section body */
 .content__body {
     margin-left: 260px;
@@ -312,7 +313,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 /* Ventana modal */
 .modal {
-    display: none;
+    display:none;
     position: fixed;
     z-index: 100;
     left: 0;
@@ -355,7 +356,7 @@ input[type="search"]::-webkit-search-cancel-button {
     top: -2rem;
     width: calc(100% + 60px);
     border-bottom: 1px solid #e5e7eb;
-    padding: 1.2rem 2rem;
+    padding:1.2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -381,7 +382,7 @@ input[type="search"]::-webkit-search-cancel-button {
     color: #111827;
 }
 
-.modal-body {
+.modal-body{
     margin-top: -1rem;
 }
 
@@ -390,7 +391,7 @@ input[type="search"]::-webkit-search-cancel-button {
     display: flex;
     align-items: center;
     margin: 6px 0 15px 0;
-    font: 500 1.1rem var(--typografiaUrbanist);
+    font:500 1.1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
 }
 
@@ -399,33 +400,33 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 
-.info-row i {
+.info-row i{
     border-radius: 25px;
     margin-right: 0.8rem;
     font-size: 1.4rem;
 }
 
-.info-row .start--modal {
+.info-row .start--modal{
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0rem 0 0 0.1rem;
 }
 
-.info-row .start--modal i {
+.info-row .start--modal i{
     color: #ffc107;
-    margin: -0.3rem 0 0 -0.1rem;
+    margin:-0.3rem 0 0 -0.1rem;
     font-size: 1.3rem;
     background-color: transparent;
 }
 
-.info-row .modal__span {
-    font: 500 1.1rem var(--typografiaUrbanist);
+.info-row .modal__span{
+    font:500 1.1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
 }
 
 .info-row span {
-    font: 600 1.1rem var(--typografiaUrbanist);
+    font:600 1.1rem var(--typografiaUrbanist);
     color: var(--colorLigth);
     color: #111827;
     margin-right: 6px;
@@ -435,8 +436,8 @@ input[type="search"]::-webkit-search-cancel-button {
     margin-top: 20px;
 }
 
-.mensaje label {
-    font: 600 1.1rem var(--typografiaUrbanist);
+.mensaje label{
+    font:600 1.1rem var(--typografiaUrbanist);
 }
 
 .mensaje p {

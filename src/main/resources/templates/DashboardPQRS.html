@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -170,7 +170,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                              alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -209,7 +209,6 @@
             </header>
 
             <section class="content__body">
-
                 <div class="body__titleheader">
                     <div class="titleheader__producto">
                         <h1 class="producto__titulo">PQRS</h1>
@@ -220,63 +219,48 @@
                 <div class="body__datos">
                     <div class="datos__card">
                         <div class="card__texto">
-                            <h2 class="texto__title">Pendientes
-                            </h2>
-
+                            <h2 class="texto__title">Pendientes</h2>
                             <span class="texto__icon"><i class="ri-time-line"></i></span>
                         </div>
-
                         <div class="card__ingresos">
-                            <span class="ingresos__total">2</span>
+                            <span class="ingresos__total" id="contador-pendientes">0</span>
                         </div>
-
                     </div>
 
                     <div class="datos__card">
                         <div class="card__texto">
-                            <h2 class="texto__title">En Proceso
-                            </h2>
-
+                            <h2 class="texto__title">En Proceso</h2>
                             <span class="texto__icon"><i class="ri-error-warning-line"></i></span>
                         </div>
-
                         <div class="card__ingresos">
-                            <span class="ingresos__total">2</span>
+                            <span class="ingresos__total" id="contador-proceso">0</span>
                         </div>
                     </div>
 
                     <div class="datos__card">
                         <div class="card__texto">
-                            <h2 class="texto__title">Resueltos
-                            </h2>
-
+                            <h2 class="texto__title">Resueltos</h2>
                             <span class="texto__icon"><i class="ri-checkbox-circle-line"></i></span>
                         </div>
-
                         <div class="card__ingresos">
-                            <span class="ingresos__total">2</span>
+                            <span class="ingresos__total" id="contador-resueltos">0</span>
                         </div>
                     </div>
 
                     <div class="datos__card">
                         <div class="card__texto">
-                            <h2 class="texto__title">Total
-                            </h2>
-
+                            <h2 class="texto__title">Total</h2>
                             <span class="texto__icon"><i class="ri-chat-4-line"></i></span>
                         </div>
-
                         <div class="card__ingresos">
-                            <span class="ingresos__total">6</span>
+                            <span class="ingresos__total" id="contador-total">0</span>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="body__pqrs">
                     <div class="container__table">
                         <div class="table__filter">
-
                             <input id="inputSearch" type="search" placeholder="Buscar por nombre o asunto...">
 
                             <div class="custom__select">
@@ -299,226 +283,15 @@
                                 </select>
                                 <i class="ri-arrow-down-s-line"></i>
                             </div>
-
                         </div>
 
                         <div class="table__solicitudes">
-
                             <div class="solicitudes__clientes">
                                 <div class="clientes__content" id="contenedor-cards">
-
-                                    <h2 class="content__title">Solicitudes (6)</h2>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Peticion">Peticion</button>
-                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
-                                                    Pendiente</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Solicitud de información sobre servicios</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> María González</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 4 de noviembre
-                                                de 2025</p>
-                                        </div>
-
+                                    <h2 class="content__title" id="titulo-solicitudes">Solicitudes (<span th:text="${peticionList.size()}">0</span>)</h2>
+                                    <div id="cards-container">
+                                        <!-- Las cards se cargarán dinámicamente aquí -->
                                     </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Queja">Queja</button>
-                                                <button class="button__item EnProceso"><i
-                                                        class="ri-error-warning-line"></i> En Proceso</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Demora en la atención</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> Carlos Ramírez</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 2 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Reclamo">Reclamo</button>
-                                                <button class="button__item Resuelto"><i
-                                                        class="ri-checkbox-circle-line"></i> Resuelto</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Producto defectuoso</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> Ana Martínez</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 3 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Sugerencia">Sugerencia</button>
-                                                <button class="button__item Pendiente"><i class="ri-time-line"></i>
-                                                    Pendiente</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Mejora en la plataforma web</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> Luis Torres</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 5 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Peticion">Peticion</button>
-                                                <button class="button__item EnProceso"><i
-                                                        class="ri-error-warning-line"></i> En Proceso</button>
-
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Certificado de servicio</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> Sandra López</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 6 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="content__card">
-
-                                        <div class="card__estados">
-                                            <div class="estados__button">
-                                                <button class="button__item Queja">Queja</button>
-                                                <button class="button__item Resuelto"><i
-                                                        class="ri-checkbox-circle-line"></i> Resuelto</button>
-                                            </div>
-
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ver
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card__information">
-                                            <h4 class="information__title">Mala atención al cliente</h4>
-                                            <p class="information__text"><i class="ri-user-line"></i> Pedro Sánchez</p>
-                                            <p class="information__date"><i class="ri-calendar-line"></i> 1 de noviembre
-                                                de 2025</p>
-                                        </div>
-
-                                    </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -530,10 +303,8 @@
                                 <button class="button__pasar pasar--siguiente">Siguiente</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </section>
         </main>
 
@@ -550,40 +321,42 @@
 
             <div class="modal-body">
                 <div class="estados__button button--modal">
-                    <button class="button__item"></button>
-                    <button class="button__item"></button>
+                    <button class="button__item" id="modal-tipo"></button>
+                    <button class="button__item" id="modal-estado"></button>
                 </div>
 
-                <h3>Mala atención al cliente</h3>
-                <div class="info-row fecha"><i class="ri-calendar-line"></i> <span>Fecha:</span> </div>
-                <div class="info-row"><i class="ri-user-line"></i> <span>Nombre:</span> </div>
-                <div class="info-row"><i class="ri-mail-line"></i> <span>Email:</span> </div>
-                <div class="info-row"><i class="ri-phone-line"></i> <span>Teléfono:</span> </div>
+                <h3 id="modal-asunto"></h3>
+                <div class="info-row fecha"><i class="ri-calendar-line"></i> <span>Fecha:</span> <span id="modal-fecha"></span></div>
+                <div class="info-row"><i class="ri-user-line"></i> <span>Nombre:</span> <span id="modal-nombre"></span></div>
+                <div class="info-row"><i class="ri-mail-line"></i> <span>Email:</span> <span id="modal-email"></span></div>
+                <div class="info-row"><i class="ri-phone-line"></i> <span>Teléfono:</span> <span id="modal-telefono"></span></div>
 
                 <div class="mensaje">
                     <label>Mensaje:</label>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, mollitia nam hic dolore debitis deleniti? Facilis aut nemo tempora, delectus, consequuntur veritatis impedit vitae tenetur aperiam quibusdam, facere et perspiciatis.</p>
+                    <p id="modal-mensaje"></p>
                 </div>
 
                 <div class="cambiar-estado">
                     <label>Cambiar estado:</label>
                     <form id="formEstado">
+                        <input type="hidden" id="modal-peticion-id">
                         <div class="custom__select">
-                            <select id="filtro-estado">
+                            <select id="select-estado-modal">
                                 <option value="Pendiente">Pendiente</option>
                                 <option value="En Proceso">En Proceso</option>
                                 <option value="Resuelto">Resuelto</option>
                             </select>
                             <i class="ri-arrow-down-s-line"></i>
                         </div>
-                        <!-- Botón invisible -->
-                        <button type="submit" id="submitEstado" style="display: none;">Enviar</button>
+                        <button type="submit" class="btn-actualizar">Actualizar Estado</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Script para pasar datos de Thymeleaf a JavaScript -->
+    <script th:utext="'window.peticionesData = ' + ${peticionesJson} + ';'"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{/Js/DashboardPQRS.js}"></script>
 </body>

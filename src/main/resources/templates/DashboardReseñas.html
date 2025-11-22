@@ -12,14 +12,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css"
-        integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+          integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <title>Dashboard Reseñas || Costa De Oro Imports</title>
     <meta name="description" content="">
@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
     <div class="container__dashboard">
 
         <aside class="dashboard__sidebar">
@@ -170,7 +170,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                              alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -250,344 +250,61 @@
                                     </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
-                                    <tr>
-                                        <td>El Sabor del Whisky Escocés</td>
-                                        <td>Carlos M. Herrera</td>
-                                        <td class="td__reseñas">Un whisky con notas de madera y vainilla, suave al
-                                            paladar pero con un final
-                                            ahumado intenso</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>12/10/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+
+                                    <tr th:each="comentario : ${comentarioList}">
+
+                                    <!-- Blog -->
+                                    <td data-label="Nombre blog" th:text="${comentario.blogResponse.titulo}"></td>
+
+                                    <!-- Usuario -->
+                                    <td data-label="Usuario"
+                                        th:text="${comentario.usuarioResponse.nombres} + ' ' + ${comentario.usuarioResponse.apellidos}">
+                                    </td>
+
+                                    <!-- Reseña -->
+                                    <td class="td__reseñas" data-label="Reseñas"
+                                        th:text="${comentario.mensaje}">
+                                    </td>
+
+                                    <!-- Calificación -->
+                                    <td class="td__calificacion" data-label="Calificación">
+                                        <div class="stars">
+                                            <i th:each="i : ${#numbers.sequence(1,5)}"
+                                               th:class="${i <= comentario.calificacion} ? 'ri-star-fill' : 'ri-star-line'">
+                                            </i>
+                                        </div>
+                                    </td>
+
+                                    <!-- Fecha -->
+                                    <td data-label="Fecha"
+                                        th:text="${#temporals.format(comentario.fecha, 'dd/MM/yyyy')}">
+                                    </td>
+
+                                    <!-- Menu -->
+                                    <td class="menu__actions" data-label="Acciones">
+                                        <div class="dropdown">
+                                            <button class="dropdown__toggle">
+                                                <i class="ri-more-2-fill"></i>
+                                            </button>
+
+                                            <div class="dropdown__menu">
+                                                <button class="dropdown__item eliminar"
+                                                        th:attr="data-id=${comentario.id}">
+                                                    <i class="ri-delete-bin-5-line"></i> Eliminar
                                                 </button>
 
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Vinos del Valle Central Chileno</td>
-                                        <td>Andrea López</td>
-                                        <td class="td__reseñas">Probé el Cabernet Sauvignon 2019 y fue una joya. Cuerpo
-                                            medio, aromas a
-                                            frutos rojos y taninos suaves. Perfecto para carnes asadas.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </td>
-                                        <td>20/02/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
+                                                <button class="dropdown__item ocultar"
+                                                        th:attr="data-id=${comentario.id}, data-activo=${comentario.estado}">
+                                                    <i class="ri-eye-line"></i>
+                                                    <span th:text="${comentario.estado} ? 'Ocultar' : 'Mostrar'"></span>
                                                 </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                                    <tr>
-                                        <td>Cócteles con Vodka: Recetas y Secretos</td>
-                                        <td>Diego Pardo</td>
-                                        <td class="td__reseñas">El vodka recomendado tiene una pureza increíble. Los
-                                            cócteles quedan
-                                            cristalinos y sin ese sabor fuerte que arruina la mezcla.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>05/03/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Ron Caribeño, el Espíritu del Trópico</td>
-                                        <td>Valentina Suárez</td>
-                                        <td class="td__reseñas">El ron oscuro tiene un equilibrio perfecto entre dulzura
-                                            y fuerza. Se nota
-                                            el toque de caña y caramelo. Muy recomendable.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </td>
-                                        <td>08/04/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Cervezas Artesanales de Latinoamérica</td>
-                                        <td>Juan Esteban Rivas</td>
-                                        <td class="td__reseñas">La cerveza ámbar artesanal fue una sorpresa. Aromas
-                                            cítricos, espuma densa y
-                                            un retrogusto a miel. Volvería a comprarla sin dudar.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </td>
-                                        <td>02/05/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Brindando con Champagne Francés</td>
-                                        <td>Natalia Cárdenas</td>
-                                        <td class="td__reseñas">Las burbujas finas y persistentes hacen de este
-                                            champagne una delicia.
-                                            Perfecto para celebraciones elegantes.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>14/06/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Explorando el Malbec Argentino</td>
-                                        <td>Ricardo Peña</td>
-                                        <td class="td__reseñas">Excelente vino con notas a ciruela y chocolate amargo.
-                                            Se siente robusto y
-                                            muy bien equilibrado.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>03/07/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Catas de Tequila Premium</td>
-                                        <td>Fernanda Jiménez</td>
-                                        <td class="td__reseñas">El tequila reposado que probé fue espectacular. Dulce,
-                                            con notas de agave
-                                            cocido y un toque de madera. Ideal para degustar solo.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>29/08/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Gin Tonic: La Elegancia en un Vaso</td>
-                                        <td>Sebastián Lozano</td>
-                                        <td class="td__reseñas">El gin tiene un aroma botánico impresionante. Se mezcla
-                                            bien con cítricos y
-                                            tónica premium. Refrescante y sofisticado.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                            </div>
-                                        </td>
-                                        <td>10/09/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Licores Dulces y Digestivos</td>
-                                        <td>Camila Torres</td>
-                                        <td class="td__reseñas">El licor de café es una maravilla. Aromático, con el
-                                            punto justo de dulzura.
-                                            Perfecto para acompañar postres.</td>
-                                        <td class="td__calificacion">
-                                            <div class="stars">
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-fill"></i>
-                                                <i class="ri-star-line"></i>
-                                            </div>
-                                        </td>
-                                        <td>23/10/2025</td>
-                                        <td class="menu__actions">
-                                            <div class="dropdown">
-                                                <button class="dropdown__toggle">
-                                                    <i class="ri-more-2-fill"></i>
-                                                </button>
-
-                                                <div class="dropdown__menu">
-                                                    <button class="dropdown__item eliminar">
-                                                        <i class="ri-delete-bin-5-line"></i> Eliminar
-                                                    </button>
-                                                    <button class="dropdown__item ocultar">
-                                                        <i class="ri-eye-line"></i> Ocultar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
+                                    <tr th:if="${#lists.isEmpty(comentarioList)}" class="empty-row">
+                                        <td colspan="6" class="empty-message">No hay reseñas registradas</td>
                                     </tr>
 
                                 </tbody>
@@ -653,7 +370,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{/Js/DashboardReseñas.js}"></script>

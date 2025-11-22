@@ -105,7 +105,7 @@
             <li class="sidebar__item">
                 <i class="ri-printer-line"></i>
                 <a th:href="@{/admin/reportes}" class="sidebar__text">Reportes</a>
-            </li>0
+            </li>
         </ul>
 
     </aside>
@@ -213,29 +213,53 @@
             <h2 class="body__title">Resumen de predicciones de ventas</h2>
 
             <div class="body__grafico">
-                <div class="grafico__item item--dispersión">
+                <div class="grafico__item item--prediccion">
                     <div class="item__header">
                         <h2 class="header__title">Predicciones de Ventas (Años vs Ventas Totales)</h2>
-                        <span class="header__btn" id="menuPrediccionBtn">
-                                <i class="ri-menu-line"></i>
 
-                                <div class="prediccion__menu" id="prediccionMenu">
-                                    <p id="prediccionTexto">Generar Prediccion</p>
-                                    <!-- <p class="menu__option" id="downloadPNG">Descargar En PNG</p>
-                                    <p class="menu__option" id="downloadSVG">Descargar En SVG</p>
-                                    <p class="menu__option" id="downloadCSV">Descargar En CSV</p> -->
-                                </div>
-                            </span>
+                        <button class="header__btn" id="btnPrediccion">Generar Prediccion</button>
                     </div>
                     <div id="chartVentas"></div>
+
+                    <!-- OVERLAY DE CARGA CON BARRA DE PROGRESO -->
+                    <div id="loadingPrediccion" style="
+                            display: none;
+                            position: absolute;
+                            top: 0; left: 0; right: 0; bottom: 0;
+                            background: rgba(255,255,255,0.85);
+                            z-index: 999;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 20px;
+                            font-family: 'Geist', sans-serif;
+                            border-radius: 12px;
+                        ">
+                            <span style="font-size: 18px; font-weight: 600; color: #006f80;">
+                                Cargando la predicción para el próximo año...
+                            </span>
+                        <div style="
+                                width: 380px;
+                                height: 12px;
+                                background: #e0e0e0;
+                                border-radius: 6px;
+                                overflow: hidden;
+                            ">
+                            <div id="progressBar" style="
+                                    width: 0%;
+                                    height: 100%;
+                                    background: linear-gradient(90deg, #00bcd4, #00c6ff);
+                                    border-radius: 6px;
+                                    transition: width 0.2s ease;
+                                "></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </section>
     </main>
 
 </div>
-
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

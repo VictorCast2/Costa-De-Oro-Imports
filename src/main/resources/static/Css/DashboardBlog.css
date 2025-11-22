@@ -429,3 +429,52 @@ input[type="search"]::-webkit-search-cancel-button {
 .swal-popup {
     font-family: 'Urbanist', sans-serif !important;
 }
+
+/* Estilos aplicados cuando no existen blog */
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.no-data__card {
+    background: #f7f7f7;
+    border: 1px solid #d1d1d1;
+    padding: 40px 30px;
+    border-radius: 16px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.no-data__icon {
+    font-size: 50px;
+    color: #6f6f6f;
+    margin-bottom: 15px;
+}
+
+.no-data__title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #4a4a4a;
+}
+
+.no-data__text {
+    font-size: 15px;
+    color: #7a7a7a;
+}
+
+/* Suave animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

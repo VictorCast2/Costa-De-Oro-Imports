@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -37,11 +38,12 @@
 
         <figure class="header__logo">
             <a th:href="@{/}">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
             </a>
         </figure>
 
         <nav class="header__navbar">
+            <div id="close-menu" class="close-menu">×</div>
             <ul class="navbar__list">
                 <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
                 <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
@@ -52,10 +54,17 @@
         </nav>
 
         <div class="list__icon">
+            <span class="icon__item" id="menu-toggle">
+                    <i class="ri-menu-line"></i>
+                </span>
 
+            <!-- BUSQUEDA PARA MOVIL/TABLET -->
+            <span class="icon__item icon-search-mobile">
+                    <i class="ri-search-line"></i>
+                </span>
 
-            <!-- Buscar -->
-            <span class="icon__item">
+            <!-- BUSQUEDA PARA ESCRITORIO -->
+            <span class="icon__item" id="icon-search">
                 <i class="ri-search-line"></i>
             </span>
 
@@ -88,6 +97,10 @@
                         <a th:href="@{/perfil/}" class="sub__link">
                             <p class="link__text">Perfil</p>
                         </a>
+                        <a th:href="@{/admin/principal}" class="sub__link"
+                           sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
                         <a th:href="@{/perfil/configuration}" class="sub__link">
                             <p class="link__text">Configuracion</p>
                         </a>
@@ -151,7 +164,7 @@
 
                                 <form id="formFoto" th:action="@{/perfil/colocar-imagen-usuario}" method="post"
                                     enctype="multipart/form-data">
-                                    <div class="card__img">
+                                    <div class="card__img--user">
                                         <figure class="img__user">
                                             <img id="preview" th:src="${urlImagenUsuario}"
                                                 th:alt="${usuario.imagen}">
@@ -321,7 +334,7 @@
 
                                 <form id="formFotoEmpresa" th:action="@{/perfil/colocar-imagen-empresa}" method="post"
                                     enctype="multipart/form-data">
-                                    <div class="card__img">
+                                    <div class="card__img--user">
                                         <figure class="img__user user--empresar">
                                             <img id="previewEmpresa"
                                                 th:src="${urlImagenEmpresa}"
@@ -551,7 +564,7 @@
 
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img src="" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">

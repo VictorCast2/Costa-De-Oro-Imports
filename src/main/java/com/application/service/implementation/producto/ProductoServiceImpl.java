@@ -3,23 +3,22 @@ package com.application.service.implementation.producto;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.entity.producto.Producto;
-import com.application.persistence.entity.producto.enums.ETipo;
 import com.application.persistence.repository.CategoriaRepository;
 import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.SubCategoriaRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
+import com.application.presentation.dto.producto.request.FiltroRequest;
 import com.application.presentation.dto.producto.request.ProductoCreateRequest;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.interfaces.CloudinaryService;
-import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.producto.ProductoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.HashSet;
-import java.util.List;
+
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -162,6 +161,125 @@ public class ProductoServiceImpl implements ProductoService {
         return productos.stream()
                 .map(this::toResponse)
                 .limit(12)
+                .toList();
+    }
+
+    /**
+     * Obtiene los países de los productos en orden alfabético y sin repetir.
+     *
+     * @return lista de países.
+     */
+    public List<String> getPaisesProducto() {
+        return productoRepository.findDistinctPaises();
+    }
+
+    /**
+     * Obtiene las marcas de los productos sin repetir.
+     *
+     * @return lista de marcas.
+     */
+    public List<String> getMarcasProductos() {
+        return productoRepository.findDistinctMarcas();
+    }
+
+    /**
+     * Obtiene los productos ordenados por precio de menor a mayor.
+     *
+     * @return lista de productos ordenados.
+     */
+    public List<ProductoResponse> getProductosPorPrecioAsc() {
+        List<Producto> productos = productoRepository.findAllOrderByPrecioAsc();
+        return productos.stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Obtiene los productos ordenados por precio de mayor a menor.
+     *
+     * @return lista de productos ordenados.
+     */
+    public List<ProductoResponse> getProductosPorPrecioDesc() {
+        List<Producto> productos = productoRepository.findAllOrderByPrecioDesc();
+        return productos.stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Obtiene los productos ordenados alfabéticamente de A a Z.
+     *
+     * @return lista de productos ordenados.
+     */
+    public List<ProductoResponse> getProductosPorNombreAsc() {
+        List<Producto> productos = productoRepository.findAllOrderByNombreAsc();
+        return productos.stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Obtiene los productos ordenados alfabéticamente de Z a A.
+     *
+     * @return lista de productos ordenados.
+     */
+    public List<ProductoResponse> getProductosPorNombreDesc() {
+        List<Producto> productos = productoRepository.findAllOrderByNombreDesc();
+        return productos.stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Obtiene las categorías activas con sus subcategorías.
+     *
+     * @return lista de pares categoria-subcategoria.
+     */
+    public Map<String, List<String>> getCategoriasActivasConSubcategorias() {
+        List<Object[]> data = productoRepository.findCategoriasActivasConSubcategorias();
+
+        Map<String, List<String>> resultado = new LinkedHashMap<>();
+
+        for (Object[] row : data) {
+            String categoria = (String) row[0];
+            String subcategoria = (String) row[1];
+
+            resultado
+                    .computeIfAbsent(categoria, k -> new ArrayList<>())
+                    .add(subcategoria);
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Obtiene los productos más vendidos.
+     *
+     * @return lista de productos ordenados por ventas.
+     */
+    public List<ProductoResponse> getProductosMasVendidos() {
+        List<Object[]> data = productoRepository.findProductosMasVendidos();
+
+        return data.stream()
+                .map(row -> {
+                    Producto p = (Producto) row[0];
+                    return toResponse(p);
+                })
+                .toList();
+    }
+
+    public List<ProductoResponse> filtrarProductos(FiltroRequest filtros) {
+        List<Producto> productos = productoRepository.findByFiltros(
+                filtros.paises(),
+                filtros.marcas(),
+                filtros.categorias(),
+                filtros.subcategorias(),
+                filtros.precioMin(),
+                filtros.precioMax()
+        );
+
+        return productos.stream()
+                .map(this::toResponse)
                 .toList();
     }
 

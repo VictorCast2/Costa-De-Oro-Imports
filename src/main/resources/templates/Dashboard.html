@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -173,7 +174,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                             alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -215,7 +216,7 @@
                 <div class="body__welcome">
                     <div class="welcome__detalle">
                         <h1 class="detalle__title">Bievenido De Nuevo! Oro Import</h1>
-                        <p class="detalle__text">Costa De Oro Import Es un diseño simple y limpio para desarrolladores y
+                        <p class="detalle__text">Costa De Oro Import cuenta con un diseño simple y limpio para desarrolladores y
                             diseñadores.</p>
                         <button class="detalle__btn">Crear Producto</button>
                     </div>
@@ -224,12 +225,12 @@
                 <div class="body__datos">
 
                     <div class="datos__card">
-                        <h2 class="card__title">Ganancias <span class="title__icon"><i class='bx bx-dollar'></i></span>
+                        <h2 class="card__title">Ingresos <span class="title__icon"><i class='bx bx-dollar'></i></span>
                         </h2>
 
                         <div class="card__ingresos">
-                            <span class="ingresos__total">$1,589,420</span>
-                            <span class="ingresos__text">Ingresos mensuales</span>
+                            <span class="ingresos__total" th:text="${'$' + #numbers.formatDecimal(ingresoAnual, 0, 'COMMA', 0, 'POINT')}">$1,589,420</span>
+                            <span class="ingresos__text">Ingresos 2025</span>
                         </div>
                     </div>
 
@@ -238,11 +239,9 @@
                                     class="ri-shopping-cart-2-line"></i></span></h2>
 
                         <div class="card__ingresos">
-                            <span class="ingresos__total">42,339</span>
-                            <span class="ingresos__text"><strong>35+</strong> Nuevas ventas</span>
+                            <span class="ingresos__total" th:text="${#numbers.formatInteger(comprasAnuales, 3, 'POINT')}">42,339</span>
+                            <span class="ingresos__text"><strong>137+</strong> Nuevas Compras</span>
                         </div>
-
-
                     </div>
 
                     <div class="datos__card">
@@ -250,8 +249,8 @@
                         </h2>
 
                         <div class="card__ingresos">
-                            <span class="ingresos__total">39,354</span>
-                            <span class="ingresos__text"><strong>30+</strong> nuevo en 2 días</span>
+                            <span class="ingresos__total" th:text="${#numbers.formatInteger(totalClientes, 3, 'POINT')}">39,354</span>
+                            <span class="ingresos__text"><strong>30+</strong> nuevos este mes</span>
                         </div>
                     </div>
                 </div>
@@ -272,7 +271,7 @@
 
                 <div class="body__grafico">
                     <div class="grafico__item item--colum">
-                        <h2 class="colum__title">Stock y Ventas</h2>
+                        <h2 class="colum__title">Stock y Compras</h2>
                         <div id="chart__Colum"></div>
                     </div>
 
@@ -284,14 +283,14 @@
 
                 <div class="body__grafico">
                     <div class="grafico__item item--heatmap">
-                        <h2 class="heatmap__title">Ventas por Hora y Día de la Semana</h2>
+                        <h2 class="heatmap__title">Ventas Semanales</h2>
                         <div id="heatmap"></div>
                     </div>
                 </div>
 
                 <div class="body__grafico">
                     <div class="grafico__item item--dispersión">
-                        <h2 class="dispersión__title">Proyección de Ventas (Años vs Ventas Totales)</h2>
+                        <h2 class="dispersión__title">Histórico de Ventas</h2>
                         <div id="chartVentas"></div>
                     </div>
                 </div>
@@ -300,52 +299,69 @@
                     <div class="grafico__item item--general">
                         <h2 class="general__title">Descripción general de ventas</h2>
 
+                        <!-- Beneficio Total -->
                         <div class="general__beneficio">
                             <div class="beneficio__flex">
                                 <label for="beneficio">Beneficio total</label>
 
                                 <div class="flex__span">
-                                    <span class="span__preciototal">$1,619</span>
-                                    <span class="span__preciototal preciototal--porcentaje">(8,6%)</span>
+                                    <span class="span__preciototal" th:text="'$' + ${#numbers.formatDecimal(estadisticas.beneficioTotal, 0, 'DEFAULT', 0, 'DEFAULT')}">$1,619</span>
+                                    <span class="span__preciototal preciototal--porcentaje"
+                                          th:classappend="${estadisticas.porcentajeVariacionBeneficio >= 0} ? 'text-success' : 'text-danger'"
+                                          th:text="'(' + ${estadisticas.porcentajeVariacionBeneficio >= 0 ? '+' : ''} + ${#numbers.formatDecimal(estadisticas.porcentajeVariacionBeneficio, 1, 'DEFAULT', 1, 'DEFAULT')} + '%)'">
+                                        (8,6%)
+                                    </span>
                                 </div>
                             </div>
-                            <progress id="beneficio" value="20" max="100"></progress>
+                            <progress id="beneficio" th:value="${estadisticas.progresoBeneficio}" max="100"></progress>
                         </div>
 
+                        <!-- Ingresos Totales -->
                         <div class="general__beneficio beneficio--ingresos">
                             <div class="beneficio__flex">
                                 <label for="Ingresos">Ingresos totales</label>
-
                                 <div class="flex__span">
-                                    <span class="span__preciototal">$3,571</span>
-                                    <span class="span__preciototal preciototal--porcentaje">(86,4%)</span>
+                                    <span class="span__preciototal" th:text="'$' + ${#numbers.formatDecimal(estadisticas.ingresosTotales, 0, 'DEFAULT', 0, 'DEFAULT')}">$3,571</span>
+                                    <span class="span__preciototal preciototal--porcentaje"
+                                          th:classappend="${estadisticas.porcentajeVariacionIngresos >= 0} ? 'text-success' : 'text-danger'"
+                                          th:text="'(' + ${estadisticas.porcentajeVariacionIngresos >= 0 ? '+' : ''} + ${#numbers.formatDecimal(estadisticas.porcentajeVariacionIngresos, 1, 'DEFAULT', 1, 'DEFAULT')} + '%)'">
+                                        (86,4%)
+                                    </span>
                                 </div>
                             </div>
-                            <progress id="Ingresos" value="80" max="100"></progress>
+                            <progress id="Ingresos" th:value="${estadisticas.progresoIngresos}" max="100"></progress>
                         </div>
 
+                        <!-- Gastos Totales -->
                         <div class="general__beneficio beneficio--gastos">
                             <div class="beneficio__flex">
                                 <label for="Gastos">Gastos totales</label>
-
                                 <div class="flex__span">
-                                    <span class="span__preciototal">$3,430</span>
-                                    <span class="span__preciototal preciototal--porcentaje">(74,5%)</span>
+                                    <span class="span__preciototal" th:text="'$' + ${#numbers.formatDecimal(estadisticas.gastosTotales, 0, 'DEFAULT', 0, 'DEFAULT')}">$3,430</span>
+                                    <span class="span__preciototal preciototal--porcentaje"
+                                          th:classappend="${estadisticas.porcentajeVariacionGastos <= 0} ? 'text-success' : 'text-danger'"
+                                          th:text="'(' + ${estadisticas.porcentajeVariacionGastos >= 0 ? '+' : ''} + ${#numbers.formatDecimal(estadisticas.porcentajeVariacionGastos, 1, 'DEFAULT', 1, 'DEFAULT')} + '%)'">
+                                        (74,5%)
+                                    </span>
                                 </div>
                             </div>
-                            <progress id="Gastos" value="40" max="100"></progress>
+                            <progress id="Gastos" th:value="${estadisticas.progresoGastos}" max="100"></progress>
                         </div>
 
+                        <!-- Stock Disponible -->
                         <div class="general__beneficio beneficio--stock">
                             <div class="beneficio__flex">
                                 <label for="Stock">Stock disponible</label>
                                 <div class="flex__span">
-                                    <span class="span__preciototal">320 unidades</span>
-                                    <span class="span__preciototal preciototal--porcentaje">(5% bajo respecto al
-                                        objetivo)</span>
+                                    <span class="span__preciototal" th:text="${estadisticas.stockDisponible} + ' unidades'">320 unidades</span>
+                                    <span class="span__preciototal preciototal--porcentaje"
+                                          th:classappend="${estadisticas.porcentajeVariacionStock >= 0} ? 'text-success' : 'text-danger'"
+                                          th:text="'(' + ${estadisticas.porcentajeVariacionStock >= 0 ? '+' : ''} + ${#numbers.formatDecimal(estadisticas.porcentajeVariacionStock, 1, 'DEFAULT', 1, 'DEFAULT')} + '% ' + ${estadisticas.porcentajeVariacionStock >= 0 ? 'sobre' : 'bajo respecto al'} + ' objetivo)'">
+                                        (5% bajo respecto al objetivo)
+                                    </span>
                                 </div>
                             </div>
-                            <progress id="Stock" value="30" max="100"></progress>
+                            <progress id="Stock" th:value="${estadisticas.progresoStock}" max="100"></progress>
                         </div>
                     </div>
 
@@ -383,18 +399,23 @@
                 <h2 class="body__title">Productos mas vendidos</h2>
 
                 <div class="body__card">
-                    <div class="card__item">
-                        <figure class="item__img">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados20.png}" alt="">
+                    <div class="card__item" th:each="producto, iterStat : ${productosMasVendidos}">
+                        <figure class="item__img" th:classappend="${iterStat.index == 1 ? 'img--fondo1' : iterStat.index == 2 ? 'img--fondo2' : iterStat.index == 3 ? 'img--fondo3' : ''}">
+                            <img th:src="${producto.imagen}"
+                                 th:alt="${producto.nombre}">
                         </figure>
 
-                        <p class="item__description">
-                            Tequila Patrón
+                        <p class="item__description" th:text="${producto.nombre}">
+                            Nombre del producto
                         </p>
 
                         <div class="price-container">
-                            <span class="price">$39.000</span>
-                            <span class="units-sold">Ventas: 250 uds</span>
+                            <span class="price" th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 0, 'POINT')}">
+                                $39.000
+                            </span>
+                            <span class="units-sold" th:text="'Ventas: ' + ${producto.totalVentas} + ' uds'">
+                                Ventas: 250 uds
+                            </span>
                         </div>
 
                         <div class="stars">
@@ -405,76 +426,6 @@
                             <i class="ri-star-fill"></i>
                         </div>
                     </div>
-
-                    <div class="card__item">
-                        <figure class="item__img img--fondo1">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado7.png}" alt="">
-                        </figure>
-
-                        <p class="item__description">
-                            Johnnie Walker Double
-                        </p>
-
-                        <div class="price-container">
-                            <span class="price">$39.000</span>
-                            <span class="units-sold">Ventas: 120 uds</span>
-                        </div>
-
-                        <div class="stars">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                        </div>
-                    </div>
-
-                    <div class="card__item">
-                        <figure class="item__img img--fondo2">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacado5.png}" alt="">
-                        </figure>
-
-                        <p class="item__description">
-                            Tequila Olmeca Reposad
-                        </p>
-
-                        <div class="price-container">
-                            <span class="price">$39.000</span>
-                            <span class="units-sold">Ventas: 150 uds</span>
-                        </div>
-
-                        <div class="stars">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                        </div>
-                    </div>
-
-                    <div class="card__item">
-                        <figure class="item__img img--fondo3">
-                            <img th:src="@{/Assets/Img/Productos/Productos_Destacados/ProductoDestacados18.png}" alt="">
-                        </figure>
-
-                        <p class="item__description">
-                            Tequila Olmeca Reposad
-                        </p>
-
-                        <div class="price-container">
-                            <span class="price">$39.000</span>
-                            <span class="units-sold">Vendidas: 420 uds</span>
-                        </div>
-
-                        <div class="stars">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="body__table">
@@ -486,54 +437,26 @@
                                 <thead>
                                     <tr>
                                         <th>Número de pedido</th>
-                                        <th>Nombre del producto</th>
+                                        <th>Nombre del cliente</th>
                                         <th>Fecha del pedido</th>
-                                        <th>Precio</th>
-                                        <th>Estados</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody id="favoritos-body">
-                                    <tr>
-                                        <td>#FC0005</td>
-                                        <td class="td__product">Vodka Smirnoff Red Label Clásico 700 ml</td>
-                                        <td>28 de marzo de 2023</td>
-                                        <td>$18.00</td>
-                                        <td>
-                                            <button class="td__estados procesado">Procesado</button>
-                                        </td>
-                                    </tr>
+                                    <tr th:each="compra : ${comprasRecientes}">
+                                    <td th:text="${compra.numeroPedido}"></td>
+                                    <td class="td__product" th:text="${compra.nombreCliente}"></td>
+                                    <td th:text="${#temporals.format(compra.fechaPedido, 'dd MMM yyyy')}"></td>
 
-                                    <tr>
-                                        <td>#FC0004</td>
-                                        <td class="td__product">Vodka Smirnoff Red Label Clásico 700 ml</td>
-                                        <td>24 de marzo de 2023</td>
-                                        <td>$24,00</td>
-                                        <td>
-                                            <button class="td__estados pendiente">Pendiente</button>
-                                        </td>
-                                    </tr>
+                                    <td th:text="'$' + ${#numbers.formatDecimal(compra.total, 1, 'COMMA', 0, 'POINT')}"></td>
 
-                                    <tr>
-                                        <td>#FC0003</td>
-                                        <td class="td__product">Vodka Smirnoff Red Label Clásico 700 ml</td>
-                                        <td>24 de marzo de 2025</td>
-                                        <td>$27,00</td>
-                                        <td>
-                                            <button class="td__estados cancelado">Cancelar</button>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>#FC0002</td>
-                                        <td class="td__product">Vodka Smirnoff Red Label Clásico 700 ml</td>
-                                        <td>24 de marzo de 2024</td>
-                                        <td>$34,00</td>
-                                        <td>
-                                            <button class="td__estados completado">Completado</button>
-                                        </td>
-
-                                    </tr>
+                                    <td>
+                                        <button th:class="${compra.claseEstado}"
+                                                th:text="${compra.textoEstado}">
+                                        </button>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

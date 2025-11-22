@@ -22,7 +22,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,6 +42,26 @@ public class CompraServiceImpl implements CompraService {
     public Compra getCompraById(Long compraId) {
         return compraRepository.findById(compraId)
                 .orElseThrow(() -> new EntityNotFoundException("La compra con id: " + compraId + " no existe."));
+    }
+
+    /**
+     * Método para obtener el ingreso anual
+     * @return cantidad de ingresos del año actual
+     */
+    @Override
+    public Double getIngresoAnual() {
+        Double ingresos = compraRepository.getIngresosAnuales();
+        return ingresos != null ? ingresos : 0.0;
+    }
+
+    /**
+     * Método para obtener el total de compras del presente año
+     * @return cantidad de compras
+     */
+    @Override
+    public Long getTotalCompasAnuales() {
+        Long totalCompras = compraRepository.getTotalComprasAnuales();
+        return totalCompras != null ? totalCompras : 0;
     }
 
     /**
@@ -259,11 +278,11 @@ public class CompraServiceImpl implements CompraService {
 
     private EEstado mapearStringAEstado(String estado) {
         return switch (estado.toLowerCase()) {
-          case "pagado" -> EEstado.PAGADO;
-          case "pendiente" -> EEstado.PENDIENTE;
-          case "cancelado" -> EEstado.CANCELADO;
-          case "rechazado" -> EEstado.RECHAZADO;
-          default -> throw new IllegalArgumentException("Estado Invalido " + estado);
+            case "pagado" -> EEstado.PAGADO;
+            case "pendiente" -> EEstado.PENDIENTE;
+            case "cancelado" -> EEstado.CANCELADO;
+            case "rechazado" -> EEstado.RECHAZADO;
+            default -> throw new IllegalArgumentException("Estado Invalido " + estado);
         };
     }
 
@@ -296,4 +315,5 @@ public class CompraServiceImpl implements CompraService {
                         .toList()
         );
     }
+
 }
