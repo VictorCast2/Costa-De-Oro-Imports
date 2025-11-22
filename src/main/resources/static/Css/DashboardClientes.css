@@ -203,6 +203,30 @@ input[type="search"]::-webkit-search-cancel-button {
     border: none;
 }
 
+/* Estilos para los puntos suspensivos */
+.pagination__button .pagination__dots {
+    width: 40px;
+    margin-right: 0.3rem;
+    height: 40px;
+    font: 500 0.9rem var(--typografiaGeist);
+    background-color: transparent;
+    color: var(--colorLigth);
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajustes para el layout de los botones */
+.pagination__button {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem;
+}
+
 /* Contenedor general */
 .dropdown {
     position: relative;
@@ -294,4 +318,23 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .swal-popup {
     font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Estilos aplicados cuando la tabla de clientes este vacía */
+.empty-row {
+    background-color: #fafafa; /* Fondo suave */
+    transition: background-color 0.3s ease;
+}
+
+.empty-row:hover {
+    background-color: #f0f0f0; /* Efecto hover sutil */
+}
+
+.empty-message {
+    text-align: center;
+    font-style: italic; /* Texto en cursiva */
+    color: #666; /* Gris elegante */
+    padding: 1rem 0;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
 }

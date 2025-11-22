@@ -3,6 +3,7 @@ package com.application.service.implementation.comentario;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.comentario.Comentario;
 import com.application.persistence.entity.historia.Historia;
+import com.application.persistence.entity.rol.enums.ERol;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.ComentarioRepository;
 import com.application.persistence.repository.HistoriaRepository;
@@ -178,8 +179,12 @@ public class ComentarioServiceImpl implements ComentarioService {
     public BaseResponse deleteComentario(Long comentarioId, CustomUserPrincipal principal) {
         Comentario comentario = this.getComentarioById(comentarioId);
 
-        if (!comentario.getUsuario().getCorreo().equals(principal.getCorreo())) {
-            throw new SecurityException("No puedes modificar un comentario que no es tuyo");
+        boolean esElDuenno = comentario.getUsuario().getCorreo().equals(principal.getCorreo());
+        boolean esAdmin = principal.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!esElDuenno && !esAdmin) {
+            return new BaseResponse("No puedes modificar un comentario que no es tuyo", false);
         }
 
         comentario.deleteHistoria(comentario.getHistoria());

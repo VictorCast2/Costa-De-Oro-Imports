@@ -124,15 +124,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // === MOSTRAR RESPUESTA DEL BACK-END ===
+    window.addEventListener("DOMContentLoaded", () => {
+        const body = document.body;
+        const mensaje = body.getAttribute("data-mensaje");
+        const success = body.getAttribute("data-success");
+
+        if (mensaje) {
+            Swal.fire({
+                icon: success === "true" ? "success" : "error",
+                title: success === "true" ? "Proceso exitoso" : "Error",
+                text: mensaje,
+                timer: 3000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                customClass: {
+                    title: 'swal-title',
+                    popup: 'swal-popup'
+                }
+            });
+        }
+    });
+
     // ---- Modales con SweetAlert2 ----
     document.addEventListener("click", (e) => {
         // === ELIMINAR ===
-        /* A esta modal se le tiene que pasar detele del controllador o algo asi xd no se de spring boot
-        problema tuyo jose */
         if (e.target.closest(".eliminar")) {
+            const btnEliminar = e.target.closest(".eliminar");
+            const id = btnEliminar.getAttribute("data-id");
+            const nombre = btnEliminar.getAttribute("data-titulo");
+
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el registro permanentemente.",
+                text: `Esta acción eliminará el blog "${nombre}" permanentemente.`,
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
@@ -145,27 +170,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Eliminado",
-                        text: "El registro ha sido eliminado exitosamente.",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false,
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/blog/delete/${id}`;
                 }
             });
         }
 
         // === EDITAR ===
         else if (e.target.closest(".editar")) {
+            const btnEditar = e.target.closest(".editar");
+
+            const id = btnEditar.getAttribute("data-id");
+            const nombre = btnEditar.getAttribute("data-titulo");
+
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¿Deseas editar este registro?",
+                text: `¿Deseas editar el blog "${nombre}"?`,
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -178,21 +198,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/admin/blog/update";
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/blog/update-blog/${id}`;
                 }
             });
         }
 
-        // === OCULTAR ===
-        /* A esta modal se le tiene que pasar algo del controllador para que oculte el producto en el index
-        o algo asi xd no se de spring boot problema tuyo jose */
+        // === OCULTAR / MOSTRAR ===
         else if (e.target.closest(".ocultar")) {
+            const btnOcultar = e.target.closest(".ocultar");
+            const id = btnOcultar.getAttribute("data-id");
+            const nombre = btnOcultar.getAttribute("data-titulo");
+            const activo = btnOcultar.getAttribute("data-activo") === "true";
+
+            const accion = activo ? "ocultar" : "mostrar";
+            const titulo = activo ? "¿Deseas ocultar este blog?" : "¿Deseas mostrar este blog?";
+            const texto = activo
+                ? `Podrás volver a mostrar el blog "${nombre}" más adelante.`
+                : `El blog "${nombre}" volverá a estar visible en el sistema.`;
+
             Swal.fire({
-                title: "¿Deseas ocultar este registro?",
-                text: "Podrás mostrarlo nuevamente desde la sección de registros ocultos.",
+                title: titulo,
+                text: texto,
                 icon: "question",
                 showCancelButton: true,
-                confirmButtonText: "Sí, ocultar",
+                confirmButtonText: `Sí, ${accion}`,
                 cancelButtonText: "Cancelar",
                 confirmButtonColor: "#6c757d",
                 cancelButtonColor: "#3085d6",
@@ -202,18 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Ocultado",
-                        text: "El registro ha sido ocultado correctamente.",
-                        icon: "info",
-                        timer: 1500,
-                        showConfirmButton: false,
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/blog/disable/${id}`;
                 }
             });
         }

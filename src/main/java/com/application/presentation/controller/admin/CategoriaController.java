@@ -5,9 +5,9 @@ import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
-import com.application.service.implementation.categoria.CategoriaServiceImpl;
-import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
+import com.application.service.interfaces.categoria.CategoriaService;
+import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,8 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoriaController {
 
-    private final CategoriaServiceImpl categoriaService;
-    private final UsuarioServiceImpl usuarioService;
+    private final CategoriaService categoriaService;
+    private final UsuarioService usuarioService;
     private final CloudinaryService cloudinaryService;
 
     @GetMapping({"/", ""})
@@ -65,7 +65,8 @@ public class CategoriaController {
     }
 
     @GetMapping("/update-categoria/{id}")
-    public String editarCategoria(@PathVariable Long id, @AuthenticationPrincipal CustomUserPrincipal principal,
+    public String editarCategoria(@PathVariable Long id,
+                                  @AuthenticationPrincipal CustomUserPrincipal principal,
                                   Model model) {
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getCorreo());
         String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());

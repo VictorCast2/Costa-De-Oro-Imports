@@ -10,17 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //Menú desplegable del perfil 
+    // Menú desplegable del perfil
     const subMenu = document.getElementById("SubMenu");
     const profileImage = document.getElementById("user__admin");
 
     if (subMenu && profileImage) {
         profileImage.addEventListener("click", function (e) {
-            e.stopPropagation(); // Evita que el click cierre el menú inmediatamente
+            e.stopPropagation();
             subMenu.classList.toggle("open__menu");
         });
 
-        // Cerrar menú al hacer clic fuera
         document.addEventListener("click", function (e) {
             if (!subMenu.contains(e.target) && !profileImage.contains(e.target)) {
                 subMenu.classList.remove("open__menu");
@@ -28,23 +27,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    //abrir la notificaciones del admin
+    // Abrir la notificaciones del admin
     const notifIcon = document.getElementById("notifIcon");
     const notifMenu = document.getElementById("notifMenu");
 
-    notifIcon.addEventListener("click", (e) => {
-        e.stopPropagation();
-        notifMenu.classList.toggle("open");
-    });
+    if (notifIcon && notifMenu) {
+        notifIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            notifMenu.classList.toggle("open");
+        });
 
-    // cerrar al hacer clic fuera
-    document.addEventListener("click", (e) => {
-        if (!notifMenu.contains(e.target) && !notifIcon.contains(e.target)) {
-            notifMenu.classList.remove("open");
-        }
-    });
+        document.addEventListener("click", (e) => {
+            if (!notifMenu.contains(e.target) && !notifIcon.contains(e.target)) {
+                notifMenu.classList.remove("open");
+            }
+        });
+    }
 
-    //FILTRO DE PRODUCTOS (por texto)
+    // FILTRO DE CLIENTES (por texto)
     (() => {
         const searchInput = document.getElementById("inputSearch");
         const tableBody = document.getElementById("favoritos-body");
@@ -55,21 +55,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const filtrarTabla = () => {
             const texto = searchInput.value.trim().toLowerCase();
-            const palabras = texto.split(/\s+/).filter(Boolean); // separa las palabras
+            const palabras = texto.split(/\s+/).filter(Boolean);
 
             tableRows.forEach(row => {
-                // Tomamos todo el texto de las celdas (sin los botones del menú)
                 const celdas = Array.from(row.querySelectorAll("td"))
-                    .filter(td => !td.classList.contains("menu__actions")) // evita el menú
+                    .filter(td => !td.classList.contains("menu__actions"))
                     .map(td => td.textContent.toLowerCase())
-                    .join(" "); // une todo el contenido en un string
+                    .join(" ");
 
-                // Coincide si alguna palabra está presente en cualquier parte del texto del tr
                 const coincideTexto = palabras.length === 0 || palabras.some(palabra => celdas.includes(palabra));
-
-                // Mostrar u ocultar según el texto buscado
                 row.hidden = !coincideTexto;
             });
+
+            // Recalcular paginación después de filtrar
+            setTimeout(() => actualizarPaginacion(), 0);
         };
 
         searchInput.addEventListener('input', filtrarTabla);
@@ -90,15 +89,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // === MOSTRAR RESPUESTA DEL BACK-END ===
+    window.addEventListener("DOMContentLoaded", () => {
+        const body = document.body;
+        const mensaje = body.getAttribute("data-mensaje");
+        const success = body.getAttribute("data-success");
+
+        if (mensaje) {
+            Swal.fire({
+                icon: success === "true" ? "success" : "error",
+                title: success === "true" ? "Proceso exitoso" : "Error",
+                text: mensaje,
+                timer: 3000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                customClass: {
+                    title: 'swal-title',
+                    popup: 'swal-popup'
+                }
+            });
+        }
+    });
+
     // ---- Modales con SweetAlert2 ----
     document.addEventListener("click", (e) => {
         // === ELIMINAR ===
-        /* A esta modal se le tiene que pasar detele del controllador o algo asi xd no se de spring boot
-        problema tuyo jose */
         if (e.target.closest(".eliminar")) {
+            const btnEliminar = e.target.closest(".eliminar");
+            const id = btnEliminar.getAttribute("data-id");
+            const nombre = btnEliminar.getAttribute("data-nombre");
+
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el registro permanentemente.",
+                text: `Esta acción eliminará al cliente "${nombre}" permanentemente.`,
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
@@ -111,27 +135,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Eliminado",
-                        text: "El registro ha sido eliminado exitosamente.",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false,
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/clientes/delete/${id}`;
                 }
             });
         }
 
         // === EDITAR ===
         else if (e.target.closest(".editar")) {
+            const btnEditar = e.target.closest(".editar");
+
+            const id = btnEditar.getAttribute("data-id");
+            const nombre = btnEditar.getAttribute("data-nombre");
+
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¿Deseas editar este registro?",
+                text: `¿Deseas editar la información del cliente "${nombre}"?`,
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -144,25 +163,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    /* Nota: Debe de enviarte a la pagina de EditarProducto.html con 
-                    spring boot easy no? con un get en el controlldor easy no?
-                    una vez lo hagas borrar este comentario por favor*/
-                    window.location.href = "/admin/clientes/update";
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/clientes/update-cliente/${id}`;
                 }
             });
         }
 
-        // === OCULTAR ===
-        /* A esta modal se le tiene que pasar algo del controllador para que oculte el producto en el index
-        o algo asi xd no se de spring boot problema tuyo jose */
+        // === OCULTAR / MOSTRAR ===
         else if (e.target.closest(".ocultar")) {
+            const btnOcultar = e.target.closest(".ocultar");
+            const id = btnOcultar.getAttribute("data-id");
+            const nombre = btnOcultar.getAttribute("data-nombre");
+            const activo = btnOcultar.getAttribute("data-activo") === "true";
+
+            const accion = activo ? "deshabilitar" : "habilitar";
+            const titulo = activo ? "¿Deseas deshabilitar este cliente?" : "¿Deseas habilitar este cliente?";
+            const texto = activo
+                ? `Podrás volver a habilitar al cliente "${nombre}" más adelante.`
+                : `El cliente "${nombre}" volverá a estar habilitado en el sistema.`;
+
             Swal.fire({
-                title: "¿Deseas ocultar este registro?",
-                text: "Podrás mostrarlo nuevamente desde la sección de registros ocultos.",
+                title: titulo,
+                text: texto,
                 icon: "question",
                 showCancelButton: true,
-                confirmButtonText: "Sí, ocultar",
+                confirmButtonText: `Sí, ${accion}`,
                 cancelButtonText: "Cancelar",
                 confirmButtonColor: "#6c757d",
                 cancelButtonColor: "#3085d6",
@@ -172,46 +197,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Ocultado",
-                        text: "El registro ha sido ocultado correctamente.",
-                        icon: "info",
-                        timer: 1500,
-                        showConfirmButton: false,
-                        customClass: {
-                            title: 'swal-title',
-                            popup: 'swal-popup'
-                        }
-                    });
-
+                    // Redirigimos al endpoint del @Controller
+                    window.location.href = `/admin/clientes/disable/${id}`;
                 }
             });
         }
     });
 
-    //pagination de la tabla 
+    // PAGINACIÓN PROFESIONAL PARA CLIENTES
     const filasPorPagina = 12;
-    const tablaBody = document.getElementById("favoritos-body");
-    const filas = tablaBody.querySelectorAll("tr");
-    const totalFilas = filas.length;
-    const totalPaginas = Math.ceil(totalFilas / filasPorPagina);
+    let paginaActual = 1;
+    let totalFilas = 0;
+    let totalPaginas = 0;
 
+    const tablaBody = document.getElementById("favoritos-body");
     const contenedorBotones = document.querySelector(".pagination__button");
     const textoPaginacion = document.querySelector(".span__description");
 
-    let paginaActual = 1;
+    // === Función para obtener filas visibles ===
+    function obtenerFilasVisibles() {
+        return Array.from(tablaBody.querySelectorAll("tr"))
+            .filter(tr => !tr.hidden);
+    }
 
     // === Función para marcar los últimos dos menús visibles ===
     function marcarUltimosDosMenus() {
-        // Seleccionar filas visibles
-        const filasVisibles = Array.from(tablaBody.querySelectorAll("tr"))
-            .filter(tr => tr.style.display !== "none");
+        const filasVisibles = obtenerFilasVisibles();
 
-        // Limpiar clases previas
         const todosMenus = tablaBody.querySelectorAll("td.menu__actions .dropdown__menu");
         todosMenus.forEach(menu => menu.classList.remove("up"));
 
-        // Tomar las últimas dos filas visibles
         const ultimosDos = filasVisibles.slice(-2);
         ultimosDos.forEach(tr => {
             const menu = tr.querySelector("td.menu__actions .dropdown__menu");
@@ -221,82 +236,162 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === Mostrar filas según página seleccionada ===
     function mostrarPagina(pagina) {
-        const inicio = (pagina - 1) * filasPorPagina;
+        const filasVisibles = obtenerFilasVisibles();
+        totalFilas = filasVisibles.length;
+        totalPaginas = Math.ceil(totalFilas / filasPorPagina);
+
+        // Asegurarse de que la página actual sea válida
+        paginaActual = Math.max(1, Math.min(pagina, totalPaginas));
+
+        const inicio = (paginaActual - 1) * filasPorPagina;
         const fin = inicio + filasPorPagina;
 
-        filas.forEach((fila, index) => {
-            fila.style.display = (index >= inicio && index < fin) ? "" : "none";
+        // Ocultar todas las filas primero
+        Array.from(tablaBody.querySelectorAll("tr")).forEach(tr => {
+            tr.style.display = "none";
+        });
+
+        // Mostrar solo las filas visibles de la página actual
+        filasVisibles.forEach((fila, index) => {
+            if (index >= inicio && index < fin) {
+                fila.style.display = "";
+            }
         });
 
         // Actualizar texto de paginación
-        const inicioTexto = inicio + 1;
+        const inicioTexto = totalFilas > 0 ? inicio + 1 : 0;
         const finTexto = Math.min(fin, totalFilas);
         textoPaginacion.textContent = `Mostrando del ${inicioTexto} al ${finTexto} de ${totalFilas} entradas`;
 
-        // Actualizar botones activos
-        const botonesPagina = contenedorBotones.querySelectorAll(".button__item");
-        botonesPagina.forEach((btn, i) => {
-            btn.classList.toggle("active", i + 1 === pagina);
-        });
-
         // Control botones anterior / siguiente
-        document.querySelector(".pasar--anterior").disabled = pagina === 1;
-        document.querySelector(".pasar--siguiente").disabled = pagina === totalPaginas;
+        const btnAnterior = document.querySelector(".pasar--anterior");
+        const btnSiguiente = document.querySelector(".pasar--siguiente");
 
-        // Después de actualizar las filas, marcamos los últimos dos menús visibles
+        if (btnAnterior) {
+            btnAnterior.disabled = paginaActual === 1;
+        }
+        if (btnSiguiente) {
+            btnSiguiente.disabled = paginaActual === totalPaginas || totalPaginas === 0;
+        }
+
+        // Actualizar botones de paginación
+        crearBotonesPaginacion(paginaActual);
+
+        // Marcar últimos dos menús
         marcarUltimosDosMenus();
     }
 
-    // === Crear botones dinámicamente ===
-    function crearBotones() {
-        const anterior = contenedorBotones.querySelector(".pasar--anterior");
-        const siguiente = contenedorBotones.querySelector(".pasar--siguiente");
+    // === Crear botones de paginación inteligente ===
+    function crearBotonesPaginacion(paginaActual) {
+        const btnSiguiente = contenedorBotones.querySelector(".pasar--siguiente");
 
-        contenedorBotones.querySelectorAll(".button__item").forEach(btn => btn.remove());
+        // Limpiar botones existentes
+        contenedorBotones.querySelectorAll(".button__item, .pagination__dots").forEach(btn => btn.remove());
 
-        for (let i = 1; i <= totalPaginas; i++) {
-            const btn = document.createElement("button");
-            btn.classList.add("button__item");
-            btn.textContent = i;
+        if (totalPaginas <= 1) return;
 
-            btn.addEventListener("click", () => {
-                paginaActual = i;
-                mostrarPagina(paginaActual);
-            });
+        const botones = [];
 
-            siguiente.before(btn);
+        // Siempre mostrar primera página
+        botones.push(1);
+
+        // Rango de páginas a mostrar alrededor de la actual
+        let inicioRango = Math.max(2, paginaActual - 2);
+        let finRango = Math.min(totalPaginas - 1, paginaActual + 2);
+
+        // Ajustar el rango si estamos cerca de los extremos
+        if (paginaActual <= 3) {
+            finRango = Math.min(5, totalPaginas - 1);
+        } else if (paginaActual >= totalPaginas - 2) {
+            inicioRango = Math.max(totalPaginas - 4, 2);
         }
+
+        // Agregar puntos suspensivos después de la primera página si es necesario
+        if (inicioRango > 2) {
+            botones.push('...');
+        }
+
+        // Agregar páginas del rango
+        for (let i = inicioRango; i <= finRango; i++) {
+            botones.push(i);
+        }
+
+        // Agregar puntos suspensivos antes de la última página si es necesario
+        if (finRango < totalPaginas - 1) {
+            botones.push('...');
+        }
+
+        // Siempre mostrar última página si hay más de 1 página
+        if (totalPaginas > 1) {
+            botones.push(totalPaginas);
+        }
+
+        // Crear botones en el DOM
+        botones.forEach(numero => {
+            const btn = document.createElement("button");
+
+            if (numero === '...') {
+                btn.classList.add("pagination__dots");
+                btn.textContent = "...";
+                btn.disabled = true;
+            } else {
+                btn.classList.add("button__item");
+                btn.textContent = numero;
+                btn.classList.toggle("active", numero === paginaActual);
+
+                btn.addEventListener("click", () => {
+                    mostrarPagina(numero);
+                });
+            }
+
+            if (btnSiguiente) {
+                btnSiguiente.before(btn);
+            }
+        });
     }
 
     // === Eventos de navegación ===
     document.querySelector(".pasar--anterior").addEventListener("click", () => {
         if (paginaActual > 1) {
-            paginaActual--;
-            mostrarPagina(paginaActual);
+            mostrarPagina(paginaActual - 1);
         }
     });
 
     document.querySelector(".pasar--siguiente").addEventListener("click", () => {
         if (paginaActual < totalPaginas) {
-            paginaActual++;
-            mostrarPagina(paginaActual);
+            mostrarPagina(paginaActual + 1);
         }
     });
 
-    // === Inicializar paginación ===
-    crearBotones();
-    mostrarPagina(paginaActual);
-
-    // verificar de forma dinamica cuantos registros hay en la tabla de productos
-    const tablaBodyTotal = document.getElementById("favoritos-body");
-    const textoProductos = document.querySelector(".producto__texto");
-
-    if (tablaBodyTotal && textoProductos) {
-        const totalFilas = tablaBodyTotal.querySelectorAll("tr").length;
-        textoProductos.textContent = `Hay ${totalFilas} producto${totalFilas !== 1 ? 's' : ''} registrado${totalFilas !== 1 ? 's' : ''}`;
+    // === Actualizar paginación cuando cambia el filtro ===
+    function actualizarPaginacion() {
+        mostrarPagina(1);
     }
 
+    // === Inicializar paginación ===
+    function inicializarPaginacion() {
+        mostrarPagina(1);
+    }
+
+    // Verificar de forma dinámica cuantos registros hay en la tabla de clientes
+    const textoClientes = document.querySelector(".producto__texto");
+    if (textoClientes) {
+        const actualizarContadorClientes = () => {
+            const filasVisibles = obtenerFilasVisibles();
+            const totalFilas = filasVisibles.length;
+            textoClientes.textContent = `Hay ${totalFilas} cliente${totalFilas !== 1 ? 's' : ''} registrado${totalFilas !== 1 ? 's' : ''}`;
+        };
+
+        // Actualizar contador cuando cambien los filtros
+        document.getElementById("inputSearch")?.addEventListener('input', actualizarContadorClientes);
+        actualizarContadorClientes();
+    }
+
+    // Inicializar
+    inicializarPaginacion();
+
+    // Recalcular paginación cuando la ventana cambie de tamaño
+    window.addEventListener('resize', () => {
+        setTimeout(() => mostrarPagina(paginaActual), 100);
+    });
 });
-
-
-

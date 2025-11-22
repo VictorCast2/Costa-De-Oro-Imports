@@ -10,6 +10,8 @@ import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
+import com.application.presentation.dto.usuario.response.ClienteResponse;
+import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
 import com.application.service.implementation.ImagenServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.EmailService;
@@ -23,6 +25,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +48,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         return new CustomUserPrincipal(usuario);
     }
 
+    private Usuario getUsuarioById(Long usuarioId) {
+        return usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("El usuario con id: " + usuarioId + " no existe"));
+    }
+
     @Override
     public Usuario getUsuarioByCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo)
@@ -51,8 +60,35 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     }
 
     @Override
-    public GeneralResponse completeUserProfile(CustomUserPrincipal principal,
-            CompleteUsuarioProfileRequest completeProfileRequest) {
+    public ClienteResponse getClienteById(Long clienteId) {
+        Usuario usuario = this.getUsuarioById(clienteId);
+        return this.toResponse(usuario);
+    }
+
+    @Override
+    public List<UsuarioGastoResponse> getUsuarioGastoUltimoAnio() {
+        LocalDateTime ultimoAnio = LocalDateTime.now().minusYears(1);
+        return usuarioRepository.obtenerUsuariosConGastoUltimoAnio(ultimoAnio).stream()
+                .map(usuario -> new UsuarioGastoResponse(
+                        usuario.usuarioId(),
+                        cloudinaryService.getImagenUrl(usuario.imagen()),
+                        usuario.nombreCompleto(),
+                        usuario.correo(),
+                        usuario.telefono(),
+                        usuario.totalGastado(),
+                        usuario.isEnabled()
+                ))
+                .toList();
+    }
+
+    @Override
+    public Long getTotalClientes() {
+        Long totalCliente = usuarioRepository.totalClientes();
+        return totalCliente != null ? totalCliente : 0;
+    }
+
+    @Override
+    public GeneralResponse completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest completeProfileRequest) {
         Usuario usuario = this.getUsuarioByCorreo(principal.getCorreo());
         String encryptedPassword = encoder.encode(completeProfileRequest.password());
 
@@ -115,6 +151,49 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         return new BaseResponse("Usuario creado exitosamente", true);
     }
 
+    /**
+     * Método para crear un cliente
+     * Usado por el Admin en la pagina AgregarCliente.html
+     * @param clienteRequest DTO con los datos del cliente
+     * @return DTO de respuesta con un mensaje con un boolean que define si la operación fue exitosa o no.
+     */
+    @Override
+    public BaseResponse createCliente(CreateClienteRequest clienteRequest) {
+        String correo = clienteRequest.correo();
+        if (usuarioRepository.existsByCorreo(correo)) {
+            return new BaseResponse("El correo " + correo + " ya está registrado", false);
+        }
+
+        String imagen = cloudinaryService.subirImagen(clienteRequest.imagen(), "perfil-usuario");
+
+        Usuario usuario = Usuario.builder()
+                .tipoIdentificacion(clienteRequest.tipoIdentificacion())
+                .numeroIdentificacion(clienteRequest.numeroIdentificacion())
+                .imagen(imagen)
+                .nombres(clienteRequest.nombres())
+                .apellidos(clienteRequest.apellidos())
+                .telefono(clienteRequest.telefono())
+                .correo(clienteRequest.correo())
+                .password(encoder.encode(clienteRequest.password()))
+                .direccion(clienteRequest.direccion())
+                .build();
+
+        if (clienteRequest.tipoIdentificacion().equals(EIdentificacion.NIT)) {
+            Rol rolPersonaJuridica = rolRepository.findByName(ERol.PERSONA_JURIDICA)
+                    .orElseThrow(
+                            () -> new EntityNotFoundException("error: el rol PERSONA_JURIDICA no existe en la BD"));
+            usuario.setRol(rolPersonaJuridica);
+        } else {
+            Rol rolPersonaNatural = rolRepository.findByName(ERol.PERSONA_NATURAL)
+                    .orElseThrow(() -> new EntityNotFoundException("error: el rol PERSONA_NATURAL no exite en la BD"));
+            usuario.setRol(rolPersonaNatural);
+        }
+
+        usuarioRepository.save(usuario);
+
+        return new BaseResponse("Usuario creado exitosamente", true);
+    }
+
     @Override
     public GeneralResponse updateUser(CustomUserPrincipal principal, UpdateUsuarioRequest usuarioRequest) {
 
@@ -129,6 +208,32 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
         usuarioRepository.save(usuarioActualizado);
         return new GeneralResponse("Sus datos se han actualizado exitosamente");
+    }
+
+    /**
+     * Método para actualizar un cliente
+     * @param clienteId ID del cliente a actualziar
+     * @param clienteRequest DTO con los nuevos datos del cliente
+     * @return DTO de respuesta con un mensaje con un boolean que define si la operación fue exitosa o no.
+     */
+    @Override
+    public BaseResponse updateCliente(Long clienteId, CreateClienteRequest clienteRequest) {
+        Usuario cliente = this.getUsuarioById(clienteId);
+
+        String imagen = cloudinaryService.subirImagen(clienteRequest.imagen(), "perfil-usuario");
+
+        cliente.setImagen(imagen);
+        cliente.setTipoIdentificacion(clienteRequest.tipoIdentificacion());
+        cliente.setNumeroIdentificacion(clienteRequest.numeroIdentificacion());
+        cliente.setNombres(clienteRequest.nombres());
+        cliente.setApellidos(clienteRequest.apellidos());
+        cliente.setTelefono(clienteRequest.telefono());
+        cliente.setCorreo(clienteRequest.correo());
+        cliente.setPassword(encoder.encode(clienteRequest.password()));
+        cliente.setDireccion(clienteRequest.direccion());
+
+        usuarioRepository.save(cliente);
+        return new BaseResponse("Cliente actualizado exitosamente", true);
     }
 
     @Override
@@ -167,6 +272,49 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         usuarioRepository.save(usuario);
 
         return new BaseResponse("contraseña actualizada exitosamente", true);
+    }
+
+    @Override
+    public BaseResponse changeEstadoUsuario(Long usuarioId) {
+        Usuario usuario = getUsuarioById(usuarioId);
+
+        boolean nuevoEstado = !usuario.isEnabled();
+        usuario.setEnabled(nuevoEstado);
+        usuarioRepository.save(usuario);
+
+        String mensaje = nuevoEstado
+                ? "Usuario habilitado exitosamente"
+                : "Usuario deshabilitado exitosamente";
+
+
+        return new BaseResponse(mensaje, true);
+    }
+
+    @Override
+    public BaseResponse deleteUsuario(Long usuarioId) {
+        Usuario usuario = getUsuarioById(usuarioId);
+
+        usuario.setAccountNonLocked(false);
+        usuarioRepository.save(usuario);
+
+        String mensaje = "Usuario eliminado exitosamente";
+
+        return new BaseResponse(mensaje, true);
+    }
+
+    private ClienteResponse toResponse(Usuario usuario) {
+        return new ClienteResponse(
+                usuario.getUsuarioId(),
+                usuario.getTipoIdentificacion(),
+                usuario.getNumeroIdentificacion(),
+                cloudinaryService.getImagenUrl(usuario.getImagen()),
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getTelefono(),
+                usuario.getCorreo(),
+                usuario.getPassword(),
+                usuario.getDireccion()
+        );
     }
 
 }

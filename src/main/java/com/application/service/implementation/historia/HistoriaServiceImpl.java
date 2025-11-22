@@ -2,11 +2,10 @@ package com.application.service.implementation.historia;
 
 import com.application.persistence.entity.historia.Historia;
 import com.application.persistence.repository.HistoriaRepository;
-import com.application.presentation.dto.general.response.GeneralResponse;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.historia.request.HistoriaCreateRequest;
 import com.application.presentation.dto.historia.response.HistoriaResponse;
 import com.application.service.interfaces.CloudinaryService;
-import com.application.service.interfaces.ImagenService;
 import com.application.service.interfaces.historia.HistoriaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class HistoriaServiceImpl implements HistoriaService {
     private final CloudinaryService cloudinaryService;
 
     /**
-     * Obtener una Historia por Id
+     * Obtener una Historia por id
      * Este método es de uso interno para otros métodos del servicio
      *
      * @param id ID de la historia a buscar
@@ -87,7 +86,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      * @return Respuesta con mensaje de confirmación
      */
     @Override
-    public GeneralResponse createHistoria(HistoriaCreateRequest historiaRequest) {
+    public BaseResponse createHistoria(HistoriaCreateRequest historiaRequest) {
         String imagen = cloudinaryService.subirImagen(historiaRequest.imagen(), "imagen-blog");
 
         Historia historia = Historia.builder()
@@ -96,11 +95,11 @@ public class HistoriaServiceImpl implements HistoriaService {
                 .descripcion(historiaRequest.descripcion())
                 .historiaCompleta(historiaRequest.historiaCompleta())
                 .fecha(LocalDate.now())
-                .activo(true)
+                .activo(historiaRequest.activo())
                 .build();
 
         historiaRepository.save(historia);
-        return new GeneralResponse("Historia creada exitosamente");
+        return new BaseResponse("Historia creada exitosamente", true);
     }
 
     /**
@@ -112,7 +111,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      * @throws EntityNotFoundException si la historia no existe
      */
     @Override
-    public GeneralResponse updateHistoria(HistoriaCreateRequest historiaRequest, Long id) {
+    public BaseResponse updateHistoria(HistoriaCreateRequest historiaRequest, Long id) {
 
         Historia historiaActualizada = this.getHistoriaById(id);
 
@@ -123,10 +122,11 @@ public class HistoriaServiceImpl implements HistoriaService {
         historiaActualizada.setDescripcion(historiaRequest.descripcion());
         historiaActualizada.setHistoriaCompleta(historiaRequest.historiaCompleta());
         historiaActualizada.setFecha(LocalDate.now());
+        historiaActualizada.setActivo(historiaRequest.activo());
 
         historiaRepository.save(historiaActualizada);
 
-        return new GeneralResponse("Historia actualizada exitosamente");
+        return new BaseResponse("Historia actualizada exitosamente", true);
     }
 
     /**
@@ -137,7 +137,7 @@ public class HistoriaServiceImpl implements HistoriaService {
      * @throws EntityNotFoundException si la historia no existe
      */
     @Override
-    public GeneralResponse changeEstadoHistoria(Long id) {
+    public BaseResponse changeEstadoHistoria(Long id) {
         Historia historia = this.getHistoriaById(id);
 
         boolean nuevoEstado = !historia.isActivo();
@@ -148,7 +148,7 @@ public class HistoriaServiceImpl implements HistoriaService {
                 ? "Historia habilitada exitosamente"
                 : "Historia deshabilitada exitosamente";
 
-        return new GeneralResponse(mensaje);
+        return new BaseResponse(mensaje, true);
     }
 
     /**
@@ -160,10 +160,10 @@ public class HistoriaServiceImpl implements HistoriaService {
      */
     @Override
     @Transactional
-    public GeneralResponse deleteHistoria(Long id) {
+    public BaseResponse deleteHistoria(Long id) {
         Historia historia = this.getHistoriaById(id);
         historiaRepository.delete(historia);
-        return new GeneralResponse("Historia eliminada exitosamente");
+        return new BaseResponse("Historia eliminada exitosamente", true);
     }
 
     /**

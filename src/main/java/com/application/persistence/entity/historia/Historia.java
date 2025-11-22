@@ -27,10 +27,10 @@ public class Historia {
     private String titulo;
     @Column(length = 1000, nullable = false)
     private String descripcion;
-    @Column(name = "historia_completa", length = 10000, nullable = false)
+    @Column(name = "historia_completa", nullable = false)
     private String historiaCompleta;
     @Column(nullable = false)
-    private LocalDate fecha = LocalDate.now();
+    private LocalDate fecha;
     @Column(name = "is_enabled")
     private boolean activo;
 
