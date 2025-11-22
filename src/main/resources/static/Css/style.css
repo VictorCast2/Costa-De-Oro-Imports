@@ -8,6 +8,8 @@
     --colorCafe: #8e705c;
 }
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -178,6 +180,8 @@ body {
     align-items: center;
 }
 
+
+
 /* Usuario opciones */
 .nav__menu {
     position: absolute;
@@ -188,6 +192,7 @@ body {
     overflow: hidden;
     transition: max-height 0.5s;
 }
+
 
 .nav__menu.open__menu {
     max-height: 400px;
@@ -360,6 +365,7 @@ body {
     }
 }
 
+
 /* --- PANTALLAS MEDIANAS (769px a 1024px) --- */
 @media (min-width: 769px) and (max-width: 1024px) {
 
@@ -482,6 +488,7 @@ body {
     position: relative;
     top: 2rem;
 }
+
 
 .flex--RonesAguardientes .flex__ofertas {
     position: absolute;
