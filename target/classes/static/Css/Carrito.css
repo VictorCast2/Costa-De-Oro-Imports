@@ -114,7 +114,6 @@
     cursor: pointer;
 }
 
-
 .content__icon {
     border: none;
     background-color: transparent;
@@ -128,7 +127,6 @@
     padding: 5px 5px;
     color: #6b7280;
 }
-
 
 /* Paginación */
 .table__pagination {

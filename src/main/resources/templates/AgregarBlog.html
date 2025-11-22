@@ -193,6 +193,11 @@
                                     <p class="link__text">Perfil</p>
                                 </a>
 
+                                <a th:href="@{/admin/principal}" class="sub__link"
+                                   sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
+
                                 <a th:href="@{/perfil/configuration}" class="sub__link">
                                     <p class="link__text">Configuracion</p>
                                 </a>
