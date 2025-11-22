@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -37,7 +37,7 @@
     <header class="header">
         <figure class="header__logo">
             <a th:href="@{/admin/principal/}">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
             </a>
         </figure>
 
@@ -85,6 +85,10 @@
                     <hr>
                     <a th:href="@{/perfil/}" class="sub__link">
                         <p class="link__text">Perfil</p>
+                    </a>
+                    <a th:href="@{/admin/principal}" class="sub__link"
+                       sec:authorize="hasRole('ADMIN')">
+                        <p class="link__text">Dashboard</p>
                     </a>
                     <a th:href="@{/perfil/configuration}" class="sub__link">
                         <p class="link__text">Configuracion</p>
@@ -211,7 +215,7 @@
         <div class="footer__enlaces">
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img src="" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">

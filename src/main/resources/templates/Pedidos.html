@@ -37,7 +37,9 @@
     <header class="header">
 
         <figure class="header__logo">
-            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+            </a>
         </figure>
 
         <nav class="header__navbar">
@@ -86,6 +88,10 @@
                         <a th:href="@{/perfil/}" class="sub__link">
                             <p class="link__text">Perfil</p>
                         </a>
+                        <a th:href="@{/admin/principal}" class="sub__link"
+                           sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
                         <a th:href="@{/perfil/configuration}" class="sub__link">
                             <p class="link__text">Configuracion</p>
                         </a>
@@ -302,7 +308,7 @@
 
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img src="" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">

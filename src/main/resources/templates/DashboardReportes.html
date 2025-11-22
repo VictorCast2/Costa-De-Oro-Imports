@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" th:href="@{/Css/DashboardProvedores.css}">
+    <link rel="stylesheet" th:href="@{/Css/DashboardReportes.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
           integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,7 +28,8 @@
     <meta name="keywords" content="">
     <meta name="robots" content="index,follow">
     <meta property="og:title" content="Gran Oferta de Vinos - Disfruta los mejores sabores">
-    <meta property="og:description" content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
+    <meta property="og:description"
+          content="Descubre una selección exclusiva de vinos premium con descuentos especiales.">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
@@ -212,15 +214,59 @@
             <div class="body__titleheader">
                 <div class="titleheader__producto">
                     <h2 class="producto__titulo">Reportes</h2>
-                    <p class="producto__texto"></p>
+                    <p class="producto__texto">Sistema de Gestión y Análisis de Datos</p>
                 </div>
-
-                <!-- <div class="titleheader__btn">
-                    <a href=""></a>
-                </div> -->
             </div>
 
+            <div class="dashboard-grid">
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-team-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Clientes</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
 
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-box-3-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-bar-chart-2-line"></i>
+                    </div>
+                    <h3 class="report-title">Ventas por Cliente y Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-wallet-3-line"></i>
+                    </div>
+                    <h3 class="report-title">Cuentas por Pagar</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-shopping-cart-2-line"></i>
+                    </div>
+                    <h3 class="report-title">Reporte de Compra</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+
+                <div class="report-card">
+                    <div class="icon-container">
+                        <i class="ri-line-chart-line"></i>
+                    </div>
+                    <h3 class="report-title">Rentabilidad por Producto</h3>
+                    <button class="export-btn">Exportar</button>
+                </div>
+            </div>
 
         </section>
     </main>
