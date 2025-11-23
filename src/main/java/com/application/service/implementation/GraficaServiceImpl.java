@@ -1,7 +1,6 @@
 package com.application.service.implementation;
 
 import com.application.persistence.entity.compra.Compra;
-import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.CompraRepository;
 import com.application.persistence.repository.DetalleVentaRepository;
@@ -26,8 +25,6 @@ import com.application.presentation.dto.grafica.ventasTotales.VentasTotalesRespo
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.GraficaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

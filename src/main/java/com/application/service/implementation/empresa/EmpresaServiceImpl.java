@@ -71,6 +71,7 @@ public class EmpresaServiceImpl implements EmpresaService {
     }
 
     @Override
+    @Transactional
     public GeneralResponse updateEmpresa(CustomUserPrincipal principal, UpdateEmpresaRequest empresaRequest) {
 
         String correo = principal.getCorreo();

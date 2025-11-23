@@ -1,21 +1,23 @@
 package com.application.service.implementation.usuario;
 
 import com.application.configuration.custom.CustomUserPrincipal;
+import com.application.persistence.entity.empresa.Empresa;
 import com.application.persistence.entity.rol.Rol;
 import com.application.persistence.entity.rol.enums.ERol;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
+import com.application.persistence.repository.EmpresaRepository;
 import com.application.persistence.repository.RolRepository;
 import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
-import com.application.presentation.dto.usuario.response.ClienteResponse;
-import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
+import com.application.presentation.dto.usuario.response.*;
 import com.application.service.implementation.ImagenServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.EmailService;
 import com.application.service.interfaces.ImagenService;
+import com.application.service.interfaces.empresa.EmpresaService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +37,7 @@ import java.util.List;
 public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
+    private final EmpresaRepository empresaRepository;
     private final RolRepository rolRepository;
 
     private final CloudinaryService cloudinaryService;
@@ -62,7 +67,13 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     @Override
     public ClienteResponse getClienteById(Long clienteId) {
         Usuario usuario = this.getUsuarioById(clienteId);
-        return this.toResponse(usuario);
+        return this.toClienteResponse(usuario);
+    }
+
+    @Override
+    public ProveedorResponse getProveedorById(Long proveedorId) {
+        Usuario usuario = this.getUsuarioById(proveedorId);
+        return this.toProveedorResponse(usuario);
     }
 
     @Override
@@ -77,6 +88,40 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                         usuario.telefono(),
                         usuario.totalGastado(),
                         usuario.isEnabled()
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<ProveedorEstadisticasResponse> getProveedorConEstadisticas() {
+        List<ProveedorEstadisticasResponse> proveedores = usuarioRepository.findProveedoresConEstadisticas();
+        return proveedores.stream()
+                .map(proveedor -> new ProveedorEstadisticasResponse(
+                        proveedor.usuarioId(),
+                        cloudinaryService.getImagenUrl(proveedor.imagenEmpresa()),
+                        proveedor.nombreEmpresa(),
+                        proveedor.nombreCompleto(),
+                        proveedor.correo(),
+                        proveedor.totalGastado(),
+                        proveedor.totalGanado(),
+                        proveedor.isEnabled()
+                ))
+                .toList();
+    }
+
+    /**
+     * Obtiene los usuarios con rol 'PROVEEDOR' y estado activo.
+     * Para uso del select de proveedor en los formularios de crear y editar producto
+     *
+     * @return Lista de DTOs con los proveedores activos (Solo se incluye id, nombre y empresa del usuario proveedor)
+     */
+    @Override
+    public List<ProveedorProductoResponse> getProveedoresActivos() {
+        return usuarioRepository.findByRol_NameAndEmpresa_ActivoTrue(ERol.PROVEEDOR).stream()
+                .map(proveedor -> new ProveedorProductoResponse(
+                        proveedor.getUsuarioId(),
+                        proveedor.getEmpresa() != null ? proveedor.getEmpresa().getRazonSocial() : "Sin empresa",
+                        proveedor.getNombres() + " " + proveedor.getApellidos()
                 ))
                 .toList();
     }
@@ -154,8 +199,9 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     /**
      * Método para crear un cliente
      * Usado por el Admin en la pagina AgregarCliente.html
+     *
      * @param clienteRequest DTO con los datos del cliente
-     * @return DTO de respuesta con un mensaje con un boolean que define si la operación fue exitosa o no.
+     * @return DTO de respuesta con un mensaje y con un boolean que define si la operación fue exitosa o no.
      */
     @Override
     public BaseResponse createCliente(CreateClienteRequest clienteRequest) {
@@ -194,6 +240,68 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         return new BaseResponse("Usuario creado exitosamente", true);
     }
 
+    /**
+     * Método para crear un proveedor
+     * Usado por el Admin en la pagina AgregarCliente.html
+     *
+     * @param proveedorRequest DTO con los datos del proveedor y la empresa la que pertenece
+     * @return DTO de respuesta con un mensaje y con un boolean que define si la operación fue exitosa o no.
+     */
+    @Override
+    @Transactional
+    public BaseResponse createProveedor(CreateProveedorRequest proveedorRequest) {
+        String correo = proveedorRequest.correo();
+        if (usuarioRepository.existsByCorreo(correo)) {
+            return new BaseResponse("El correo " + correo + " ya está registrado", false);
+        }
+
+        Rol rolProveedor = rolRepository.findByName(ERol.PROVEEDOR)
+                .orElseThrow( () -> new EntityNotFoundException("Error: el rol PROVEEDOR no existe en la BD"));
+
+        String imagen = cloudinaryService.subirImagen(proveedorRequest.imagen(), "perfil-usuario");
+        Usuario usuario = Usuario.builder()
+                .tipoIdentificacion(proveedorRequest.tipoIdentificacion())
+                .numeroIdentificacion(proveedorRequest.numeroIdentificacion())
+                .imagen(imagen)
+                .nombres(proveedorRequest.nombres())
+                .apellidos(proveedorRequest.apellidos())
+                .telefono(proveedorRequest.telefono())
+                .correo(proveedorRequest.correo())
+                .password(encoder.encode(proveedorRequest.password()))
+                .direccion(proveedorRequest.direccion())
+                .rol(rolProveedor)
+                .build();
+
+        return createEmpresaProveedor(usuario, proveedorRequest);
+    }
+
+    private BaseResponse createEmpresaProveedor(Usuario usuario, CreateProveedorRequest proveedorRequest) {
+        String nit = proveedorRequest.nit();
+        boolean existeEmpresa = empresaRepository.existsByNit(nit);
+        if (existeEmpresa) {
+            return new BaseResponse("error: La empresa con el nit '" + nit + "' ya tiene un usuario asignado.\n" +
+                    "Si usted es el nuevo representante, escriba a admin@mail.com\n" +
+                    " o use el formulario de contacto para solicitar la actualización.", false);
+        }
+
+        String imagenEmpresa = cloudinaryService.subirImagen(proveedorRequest.imagenEmpresa(), "perfil-empresa");
+        Empresa empresa = Empresa.builder()
+                .imagen(imagenEmpresa)
+                .nit(proveedorRequest.nit())
+                .razonSocial(proveedorRequest.razonSocial())
+                .ciudad(proveedorRequest.ciudad())
+                .direccion(proveedorRequest.direccionEmpresa())
+                .telefono(proveedorRequest.telefonoEmpresa())
+                .correo(proveedorRequest.correoEmpresa())
+                .activo(true)
+                .build();
+
+        usuario.setEmpresa(empresa);
+        usuarioRepository.save(usuario);
+
+        return new BaseResponse("Proveedor creado exitosamente", true);
+    }
+
     @Override
     public GeneralResponse updateUser(CustomUserPrincipal principal, UpdateUsuarioRequest usuarioRequest) {
 
@@ -212,9 +320,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
     /**
      * Método para actualizar un cliente
-     * @param clienteId ID del cliente a actualziar
+     *
+     * @param clienteId      ID del cliente a actualizar
      * @param clienteRequest DTO con los nuevos datos del cliente
-     * @return DTO de respuesta con un mensaje con un boolean que define si la operación fue exitosa o no.
+     * @return DTO de respuesta con un mensaje y con un boolean que define si la operación fue exitosa o no.
      */
     @Override
     public BaseResponse updateCliente(Long clienteId, CreateClienteRequest clienteRequest) {
@@ -234,6 +343,55 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
         usuarioRepository.save(cliente);
         return new BaseResponse("Cliente actualizado exitosamente", true);
+    }
+
+    /**
+     * Método para actualizar un proveedor
+     *
+     * @param proveedorId      ID del proveedor a actualizar
+     * @param proveedorRequest DTO con los nuevos datos del proveedor y la empresa a la que pertenece
+     * @return DTO de respuesta con un mensaje y con un boolean que define si la operación fue exitosa o no.
+     */
+    @Override
+    @Transactional
+    public BaseResponse updateProveedor(Long proveedorId, CreateProveedorRequest proveedorRequest) {
+        Usuario proveedor = this.getUsuarioById(proveedorId);
+
+        String imagen = cloudinaryService.subirImagen(proveedorRequest.imagen(), "perfil-usuario");
+
+        proveedor.setImagen(imagen);
+        proveedor.setTipoIdentificacion(proveedorRequest.tipoIdentificacion());
+        proveedor.setNumeroIdentificacion(proveedorRequest.numeroIdentificacion());
+        proveedor.setNombres(proveedorRequest.nombres());
+        proveedor.setApellidos(proveedorRequest.apellidos());
+        proveedor.setTelefono(proveedorRequest.telefono());
+        proveedor.setCorreo(proveedorRequest.correo());
+        proveedor.setPassword(encoder.encode(proveedorRequest.password()));
+        proveedor.setDireccion(proveedorRequest.direccion());
+
+        return this.updateEmpresaProveedor(proveedor, proveedorRequest);
+    }
+
+    private BaseResponse updateEmpresaProveedor(Usuario usuario, CreateProveedorRequest proveedorRequest) {
+        Empresa empresaActualizada = usuario.getEmpresa();
+        if (empresaActualizada == null) {
+            return new BaseResponse("El proveedor no tiene una empresa asociada.", false);
+        }
+
+        String imagenEmpresa = cloudinaryService.subirImagen(proveedorRequest.imagenEmpresa(), "perfil-empresa");
+
+        empresaActualizada.setImagen(imagenEmpresa);
+        empresaActualizada.setNit(proveedorRequest.nit());
+        empresaActualizada.setRazonSocial(proveedorRequest.razonSocial());
+        empresaActualizada.setCiudad(proveedorRequest.ciudad());
+        empresaActualizada.setDireccion(proveedorRequest.direccionEmpresa());
+        empresaActualizada.setTelefono(proveedorRequest.telefonoEmpresa());
+        empresaActualizada.setCorreo(proveedorRequest.correoEmpresa());
+
+        usuario.setEmpresa(empresaActualizada);
+        usuarioRepository.save(usuario);
+
+        return new BaseResponse("Proveedor actualizado exitosamente", true);
     }
 
     @Override
@@ -302,7 +460,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         return new BaseResponse(mensaje, true);
     }
 
-    private ClienteResponse toResponse(Usuario usuario) {
+    private ClienteResponse toClienteResponse(Usuario usuario) {
         return new ClienteResponse(
                 usuario.getUsuarioId(),
                 usuario.getTipoIdentificacion(),
@@ -314,6 +472,32 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                 usuario.getCorreo(),
                 usuario.getPassword(),
                 usuario.getDireccion()
+        );
+    }
+
+    private ProveedorResponse toProveedorResponse(Usuario usuario) {
+        return new ProveedorResponse(
+                // Datos del Usuario
+                usuario.getUsuarioId(),
+                usuario.getTipoIdentificacion(),
+                usuario.getNumeroIdentificacion(),
+                cloudinaryService.getImagenUrl(usuario.getImagen()),
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getTelefono(),
+                usuario.getCorreo(),
+                usuario.getPassword(),
+                usuario.getDireccion(),
+
+                // Datos de la Empresa
+                usuario.getEmpresa().getEmpresaId(),
+                cloudinaryService.getImagenUrl(usuario.getEmpresa().getImagen()),
+                usuario.getEmpresa().getNit(),
+                usuario.getEmpresa().getRazonSocial(),
+                usuario.getEmpresa().getCiudad(),
+                usuario.getEmpresa().getDireccion(),
+                usuario.getEmpresa().getTelefono(),
+                usuario.getEmpresa().getCorreo()
         );
     }
 

@@ -17,7 +17,12 @@ public record ProductoResponse(
         int stock,
         String descripcion,
         boolean activo,
+        Long categoriaId,
         String nombreCategoria,
-        String nombreSubCategoria
+        Long subcategoriaId,
+        String nombreSubCategoria,
+        Long proveedorId,
+        String nombreProveedor,
+        String empresaProveedor
 ) {
 }

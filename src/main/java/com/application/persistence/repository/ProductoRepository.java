@@ -1,6 +1,7 @@
 package com.application.persistence.repository;
 
 import com.application.persistence.entity.producto.Producto;
+import com.application.presentation.dto.factura.response.FacturaProductoProveedorResponse;
 import com.application.presentation.dto.grafica.columnasApiladas.StockCategoriaDTO;
 import com.application.presentation.dto.grafica.productosMasVendidos.ProductoMasVendidoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
@@ -161,4 +163,16 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
                 LIMIT 4
             """)
     List<ProductoMasVendidoResponse> findTopProductosMasVendidos();
+
+    // Obtener productos activos de un proveedor específico
+    @Query("SELECT new com.application.presentation.dto.factura.response.FacturaProductoProveedorResponse(" +
+            "p.productoId, p.nombre, p.codigoProducto, p.marca, p.precio, p.stock) " +
+            "FROM Producto p " +
+            "WHERE p.proveedor.usuarioId = :proveedorId AND p.activo = true " +
+            "ORDER BY p.nombre")
+    List<FacturaProductoProveedorResponse> findProductosActivosByProveedorId(@Param("proveedorId") Long proveedorId);
+
+    // Encontrar producto por ID y verificar que pertenezca al proveedor
+    @Query("SELECT p FROM Producto p WHERE p.productoId = :productoId AND p.proveedor.usuarioId = :proveedorId")
+    Optional<Producto> findByIdAndProveedorId(@Param("productoId") Long productoId, @Param("proveedorId") Long proveedorId);
 }

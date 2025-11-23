@@ -34,7 +34,7 @@
     <meta property="og:type" content="website">
 </head>
 
-<body>
+<body th:data-mensaje="${mensaje}" th:data-success="${success}">
 <div class="container__dashboard">
 
     <aside class="dashboard__sidebar">
@@ -171,7 +171,7 @@
 
                 <!-- Foto de usuario -->
                 <div class="header__user">
-                    <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                    <img id="user__admin" th:src="${urlImagenUsuario}"
                          alt="Usuario">
 
                     <div class="nav__menu" id="SubMenu">
@@ -217,465 +217,59 @@
                 </div>
 
                 <div class="titleheader__btn">
-                    <a th:href="@{/admin/provedores/add}">Agregar Proveedores</a>
+                    <a th:href="@{/admin/provedores/create-proveedor}">Agregar Proveedores</a>
                 </div>
             </div>
 
             <div class="provedores__principal">
                 <div class="principal__container">
-                    <!-- Proveedores vinos -->
-                    <div class="container__card">
+
+                    <!-- Proveedores -->
+                    <div class="container__card" th:each="proveedor : ${proveedorList}">
                         <div class="dropdown">
                             <button class="dropdown__toggle">
                                 <i class="ri-more-2-fill"></i>
                             </button>
 
                             <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
+                                <button class="dropdown__item compra"
+                                        th:onclick="|window.location.href='/admin/provedores/create-compra/' + ${proveedor.usuarioId}|">
                                     <i class="ri-shopping-bag-4-line"></i> Nueva compra
                                 </button>
-                                <button class="dropdown__item editar">
+                                <button class="dropdown__item editar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}">
                                     <i class="ri-edit-box-line"></i> Editar
                                 </button>
-                                <button class="dropdown__item eliminar">
+                                <button class="dropdown__item eliminar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}">
                                     <i class="ri-delete-bin-5-line"></i> Eliminar
                                 </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
+                                <button class="dropdown__item ocultar"
+                                        th:attr="data-id=${proveedor.usuarioId}, data-nombre=${proveedor.nombreCompleto}, data-activo=${proveedor.isEnabled}">
+                                    <i class="ri-eye-line"></i>
+                                    <span th:text="${proveedor.isEnabled} ? 'Ocultar' : 'Mostrar'">Ocultar</span>
                                 </button>
                             </div>
                         </div>
 
                         <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresVinos.webp}" alt="">
+                            <img th:src="${proveedor.imagenEmpresa}" alt="">
                         </figure>
 
                         <div class="card__information">
-                            <h2 class="information__title">Mercado de ofertas compartidas</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
+                            <h2 class="information__title" th:text="${proveedor.nombreEmpresa}">Mercado de ofertas compartidas</h2>
+                            <p class="information__text" th:text="${proveedor.nombreCompleto}">Jose andres torres diaz</p>
+                            <p class="information__text" th:text="${proveedor.correo}">Joseandres152@gmail.com</p>
 
                             <div class="information__ventas">
                                 <div class="ventas__item">
                                     <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
+                                    <span class="item__brutaprecio" th:text="'$' + ${#numbers.formatDecimal(proveedor.totalGastado, 0, 'DEFAULT', 0, 'DEFAULT')}">$120,000</span>
                                 </div>
 
                                 <div class="ventas__item">
                                     <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Proveedores whiskys -->
-                    <div class="container__card">
-
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresWhiskys.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Supermercado StoreFront</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Proveedores cervezas -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresCervezas.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Gran cesta</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Proveedores tequilas -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresTequila.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Swiggy Instamart</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Proveedores mezcal -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresMezcal.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Mercado de comestibles en línea</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Proveedores rones -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresRon.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Spencers</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Proveedores aguardientes -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresAguardiente.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Supermercado de comestibles</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Proveedores vodkas -->
-                    <div class="container__card">
-
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresVodka.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Tienda Blinkit</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Proveedores ginebras -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresGinebra.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Arte DM</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Probando el pagination -->
-                    <div class="container__card">
-                        <div class="dropdown">
-                            <button class="dropdown__toggle">
-                                <i class="ri-more-2-fill"></i>
-                            </button>
-
-                            <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
-                                    <i class="ri-shopping-bag-4-line"></i> Nueva compra
-                                </button>
-                                <button class="dropdown__item editar">
-                                    <i class="ri-edit-box-line"></i> Editar
-                                </button>
-                                <button class="dropdown__item eliminar">
-                                    <i class="ri-delete-bin-5-line"></i> Eliminar
-                                </button>
-                                <button class="dropdown__item ocultar">
-                                    <i class="ri-eye-line"></i> Ocultar
-                                </button>
-                            </div>
-                        </div>
-
-                        <figure class="card__img">
-                            <img th:src="@{/Assets/Img/Proveedores/ProveedoresVinos.webp}" alt="">
-                        </figure>
-
-                        <div class="card__information">
-                            <h2 class="information__title">Tienda Bavaria Express</h2>
-                            <p class="information__text">Jose andres torres diaz</p>
-                            <p class="information__text">Joseandres152@gmail.com</p>
-
-                            <div class="information__ventas">
-                                <div class="ventas__item">
-                                    <span class="item__brutatitulo">Total gastado</span>
-                                    <span class="item__brutaprecio">$120,000</span>
-                                </div>
-
-                                <div class="ventas__item">
-                                    <span class="item__ganadatitulo">Total ganado</span>
-                                    <span class="item__ganadaprecio">$20,000</span>
+                                    <span class="item__ganadaprecio" th:text="'$' + ${#numbers.formatDecimal(proveedor.totalGanado, 0, 'DEFAULT', 0, 'DEFAULT')}">$20,000</span>
                                 </div>
                             </div>
                         </div>
@@ -684,6 +278,7 @@
 
                 </div>
 
+                <!-- Paginación -->
                 <div class="table__pagination">
                     <div class="pagination__span">
                         <span class="span__description"></span>
