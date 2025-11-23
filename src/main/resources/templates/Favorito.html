@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -36,12 +36,13 @@
 <body>
     <header class="header">
         <figure class="header__logo">
-            <a th:href="@{/admin/principal/}">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo dashboard">
+            <a th:href="@{/}">
+                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
             </a>
         </figure>
 
         <nav class="header__navbar">
+            <div id="close-menu" class="close-menu">×</div>
             <ul class="navbar__list">
                 <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
                 <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
@@ -51,42 +52,66 @@
             </ul>
         </nav>
 
-        <div class="list__icon">
 
-            <!-- Buscar -->
-            <span class="icon__item">
-                <i class="ri-search-line"></i>
-            </span>
+        <span class="icon__item" id="menu-toggle">
+                    <i class="ri-menu-line"></i>
+                </span>
 
-            <!-- Usuario -->
-            <span class="icon__item">
-                <i class="ri-user-line"></i>
-                <!-- Cuando el usuario NO está autenticado -->
+        <!-- BUSQUEDA PARA MOVIL/TABLET -->
+        <span class="icon__item icon-search-mobile">
+                    <i class="ri-search-line"></i>
+                </span>
 
-                <!-- Cuando el usuario SÍ está autenticado -->
-                <div class="nav__menu" id="SubMenu">
-                    <div class="menu__sub">
-                        <div class="sub__info">
-                            <i class="ri-user-line"></i>
-                            <h2 class="info__title">Theresa Andrea</h2>
-                        </div>
-                        <hr>
-                        <a href="/perfil/" class="sub__link">
-                            <p class="link__text">Perfil</p>
-                        </a>
-                        <a href="/perfil/configuration" class="sub__link">
-                            <p class="link__text">Configuracion</p>
-                        </a>
-                        <a href="/perfil/notificaciones" class="sub__link">
-                            <p class="link__text">Notificaciones</p>
-                        </a>
-                        <a href="/perfil/pedidos" class="sub__link">
-                            <p class="link__text">Sus Pedidos</p>
-                        </a>
-                        <a href="/auth/logout" class="sub__link">
-                            <p class="link__text">Cerrar Seccion</p>
-                        </a>
+        <!-- BUSQUEDA PARA ESCRITORIO -->
+        <span class="icon__item" id="icon-search">
+            <i class="ri-search-line"></i>
+        </span>
+
+        <!-- Usuario -->
+        <span class="icon__item">
+            <i class="ri-user-line"></i>
+            <!-- Cuando el usuario NO está autenticado -->
+            <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                <div class="menu__sub">
+                    <a th:href="@{/auth/login}" class="sub__link">
+                        <p class="link__text">Iniciar Sesión</p>
+                    </a>
+                    <a th:href="@{/auth/registro}" class="sub__link">
+                        <p class="link__text">Registro</p>
+                    </a>
+                    <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                        <p class="link__text">Recordar Contraseña</p>
+                    </a>
+                </div>
+            </div>
+            <!-- Cuando el usuario SÍ está autenticado -->
+            <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                <div class="menu__sub">
+                    <div class="sub__info">
+                        <i class="ri-user-line"></i>
+                        <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                        </h2>
                     </div>
+                    <hr>
+                    <a th:href="@{/perfil/}" class="sub__link">
+                        <p class="link__text">Perfil</p>
+                    </a>
+                    <a th:href="@{/admin/principal}" class="sub__link"
+                       sec:authorize="hasRole('ADMIN')">
+                        <p class="link__text">Dashboard</p>
+                    </a>
+                    <a th:href="@{/perfil/configuration}" class="sub__link">
+                        <p class="link__text">Configuracion</p>
+                    </a>
+                    <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                        <p class="link__text">Notificaciones</p>
+                    </a>
+                    <a th:href="@{/perfil/pedidos}" class="sub__link">
+                        <p class="link__text">Sus Pedidos</p>
+                    </a>
+                    <a th:href="@{/auth/logout}" class="sub__link">
+                        <p class="link__text">Cerrar Seccion</p>
+                    </a>
                 </div>
             </span>
 
@@ -199,7 +224,7 @@
         <div class="footer__enlaces">
             <div class="enlaces__categoriaNosotros">
                 <figure class="categoriaNosotros__logo">
-                    <img src="" alt="">
+                    <img th:src="@{/Assets/Img/logos/Logo Dashboard.png}" alt="">
                 </figure>
 
                 <ul class="categoriaNosotros__list">

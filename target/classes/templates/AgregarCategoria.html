@@ -77,7 +77,7 @@
 
                 <li class="sidebar__item">
                     <i class="ri-star-line"></i>
-                    <a href="" class="sidebar__text">Reseñas</a>
+                    <a th:href="@{/admin/resenna}" class="sidebar__text">Reseñas</a>
                 </li>
 
                 <li class="sidebar__item">
@@ -89,12 +89,17 @@
 
                 <li class="sidebar__item">
                     <i class="ri-news-line"></i>
-                    <a href="" class="sidebar__text">Blog</a>
+                    <a th:href="@{/admin/blog/}" class="sidebar__text">Blog</a>
                 </li>
 
                 <li class="sidebar__item">
                     <i class="ri-question-answer-line"></i>
-                    <a href="" class="sidebar__text">PQRS</a>
+                    <a th:href="@{/admin/pqrs}" class="sidebar__text">PQRS</a>
+                </li>
+
+                <li class="sidebar__item">
+                    <i class="ri-printer-line"></i>
+                    <a th:href="@{/admin/reportes}" class="sidebar__text">Reportes</a>
                 </li>
             </ul>
 

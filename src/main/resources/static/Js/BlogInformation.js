@@ -1,4 +1,4 @@
-import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra } from "./main.js";
+import { activarGlassmorphism, inicialHeart, initCart, rederigirFav, finalizarCompra, toggleMenu } from "./main.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     activarGlassmorphism();
@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     rederigirFav();
 
     finalizarCompra();
+
+    toggleMenu();
 
 
 

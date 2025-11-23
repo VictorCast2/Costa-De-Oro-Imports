@@ -8,6 +8,8 @@
     --colorCafe: #8e705c;
 }
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -146,6 +148,11 @@ body {
     gap: 1.3rem;
 }
 
+#menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
 .icon__item {
     position: relative;
 }
@@ -248,6 +255,186 @@ body {
 
 }
 
+.close-menu {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 1100;
+}
+
+/* --- OCULTAR SEARCH MÓVIL EN ESCRITORIO (DEBE IR ANTES DE LOS MEDIA) --- */
+.icon-search-mobile {
+    display: none;
+}
+
+/* --- TABLET & MÓVIL --- */
+@media (max-width: 1024px) {
+
+    .header {
+        justify-content: space-between;
+        padding: 0 1.5rem;
+        gap: 0;
+    }
+
+    /* LOGO CENTRADO */
+    .header__logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* HAMBURGUESA */
+    #menu-toggle {
+        display: block;
+        font-size: 2rem;
+        position: absolute;
+        left: 0.5rem !important;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    /* SEARCH MÓVIL */
+    .icon-search-mobile {
+        display: block;
+        position: absolute;
+        left: 2rem !important;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    /* OCULTAR SEARCH ESCRITORIO */
+    #icon-search {
+        display: none;
+    }
+
+    /* ICONOS DERECHA */
+    .list__icon {
+        margin-left: auto;
+        display: flex;
+        gap: 0.8rem;
+    }
+
+
+
+    /* MENU RESPONSIVO */
+    .header__navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 393px;
+        height: 100vh;
+        background: #fff;
+        padding: 2rem 1rem;
+        transform: translateX(-100%);
+        transition: transform .4s ease;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        z-index: 999;
+        border-right: 1px solid #ddd;
+    }
+
+    .header__navbar.active {
+        transform: translateX(0);
+    }
+
+    .close-menu {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 1100;
+    }
+
+    .navbar__list {
+        flex-direction: column;
+        gap: 1.4rem;
+    }
+}
+
+
+/* --- PANTALLAS MEDIANAS (769px a 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    #menu-toggle {
+        left: 0.5rem;
+    }
+
+    .icon-search-mobile {
+        left: 2.8rem !important;
+    }
+}
+
+/* --- MOBILE MEDIANO (≤768px) --- */
+@media (max-width: 768px) {
+    .header {
+        height: 80px;
+    }
+
+    .header__logo {
+        width: 135px;
+        height: 55px;
+    }
+
+    /* Iconos más pequeños */
+    #menu-toggle,
+    .icon-search-mobile,
+    .list__icon i {
+        font-size: 1.6rem;
+    }
+
+    /* Iconos izquierda más pegados */
+    #menu-toggle {
+        left: 0.5rem;
+    }
+
+    .icon-search-mobile {
+        left: 2.5rem;
+    }
+}
+
+/* --- MOBILE PEQUEÑO (≤480px) --- */
+@media (max-width: 480px) {
+
+    .header {
+        height: 70px;
+    }
+
+    .header__logo {
+        width: 190px;
+        height: 50px;
+        transform: translate(-65%, -50%);
+    }
+
+    /* Iconos aún más pequeños */
+    #menu-toggle,
+    .icon-search-mobile,
+    .list__icon i {
+        font-size: 1.4rem;
+    }
+
+    /* Íconos de la izquierda bien al borde */
+    #menu-toggle {
+        left: 0.4rem;
+    }
+
+    .icon-search-mobile {
+        left: 2.1rem;
+    }
+}
 
 /**Section hero__content */
 .hero__carousel {
@@ -1150,8 +1337,6 @@ body {
     }
 }
 
-/** Section Innovacion */
-
 
 /* Drawer Carrito */
 .cart-overlay {
@@ -2010,24 +2195,36 @@ body {
 /* Footer */
 
 .footer__subscripcion {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #8e705c url(../Assets/Img/baner/b14.png) no-repeat 20% 30%;
 }
 
 .subcripcion__informativa {
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     min-height: 200px;
 }
 
-.informativa__formulario {
-    padding-top: 30px;
+.informativa__subscribir {
+    flex: 0 1 690px;
+
 }
+
+.informativa__formulario {
+    flex: 0 1 600px;
+}
+
 
 .informativa__subscribir .subscribir__title {
     font: 700 2rem "Geist";
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.5rem 0;
     color: #fff;
 
 }
@@ -2042,20 +2239,20 @@ body {
     color: #ffbd27;
 }
 
+
 /* Formulario de subcripcion */
 .formulario__input {
     position: relative;
 }
 
 .formulario__input input {
-    margin: 10px 0 25px 30px;
     background-color: transparent;
     border: none;
     background-color: #ffffff;
     padding: 10px 15px;
     color: #374151;
     border-radius: 5px;
-    width: 600px;
+    width: 100%;
     font: 500 1.1rem "Urbanist";
     height: 65px;
     letter-spacing: 1px;
@@ -2069,10 +2266,10 @@ body {
 
 .formulario__input button {
     position: absolute;
-    bottom: 1.85rem;
+    bottom: 0.3rem;
     right: 0.4rem;
     font: 600 1.2rem var(--typografiaGeist);
-    width: 180px;
+    width: 25%;
     height: 55px;
     cursor: pointer;
     border: none;
@@ -2085,14 +2282,30 @@ body {
 .footer__enlaces {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     padding-top: 50px;
     min-height: 50vh;
+    gap: 2rem;
 }
 
-/* .enlaces__categoriaNosotros .categoriaNosotros__logo{
-
+.enlaces__categoriaNosotros .categoriaNosotros__logo {
+    width: 250px;
+    height: 90px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
- */
+
+.categoriaNosotros__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+}
+
 
 .categoriaNosotros__list {
     list-style-type: none;
@@ -2114,14 +2327,21 @@ body {
 }
 
 .categoriaNosotros__list .list__icon {
-    margin: 0.5rem 0 0 -0.4rem;
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 1rem 0 0 0;
 }
 
 .categoriaNosotros__list .icon__social i {
-    display: flex;
-    gap: 6rem;
     font-size: 1.5rem;
-    margin: 0.5rem 0 0 0;
+    margin-left: -0.5rem;
+    cursor: pointer;
+}
+
+.categoriaNosotros__list .icon__social i:hover {
+    color: var(--colorCafe);
 }
 
 /** Enlaces de categorias populares */
@@ -2140,13 +2360,15 @@ body {
 
 }
 
-
 .categoriasPopulares__list .list__item .item__footer {
     text-decoration: none;
     font: 500 1rem var(--typografiaUrbanist);
     color: #374151;
 }
 
+.categoriasPopulares__list .list__item .item__footer:hover {
+    color: var(--colorCafe);
+}
 
 /** Enlaces de productos */
 .enlaces__categoriaProductos .categoriaProductos__title {
@@ -2171,6 +2393,10 @@ body {
     color: #374151;
 }
 
+.categoriaProductos__list .list__item .item__footer:hover {
+    color: var(--colorCafe);
+}
+
 /**Instalar app mobile */
 .enlaces__instalar .instalar__title {
     font: 600 1.3rem var(--typografiaGeist);
@@ -2186,13 +2412,14 @@ body {
     color: #374151;
 }
 
+
 .enlaces__instalar .instalar__flex {
     display: flex;
     gap: 0.5rem;
 }
 
 .instalar__flex figure {
-    border: 1px solid #ff7302;
+    border: 1px solid var(--colorCafe);
     border-radius: 5px;
     padding: 0.1rem;
     margin: 1rem 0;
@@ -2215,4 +2442,150 @@ body {
 
 .instalar__copyright .copyright__text a {
     text-decoration: none;
+}
+
+/* ==================== MEDIA QUERIES ==================== */
+
+/* Tablets y pantallas medianas */
+@media screen and (max-width: 1024px) {
+    .subcripcion__informativa {
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+    }
+
+    .informativa__subscribir {
+        flex: 0 1 100%;
+        text-align: center;
+    }
+
+    .informativa__formulario {
+        flex: 0 1 100%;
+        max-width: 600px;
+    }
+
+    .footer__enlaces {
+        padding: 3rem 2rem;
+        gap: 3rem;
+    }
+
+    .enlaces__categoriaNosotros {
+        flex: 0 1 100%;
+        text-align: left;
+    }
+
+    .categoriaNosotros__list .list__icon {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .categoriaNosotros__list .icon__social i {
+        margin-left: 0;
+
+    }
+}
+
+/* ======= SOLO PARA TABLETS: 2 COLUMNAS EN FOOTER ======= */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .footer__enlaces {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    /* Cada bloque ocupa la mitad (2 columnas) */
+    .footer__enlaces>div {
+        flex: 0 1 calc(50% - 2rem);
+    }
+
+}
+
+/* Tablets pequeñas y móviles grandes */
+@media screen and (max-width: 768px) {
+    .informativa__subscribir .subscribir__title {
+        font-size: 1.5rem;
+    }
+
+    .informativa__subscribir .subscribir__text {
+        font-size: 1rem;
+    }
+
+    .formulario__input button {
+        position: static;
+        width: 100%;
+        margin-top: 1rem;
+        height: 50px;
+        background-color: #C3A68A;
+    }
+
+    .formulario__input input {
+        padding: 10px 15px;
+    }
+
+    .footer__enlaces {
+        padding: 2rem 1.5rem;
+        gap: 2.5rem;
+    }
+
+    .enlaces__categoriaPopulares,
+    .enlaces__categoriaProductos,
+    .enlaces__instalar {
+        flex: 0 1 100%;
+    }
+}
+
+
+
+/* Móviles */
+@media screen and (max-width: 480px) {
+    .subcripcion__informativa {
+        padding: 1.5rem 1rem;
+        min-height: auto;
+    }
+
+    .informativa__subscribir .subscribir__title {
+        font-size: 1.3rem;
+    }
+
+    .informativa__subscribir .subscribir__text {
+        font-size: 0.9rem;
+    }
+
+    .formulario__input input {
+        font-size: 1rem;
+        height: 50px;
+    }
+
+    .formulario__input button {
+        font-size: 1rem;
+        height: 45px;
+    }
+
+    .footer__enlaces {
+        padding: 2rem 1rem;
+        gap: 2rem;
+        min-height: auto;
+    }
+
+    .enlaces__categoriaNosotros .categoriaNosotros__logo {
+        width: 200px;
+        height: 70px;
+    }
+
+    .instalar__flex {
+        justify-content: flex-start;
+    }
+
+    .instalar__flex figure {
+        max-width: 180px;
+    }
+
+    .footer .instalar__copyright {
+        padding: 2rem 1rem;
+    }
+
+    .instalar__copyright .copyright__text {
+        font-size: 0.9rem;
+        text-align: center;
+    }
 }
