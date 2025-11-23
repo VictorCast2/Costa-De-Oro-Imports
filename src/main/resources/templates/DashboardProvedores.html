@@ -232,7 +232,8 @@
                             </button>
 
                             <div class="dropdown__menu">
-                                <button class="dropdown__item compra">
+                                <button class="dropdown__item compra"
+                                        th:onclick="|window.location.href='/admin/provedores/create-compra/' + ${proveedor.usuarioId}|">
                                     <i class="ri-shopping-bag-4-line"></i> Nueva compra
                                 </button>
                                 <button class="dropdown__item editar"

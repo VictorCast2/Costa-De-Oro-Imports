@@ -3,6 +3,8 @@ package com.application.presentation.controller.admin;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.entity.usuario.enums.EIdentificacion;
+import com.application.presentation.dto.factura.request.FacturaProveedorRequest;
+import com.application.presentation.dto.factura.response.FacturaProductoProveedorResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.CreateClienteRequest;
 import com.application.presentation.dto.usuario.request.CreateProveedorRequest;
@@ -10,6 +12,7 @@ import com.application.presentation.dto.usuario.response.ProveedorEstadisticasRe
 import com.application.presentation.dto.usuario.response.ProveedorResponse;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
+import com.application.service.interfaces.FacturaProveedorService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,7 @@ public class ProvedoresController {
 
     private final UsuarioService usuarioService;
     private final CloudinaryService cloudinaryService;
+    private final FacturaProveedorService facturaProveedorService;
 
     @GetMapping({"", "/"})
     public String DashboardProveedores(@AuthenticationPrincipal CustomUserPrincipal principal,
@@ -51,15 +55,42 @@ public class ProvedoresController {
         return "DashboardProvedores";
     }
 
-    @GetMapping("/nueva-compra")
-    public String nuevaCompraProveedor(@AuthenticationPrincipal CustomUserPrincipal principal,
+    @GetMapping("/create-compra/{id}")
+    public String nuevaCompraProveedor(@PathVariable Long id,
+                                       @AuthenticationPrincipal CustomUserPrincipal principal,
                                        Model model) {
 
         Usuario usuario = usuarioService.getUsuarioByCorreo(principal.getUsername());
+        String urlImagenUsuario = cloudinaryService.getImagenUrl(usuario.getImagen());
+
+        // Obtener productos del proveedor para el select
+        List<FacturaProductoProveedorResponse> productos = facturaProveedorService.getProductosByProveedorId(id);
+
+        // Obtener información del proveedor
+        ProveedorResponse proveedor = usuarioService.getProveedorById(id);
 
         model.addAttribute("usuario", usuario);
+        model.addAttribute("urlImagenUsuario", urlImagenUsuario);
+        model.addAttribute("productos", productos);
+        model.addAttribute("proveedor", proveedor);
+        model.addAttribute("proveedorId", id);
 
         return "NuevaCompra";
+    }
+
+    @GetMapping("/productos/{proveedorId}")
+    @ResponseBody
+    public List<FacturaProductoProveedorResponse> getProductosByProveedor(@PathVariable Long proveedorId) {
+        return facturaProveedorService.getProductosByProveedorId(proveedorId);
+    }
+
+    @PostMapping("/create-compra")
+    public String crearCompra(@ModelAttribute @Valid FacturaProveedorRequest facturaRequest,
+                              Model model) {
+        BaseResponse response = facturaProveedorService.crearFacturaCompra(facturaRequest);
+        String mensaje = UriUtils.encode(response.mensaje(), StandardCharsets.UTF_8);
+        boolean success = response.success();
+        return "redirect:/admin/provedores/?mensaje=" + mensaje + "&success=" + success;
     }
 
     @GetMapping("/create-proveedor")

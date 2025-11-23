@@ -11,6 +11,12 @@ import java.util.List;
 @Repository
 public interface FacturaProveedorRepository extends JpaRepository<FacturaProveedor, Long> {
 
+    // Verificar si ya existe una factura con el mismo número
+    boolean existsByNumeroFactura(String numeroFactura);
+
+    // Obtener facturas por proveedor
+    List<FacturaProveedor> findByUsuarioUsuarioIdOrderByFechaRegistroDesc(Long usuarioId);
+
     @Query("SELECT new com.application.presentation.dto.grafica.EstadisticasMensualesResponse(" +
             "YEAR(f.fechaEmision), MONTH(f.fechaEmision), 0.0, SUM(f.total)) " +
             "FROM FacturaProveedor f " +
