@@ -12,10 +12,7 @@ import com.application.persistence.repository.UsuarioRepository;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
-import com.application.presentation.dto.usuario.response.ClienteResponse;
-import com.application.presentation.dto.usuario.response.ProveedorEstadisticasResponse;
-import com.application.presentation.dto.usuario.response.ProveedorResponse;
-import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
+import com.application.presentation.dto.usuario.response.*;
 import com.application.service.implementation.ImagenServiceImpl;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.EmailService;
@@ -108,6 +105,23 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
                         proveedor.totalGastado(),
                         proveedor.totalGanado(),
                         proveedor.isEnabled()
+                ))
+                .toList();
+    }
+
+    /**
+     * Obtiene los usuarios con rol 'PROVEEDOR' y estado activo.
+     * Para uso del select de proveedor en los formularios de crear y editar producto
+     *
+     * @return Lista de DTOs con los proveedores activos (Solo se incluye id, nombre y empresa del usuario proveedor)
+     */
+    @Override
+    public List<ProveedorProductoResponse> getProveedoresActivos() {
+        return usuarioRepository.findByRol_NameAndEmpresa_ActivoTrue(ERol.PROVEEDOR).stream()
+                .map(proveedor -> new ProveedorProductoResponse(
+                        proveedor.getUsuarioId(),
+                        proveedor.getEmpresa() != null ? proveedor.getEmpresa().getRazonSocial() : "Sin empresa",
+                        proveedor.getNombres() + " " + proveedor.getApellidos()
                 ))
                 .toList();
     }

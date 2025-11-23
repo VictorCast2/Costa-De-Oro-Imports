@@ -3,15 +3,19 @@ package com.application.service.implementation.producto;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.entity.producto.Producto;
+import com.application.persistence.entity.usuario.Usuario;
 import com.application.persistence.repository.CategoriaRepository;
 import com.application.persistence.repository.ProductoRepository;
 import com.application.persistence.repository.SubCategoriaRepository;
+import com.application.persistence.repository.UsuarioRepository;
+import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.producto.request.FiltroRequest;
 import com.application.presentation.dto.producto.request.ProductoCreateRequest;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.interfaces.CloudinaryService;
 import com.application.service.interfaces.producto.ProductoService;
+import com.application.service.interfaces.usuario.UsuarioService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +29,7 @@ import java.util.*;
 public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final UsuarioRepository usuarioRepository;
     private final CategoriaRepository categoriaRepository;
     private final SubCategoriaRepository subCategoriaRepository;
 
@@ -98,21 +103,6 @@ public class ProductoServiceImpl implements ProductoService {
     public List<ProductoResponse> getPacksActivos() {
         List<Producto> productoList = productoRepository.findProductosActivosMasVendidosNoUnidad();
         return productoList.stream()
-                .map(this::toResponse)
-                .toList();
-    }
-
-    /**
-     * Obtiene los productos que pertenecen a una categoría específica.
-     * Este método sera de uso común para la pagina de Productos, en el filtro
-     *
-     * @param id ID de la categoría
-     * @return Lista de DTOs con productos que pertenecen a la categoría indicada
-     */
-    @Override
-    public List<ProductoResponse> getProductoByCategoriaId(Long id) {
-        List<Producto> productos = productoRepository.findByCategoria_CategoriaId(id);
-        return productos.stream()
                 .map(this::toResponse)
                 .toList();
     }
@@ -287,11 +277,11 @@ public class ProductoServiceImpl implements ProductoService {
      * Crea un nuevo producto a partir de un DTO de creación.
      *
      * @param productoRequest DTO con los datos del nuevo producto
-     * @return Respuesta con mensaje de confirmación
+     * @return Respuesta con mensaje de confirmación y con un boolean que define si la operación fue exitosa o no.
      */
     @Override
     @Transactional
-    public GeneralResponse createProducto(@NotNull ProductoCreateRequest productoRequest) {
+    public BaseResponse createProducto(@NotNull ProductoCreateRequest productoRequest) {
 
         String imagen = this.cloudinaryService.subirImagen(productoRequest.imagen(), "imagen-producto");
 
@@ -302,6 +292,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .marca(productoRequest.marca())
                 .pais(productoRequest.pais())
                 .eTipo(productoRequest.tipo())
+                .precioRegular(productoRequest.precioRegular())
                 .precio(productoRequest.precio())
                 .stock(productoRequest.stock())
                 .descripcion(productoRequest.descripcion())
@@ -320,12 +311,16 @@ public class ProductoServiceImpl implements ProductoService {
         if (!subCategoria.getCategoria().getCategoriaId().equals(categoriaId)) {
             throw new IllegalArgumentException("La subcategoria seleccionada no pertenece a la categoría " + categoria.getNombre());
         }
-
         subCategoria.addProducto(producto);
+
+        Long proveedorId = productoRequest.proveedorId();
+        Usuario proveedor = usuarioRepository.findById(proveedorId)
+                        .orElseThrow(() -> new EntityNotFoundException("El proveedor con id: " + proveedorId + " no existe"));
+        proveedor.addProducto(producto);
 
         productoRepository.save(producto);
 
-        return new GeneralResponse("Producto creado exitosamente");
+        return new BaseResponse("Producto creado exitosamente", true);
     }
 
     /**
@@ -333,12 +328,12 @@ public class ProductoServiceImpl implements ProductoService {
      *
      * @param productoRequest DTO con los datos actualizados
      * @param id              ID del producto a actualizar
-     * @return Respuesta con mensaje de confirmación
+     * @return Respuesta con mensaje de confirmación y con un boolean que define si la operación fue exitosa o no.
      * @throws EntityNotFoundException si el producto no existe
      */
     @Override
     @Transactional
-    public GeneralResponse updateProducto(@NotNull ProductoCreateRequest productoRequest, Long id) {
+    public BaseResponse updateProducto(@NotNull ProductoCreateRequest productoRequest, Long id) {
 
         Producto producto = this.getProductoById(id);
 
@@ -350,6 +345,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setMarca(productoRequest.marca());
         producto.setPais(productoRequest.pais());
         producto.setETipo(productoRequest.tipo());
+        producto.setPrecioRegular(productoRequest.precioRegular());
         producto.setPrecio(productoRequest.precio());
         producto.setStock(productoRequest.stock());
         producto.setDescripcion(productoRequest.descripcion());
@@ -357,6 +353,7 @@ public class ProductoServiceImpl implements ProductoService {
 
         producto.getCategoria().deleteProducto(producto);
         producto.getSubCategoria().deleteProducto(producto);
+        producto.getProveedor().deleteProducto(producto);
 
         Long categoriaId = productoRequest.categoriaId();
         Categoria categoria = categoriaRepository.findById(categoriaId)
@@ -370,23 +367,27 @@ public class ProductoServiceImpl implements ProductoService {
         if (!subCategoria.getCategoria().getCategoriaId().equals(categoriaId)) {
             throw new IllegalArgumentException("La subcategoria seleccionada no pertenece a la categoría " + categoria.getNombre());
         }
-
         subCategoria.addProducto(producto);
+
+        Long proveedorId = productoRequest.proveedorId();
+        Usuario proveedor = usuarioRepository.findById(proveedorId)
+                        .orElseThrow(() -> new EntityNotFoundException("El proveedor con id: " + proveedorId + " no existe."));
+        proveedor.addProducto(producto);
 
         productoRepository.save(producto);
 
-        return new GeneralResponse("Producto actualizado exitosamente");
+        return new BaseResponse("Producto actualizado exitosamente", true);
     }
 
     /**
      * Cambia el estado del producto.
      *
      * @param id ID del producto a cambiar su estado
-     * @return DTO con mensaje de confirmación según el estado del producto
+     * @return DTO con mensaje de confirmación según el estado del producto y con un boolean que define si la operación fue exitosa o no.
      * @throws EntityNotFoundException si el producto no existe
      */
     @Override
-    public GeneralResponse changeEstadoProducto(Long id) {
+    public BaseResponse changeEstadoProducto(Long id) {
         Producto producto = this.getProductoById(id);
 
         boolean nuevoEstado = !producto.isActivo();
@@ -397,7 +398,7 @@ public class ProductoServiceImpl implements ProductoService {
                 ? "Producto Habilitado exitosamente"
                 : "Producto deshabilitado exitosamente";
 
-        return new GeneralResponse(mensaje);
+        return new BaseResponse(mensaje, true);
     }
 
     /**
@@ -405,20 +406,21 @@ public class ProductoServiceImpl implements ProductoService {
      * errores de integridad referencial en la base de datos.
      *
      * @param id ID del producto a eliminar
-     * @return Respuesta con mensaje de confirmación
+     * @return Respuesta con mensaje de confirmación y con un boolean que define si la operación fue exitosa o no.
      * @throws EntityNotFoundException si el producto no existe
      */
     @Override
     @Transactional
-    public GeneralResponse deleteProducto(Long id) {
+    public BaseResponse deleteProducto(Long id) {
 
         Producto producto = this.getProductoById(id);
 
         producto.getCategoria().deleteProducto(producto);
         producto.getSubCategoria().deleteProducto(producto);
+        producto.getProveedor().deleteProducto(producto);
 
         productoRepository.delete(producto);
-        return new GeneralResponse("Producto eliminado exitosamente");
+        return new BaseResponse("Producto eliminado exitosamente", true);
     }
 
     /**
@@ -444,8 +446,13 @@ public class ProductoServiceImpl implements ProductoService {
                 producto.getStock(),
                 producto.getDescripcion(),
                 producto.isActivo(),
+                producto.getCategoria().getCategoriaId(),
                 producto.getCategoria().getNombre(),
-                producto.getSubCategoria() != null ? producto.getSubCategoria().getNombre() : "Sin subcategoría"
+                producto.getSubCategoria().getSubCategoriaId() != null ? producto.getSubCategoria().getSubCategoriaId() : null,
+                producto.getSubCategoria().getNombre(),
+                producto.getProveedor().getUsuarioId(),
+                producto.getProveedor().getNombres() + producto.getProveedor().getApellidos(),
+                producto.getProveedor().getEmpresa().getRazonSocial()
         );
     }
 }

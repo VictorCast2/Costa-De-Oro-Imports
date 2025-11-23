@@ -1,5 +1,6 @@
 package com.application.persistence.repository;
 
+import com.application.persistence.entity.rol.enums.ERol;
 import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.usuario.response.ProveedorEstadisticasResponse;
 import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
@@ -17,6 +18,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByCorreo(String correo);
 
     boolean existsByCorreo(String correo);
+
+    List<Usuario> findByRol_NameAndEmpresa_ActivoTrue(ERol name);
+
 
     @Query("""
                 SELECT new com.application.presentation.dto.usuario.response.UsuarioGastoResponse(

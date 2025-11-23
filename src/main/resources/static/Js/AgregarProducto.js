@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //Menú desplegable del perfil 
+    //Menú desplegable del perfil
     const subMenu = document.getElementById("SubMenu");
     const profileImage = document.getElementById("user__admin");
 
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     //Select de pais
     const paises = [
         // América del Norte
@@ -73,49 +72,90 @@ document.addEventListener("DOMContentLoaded", () => {
         selectPaises.appendChild(option);
     });
 
-
-
     //Select de categoria principal y secundaria
     const categoriaPrincipal = document.getElementById("categoriaPrincipal");
     const categoriaSecundaria = document.getElementById("categoriaSecundaria");
 
-    // Diccionario de subcategorías
-    const subcategorias = {
-        Vino: ["Vino Tinto", "Vino Blanco", "Vino Rosado", "Espumoso"],
-        Cerveza: ["Rubia", "Negra", "Roja", "Artesanal"],
-        Whisky: ["Blended Scotch", "Single Malt", "Blended Malt"],
-        Tequila: ["Blanco", "Reposado", "Añejo"],
-        Vodka: ["Saborizado", "Premium", "Artesanal", "Tradicional"],
-        Ginebra: ["Seca", "Dulce", "Aromática"],
-        Aguardiente: ["Antioqueño", "Cristal", "Sin azúcar"],
-        Ron: ["Blanco", "Oscuro", "Añejo", "Saborizado"],
-        Mezcal: ["Joven", "Reposado", "Añejo"]
-    };
+    // Mapeo de IDs de categorías a nombres
+    const mapeoCategorias = {};
+    const mapeoSubCategorias = {};
+
+    // Inicializar mapeo de categorías principales
+    function inicializarMapeoCategorias() {
+        const opcionesCategoria = categoriaPrincipal.querySelectorAll('option');
+        opcionesCategoria.forEach(option => {
+            if (option.value && option.value !== "") {
+                mapeoCategorias[option.value] = option.textContent;
+            }
+        });
+        console.log('Mapeo de categorías:', mapeoCategorias);
+    }
+
+    // Actualizar mapeo de subcategorías
+    function actualizarMapeoSubCategorias() {
+        // Limpiar mapeo anterior
+        for (const key in mapeoSubCategorias) {
+            delete mapeoSubCategorias[key];
+        }
+
+        const opcionesSubCategoria = categoriaSecundaria.querySelectorAll('option');
+        opcionesSubCategoria.forEach(option => {
+            if (option.value && option.value !== "") {
+                mapeoSubCategorias[option.value] = option.textContent;
+            }
+        });
+        console.log('Mapeo de subcategorías:', mapeoSubCategorias);
+    }
+
+    // Inicializar cuando cargue la página
+    inicializarMapeoCategorias();
 
     // Cuando cambia la categoría principal
     categoriaPrincipal.addEventListener("change", function () {
-        const seleccion = this.value;
+        const categoriaId = this.value;
 
         // Limpiar las opciones anteriores
         categoriaSecundaria.innerHTML = '<option disabled selected>Categoría secundaria</option>';
 
-        // Agregar las nuevas según la categoría seleccionada
-        if (subcategorias[seleccion]) {
-            subcategorias[seleccion].forEach((sub) => {
-                const option = document.createElement("option");
-                option.value = sub;
-                option.textContent = sub;
-                categoriaSecundaria.appendChild(option);
-            });
-        }
+        if (categoriaId) {
+            // Hacer petición al servidor para obtener las subcategorías
+            fetch(`/admin/producto/subcategorias/${categoriaId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al cargar subcategorías');
+                    }
+                    return response.json();
+                })
+                .then(subcategorias => {
+                    // Agregar las nuevas opciones
+                    subcategorias.forEach(subcategoria => {
+                        const option = document.createElement("option");
+                        option.value = subcategoria.id;
+                        option.textContent = subcategoria.nombre;
+                        categoriaSecundaria.appendChild(option);
+                    });
 
-        // Reiniciar el valor seleccionado (por si antes había una opción previa)
-        categoriaSecundaria.selectedIndex = 0;
+                    // Actualizar el mapeo de subcategorías
+                    actualizarMapeoSubCategorias();
+
+                    // Si solo hay una opción, seleccionarla automáticamente
+                    if (subcategorias.length === 1) {
+                        categoriaSecundaria.selectedIndex = 1;
+                    }
+
+                    // Actualizar marcas después de cargar subcategorías
+                    actualizarMarcas();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const errorElement = document.querySelector('.error--CategoriaSecundaria');
+                    errorElement.textContent = 'Error al cargar las subcategorías. Intente nuevamente.';
+                    errorElement.style.display = 'block';
+                });
+        }
     });
 
-
-    // === NUEVA SECCIÓN: MARCAS DEPENDIENTES ===
-    // Obtener los elementos del DOM
+    // === MARCAS DEPENDIENTES ===
     const selectPais = document.getElementById("páises");
     const selectMarca = document.getElementById("marca");
 
@@ -123,124 +163,271 @@ document.addEventListener("DOMContentLoaded", () => {
     const marcas = {
         Vino: {
             Italia: {
-                "Vino Tinto": ["Antinori", "Tignanello", "Frescobaldi", "Gaja"],
-                "Vino Blanco": ["Santa Margherita", "Masi", "Ruffino"],
-                "Vino Rosado": ["Bolla", "Castello Banfi"],
-                "Espumoso": ["Prosecco", "Franciacorta"]
+                "Vino Tinto": ["Antinori", "Tignanello", "Frescobaldi", "Gaja", "Barolo", "Brunello di Montalcino"],
+                "Vino Blanco": ["Santa Margherita", "Masi", "Ruffino", "Pinot Grigio", "Soave"],
+                "Vino Rosado": ["Bolla", "Castello Banfi", "Lamberti", "Casal Thaulero"],
+                "Vino Espumoso": ["Prosecco", "Franciacorta", "Asti Spumante", "Lambrusco"],
+                "Champagne": ["Ferrari", "Bellavista", "Ca' del Bosco"],
+                "Cava": ["Freixenet Italia", "Codorníu Italia"],
+                "Prosecco": ["Mionetto", "Zonin", "Bisol", "Ruggeri"],
+                "Lambruscos": ["Riunite", "Cavicchioli", "Medici Ermete"]
             },
             España: {
-                "Vino Tinto": ["Marqués de Riscal", "Torres", "Vega Sicilia", "Protos"],
-                "Vino Blanco": ["Faustino", "Campo Viejo"],
-                "Vino Rosado": ["Codorníu", "Freixenet"],
-                "Espumoso": ["Juvé & Camps", "Codorníu"]
+                "Vino Tinto": ["Marqués de Riscal", "Torres", "Vega Sicilia", "Protos", "Rioja", "Ribera del Duero"],
+                "Vino Blanco": ["Faustino", "Campo Viejo", "Albariño", "Verdejo"],
+                "Vino Rosado": ["Codorníu", "Freixenet", "Marqués de Cáceres", "Navarra"],
+                "Vino Espumoso": ["Juvé & Camps", "Codorníu", "Freixenet", "Gramona"],
+                "Champagne": ["Raventós i Blanc", "Parxet", "Agustí Torelló"],
+                "Cava": ["Codorníu", "Freixenet", "Gramona", "Recaredo"],
+                "Prosecco": ["Marqués de Monistrol", "Raimat"],
+                "Lambruscos": ["Marqués de Gelida", "Castellroig"]
             },
             Francia: {
-                "Vino Tinto": ["Château Margaux", "Château Lafite Rothschild", "Louis Jadot"],
-                "Vino Blanco": ["Joseph Drouhin", "Château d’Yquem"],
-                "Vino Rosado": ["Moët & Chandon", "Dom Pérignon"],
-                "Espumoso": ["Veuve Clicquot", "Perrier-Jouët"]
+                "Vino Tinto": ["Château Margaux", "Château Lafite Rothschild", "Louis Jadot", "Bordeaux", "Burgundy"],
+                "Vino Blanco": ["Joseph Drouhin", "Château d'Yquem", "Sancerre", "Chablis"],
+                "Vino Rosado": ["Moët & Chandon", "Dom Pérignon", "Whispering Angel", "Miraval"],
+                "Vino Espumoso": ["Veuve Clicquot", "Perrier-Jouët", "Laurent-Perrier", "Taittinger"],
+                "Champagne": ["Dom Pérignon", "Krug", "Bollinger", "Ruinart"],
+                "Cava": ["Charles de Fère", "Jaillance"],
+                "Prosecco": ["Bouchard Aîné", "Louis Bouillot"],
+                "Lambruscos": ["Barton & Guestier", "Calvet"]
             },
             Chile: {
-                "Vino Tinto": ["Concha y Toro", "Casillero del Diablo", "Montes", "Carmen"],
-                "Vino Blanco": ["Santa Rita", "Undurraga", "Errazuriz"],
-                "Vino Rosado": ["Tarapacá", "Cousiño Macul"],
-                "Espumoso": ["Valdivieso", "Undurraga Brut"]
+                "Vino Tinto": ["Concha y Toro", "Casillero del Diablo", "Montes", "Carmen", "Santa Rita"],
+                "Vino Blanco": ["Santa Rita", "Undurraga", "Errazuriz", "Los Vascos"],
+                "Vino Rosado": ["Tarapacá", "Cousiño Macul", "San Pedro", "Emiliana"],
+                "Vino Espumoso": ["Valdivieso", "Undurraga Brut", "Cono Sur", "Tabalí"],
+                "Champagne": ["Santa Digna", "TerraMater"],
+                "Cava": ["Miguel Torres", "Leyda"],
+                "Prosecco": ["Casas del Bosque", "Amayna"],
+                "Lambruscos": ["Viña Maipo", "Viña San Esteban"]
             },
             Argentina: {
-                "Vino Tinto": ["Catena Zapata", "Luigi Bosca", "Rutini", "Trapiche"],
-                "Vino Blanco": ["Norton", "Bianchi"],
-                "Vino Rosado": ["El Enemigo", "Navarro Correas"],
-                "Espumoso": ["Chandon", "Baron B"]
-            }
-        },
-
-        Cerveza: {
-            México: {
-                Rubia: ["Corona", "Modelo", "Pacifico"],
-                Negra: ["Negra Modelo"],
-                Roja: ["Victoria"],
-                Artesanal: ["Minerva", "Calavera"]
-            },
-            Alemania: {
-                Rubia: ["Paulaner", "Beck’s"],
-                Negra: ["Köstritzer"],
-                Roja: ["Spaten", "Erdinger"],
-                Artesanal: ["Weihenstephaner", "Bitburger"]
-            },
-            Bélgica: {
-                Rubia: ["Leffe", "Stella Artois"],
-                Negra: ["Chimay", "Rochefort"],
-                Roja: ["Delirium Red"],
-                Artesanal: ["Duvel", "La Chouffe"]
+                "Vino Tinto": ["Catena Zapata", "Luigi Bosca", "Rutini", "Trapiche", "Norton"],
+                "Vino Blanco": ["Norton", "Bianchi", "Trumpeter", "Alamos"],
+                "Vino Rosado": ["El Enemigo", "Navarro Correas", "Finca Las Moras", "Zuccardi"],
+                "Vino Espumoso": ["Chandon", "Baron B", "Finca Sophenia", "Finca La Celia"],
+                "Champagne": ["Mendoza", "Andeluna", "Rutini"],
+                "Cava": ["Bodega Norton", "Bodega Salentein"],
+                "Prosecco": ["Bodega Vistalba", "Bodega Atamisque"],
+                "Lambruscos": ["Bodega Colomé", "Bodega El Esteco"]
             }
         },
 
         Whisky: {
             Escocia: {
-                "Blended Scotch": ["Johnnie Walker", "Chivas Regal", "Ballantine’s"],
-                "Single Malt": ["Glenfiddich", "Macallan", "Lagavulin"],
-                "Blended Malt": ["Monkey Shoulder", "Compass Box"]
+                "Single Malt": ["Glenfiddich", "Macallan", "Lagavulin", "Laphroaig", "Glenlivet"],
+                "Blended Malt": ["Monkey Shoulder", "Compass Box", "Johnnie Walker Green"],
+                "Single Grain": ["Haig Club", "Cameron Bridge", "Girvan"],
+                "Blended Grain": ["Hedges & Butler", "Black Barrel"],
+                "Blended Scotch": ["Johnnie Walker", "Chivas Regal", "Ballantine's", "Dewar's"],
+                "Bourbon": ["Glen Scotia", "Auchentoshan"],
+                "Whisky de Centeno": ["Bruichladdich", "Ardbeg"],
+                "Whisky de Trigo": ["Glenmorangie", "Balvenie"],
+                "Tennessee Whisky": ["Jack Daniel's Single Malt"]
+            },
+            "Estados Unidos": {
+                "Single Malt": ["Woodford Reserve", "Stranahan's", "Westland"],
+                "Blended Malt": ["Bulleit", "High West", "WhistlePig"],
+                "Single Grain": ["Buffalo Trace", "Heaven Hill"],
+                "Blended Grain": ["Jim Beam", "Evan Williams"],
+                "Blended Scotch": ["Jack Daniel's", "Seagram's"],
+                "Bourbon": ["Maker's Mark", "Wild Turkey", "Four Roses"],
+                "Whisky de Centeno": ["Rittenhouse", "Old Overholt"],
+                "Whisky de Trigo": ["Bernheim", "W.L. Weller"],
+                "Tennessee Whisky": ["Jack Daniel's", "George Dickel"]
             },
             Irlanda: {
-                "Blended Scotch": ["Jameson"],
-                "Single Malt": ["Bushmills"],
-                "Blended Malt": ["Teeling"]
+                "Single Malt": ["Bushmills", "Teeling", "Knappogue Castle"],
+                "Blended Malt": ["Jameson", "Tullamore D.E.W.", "Powers"],
+                "Single Grain": ["Green Spot", "Yellow Spot"],
+                "Blended Grain": ["Paddy", "Crested Ten"],
+                "Blended Scotch": ["Jameson Caskmates", "Redbreast"],
+                "Bourbon": ["Writer's Tears", "Method and Madness"],
+                "Whisky de Centeno": ["Dingle", "West Cork"],
+                "Whisky de Trigo": ["Kilbeggan", "Clontarf"],
+                "Tennessee Whisky": ["Jameson Black Barrel"]
             },
-            Estados_Unidos: {
-                "Blended Scotch": ["Jack Daniel’s"],
-                "Single Malt": ["Woodford Reserve"],
-                "Blended Malt": ["Bulleit"]
+            Japón: {
+                "Single Malt": ["Yamazaki", "Hakushu", "Hibiki", "Nikka"],
+                "Blended Malt": ["Nikka Coffey", "Suntory Toki"],
+                "Single Grain": ["Chita", "Nikka Coffey Grain"],
+                "Blended Grain": ["Akashi", "Eigashima"],
+                "Blended Scotch": ["Suntory Royal", "Nikka Super"],
+                "Bourbon": ["Yamazaki Bourbon Barrel", "Hakushu American Oak"],
+                "Whisky de Centeno": ["Nikka Rye", "Mars Komagatake"],
+                "Whisky de Trigo": ["Ichiro's Malt", "White Oak"],
+                "Tennessee Whisky": ["Suntory Old"]
             }
         },
 
-        Tequila: {
-            México: {
-                Blanco: ["Jose Cuervo", "Don Julio Blanco", "1800 Silver"],
-                Reposado: ["Herradura", "Cazadores", "Patrón Reposado"],
-                Añejo: ["Don Julio Añejo", "Gran Centenario"]
+        Ron: {
+            Cuba: {
+                "Ron Blanco": ["Havana Club", "Santiago", "Caney", "Varadero"],
+                "Ron Dorado": ["Havana Club Añejo", "Santiago de Cuba", "Legendario"],
+                "Ron Añejo": ["Havana Club 7 años", "Santiago de Cuba 11 años", "Ron Vigía"],
+                "Ron Oscuro": ["Havana Club Selección de Maestros", "Ron Mulata"],
+                "Ron Especiado": ["Havana Club Especial", "Santiago de Cuba Especiado"]
+            },
+            "República Dominicana": {
+                "Ron Blanco": ["Brugal", "Barceló", "Bermúdez", "Macorix"],
+                "Ron Dorado": ["Brugal Añejo", "Barceló Dorado", "Bermúdez Gold"],
+                "Ron Añejo": ["Brugal Añejo", "Barceló Añejo", "Bermúdez Añejo"],
+                "Ron Oscuro": ["Brugal Extra Viejo", "Barceló Gran Añejo"],
+                "Ron Especiado": ["Brugal Limón", "Barceló Coco", "Bermúdez Especiado"]
+            },
+            "Puerto Rico": {
+                "Ron Blanco": ["Bacardi", "Don Q", "Palo Viejo", "Ron del Barrilito"],
+                "Ron Dorado": ["Bacardi Gold", "Don Q Gold", "Ron del Barrilito 2 Estrellas"],
+                "Ron Añejo": ["Bacardi 8", "Don Q Añejo", "Ron del Barrilito 3 Estrellas"],
+                "Ron Oscuro": ["Bacardi Black", "Don Q Reserva 7", "Palo Viejo Oscuro"],
+                "Ron Especiado": ["Bacardi Spiced", "Don Q Limón", "Palo Viejo Coco"]
+            },
+            Venezuela: {
+                "Ron Blanco": ["Santa Teresa", "Cacique", "Pampero", "Diplomático"],
+                "Ron Dorado": ["Santa Teresa Gran Reserva", "Cacique 500", "Pampero Aniversario"],
+                "Ron Añejo": ["Diplomático Reserva Exclusiva", "Santa Teresa 1796", "Pampero Especial"],
+                "Ron Oscuro": ["Diplomático Mantuano", "Santa Teresa Selecto", "Cacique Antiguo"],
+                "Ron Especiado": ["Santa Teresa Naranja", "Diplomático Planas", "Cacique Especiado"]
             }
         },
 
         Vodka: {
             Rusia: {
-                Tradicional: ["Russian Standard", "Beluga", "Moskovskaya"],
-                Premium: ["Belvedere", "Stolichnaya Elit"],
-                Saborizado: ["Nemiroff", "Zyr"],
-                Artesanal: ["Hammer + Sickle"]
+                "Vodka Clásico": ["Russian Standard", "Beluga", "Moskovskaya", "Stolichnaya"],
+                "Vodka Saborizado": ["Nemiroff", "Zyr", "Khortytsa", "Green Mark"]
             },
             Polonia: {
-                Tradicional: ["Wyborowa"],
-                Premium: ["Chopin", "Belvedere"],
-                Saborizado: ["Żubrówka"]
+                "Vodka Clásico": ["Wyborowa", "Belvedere", "Chopin", "Żubrówka"],
+                "Vodka Saborizado": ["Żubrówka", "Soplica", "Krupnik", "Polar Ice"]
+            },
+            Suecia: {
+                "Vodka Clásico": ["Absolut", "Karlsson's", "Purity", "Explorer"],
+                "Vodka Saborizado": ["Absolut Citron", "Absolut Vanilla", "Absolut Raspberri"]
+            },
+            "Estados Unidos": {
+                "Vodka Clásico": ["Grey Goose", "Tito's", "Smirnoff", "Skyy"],
+                "Vodka Saborizado": ["Smirnoff Saborizado", "UV Vodka", "Three Olives"]
+            }
+        },
+
+        Tequila: {
+            México: {
+                "Blanco": ["Jose Cuervo", "Don Julio Blanco", "1800 Silver", "Patrón Silver", "Herradura Blanco"],
+                "Reposado": ["Herradura", "Cazadores", "Patrón Reposado", "Don Julio Reposado", "El Jimador"],
+                "Añejo": ["Don Julio Añejo", "Gran Centenario", "Herradura Añejo", "Patrón Añejo", "Cazadores Añejo"],
+                "Extra Añejo": ["Don Julio 70", "Herradura Ultra", "Patrón Extra Añejo", "Clase Azul"]
+            }
+        },
+
+        Ginebra: {
+            "Reino Unido": {
+                "London Dry": ["Beefeater", "Tanqueray", "Gordon's", "Bombay Sapphire"],
+                "Old Tom": ["Hayman's", "Jensen's", "Ransom"],
+                "Ginebra de Sabor": ["Hendrick's", "Bloom", "The Botanist"]
+            },
+            "Países Bajos": {
+                "London Dry": ["Ketel One", "Bols", "Geneva", "Nolet's"],
+                "Old Tom": ["Bobby's", "Van Wees", "De Kuyper"],
+                "Ginebra de Sabor": ["Bols Genever", "Filliers", "Rutte"]
+            },
+            España: {
+                "London Dry": ["Larios", "Nordés", "Gin Mare", "Puerto de Indias"],
+                "Old Tom": ["Siderit", "Ginraw", "Magellan"],
+                "Ginebra de Sabor": ["Puerto de Indias Fresa", "Larios 12", "Gin Eva"]
+            }
+        },
+
+        Mezcal: {
+            México: {
+                "Blanco": ["Monte Alban", "Zignum", "Ilegal", "Alipus"],
+                "Madurado en Vidrio": ["Del Maguey", "Los Danzantes", "Rey Campero", "Montelobos"]
+            }
+        },
+
+        Cerveza: {
+            Colombia: {
+                "Nacional": ["Aguila", "Poker", "Club Colombia", "Costeña", "Pilsen"],
+                "Importada": ["Heineken", "Budweiser", "Corona", "Stella Artois"]
+            },
+            México: {
+                "Nacional": ["Corona", "Modelo", "Pacifico", "Tecate", "Sol"],
+                "Importada": ["Heineken", "Budweiser", "Stella Artois", "Guinness"]
+            },
+            Alemania: {
+                "Nacional": ["Paulaner", "Beck's", "Bitburger", "Warsteiner", "Krombacher"],
+                "Importada": ["Guinness", "Stella Artois", "Corona", "Heineken"]
+            },
+            Bélgica: {
+                "Nacional": ["Stella Artois", "Leffe", "Hoegaarden", "Duvel", "Chimay"],
+                "Importada": ["Heineken", "Corona", "Budweiser", "Guinness"]
+            }
+        },
+
+        Aguardiente: {
+            Colombia: {
+                Nacional: ["Aguardiente Antioqueño", "Cristal", "Néctar", "Blanco del Valle", "Tapa Roja"]
+            }
+        },
+
+        Brandy: {
+            Francia: {
+                "Cognac": ["Hennessy", "Remy Martin", "Courvoisier", "Martell", "Camus"],
+                "Armagnac": ["Darroze", "Janneau", "Marquis de Montesquiou", "Baron de Sigognac"]
+            },
+            España: {
+                "Brandy Español": ["Fundador", "Terry", "Cardenal Mendoza", "Magno", "Soberano"],
+                "Cognac": ["Torres", "Mascaró", "Gran Duque de Alba"],
+                "Armagnac": ["Bodegas Williams", "Bodegas Osborne"]
             }
         }
     };
 
-    // Función para actualizar las marcas
+    // Función para actualizar las marcas (SOLUCIÓN 2 IMPLEMENTADA)
     function actualizarMarcas() {
-        const categoria = categoriaPrincipal.value;
+        const categoriaId = categoriaPrincipal.value;
+        const subCategoriaId = categoriaSecundaria.value;
         const paisSeleccionado = selectPais.options[selectPais.selectedIndex]?.text || "";
-        const categoriaSec = categoriaSecundaria.value;
 
         // Limpiar el select de marcas
         selectMarca.innerHTML = '<option disabled selected>Marca</option>';
 
         // Verificar que haya selección en los tres
-        if (categoria && paisSeleccionado && categoriaSec) {
-            const lista = marcas[categoria]?.[paisSeleccionado]?.[categoriaSec];
+        if (categoriaId && subCategoriaId && paisSeleccionado) {
+            const categoriaNombre = mapeoCategorias[categoriaId];
+            const subCategoriaNombre = mapeoSubCategorias[subCategoriaId];
 
-            if (lista) {
-                lista.forEach(marca => {
+            console.log("Buscando marcas para:", {
+                categoriaId: categoriaId,
+                categoriaNombre: categoriaNombre,
+                subCategoriaId: subCategoriaId,
+                subCategoriaNombre: subCategoriaNombre,
+                pais: paisSeleccionado
+            });
+
+            if (categoriaNombre && subCategoriaNombre) {
+                const lista = marcas[categoriaNombre]?.[paisSeleccionado]?.[subCategoriaNombre];
+
+                if (lista) {
+                    lista.forEach(marca => {
+                        const option = document.createElement("option");
+                        option.value = marca;
+                        option.textContent = marca;
+                        selectMarca.appendChild(option);
+                    });
+                    console.log("Marcas encontradas:", lista);
+                } else {
                     const option = document.createElement("option");
-                    option.value = marca.toLowerCase().replace(/\s+/g, "_");
-                    option.textContent = marca;
+                    option.disabled = true;
+                    option.textContent = "No hay marcas disponibles para esta combinación";
                     selectMarca.appendChild(option);
-                });
+                    console.log("No se encontraron marcas para:", categoriaNombre, paisSeleccionado, subCategoriaNombre);
+                }
             } else {
-                const option = document.createElement("option");
-                option.disabled = true;
-                option.textContent = "No hay marcas disponibles";
-                selectMarca.appendChild(option);
+                console.log("No se pudo encontrar el nombre para los IDs:", {
+                    categoriaId: categoriaId,
+                    subCategoriaId: subCategoriaId
+                });
             }
         }
     }
@@ -249,6 +436,47 @@ document.addEventListener("DOMContentLoaded", () => {
     categoriaPrincipal.addEventListener("change", actualizarMarcas);
     selectPais.addEventListener("change", actualizarMarcas);
     categoriaSecundaria.addEventListener("change", actualizarMarcas);
+
+    // === SOLUCIÓN 2: FUNCIONES PARA LIMPIAR PRECIOS ===
+
+    // Función para limpiar formato de precios antes de enviar
+    function limpiarFormatoPrecio(valorFormateado) {
+        if (!valorFormateado) return "0";
+
+        // Eliminar símbolos de moneda, puntos, espacios y comas
+        const valorLimpio = valorFormateado
+            .replace(/[^\d,]/g, '')  // Mantener solo números y comas
+            .replace(',', '.');      // Convertir coma decimal a punto
+
+        return valorLimpio || "0";
+    }
+
+    // Función para preparar los datos antes del envío
+    function prepararDatosParaEnvio() {
+        // Limpiar precio regular
+        const precioRegularInput = document.getElementById('precioRegular');
+        if (precioRegularInput) {
+            const valorLimpio = limpiarFormatoPrecio(precioRegularInput.value);
+            // Actualizar el campo original con el valor limpio
+            precioRegularInput.value = valorLimpio;
+            console.log("Precio regular limpio:", valorLimpio);
+        }
+
+        // Limpiar precio de venta
+        const precioVentaInput = document.getElementById('precioVenta');
+        if (precioVentaInput) {
+            const valorLimpio = limpiarFormatoPrecio(precioVentaInput.value);
+            // Actualizar el campo original con el valor limpio
+            precioVentaInput.value = valorLimpio;
+            console.log("Precio venta limpio:", valorLimpio);
+        }
+
+        // Actualizar campo oculto de descripción
+        const descripcionHidden = document.getElementById('descripcionHidden');
+        if (descripcionHidden && quill) {
+            descripcionHidden.value = quill.root.innerHTML;
+        }
+    }
 
     //input de precios
     function formatCOP(value) {
@@ -296,20 +524,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const textoBox = document.querySelector('.boximagen__texto');
     const errorFormato = document.querySelector('.error--formato');
     const errorVacio = document.querySelector('.error--vacio');
+    const inputFile = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
 
     const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-
-    // Crear dinámicamente input file oculto
-    const inputFile = document.createElement('input');
-    inputFile.type = 'file';
-    inputFile.accept = 'image/*';
-    inputFile.style.display = 'none';
-    boxImagen.appendChild(inputFile);
-
-    // Crear contenedor de previsualización
-    const previewContainer = document.createElement('div');
-    previewContainer.classList.add('preview-container');
-    boxImagen.appendChild(previewContainer);
 
     // Al hacer clic en el contenedor, abrir explorador
     boxImagen.addEventListener('click', () => inputFile.click());
@@ -391,13 +609,29 @@ document.addEventListener("DOMContentLoaded", () => {
         theme: 'snow'
     });
 
+    // Actualizar campo oculto con el contenido HTML de Quill
+    const descripcionHidden = document.getElementById('descripcionHidden');
 
+    quill.on('text-change', function() {
+        // Obtener el contenido HTML del editor
+        const contenidoHTML = quill.root.innerHTML;
+
+        // Actualizar el campo oculto
+        if (descripcionHidden) {
+            descripcionHidden.value = contenidoHTML;
+        }
+    });
+
+    // Inicializar el campo oculto con contenido vacío
+    if (descripcionHidden) {
+        descripcionHidden.value = quill.root.innerHTML;
+    }
 
     //Validaciones del formulario de agregar producto
     const fieldsProducto = {
         nombre: { regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/, errorMessage: "El nombre debe tener al menos 3 letras." },
         codigoProducto: { regex: /^#[A-Za-z0-9]+$/, errorMessage: "El código del producto debe iniciar con el símbolo # y contener solo letras o números después." },
-        stock: { regex: /^[1-9][0-9]*$/, errorMessage: "Por favor, ingresa una cantidad de stock válida mayor que cero." },
+        stock: { regex: /^[0-9][0-9]*$/, errorMessage: "Por favor, ingresa una cantidad de stock válida." }, // ACTUALIZADO: acepta 0
         precioRegular: { regex: /^(?!0+(?:[.,]0+)?$)\d+(?:[.,]\d{1,2})?$/, errorMessage: "Por favor, ingresa un precio válido mayor que cero." },
         precioVenta: { regex: /^(?!0+(?:[.,]0+)?$)\d+(?:[.,]\d{1,2})?$/, errorMessage: "Por favor, ingresa un precio válido mayor que cero." }
     };
@@ -495,7 +729,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Obtener radios y mensaje de error
-    const radiosEstado = document.querySelectorAll('input[name="estado"]');
+    const radiosEstado = document.querySelectorAll('input[name="activo"]'); // ACTUALIZADO: nombre cambiado a "activo"
     const errorEstado = document.querySelector('.error--estado');
     const radiosCustom = document.querySelectorAll('.radio__custom');
 
@@ -547,6 +781,11 @@ document.addEventListener("DOMContentLoaded", () => {
         errorDescripcion.style.display = 'none';
         boxDescripcion.classList.remove('error-border');
 
+        // Actualizar campo oculto antes de validar
+        if (descripcionHidden) {
+            descripcionHidden.value = quill.root.innerHTML;
+        }
+
         if (contenido === '' || contenido.length === 0) {
             errorDescripcion.style.display = 'block';
             boxDescripcion.classList.add('error-border');
@@ -559,25 +798,36 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ocultar el error al escribir
     quill.on('text-change', () => {
         const contenido = quill.getText().trim();
+
+        // Actualizar campo oculto continuamente
+        if (descripcionHidden) {
+            descripcionHidden.value = quill.root.innerHTML;
+        }
+
         if (contenido.length > 0) {
             errorDescripcion.style.display = 'none';
             boxDescripcion.classList.remove('error-border');
         }
     });
 
-
     const addform = document.getElementById("formularioProducto");
 
     addform.addEventListener("submit", function (e) {
+        // === SOLUCIÓN 2: PREPARAR DATOS ANTES DE VALIDAR ===
+        prepararDatosParaEnvio();
+
         let formularioValido = true;
         let selectsValidos = true;
 
+        // Actualizar campo oculto de descripción antes de enviar
+        if (descripcionHidden) {
+            descripcionHidden.value = quill.root.innerHTML;
+        }
 
         // 2. Validar inputs (solo si el checkbox está marcado)
         Object.keys(fieldsProducto).forEach(fieldId => {
             const input = document.getElementById(fieldId);
             const regex = fieldsProducto[fieldId].regex;
-
 
             const inputBox = input.closest(".formulario__box");
             const checkIcon = inputBox.querySelector(".ri-check-line");
@@ -585,8 +835,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const errorMessage = inputBox.nextElementSibling;
             let value = input.value.trim();
 
+            // Para precios, ya están limpios por prepararDatosParaEnvio()
             if (fieldId === "precioRegular" || fieldId === "precioVenta") {
-                value = value.replace(/[^\d]/g, '');
+                // Ya están limpios, no necesitan limpieza adicional
+                value = value.replace(/[^\d.]/g, ''); // Solo mantener números y punto decimal
             }
 
             if (!regex.test(value)) {
@@ -610,7 +862,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const marcaSeleccionada = selectmarca.selectedIndex > 0;
         const tipoProductoSeleccionada = selecttipoProducto.selectedIndex > 0;
         const tipoProveedoresSeleccionada = selecttipoProveedores.selectedIndex > 0;
-
 
         if (!CategoriaPrincipalSeleccionada) {
             selectsValidos = false;
@@ -659,7 +910,6 @@ document.addEventListener("DOMContentLoaded", () => {
             radiosCustom.forEach(r => r.classList.remove('error'));
         }
 
-
         // Validar imagen antes de enviar
         if (!validarImagenes()) {
             formularioValido = false;
@@ -686,24 +936,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Caso éxito
         sessionStorage.setItem("loginSuccess", "true");
-    });
-
-    // Al cargar la página, revisamos si hay bandera de login
-    window.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("loginSuccess") === "true") {
-            Swal.fire({
-                title: "Registro exitoso",
-                icon: "success",
-                timer: 3000,
-                draggable: true,
-                timerProgressBar: true,
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-            sessionStorage.removeItem("loginSuccess");
-        }
     });
 
 });

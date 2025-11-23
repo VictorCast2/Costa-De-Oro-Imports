@@ -5,10 +5,7 @@ import com.application.persistence.entity.usuario.Usuario;
 import com.application.presentation.dto.general.response.GeneralResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.usuario.request.*;
-import com.application.presentation.dto.usuario.response.ClienteResponse;
-import com.application.presentation.dto.usuario.response.ProveedorEstadisticasResponse;
-import com.application.presentation.dto.usuario.response.ProveedorResponse;
-import com.application.presentation.dto.usuario.response.UsuarioGastoResponse;
+import com.application.presentation.dto.usuario.response.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ public interface UsuarioService {
     ProveedorResponse getProveedorById(Long proveedorId);
     List<UsuarioGastoResponse> getUsuarioGastoUltimoAnio();
     List<ProveedorEstadisticasResponse> getProveedorConEstadisticas();
+    List<ProveedorProductoResponse> getProveedoresActivos();
     Long getTotalClientes();
 
     GeneralResponse completeUserProfile(CustomUserPrincipal principal, CompleteUsuarioProfileRequest completeProfileRequest);
