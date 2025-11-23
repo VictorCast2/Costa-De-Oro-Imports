@@ -304,39 +304,115 @@ export function desplegablePerfil() {
 }
 
 export function carruselProductos() {
-    // mostrar los productos con carrusel
     document.querySelectorAll(".flex").forEach(carrusel => {
         const track = carrusel.querySelector(".flex__productos-track");
         const prevBtn = carrusel.querySelector(".arrow--left");
         const nextBtn = carrusel.querySelector(".arrow--right");
+        const cards = track.querySelectorAll(".card");
 
-        const cardWidth = 300; // ancho de cada card
-        const gap = 40;        // espacio entre cards
-        const visibles = 4;    // cuántos se muestran a la vez
+        // ==============================
+        // Detectar cuántas cards son visibles según pantalla
+        // ==============================
+        let visibles;
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth <= 768) {
+            visibles = 2;   // Móviles
+        } else if (screenWidth <= 1024) {
+            visibles = 3;   // Tablets
+        } else {
+            visibles = 4;   // Escritorio
+        }
+
+        // ==============================
+        // Medidas de cada card
+        // ==============================
+        const cardWidth = cards[0].offsetWidth;
+        const gap = parseInt(getComputedStyle(track).gap) || 40;
 
         let posicion = 0;
-        const totalProductos = track.querySelectorAll(".card").length;
-        const maxPosicion = (totalProductos - visibles) * (cardWidth + gap);
+        const totalProductos = cards.length;
 
-        const paso = visibles * (cardWidth + gap); // mueve 4 productos
+        // ==============================
+        // Cantidad total de slides (dinámico)
+        // ==============================
+        const totalSlides = Math.ceil(totalProductos / visibles);
 
-        nextBtn.addEventListener("click", () => {
+        const paso = visibles * (cardWidth + gap);
+        const maxPosicion = Math.max(0, (totalProductos - visibles) * (cardWidth + gap));
+
+        let indexSlide = 0;
+
+        // ==============================
+        // CREAR DOTS DINÁMICAMENTE
+        // ==============================
+        const dotsContainer = carrusel.querySelector(".slider__dots");
+        dotsContainer.innerHTML = ""; // limpiar dots previos
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement("span");
+            dot.classList.add("dot");
+            if (i === 0) dot.classList.add("active");
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.querySelectorAll(".dot");
+
+        function actualizarDots() {
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[indexSlide].classList.add("active");
+        }
+
+        // ==============================
+        // Flecha derecha
+        // ==============================
+        nextBtn?.addEventListener("click", () => {
             if (posicion < maxPosicion) {
                 posicion += paso;
-                if (posicion > maxPosicion) posicion = maxPosicion; // no pasar límite
+                if (posicion > maxPosicion) posicion = maxPosicion;
+
+                indexSlide++;
+                if (indexSlide >= totalSlides) indexSlide = totalSlides - 1;
+
                 track.style.transform = `translateX(-${posicion}px)`;
+                actualizarDots();
             }
         });
 
-        prevBtn.addEventListener("click", () => {
+        // ==============================
+        //  Flecha izquierda
+        // ==============================
+        prevBtn?.addEventListener("click", () => {
             if (posicion > 0) {
                 posicion -= paso;
-                if (posicion < 0) posicion = 0; // no pasar inicio
+                if (posicion < 0) posicion = 0;
+
+                indexSlide--;
+                if (indexSlide < 0) indexSlide = 0;
+
                 track.style.transform = `translateX(-${posicion}px)`;
+                actualizarDots();
             }
+        });
+
+        // ==============================
+        // Click en los dots
+        // ==============================
+        dots.forEach((dot, i) => {
+            dot.addEventListener("click", () => {
+                indexSlide = i;
+                posicion = paso * i;
+
+                if (posicion > maxPosicion) posicion = maxPosicion;
+
+                track.style.transform = `translateX(-${posicion}px)`;
+                actualizarDots();
+            });
         });
     });
 }
+
+
 
 export function verProductos() {
     // mandar los productos a la pagina ver
@@ -455,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const theme = activeSlide.getAttribute("data-theme");
 
         // Cambiar fondo o estilos de tema según el data-theme
-        heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--whiskys", "hero--packmixtos");
+        heroCarousel.classList.remove("hero--paulaner", "hero--tequila", "hero--budweiser", "hero--packmixtos");
         heroCarousel.classList.add(`hero--${theme}`);
 
         currentSlide = index;
