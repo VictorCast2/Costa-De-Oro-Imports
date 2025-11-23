@@ -8,7 +8,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public record VentaRequest(
 
         @NotNull(message = "El año es obligatorio")
-        Integer anio,
+        Integer anno,
 
         @NotNull(message = "El mes es obligatorio")
         @Min(value = 1, message = "El mes mínimo es 1")
@@ -26,5 +26,6 @@ public record VentaRequest(
         @NotNull(message = "El precio promedio es obligatorio")
         @PositiveOrZero(message = "El precio promedio no puede ser negativo")
         Double precioPromedio
+
 ) {
 }
