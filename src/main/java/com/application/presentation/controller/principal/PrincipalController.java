@@ -3,10 +3,12 @@ package com.application.presentation.controller.principal;
 import com.application.configuration.custom.CustomUserPrincipal;
 import com.application.persistence.entity.producto.Producto;
 import com.application.persistence.entity.usuario.Usuario;
+import com.application.presentation.dto.historia.response.HistoriaResponse;
 import com.application.presentation.dto.producto.request.FiltroRequest;
 import com.application.presentation.dto.producto.response.ProductoResponse;
 import com.application.service.implementation.producto.ProductoServiceImpl;
 import com.application.service.implementation.usuario.UsuarioServiceImpl;
+import com.application.service.interfaces.historia.HistoriaService;
 import com.application.service.interfaces.producto.ProductoService;
 import com.application.service.interfaces.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class PrincipalController {
 
     private final UsuarioService usuarioService;
     private final ProductoService productoService;
+    private final HistoriaService historiaService;
 
     @GetMapping({""})
     public String index(Model model) {
@@ -130,7 +133,11 @@ public class PrincipalController {
     }
 
     @GetMapping("/blog")
-    public String blog() {
+    public String blog(Model model) {
+
+        List<HistoriaResponse> historiaList = historiaService.getHistoriasActivas();
+
+        model.addAttribute("historiaList", historiaList);
         return "Blog";
     }
 

@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const boxImagen = document.querySelector(".formulario__boximagen");
 
     const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-    const tamañoMaximo = 1 * 1024 * 1024; // 1 MB
+    const tamañoMaximo = 5 * 1024 * 1024; // 5 MB
     let selectedFile = null;
 
     // Abrir explorador al hacer clic en "Subir"
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (file.size > tamañoMaximo) {
-            errorFormato.textContent = "La imagen no debe superar 1 MB.";
+            errorFormato.textContent = "La imagen no debe superar 5 MB.";
             errorFormato.style.display = "block";
             boxImagen.style.border = "2px solid #e53935";
             return false;

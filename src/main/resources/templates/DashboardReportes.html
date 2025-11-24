@@ -171,7 +171,7 @@
 
                 <!-- Foto de usuario -->
                 <div class="header__user">
-                    <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                    <img id="user__admin" th:src="${urlImagenUsuario}"
                          alt="Usuario">
 
                     <div class="nav__menu" id="SubMenu">
@@ -274,6 +274,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script th:src="@{/Js/DashboardReportes.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
 </body>
 
 </html>

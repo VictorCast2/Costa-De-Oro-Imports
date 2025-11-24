@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" th:href="@{/Css/EditarProducto.css}">
-    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.webp}">
+    <link rel="icon" type="image/x-icon" th:href="@{/Assets/Img/Logos/LogoBeer.png}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +75,7 @@
                     <a th:href="@{/admin/provedores/}" class="sidebar__text">Provedores</a>
                 </li>
 
-                <li class="sidebar__item active">
+                <li class="sidebar__item">
                     <i class="ri-group-line"></i>
                     <a th:href="@{/admin/clientes/}" class="sidebar__text">Clientes</a>
                 </li>
@@ -173,7 +173,7 @@
 
                     <!-- Foto de usuario -->
                     <div class="header__user">
-                        <img id="user__admin" th:src="@{/Assets/Img/ExperenciaUsuarios/rostroCuatro.jpeg}"
+                        <img id="user__admin" th:src="${urlImagenUsuario}"
                              alt="Usuario">
 
                         <div class="nav__menu" id="SubMenu">
@@ -218,7 +218,7 @@
                     </div>
 
                     <div class="titleheader__btn">
-                        <a href="DashboardProducto.html">Volver al producto</a>
+                        <a th:href="@{/admin/producto/}">Volver al producto</a>
                     </div>
                 </div>
 
@@ -227,16 +227,18 @@
 
                         <div class="productoinformacion__formulario">
 
-                            <form class="formulario__producto" id="formularioProducto" action="">
-                                <h2 class="producto__title">Información del producto
-                                </h2>
+                            <form class="formulario__producto" id="formularioProducto"
+                                  th:action="@{/admin/producto/update-producto/{id}(id=${productoResponse.id})}"
+                                  method="post" enctype="multipart/form-data">
+                                <h2 class="producto__title">Información del producto</h2>
 
                                 <div class="producto__input">
 
+                                    <!-- Nombre del producto -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="Nombre"
-                                                id="nombre">
+                                            <input type="text" autocomplete="off" placeholder="" name="nombre"
+                                                   id="nombre" th:value="${productoResponse.nombre}">
                                             <label class="box__label" for="nombre">Nombre del producto</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -249,17 +251,13 @@
                                     <!-- CATEGORÍA PRINCIPAL -->
                                     <div class="input__formulario">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="categoriaPrincipal">
-                                                <option disabled selected>Categoria principal</option>
-                                                <option value="Vino">Vino</option>
-                                                <option value="Cerveza">Cerveza</option>
-                                                <option value="Whisky">Whisky</option>
-                                                <option value="Tequila">Tequila</option>
-                                                <option value="Vodka">Vodka</option>
-                                                <option value="Ginebra">Ginebra</option>
-                                                <option value="Aguardiente">Aguardiente</option>
-                                                <option value="Ron">Ron</option>
-                                                <option value="Mezcal">Mezcal</option>
+                                            <select class="customselect__styled" name="categoriaId" id="categoriaPrincipal">
+                                                <option disabled th:selected="${productoResponse.categoriaId == null}">Categoria principal</option>
+                                                <th:block th:each="categoria : ${categoriaList}">
+                                                    <option th:value="${categoria.id()}"
+                                                            th:text="${categoria.nombre()}"
+                                                            th:selected="${productoResponse.categoriaId == categoria.id()}"></option>
+                                                </th:block>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
                                         </div>
@@ -268,10 +266,11 @@
                                         </p>
                                     </div>
 
+                                    <!-- País -->
                                     <div class="input__formulario">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="páises">
-                                                <option disabled selected>Pais</option>
+                                            <select class="customselect__styled" name="pais" id="páises">
+                                                <option disabled th:selected="${productoResponse.pais == null}">Pais</option>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
                                         </div>
@@ -283,8 +282,8 @@
                                     <!-- CATEGORÍA SECUNDARIA -->
                                     <div class="input__formulario">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="categoriaSecundaria" required>
-                                                <option disabled selected>Categoría secundaria</option>
+                                            <select class="customselect__styled" name="subCategoriaId" id="categoriaSecundaria" required>
+                                                <option disabled th:selected="${productoResponse.subcategoriaId == null}">Categoría secundaria</option>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-arrow"></i>
                                         </div>
@@ -293,10 +292,11 @@
                                         </p>
                                     </div>
 
+                                    <!-- Marca -->
                                     <div class="input__formulario">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="marca">
-                                                <option disabled selected>Marca</option>
+                                            <select class="customselect__styled" name="marca" id="marca">
+                                                <option disabled th:selected="${productoResponse.marca == null}">Marca</option>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
                                         </div>
@@ -305,14 +305,15 @@
                                         </p>
                                     </div>
 
+                                    <!-- Tipo Producto -->
                                     <div class="input__formulario">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="tipoProducto">
-                                                <option disabled selected>Tipo</option>
-                                                <option value="Unidad">Unidad</option>
-                                                <option value="Caja">Caja</option>
-                                                <option value="Pack">Pack</option>
-                                                <option value="Combo">Combo</option>
+                                            <select class="customselect__styled" name="tipo" id="tipoProducto">
+                                                <option disabled th:selected="${productoResponse.tipo == null}">Tipo</option>
+                                                <option th:each="tipo : ${tiposProducto}"
+                                                        th:value="${tipo.name()}"
+                                                        th:text="${tipo.descripcion}"
+                                                        th:selected="${productoResponse.tipo == tipo}"></option>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-arrow" id="arrowIcon"></i>
                                         </div>
@@ -326,17 +327,13 @@
                                     <!-- Proveedores -->
                                     <div class="input__formulario" id="formulario__proveedores">
                                         <div class="formulario__customselect">
-                                            <select class="customselect__styled" id="Proveedores">
-                                                <option disabled selected>Asignar Proveedores</option>
-                                                <option value="Vino">Vino</option>
-                                                <option value="Cerveza">Cerveza</option>
-                                                <option value="Whisky">Whisky</option>
-                                                <option value="Tequila">Tequila</option>
-                                                <option value="Vodka">Vodka</option>
-                                                <option value="Ginebra">Ginebra</option>
-                                                <option value="Aguardiente">Aguardiente</option>
-                                                <option value="Ron">Ron</option>
-                                                <option value="Mezcal">Mezcal</option>
+                                            <select class="customselect__styled" name="proveedorId" id="Proveedores">
+                                                <option disabled th:selected="${productoResponse.proveedorId == null}">Asignar Proveedor</option>
+                                                <th:block th:each="proveedor : ${proveedorList}">
+                                                    <option th:value="${proveedor.id()}"
+                                                            th:text="${proveedor.nombreEmpresa()}"
+                                                            th:selected="${productoResponse.proveedorId == proveedor.id()}"></option>
+                                                </th:block>
                                             </select>
                                             <i class="fa-solid fa-chevron-down custom-proveedores" id="arrowIcon"></i>
                                         </div>
@@ -347,10 +344,11 @@
 
                                     <h2 class="input__inventario">Datos de inventario</h2>
 
+                                    <!-- Código Producto -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="text" autocomplete="off" placeholder="" name="CodigoProducto"
-                                                id="codigoProducto">
+                                            <input type="text" autocomplete="off" placeholder="" name="codigoProducto"
+                                                   id="codigoProducto" th:value="${productoResponse.codigoProducto}">
                                             <label class="box__label" for="codigoProducto">Codigo del producto</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -361,10 +359,11 @@
                                         </p>
                                     </div>
 
+                                    <!-- Stock -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
-                                            <input type="number" autocomplete="off" placeholder="" name="Stock"
-                                                id="stock">
+                                            <input type="number" autocomplete="off" placeholder="" name="stock"
+                                                   id="stock" th:value="${productoResponse.stock}">
                                             <label class="box__label" for="stock">Stock</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -376,40 +375,32 @@
 
                                     <h2 class="input__estados">Estados del producto</h2>
 
+                                    <!-- Estado -->
                                     <div class="input__formulario estados__container">
-
                                         <div class="container__radio">
                                             <label class="radio__option activo">
-                                                <input type="radio" name="estado" value="activo">
+                                                <input type="radio" name="activo" value="true" th:checked="${productoResponse.activo}">
                                                 <span class="radio__custom"></span>
                                                 Activo
                                             </label>
-
                                             <label class="radio__option inactivo">
-                                                <input type="radio" name="estado" value="inactivo">
+                                                <input type="radio" name="activo" value="false" th:checked="${!productoResponse.activo}">
                                                 <span class="radio__custom"></span>
                                                 Inactivo
                                             </label>
-
-                                            <label class="radio__option borrador">
-                                                <input type="radio" name="estado" value="borrador">
-                                                <span class="radio__custom"></span>
-                                                Borrador
-                                            </label>
                                         </div>
-
                                         <p class="formulario__error error--estado">
                                             Por favor, debes seleccionar un estado del producto
                                         </p>
-
                                     </div>
 
                                     <h2 class="input__precio">Precio del producto</h2>
 
+                                    <!-- Precio Regular -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
                                             <input type="text" inputmode="numeric" autocomplete="off" placeholder=""
-                                                name="precioRegular" id="precioRegular">
+                                                   name="precioRegular" id="precioRegular" th:value="${#numbers.formatDecimal(productoResponse.precioRegular, 0, 'DEFAULT', 0, 'DEFAULT')}">
                                             <label class="box__label" for="precioRegular">Precio regular</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -419,10 +410,11 @@
                                         </p>
                                     </div>
 
+                                    <!-- Precio Venta -->
                                     <div class="input__formulario">
                                         <div class="formulario__box">
                                             <input type="text" inputmode="numeric" autocomplete="off" placeholder=""
-                                                name="precioVenta" id="precioVenta">
+                                                   name="precio" id="precioVenta" th:value="${#numbers.formatDecimal(productoResponse.precio, 0, 'DEFAULT', 0, 'DEFAULT')}">
                                             <label class="box__label" for="precioVenta">Precio de venta</label>
                                             <span class="box__icon"><i class="ri-check-line"></i></span>
                                             <span class="box__icon"><i class="ri-close-line"></i></span>
@@ -432,37 +424,41 @@
                                         </p>
                                     </div>
 
+                                    <!-- Imagen -->
                                     <div class="input__formulario" id="formulario__imagen">
                                         <h2 class="formulario__title">Imágenes del producto</h2>
                                         <div class="formulario__boximagen">
                                             <p class="boximagen__texto">Suelte los archivos aqui para cargarlos</p>
-                                            <input type="file" id="fileInput" accept="image/*" hidden>
-                                            <div class="preview-container" id="previewContainer"></div>
+                                            <input type="file" name="imagen" id="fileInput" accept="image/*" hidden>
+                                            <div class="preview-container" id="previewContainer">
+                                                <!-- Imagen actual precargada -->
+                                                <img th:if="${productoResponse.imagen}" th:src="${productoResponse.imagen}" alt="Imagen actual del producto" style="max-width: 100%; max-height: 200px;">
+                                            </div>
                                         </div>
-
                                         <p class="formulario__error error--formato">
                                             Solo se permiten archivos con formato JPG, PNG o WEBP..
                                         </p>
-
                                         <p class="formulario__error error--vacio">
                                             Debes subir al menos una imagen del producto.
                                         </p>
                                     </div>
 
+                                    <!-- Descripción -->
                                     <div class="input__formulario" id="formulario__descripcion">
                                         <h2 class="formulario__title">Descripción del producto</h2>
                                         <div class="formulario__boxdescripcion">
                                             <div id="editor-container"></div>
                                         </div>
-
+                                        <input type="hidden" name="descripcion" id="descripcionHidden" th:value="${productoResponse.descripcion}">
                                         <p class="formulario__error error--descripcion">
                                             Por favor, agrega una descripción del producto antes de continuar.
                                         </p>
                                     </div>
 
-                                    <button class="input__btn">Editar Producto</button>
+                                    <button class="input__btn">Actualizar Producto</button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>

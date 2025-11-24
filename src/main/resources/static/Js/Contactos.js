@@ -142,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener("DOMContentLoaded", () => {
         if (sessionStorage.getItem("loginSuccess") === "true") {
             Swal.fire({
-                title: "Registro exitoso",
+                title: "Proceso exitoso",
+                text: "Petición enviada exitosamente",
                 icon: "success",
                 timer: 3000,
                 draggable: true,

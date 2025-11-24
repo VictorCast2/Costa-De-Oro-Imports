@@ -157,73 +157,71 @@
             <main class="container__main">
                 <div class="main__perfil">
                     <div class="perfil__user">
-                        <div class="perfil__user">
-                            <div class="perfil__card">
-                                <h2 class="card__title">Cambiar perfil</h2>
-                                <p class="card__text">Cambia tu foto de perfil desde aquí</p>
+                        <div class="perfil__card">
+                            <h2 class="card__title">Cambiar perfil</h2>
+                            <p class="card__text">Cambia tu foto de perfil desde aquí</p>
 
-                                <form id="formFoto" th:action="@{/perfil/colocar-imagen-usuario}" method="post"
-                                    enctype="multipart/form-data">
-                                    <div class="card__img--user">
-                                        <figure class="img__user">
-                                            <img id="preview" th:src="${urlImagenUsuario}"
-                                                th:alt="${usuario.imagen}">
-                                        </figure>
+                            <form id="formFoto" th:action="@{/perfil/colocar-imagen-usuario}" method="post"
+                                  enctype="multipart/form-data">
+                                <div class="card__img--user">
+                                    <figure class="img__user">
+                                        <img id="preview" th:src="${urlImagenUsuario}"
+                                             th:alt="${usuario.imagen}">
+                                    </figure>
 
-                                        <div class="img__btn">
-                                            <div class="btn__item">
-                                                <!-- Input de tipo file -->
-                                                <input type="file" id="fileInput" name="imagenUsuarioNueva"
-                                                    accept="image/*" hidden>
+                                    <div class="img__btn">
+                                        <div class="btn__item">
+                                            <!-- Input de tipo file -->
+                                            <input type="file" id="fileInput" name="imagenUsuarioNueva"
+                                                   accept="image/*" hidden>
 
-                                                <!-- Input oculto con el nombre de la imagen original -->
-                                                <input type="hidden" id="imagenUsuario" name="imagenUsuarioOriginal"
-                                                    th:value="${usuario.imagen}">
+                                            <!-- Input oculto con el nombre de la imagen original -->
+                                            <input type="hidden" id="imagenUsuario" name="imagenUsuarioOriginal"
+                                                   th:value="${usuario.imagen}">
 
-                                                <button type="button" class="item__button button--subir"
+                                            <button type="button" class="item__button button--subir"
                                                     id="btnSubir">Subir
-                                                </button>
-                                                <button type="button" class="item__button button--restablecer"
+                                            </button>
+                                            <button type="button" class="item__button button--restablecer"
                                                     id="btnRestablecer">Restablecer
-                                                </button>
-                                            </div>
-                                            <p class="btn__text">JPG, GIF o PNG permitidos. Tamaño máximo de 800K</p>
+                                            </button>
                                         </div>
+                                        <p class="btn__text">JPG, GIF o PNG permitidos. Tamaño máximo de 800K</p>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+                        </div>
 
 
-                            <div class="user__informacion">
-                                <h2 class="informacion__title">Información del perfil</h2>
+                        <div class="user__informacion">
+                            <h2 class="informacion__title">Información del perfil</h2>
 
-                                <p class="informacion__text">
-                                    Aquí puedes consultar y actualizar los datos asociados a tu perfil. <br>
-                                    Recuerda mantener tu información personal actualizada para garantizar una mejor experiencia en la plataforma.
-                                </p>
+                            <p class="informacion__text">
+                                Aquí puedes consultar y actualizar los datos asociados a tu perfil. <br>
+                                Recuerda mantener tu información personal actualizada para garantizar una mejor experiencia en la plataforma.
+                            </p>
 
-                                <div class="informacion__datos">
+                            <div class="informacion__datos">
                                     <span class="datos__nombre">
                                         <strong>Nombre completo:</strong>
                                         <span th:text="${usuario.nombres} + ' ' + ${usuario.apellidos}"></span>
                                     </span>
-                                    <span class="datos__telelfono">
+                                <span class="datos__telelfono">
                                         <strong>Telefono:</strong>
                                         <span th:text="${usuario.telefono}"></span>
                                     </span>
-                                    <span class="datos__correo">
+                                <span class="datos__correo">
                                         <strong>Correo:</strong>
                                         <span th:text="${usuario.correo}"></span>
                                     </span>
-                                    <span class="datos__identificacion">
+                                <span class="datos__identificacion">
                                         <strong>Tipo identificacion:</strong>
                                         <span th:text="${usuario.tipoIdentificacion.descripcion}"></span>
                                     </span>
-                                    <span class="datos__ubicacion">
+                                <span class="datos__ubicacion">
                                         <strong>Identificacion:</strong>
                                         <span th:text="${usuario.numeroIdentificacion}"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
                     </div>

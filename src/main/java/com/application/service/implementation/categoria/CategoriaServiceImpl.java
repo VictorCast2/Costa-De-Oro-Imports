@@ -3,8 +3,11 @@ package com.application.service.implementation.categoria;
 import com.application.persistence.entity.categoria.Categoria;
 import com.application.persistence.entity.categoria.SubCategoria;
 import com.application.persistence.repository.CategoriaRepository;
+import com.application.persistence.repository.SubCategoriaRepository;
 import com.application.presentation.dto.categoria.request.CategoriaCreateRequest;
+import com.application.presentation.dto.categoria.response.CategoriaProductoResponse;
 import com.application.presentation.dto.categoria.response.CategoriaResponse;
+import com.application.presentation.dto.categoria.response.SubCategoriaProductoResponse;
 import com.application.presentation.dto.categoria.response.SubCategoriaResponse;
 import com.application.presentation.dto.general.response.BaseResponse;
 import com.application.presentation.dto.general.response.GeneralResponse;
@@ -23,6 +26,7 @@ import java.util.*;
 public class CategoriaServiceImpl implements CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
+    private final SubCategoriaRepository subCategoriaRepository;
     private final CloudinaryService cloudinaryService;
 
     /**
@@ -78,6 +82,42 @@ public class CategoriaServiceImpl implements CategoriaService {
         List<Categoria> categoriasActivas = categoriaRepository.findByActivoTrue();
         return categoriasActivas.stream()
                 .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Obtiene las categorías activas.
+     * Para uso del select de categoría principal en los formularios de crear y editar producto
+     *
+     * @return Lista de DTOs con las categorías activas (Solo se incluye id y nombre de la categoría)
+     */
+    @Override
+    public List<CategoriaProductoResponse> getCategoriasProducto() {
+        return categoriaRepository.findByActivoTrue()
+                .stream()
+                .map(categoria -> new CategoriaProductoResponse(
+                        categoria.getCategoriaId(),
+                        categoria.getNombre()
+                ))
+                .toList();
+    }
+
+    /**
+     * Obtiene las Subcategorías activas.
+     * Para uso del select de categoría secundaria en los formularios de crear y editar producto
+     *
+     * @param categoriaId ID de la categoria principal
+     * @return Lista de DTOs con las Subcategorías activas (Solo se incluye id, nombre de la Subcategoría y id de la categoria principal)
+     */
+    @Override
+    public List<SubCategoriaProductoResponse> getSubCategoriasActivasByCategoriaId(Long categoriaId) {
+        return subCategoriaRepository.findByCategoriaCategoriaIdAndCategoriaActivoTrue(categoriaId)
+                .stream()
+                .map(subCategoria -> new SubCategoriaProductoResponse(
+                        subCategoria.getSubCategoriaId(),
+                        subCategoria.getNombre(),
+                        subCategoria.getCategoria().getCategoriaId()
+                ))
                 .toList();
     }
 

@@ -34,24 +34,26 @@
 </head>
 
 <body>
+
     <header class="header">
-        <figure class="header__logo">
-            <a th:href="@{/}">
-                <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
-            </a>
-        </figure>
+    <figure class="header__logo">
+        <a th:href="@{/}">
+            <img th:src="@{/Assets/Img/logos/LogoBeer.webp}" alt="Logo de la pagina de costa de oro import">
+        </a>
+    </figure>
 
-        <nav class="header__navbar">
-            <div id="close-menu" class="close-menu">×</div>
-            <ul class="navbar__list">
-                <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
-                <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
-                <li class="list__item"><a th:href="@{/productos}" class="item__link">Productos</a></li>
-                <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
-                <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
-            </ul>
-        </nav>
+    <nav class="header__navbar">
+        <div id="close-menu" class="close-menu">×</div>
+        <ul class="navbar__list">
+            <li class="list__item"><a th:href="@{/}" class="item__link">Inicio</a></li>
+            <li class="list__item"><a th:href="@{/paks}" class="item__link">Packs</a></li>
+            <li class="list__item"><a href="#" class="item__link active">Productos</a></li>
+            <li class="list__item"><a th:href="@{/blog}" class="item__link">Blog</a></li>
+            <li class="list__item"><a th:href="@{/contacto}" class="item__link">Contactenos</a></li>
+        </ul>
+    </nav>
 
+    <div class="list__icon">
 
         <span class="icon__item" id="menu-toggle">
                     <i class="ri-menu-line"></i>
@@ -64,71 +66,71 @@
 
         <!-- BUSQUEDA PARA ESCRITORIO -->
         <span class="icon__item" id="icon-search">
-            <i class="ri-search-line"></i>
+                <i class="ri-search-line"></i>
         </span>
 
         <!-- Usuario -->
         <span class="icon__item">
-            <i class="ri-user-line"></i>
+                <i class="ri-user-line"></i>
             <!-- Cuando el usuario NO está autenticado -->
-            <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
-                <div class="menu__sub">
-                    <a th:href="@{/auth/login}" class="sub__link">
-                        <p class="link__text">Iniciar Sesión</p>
-                    </a>
-                    <a th:href="@{/auth/registro}" class="sub__link">
-                        <p class="link__text">Registro</p>
-                    </a>
-                    <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
-                        <p class="link__text">Recordar Contraseña</p>
-                    </a>
-                </div>
-            </div>
-            <!-- Cuando el usuario SÍ está autenticado -->
-            <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
-                <div class="menu__sub">
-                    <div class="sub__info">
-                        <i class="ri-user-line"></i>
-                        <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
-                        </h2>
+                <div class="nav__menu" id="SubMenu1" sec:authorize="isAnonymous()">
+                    <div class="menu__sub">
+                        <a th:href="@{/auth/login}" class="sub__link">
+                            <p class="link__text">Iniciar Sesión</p>
+                        </a>
+                        <a th:href="@{/auth/registro}" class="sub__link">
+                            <p class="link__text">Registro</p>
+                        </a>
+                        <a th:href="@{/auth/recordar-contrasenna}" class="sub__link">
+                            <p class="link__text">Recordar Contraseña</p>
+                        </a>
                     </div>
-                    <hr>
-                    <a th:href="@{/perfil/}" class="sub__link">
-                        <p class="link__text">Perfil</p>
-                    </a>
-                    <a th:href="@{/admin/principal}" class="sub__link"
-                       sec:authorize="hasRole('ADMIN')">
-                        <p class="link__text">Dashboard</p>
-                    </a>
-                    <a th:href="@{/perfil/configuration}" class="sub__link">
-                        <p class="link__text">Configuracion</p>
-                    </a>
-                    <a th:href="@{/perfil/notificaciones}" class="sub__link">
-                        <p class="link__text">Notificaciones</p>
-                    </a>
-                    <a th:href="@{/perfil/pedidos}" class="sub__link">
-                        <p class="link__text">Sus Pedidos</p>
-                    </a>
-                    <a th:href="@{/auth/logout}" class="sub__link">
-                        <p class="link__text">Cerrar Seccion</p>
-                    </a>
                 </div>
-            </div>
-        </span>
+            <!-- Cuando el usuario SÍ está autenticado -->
+                <div class="nav__menu" id="SubMenu" sec:authorize="isAuthenticated()">
+                    <div class="menu__sub">
+                        <div class="sub__info">
+                            <i class="ri-user-line"></i>
+                            <h2 class="info__title" th:text="${#authentication.principal?.nombres}">Nombre Usuario
+                            </h2>
+                        </div>
+                        <hr>
+                        <a th:href="@{/perfil/}" class="sub__link">
+                            <p class="link__text">Perfil</p>
+                        </a>
+                        <a th:href="@{/admin/principal}" class="sub__link"
+                           sec:authorize="hasRole('ADMIN')">
+                                    <p class="link__text">Dashboard</p>
+                                </a>
+                        <a th:href="@{/perfil/configuration}" class="sub__link">
+                            <p class="link__text">Configuracion</p>
+                        </a>
+                        <a th:href="@{/perfil/notificaciones}" class="sub__link">
+                            <p class="link__text">Notificaciones</p>
+                        </a>
+                        <a th:href="@{/perfil/pedidos}" class="sub__link">
+                            <p class="link__text">Sus Pedidos</p>
+                        </a>
+                        <a th:href="@{/auth/logout}" class="sub__link">
+                            <p class="link__text">Cerrar Seccion</p>
+                        </a>
+                    </div>
+                </div>
+            </span>
 
         <!-- Favorito -->
         <span class="icon__item" id="go-fav">
-            <i class="ri-heart-3-line"></i>
-            <span class="icon__badge" id="fav-count"></span>
-        </span>
+                <i class="ri-heart-3-line"></i>
+                <span class="icon__badge" id="fav-count"></span>
+            </span>
 
         <!-- Carrito -->
         <span class="icon__item" id="cart-icon">
-            <i class="ri-shopping-cart-2-line"></i>
-            <span class="icon__badge" id="cart-count"></span>
-        </span>
-        </div>
-    </header>
+                <i class="ri-shopping-cart-2-line"></i>
+                <span class="icon__badge" id="cart-count"></span>
+            </span>
+    </div>
+</header>
 
     <main class="main__content">
         <section class="table__container">

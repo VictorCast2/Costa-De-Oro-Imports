@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const boxImagen = form.querySelector('.formulario__boximagen');
 
         const formatosPermitidos = ["image/jpeg", "image/png", "image/webp"];
-        const tamañoMaximo = 1 * 1024 * 1024;
+        const tamañoMaximo = 5 * 1024 * 1024; // 5 MB
         let selectedFile = null;
 
         // Abrir explorador al hacer clic en "Subir"
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Validar tamaño
             if (file.size > tamañoMaximo) {
-                errorFormato.textContent = "La imagen no debe superar 1 MB.";
+                errorFormato.textContent = "La imagen no debe superar 5 MB.";
                 errorFormato.style.display = "block";
                 boxImagen.style.border = "2px solid #e53935";
                 return;
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         identificacion: { regex: /^\d{6,10}$/, errorMessage: "La cédula debe contener entre 6 y 10 dígitos numéricos." },
         direccion: { regex: /^(?=.*\d)(?=.*[A-Za-z])[A-Za-z0-9\s#.,-]{5,}$/, errorMessage: "Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle 45 #10-23, 130002)." },
         password: { regex: /^.{4,15}$/, errorMessage: "La contraseña tiene que ser de 4 a 15 digitos" },
-        nit: { regex: /^\d+$/, errorMessage: "El NIT no puede estar vacío y debe contener solo números." },
+        nit: { regex: /^\d{1,12}$/, errorMessage: "El NIT no puede estar vacío y debe contener solo números." },
         razonsocial: { regex: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,50}$/, errorMessage: "La razón social solo puede contener letras, espacios y debe tener entre 3 y 50 caracteres." },
         direction: { regex: /^(?=.*\d)(?=.*[A-Za-z])[A-Za-z0-9\s#.,-]{5,}$/, errorMessage: "Ingresa una dirección válida (ej. Calle 45 #10-23, 130002 o San Fernando, Calle 45 #10-23, 130002)." },
         phone: { regex: /^\d{1,10}$/, errorMessage: "El teléfono solo puede contener numeros y el maximo son 10 digitos." },
@@ -339,24 +339,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Caso éxito
         sessionStorage.setItem("loginSuccess", "true");
-    });
-
-    // Al cargar la página, revisamos si hay bandera de login
-    window.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("loginSuccess") === "true") {
-            Swal.fire({
-                title: "Registro exitoso",
-                icon: "success",
-                timer: 3000,
-                draggable: true,
-                timerProgressBar: true,
-                customClass: {
-                    title: 'swal-title',
-                    popup: 'swal-popup'
-                }
-            });
-            sessionStorage.removeItem("loginSuccess");
-        }
     });
 
     // Lista de ciudades principales de Colombia (ejemplo, puedes extenderla)

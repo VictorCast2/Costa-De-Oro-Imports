@@ -15,11 +15,16 @@ public record ProductoCreateRequest(
         @NotBlank String marca,
         @NotBlank String pais,
         @NotNull ETipo tipo,
+        @NotNull @Positive double precioRegular,
         @NotNull @Positive double precio,
-        @NotNull @Min(1) int stock,
+        @NotNull @PositiveOrZero int stock,
         @NotBlank String descripcion,
         boolean activo,
+        // Datos de la categoria
         Long categoriaId,
-        Long subCategoriaId
+        Long subCategoriaId,
+
+        // Proveedor
+        Long proveedorId
 ) {
 }
