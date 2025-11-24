@@ -105,7 +105,7 @@
 }
 
 .export-btn {
-    background: #333;
+    background: var(--colorCafe);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -117,7 +117,7 @@
 }
 
 .export-btn:hover {
-    background: #000;
+    background: #6d5646;
 }
 
 .export-btn:active {
@@ -154,4 +154,140 @@
 
 .swal-popup {
     font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Estilos minimalistas para el loading de Excel con tu paleta de colores */
+.excel-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    font-family: var(--typografiaGeist), var(--typografiaUrbanist), sans-serif;
+}
+
+.excel-loading-container {
+    background: var(--colorWhite);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 350px;
+    border: 1px solid #e0e0e0;
+}
+
+.excel-loading-content h3 {
+    color: var(--colorDark);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: var(--typografiaGeist), sans-serif;
+}
+
+.excel-loading-content p {
+    color: var(--colorLigth);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    font-family: var(--typografiaUrbanist), sans-serif;
+}
+
+/* Barra de progreso minimalista */
+.excel-loading-progress {
+    margin-top: 1.5rem;
+}
+
+.excel-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.excel-progress-fill {
+    height: 100%;
+    background: var(--colorPrincipal);
+    border-radius: 3px;
+    animation: excelProgress 2s ease-in-out infinite;
+}
+
+@keyframes excelProgress {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 70%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Spinner simple usando tu color principal */
+.excel-loading-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 1.5rem;
+    border: 3px solid #f1f5f9;
+    border-top: 3px solid var(--colorPrincipal);
+    border-radius: 50%;
+    animation: excelSpin 1s linear infinite;
+}
+
+@keyframes excelSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Versión solo con barra (sin spinner) - aún más minimalista */
+.excel-loading-container.simple .excel-loading-spinner {
+    display: none;
+}
+
+.excel-loading-container.simple .excel-loading-content h3 {
+    margin-bottom: 2rem;
+}
+
+/* Efecto de fade in */
+.excel-loading-container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Versión alternativa con color café */
+.excel-loading-container.cafe .excel-progress-fill {
+    background: var(--colorCafe);
+}
+
+.excel-loading-container.cafe .excel-loading-spinner {
+    border-top-color: var(--colorCafe);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .excel-loading-container {
+        min-width: 280px;
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+
+    .excel-loading-content h3 {
+        font-size: 1.2rem;
+    }
 }
