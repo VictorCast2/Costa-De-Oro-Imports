@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
 
     // Efecto glassmorphism solo al hacer scroll
