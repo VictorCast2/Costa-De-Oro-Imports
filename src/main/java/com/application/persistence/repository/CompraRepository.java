@@ -105,4 +105,61 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
             """)
     Double findIngresosSemestreAnterior();
 
+    @Query(value = """
+        SELECT 
+            c.total AS venta_total,
+            YEAR(c.fecha) AS año,
+            MONTH(c.fecha) AS mes,
+            DAY(c.fecha) AS dia,
+            DAYOFWEEK(c.fecha) AS dia_semana,
+            COUNT(dv.detalle_venta_id) AS cantidad_productos,
+            SUM(dv.cantidad) AS total_unidades,
+            AVG(dv.precio_unitario) AS precio_promedio,
+            u.usuario_id,
+            CASE 
+                WHEN c.metodo_pago = 'TARJETA_CREDITO' THEN 1
+                WHEN c.metodo_pago = 'TARJETA_DEBITO' THEN 2
+                WHEN c.metodo_pago = 'MERCADO_PAGO' THEN 3
+                ELSE 4 
+            END AS metodo_pago_num,
+            CASE 
+                WHEN MONTH(c.fecha) IN (12,1,2) THEN 1
+                WHEN MONTH(c.fecha) IN (6,7) THEN 2
+                ELSE 3
+            END AS temporada
+        FROM compra c
+        INNER JOIN detalle_venta dv ON c.compra_id = dv.compra_id
+        INNER JOIN usuario u ON c.usuario_id = u.usuario_id
+        WHERE c.estado = 'PAGADO'
+        AND c.fecha >= DATE_SUB(NOW(), INTERVAL 2 YEAR)
+        GROUP BY c.compra_id
+        ORDER BY c.fecha
+        """, nativeQuery = true)
+    List<Object[]> findDatosParaPrediccion();
+
+    @Query(value = """
+        SELECT 
+            YEAR(c.fecha) as año, 
+            MONTH(c.fecha) as mes, 
+            SUM(c.total) as total 
+        FROM compra c 
+        WHERE c.estado = 'PAGADO'
+        GROUP BY YEAR(c.fecha), MONTH(c.fecha) 
+        ORDER BY YEAR(c.fecha), MONTH(c.fecha)
+        """, nativeQuery = true)
+    List<Object[]> findVentasMensuales();
+
+    @Query(value = """
+        SELECT 
+            YEAR(c.fecha) as año, 
+            MONTH(c.fecha) as mes, 
+            SUM(c.total) as total 
+        FROM compra c 
+        WHERE c.estado = 'PAGADO'
+        AND YEAR(c.fecha) BETWEEN :startYear AND :endYear 
+        GROUP BY YEAR(c.fecha), MONTH(c.fecha) 
+        ORDER BY YEAR(c.fecha), MONTH(c.fecha)
+        """, nativeQuery = true)
+    List<Object[]> findVentasPorRangoDeAnios(@Param("startYear") int startYear, @Param("endYear") int endYear);
+
 }
