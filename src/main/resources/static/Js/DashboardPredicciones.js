@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let añoActual = new Date().getFullYear();
     let datosOriginales = []; // Guardar los datos originales
     let ultimoAñoCargado = 2025; // Último año con datos completos
+    let prediccionGenerada = false; // Controlar si ya se generó predicción
 
     // Inicializar la aplicación
     inicializarAplicacion();
@@ -295,7 +296,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ======================== GENERAR PREDICCIÓN ========================
         document.getElementById("btnPrediccion").addEventListener("click", () => {
-            generarPrediccionAutomatica();
+            if (!prediccionGenerada) {
+                generarPrediccionAutomatica();
+            } else {
+                mostrarMensajeError('La predicción ya fue generada anteriormente');
+            }
         });
     }
 
@@ -324,82 +329,85 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             console.log('Generando predicción completa automáticamente...');
 
-            // CORREGIDO: Valores en pesos colombianos reales
-            const noviembre = 18800000;
-            const diciembre = 25500000;
+            // CORREGIDO: Valores en pesos colombianos reales para Noviembre y Diciembre 2025
+            const noviembre2025 = 13500000;
+            const diciembre2025 = 20500000;
 
-            console.log(`Usando valores automáticos: Noviembre=$${noviembre.toLocaleString("es-CO")}, Diciembre=$${diciembre.toLocaleString("es-CO")}`);
+            console.log(`Completando 2025: Noviembre=$${noviembre2025.toLocaleString("es-CO")}, Diciembre=$${diciembre2025.toLocaleString("es-CO")}`);
 
-            // 1. Actualizar datos de Noviembre y Diciembre del último año
-            const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-            // Agregar Noviembre y Diciembre al último año
+            // 1. Actualizar datos de Noviembre y Diciembre del último año (2025)
             const nuevosDatos = [...datosOriginales];
 
-            // Remover meses existentes de Noviembre y Diciembre si los hay
+            // Remover meses existentes de Noviembre y Diciembre 2025 si los hay
             const datosFiltrados = nuevosDatos.filter(item =>
                 !(item.anio === ultimoAñoCargado.toString() && (item.mes === "Noviembre" || item.mes === "Diciembre"))
             );
 
-            // Agregar nuevos datos de Noviembre y Diciembre automáticamente
+            // Agregar nuevos datos de Noviembre y Diciembre 2025 automáticamente
             datosFiltrados.push({
                 x: `${ultimoAñoCargado}-11`,
-                y: noviembre,
+                y: noviembre2025,
                 mes: "Noviembre",
                 anio: ultimoAñoCargado.toString()
             });
 
             datosFiltrados.push({
                 x: `${ultimoAñoCargado}-12`,
-                y: diciembre,
+                y: diciembre2025,
                 mes: "Diciembre",
                 anio: ultimoAñoCargado.toString()
             });
 
-            // 2. Generar predicción para el siguiente año
+            // 2. Generar predicción para el siguiente año (2026)
             const añoPrediccion = ultimoAñoCargado + 1;
-            const prediccionData = await generarPrediccionSiguienteAño(añoPrediccion, noviembre, diciembre);
+            const prediccionData = await generarPrediccionSiguienteAño(añoPrediccion, noviembre2025, diciembre2025);
 
-            // 3. Combinar todos los datos
+            // CORRECCIÓN: Validar que la predicción tenga datos
+            if (!prediccionData || prediccionData.length === 0) {
+                throw new Error('No se recibieron datos de predicción');
+            }
+
+            console.log('Datos de predicción 2026 recibidos:', prediccionData);
+
+            // 3. Combinar todos los datos (históricos + 2025 completo + 2026 predicción)
             const datosCombinados = [...datosFiltrados, ...prediccionData];
 
-            console.log('Datos combinados:', datosCombinados);
+            console.log('Datos combinados para gráfica:', datosCombinados);
 
             // 4. Actualizar la gráfica
             chart.updateSeries([{
                 name: "Ventas Totales + Predicción",
-                data: datosCombinados,
-                stroke: {
-                    width: 4,
-                    curve: "smooth",
-                    colors: ["#0080ff"]
-                },
-                markers: {
-                    size: 6,
-                    colors: ["#0080ff"],
-                    strokeColors: "#ffffff",
-                    strokeWidth: 2
-                }
+                data: datosCombinados
             }]);
 
-            // 5. Actualizar variable global para la próxima predicción
+            // 5. Actualizar variable global y marcar como generada
             ultimoAñoCargado = añoPrediccion;
+            prediccionGenerada = true;
+
+            // Deshabilitar el botón permanentemente
+            const btn = document.getElementById("btnPrediccion");
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
+            btn.style.cursor = "not-allowed";
+            btn.textContent = "Predicción Generada";
 
             // Mostrar mensaje de éxito
-            mostrarMensajeExito(`Predicción generada para ${añoPrediccion} con datos automáticos`);
+            mostrarMensajeExito(`¡Predicción generada exitosamente para ${añoPrediccion}! Se completaron Noviembre y Diciembre 2025 y se proyectó todo 2026.`);
 
         } catch (error) {
             console.error('Error generando predicción:', error);
-            mostrarMensajeError('Error generando predicción');
+            mostrarMensajeError('Error generando predicción: ' + error.message);
+
+            // Rehabilitar el botón si hay error
+            const btn = document.getElementById("btnPrediccion");
+            btn.disabled = false;
         } finally {
             // Ocultar loading
             const overlay = document.getElementById("loadingPrediccion");
             const progress = document.getElementById("progressBar");
-            const btn = document.getElementById("btnPrediccion");
 
             overlay.style.display = "none";
             progress.style.width = "0%";
-            btn.disabled = false;
         }
     }
 
@@ -419,22 +427,32 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const result = await response.json();
-            console.log('Respuesta del servidor:', result);
+            console.log('Respuesta completa del servidor:', result);
 
-            if (result.success) {
+            if (result.success && result.proyeccion) {
                 const meses = [
                     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
                 ];
 
-                return result.proyeccion.map(item => ({
-                    x: `${añoPrediccion}-${String(item.mes).padStart(2, "0")}`,
-                    y: item.ventaPredicha,
-                    mes: item.nombreMes,
-                    anio: añoPrediccion.toString()
-                }));
+                // CORRECCIÓN: Verificar la estructura real de los datos
+                console.log('Estructura de proyección:', result.proyeccion);
+
+                return result.proyeccion.map(item => {
+                    // Diferentes posibles nombres de campo según el backend
+                    const valor = item.ventaPredicha || item.valor || item.total || item.prediccion || item.ventaTotal || 0;
+
+                    console.log(`Procesando mes ${item.mes} (${item.nombreMes}): $${valor}`);
+
+                    return {
+                        x: `${añoPrediccion}-${String(item.mes).padStart(2, "0")}`,
+                        y: valor,
+                        mes: item.nombreMes || meses[item.mes - 1],
+                        anio: añoPrediccion.toString()
+                    };
+                });
             } else {
-                throw new Error(result.mensaje);
+                throw new Error(result.mensaje || 'Estructura de datos incorrecta');
             }
 
         } catch (error) {
@@ -454,13 +472,26 @@ document.addEventListener("DOMContentLoaded", () => {
         // Calcular tendencia basada en los últimos meses
         const promedioUltimosMeses = (noviembre + diciembre) / 2;
 
-        // Factores de estacionalidad (basados en patrones históricos)
-        const factoresEstacionales = [0.9, 0.8, 0.95, 1.0, 1.1, 1.2, 1.3, 1.25, 1.1, 1.0, 1.15, 1.3];
+        // Factores de estacionalidad mejorados para distribución decreciente
+        const factoresEstacionales = [
+            0.95,  // Enero
+            0.92,  // Febrero
+            0.98,  // Marzo
+            1.00,  // Abril
+            1.05,  // Mayo
+            1.02,  // Junio
+            1.08,  // Julio
+            1.10,  // Agosto
+            1.03,  // Septiembre
+            1.00,  // Octubre
+            1.15,  // Noviembre
+            1.25   // Diciembre
+        ];
 
         for (let mes = 1; mes <= 12; mes++) {
             const factor = factoresEstacionales[mes - 1];
-            // Aplicar crecimiento del 10% anual + estacionalidad
-            const proyeccion = Math.round(promedioUltimosMeses * 1.1 * factor);
+            // Aplicar crecimiento moderado del 5% anual + estacionalidad
+            const proyeccion = Math.round(promedioUltimosMeses * 1.05 * factor);
 
             prediccionData.push({
                 x: `${añoPrediccion}-${String(mes).padStart(2, "0")}`,
@@ -470,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        console.log('Predicción local para año', añoPrediccion, ':', prediccionData);
+        console.log('Predicción local generada para año', añoPrediccion, ':', prediccionData);
         return prediccionData;
     }
 
@@ -510,7 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.body.removeChild(toast);
                 }
             }, 300);
-        }, 3000);
+        }, 5000);
     }
 
     // Agregar estilos CSS para las animaciones
