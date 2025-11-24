@@ -44,7 +44,7 @@ public class PrediccionServiceImpl implements PrediccionService {
         }
 
         // Validar datos de entrada
-        if (request.anno() < 2020 || request.anno() > 2030) {
+        if (request.anno() < 2019 || request.anno() > 2030) {
             throw new IllegalArgumentException("Año fuera del rango válido");
         }
 

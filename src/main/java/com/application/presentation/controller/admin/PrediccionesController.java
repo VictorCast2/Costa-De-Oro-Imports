@@ -32,13 +32,8 @@ public class PrediccionesController {
         // Usuario Actual
         Usuario usuario = usuarioServiceImpl.getUsuarioByCorreo(principal.getUsername());
 
-        // Compras Anuales
-        Long comprasAnuales = compraServiceImpl.getTotalCompasAnuales();
-
         model.addAttribute("usuario", usuario);
         model.addAttribute("mensaje", mensaje);
-        model.addAttribute("comprasAnuales", comprasAnuales);
-
         return "DashboardPredicciones";
     }
 
