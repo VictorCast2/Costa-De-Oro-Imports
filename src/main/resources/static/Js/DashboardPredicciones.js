@@ -47,8 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Variables globales
     let ventas = {};
-    let proyeccion2026 = [];
     let chart; // Variable global para el gráfico
+    let añoActual = new Date().getFullYear();
+    let datosOriginales = []; // Guardar los datos originales
 
     // Inicializar la aplicación
     inicializarAplicacion();
@@ -67,8 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
 
             ventas = data.ventasPorAño;
-            proyeccion2026 = data.proyeccion2026 || [];
-
             console.log('Datos cargados desde el servidor:', ventas);
         } catch (error) {
             console.error('Error cargando datos:', error);
@@ -92,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         // ========== CREAR PUNTOS MENSUALES ==========
-        const data = [];
+        datosOriginales = [];
         for (const anio in ventas) {
             ventas[anio].forEach((valor, i) => {
-                data.push({
+                datosOriginales.push({
                     x: `${anio}-${String(i + 1).padStart(2, "0")}`, // Fecha real
                     y: valor,
                     mes: meses[i],
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         var options = {
             chart: {
-                type: 'area',
+                type: 'line',
                 height: 450,
                 zoom: { enabled: true, type: 'x' },
                 toolbar: { show: false },
@@ -125,11 +124,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             series: [{
                 name: "Ventas Totales",
-                data: data
+                data: datosOriginales
             }],
 
-            stroke: { width: 3, curve: "smooth" },
-            markers: { size: 5 },
+            stroke: {
+                width: 4,
+                curve: "smooth",
+                colors: ["#0080ff"]
+            },
+            markers: {
+                size: 6,
+                colors: ["#0080ff"],
+                strokeColors: "#ffffff",
+                strokeWidth: 2
+            },
 
             fill: {
                 type: "gradient",
@@ -137,10 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     shade: "light",
                     type: "vertical",
                     shadeIntensity: 0.5,
-                    gradientToColors: ["#00c6ff"], // color que se difumina hacia abajo
+                    gradientToColors: ["#0080ff"],
                     inverseColors: false,
-                    opacityFrom: 0.6,  // intensidad arriba (desde la línea)
-                    opacityTo: 0,      // intensidad abajo
+                    opacityFrom: 0.8,
+                    opacityTo: 0.2,
                     stops: [0, 90, 100]
                 }
             },
@@ -175,7 +183,20 @@ document.addEventListener("DOMContentLoaded", () => {
             },
 
             yaxis: {
-                title: { text: "Ventas Totales (Miles $)" }
+                title: {
+                    text: "Ventas Totales (Miles $)",
+                    style: {
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        color: "#333",
+                        fontFamily: "Geist, Urbanist, sans-serif"
+                    }
+                },
+                labels: {
+                    formatter: function (value) {
+                        return `$${value.toLocaleString("es-CO")}K`;
+                    }
+                }
             },
 
             // ========== TOOLTIP PERSONALIZADO ==========
@@ -188,12 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const año = point.anio;
                     const valor = point.y;
 
-                    // CASE 1 ========= SERIE ORIGINAL (2020-2025) ==========
-                    if (seriesIndex === 0) {
+                    const total = totalAnual(año).toLocaleString("es-CO");
 
-                        const total = totalAnual(año).toLocaleString("es-CO");
-
-                        return `
+                    return `
                     <div style="
                         background: #ffffff;
                         border-radius: 12px;
@@ -201,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         font-family: Geist, Urbanist, sans-serif;
                         overflow: hidden;
                         min-width: 180px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                     ">
 
                         <!-- Header -->
@@ -264,105 +283,34 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
-                    }
+                }
+            },
 
-                    // CASE 2 ========= SERIE PREDICCIÓN 2026 ==========
-                    if (seriesIndex === 1) {
-
-                        const totalProyeccion = w.config.series[1].data
-                            .reduce((acc, p) => acc + p.y, 0)
-                            .toLocaleString("es-CO");
-
-                        return `
-                    <div style="
-                        background: #ffffff;
-                        border-radius: 12px;
-                        border: 1px solid #00bcd4;   /* borde distinto solo para diferenciar */
-                        font-family: Geist, Urbanist, sans-serif;
-                        overflow: hidden;
-                        min-width: 180px;
-                    ">
-
-                        <!-- Header -->
-                        <div style="
-                            background: #e8fafd;
-                            padding: 8px 12px;
-                            font-size: 14px;
-                            font-weight: 600;
-                            color: #006f80;
-                            border-bottom: 1px solid #b2edf5;
-                        ">
-                            ${mes} ${año}
-                        </div>
-
-                        <!-- Contenido -->
-                        <div style="
-                            padding: 8px 12px 10px 12px;
-                            display: flex;
-                            flex-direction: column;
-                            gap: 4px;
-                        ">
-
-                            <!-- Proyección mensual -->
-                            <div style="
-                                display: flex;
-                                align-items: center;
-                                gap: 6px;
-                                font-size: 14px;
-                                color: #222;
-                            ">
-                                <div style="
-                                    width: 10px;
-                                    height: 10px;
-                                    background: #00bcd4;
-                                    border-radius: 50%;
-                                "></div>
-
-                                <span style="font-weight: 500;">Proyección mensual:</span>
-                                <span style="font-weight: 700;">$${valor.toLocaleString("es-CO")}K</span>
-                            </div>
-
-                            <!-- Proyección total -->
-                            <div style="
-                                display: flex;
-                                align-items: center;
-                                gap: 6px;
-                                font-size: 14px;
-                                color: #444;
-                            ">
-                                <div style="
-                                    width: 10px;
-                                    height: 10px;
-                                    background: #00bcd4;
-                                    border-radius: 50%;
-                                "></div>
-
-                                <span style="font-weight: 500;">Proyección total:</span>
-                                <span style="font-weight: 700;">$${totalProyeccion}K</span>
-                            </div>
-
-                        </div>
-                    </div>
-                `;
+            // ========== RESPONSIVE ==========
+            responsive: [{
+                breakpoint: 768,
+                options: {
+                    chart: {
+                        height: 350
+                    },
+                    stroke: {
+                        width: 3
+                    },
+                    markers: {
+                        size: 4
                     }
                 }
-            }
+            }]
         };
 
         chart = new ApexCharts(document.querySelector("#chartVentas"), options);
         chart.render();
 
-        // ======================== GENERAR PREDICCIÓN 2026 ========================
+        // ======================== GENERAR PREDICCIÓN ========================
         document.getElementById("btnPrediccion").addEventListener("click", async () => {
             const overlay = document.getElementById("loadingPrediccion");
             const progress = document.getElementById("progressBar");
             const btn = document.getElementById("btnPrediccion");
-
-            // Evitar doble clic si ya existe la predicción
-            if (options.series.some(s => s.name === "Predicción 2026")) {
-                console.log('La predicción 2026 ya está generada');
-                return;
-            }
 
             // Mostrar overlay y deshabilitar botón
             overlay.style.display = "flex";
@@ -372,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const interval = setInterval(() => {
                 if (width >= 90) {
                     clearInterval(interval);
-                    generarPrediccionReal();
+                    generarPrediccion();
                 } else {
                     width += 2;
                     progress.style.width = width + "%";
@@ -380,45 +328,60 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 40);
         });
 
-        async function generarPrediccionReal() {
+        async function generarPrediccion() {
             try {
-                console.log('Solicitando predicción 2026 al servidor...');
-                const response = await fetch('/admin/prediccion/prediccion-2026', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+                console.log('Generando predicción...');
+
+                // Obtener el último año de los datos existentes
+                const ultimoAño = obtenerUltimoAño();
+                const añoPrediccion = ultimoAño + 1;
+
+                console.log('Último año en datos:', ultimoAño);
+                console.log('Año de predicción:', añoPrediccion);
+
+                // Generar predicción para el siguiente año
+                const prediccionData = await generarPrediccionSiguienteAño(añoPrediccion);
+
+                // Combinar datos originales con predicción
+                const datosCombinados = [...datosOriginales, ...prediccionData];
+
+                console.log('Datos combinados:', datosCombinados);
+
+                // Actualizar la serie existente con los datos combinados
+                options.series[0] = {
+                    name: "Ventas Totales + Predicción",
+                    data: datosCombinados,
+                    stroke: {
+                        width: 4,
+                        curve: "smooth",
+                        colors: ["#0080ff"]
+                    },
+                    markers: {
+                        size: 6,
+                        colors: ["#0080ff"],
+                        strokeColors: "#ffffff",
+                        strokeWidth: 2
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            shade: "light",
+                            type: "vertical",
+                            shadeIntensity: 0.5,
+                            gradientToColors: ["#0080ff"],
+                            inverseColors: false,
+                            opacityFrom: 0.8,
+                            opacityTo: 0.2,
+                            stops: [0, 90, 100]
+                        }
                     }
-                });
+                };
 
-                if (!response.ok) {
-                    throw new Error(`Error HTTP: ${response.status}`);
-                }
+                chart.updateSeries(options.series);
+                console.log('Gráfica actualizada con predicción');
 
-                const result = await response.json();
-                console.log('Respuesta del servidor:', result);
-
-                if (result.success) {
-                    const data2026 = result.proyeccion.map(item => ({
-                        x: `2026-${String(item.mes).padStart(2, "0")}`,
-                        y: item.ventaPredicha,
-                        mes: item.nombreMes,
-                        anio: "2026"
-                    }));
-
-                    console.log('Datos de predicción 2026:', data2026);
-
-                    options.series.push({
-                        name: "Predicción 2026",
-                        data: data2026
-                    });
-
-                    chart.updateSeries(options.series);
-                    console.log('Gráfica actualizada con predicción 2026');
-                } else {
-                    console.warn('El servidor reportó un error, usando cálculo local:', result.mensaje);
-                    // Fallback a cálculo local si el servidor falla
-                    generarPrediccionLocal();
-                }
+                // Mostrar mensaje de éxito
+                mostrarMensajeExito(`Predicción generada para ${añoPrediccion}`);
 
             } catch (error) {
                 console.error('Error generando predicción:', error);
@@ -436,29 +399,163 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        function generarPrediccionLocal() {
-            console.log('Generando predicción local...');
+        function obtenerUltimoAño() {
+            // Obtener el año más alto de los datos existentes
+            const años = Object.keys(ventas).map(Number);
+            return Math.max(...años);
+        }
+
+        async function generarPrediccionSiguienteAño(añoPrediccion) {
+            try {
+                console.log('Solicitando predicción del año', añoPrediccion, 'al servidor...');
+
+                const response = await fetch('/admin/prediccion/prediccion-2026', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Respuesta del servidor:', result);
+
+                if (result.success) {
+                    const meses = [
+                        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                    ];
+
+                    return result.proyeccion.map(item => ({
+                        x: `${añoPrediccion}-${String(item.mes).padStart(2, "0")}`,
+                        y: item.ventaPredicha,
+                        mes: item.nombreMes,
+                        anio: añoPrediccion.toString()
+                    }));
+                } else {
+                    throw new Error(result.mensaje);
+                }
+
+            } catch (error) {
+                console.warn('Error obteniendo predicción del servidor, usando cálculo local:', error);
+                return generarPrediccionLocalSiguienteAño(añoPrediccion);
+            }
+        }
+
+        function generarPrediccionLocalSiguienteAño(añoPrediccion) {
             const meses = [
                 "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
             ];
 
-            let data2026 = [];
-            for (let i = 0; i < 12; i++) {
-                const promedio = (ventas[2023][i] + ventas[2024][i] + ventas[2025][i]) / 3;
-                const proyeccion = Math.round(promedio * 1.12);
-                data2026.push({
-                    x: `2026-${String(i + 1).padStart(2, "0")}`,
+            let prediccionData = [];
+            const años = Object.keys(ventas).map(Number).sort((a, b) => a - b);
+            const ultimosAños = años.slice(-3); // Últimos 3 años para calcular tendencia
+
+            for (let mes = 1; mes <= 12; mes++) {
+                let suma = 0;
+                let count = 0;
+
+                // Calcular promedio de los últimos años para este mes
+                ultimosAños.forEach(año => {
+                    if (ventas[año] && ventas[año][mes - 1]) {
+                        suma += ventas[año][mes - 1];
+                        count++;
+                    }
+                });
+
+                const promedio = count > 0 ? suma / count : 0;
+
+                // Aplicar crecimiento del 8% basado en tendencia histórica
+                const proyeccion = Math.round(promedio * 1.08);
+
+                prediccionData.push({
+                    x: `${añoPrediccion}-${String(mes).padStart(2, "0")}`,
                     y: proyeccion,
-                    mes: meses[i],
-                    anio: "2026"
+                    mes: meses[mes - 1],
+                    anio: añoPrediccion.toString()
                 });
             }
 
-            console.log('Predicción local generada:', data2026);
-            options.series.push({ name: "Predicción 2026", data: data2026 });
-            chart.updateSeries(options.series);
+            console.log('Predicción local para año', añoPrediccion, ':', prediccionData);
+            return prediccionData;
         }
+
+        function generarPrediccionLocal() {
+            // Fallback completo si todo falla
+            console.log('Usando fallback completo de predicción...');
+
+            const ultimoAño = obtenerUltimoAño();
+            const añoPrediccion = ultimoAño + 1;
+            const prediccionData = generarPrediccionLocalSiguienteAño(añoPrediccion);
+            const datosCombinados = [...datosOriginales, ...prediccionData];
+
+            options.series[0] = {
+                name: "Ventas Totales + Predicción",
+                data: datosCombinados,
+                stroke: {
+                    width: 4,
+                    curve: "smooth",
+                    colors: ["#0080ff"]
+                },
+                markers: {
+                    size: 6,
+                    colors: ["#0080ff"],
+                    strokeColors: "#ffffff",
+                    strokeWidth: 2
+                }
+            };
+
+            chart.updateSeries(options.series);
+            mostrarMensajeExito(`Predicción calculada para ${añoPrediccion} basada en tendencias históricas`);
+        }
+
+        function mostrarMensajeExito(mensaje) {
+            // Crear un toast de éxito
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-family: 'Geist', sans-serif;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = mensaje;
+
+            document.body.appendChild(toast);
+
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Agregar estilos CSS para las animaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     }
 
 });
