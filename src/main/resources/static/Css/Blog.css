@@ -90,6 +90,189 @@
     color: var(--colorDark);
 }
 
+/* ============================================
+   RESPONSIVE - Blog Title + Blog Card HOME
+============================================ */
+
+/* ========== Pantallas grandes (hasta 1400px) ========== */
+@media (max-width: 1400px) {
+    .blog__container .container__title {
+        font-size: 2.3rem;
+        margin-left: 3rem;
+    }
+
+    .container__home {
+        gap: 3rem;
+        margin-right: 3rem;
+    }
+
+    .home__img {
+        width: 700px;
+        height: 360px;
+    }
+
+    .home__description {
+        width: 350px;
+    }
+
+    .home__description .description__titulo {
+        width: 100%;
+        font-size: 1.6rem;
+    }
+
+    .home__description .description__texto {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+}
+
+/* ========== Pantallas medianas (1200px – 992px) ========== */
+@media (max-width: 1199px) {
+    .blog__container .container__title {
+        margin-left: 2rem;
+        font-size: 2.1rem;
+    }
+
+    .container__home {
+        gap: 2.5rem;
+        margin-right: 0;
+    }
+
+    .home__img {
+        width: 600px;
+        height: 330px;
+    }
+
+    .home__description {
+        width: 330px;
+    }
+
+    .home__description .description__titulo {
+        font-size: 1.5rem;
+    }
+
+    .home__description .description__texto {
+        font-size: 0.9rem;
+    }
+}
+
+/* ========== Tablets (991px – 768px) ========== */
+@media (max-width: 991px) {
+    .blog__container .container__title {
+        text-align: center;
+        margin: 0 auto 2rem auto;
+        font-size: 2rem;
+    }
+
+    .container__home {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        margin-right: 0;
+    }
+
+    .home__img {
+        width: 90%;
+        max-width:375px;
+        height: 300px;
+    }
+
+    .home__description {
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .home__description .description__titulo {
+        font-size: 1.6rem;
+    }
+
+    .home__description .description__texto {
+        font-size: 1rem;
+    }
+
+    .home__description .description__tiempo {
+        justify-content: space-around;
+    }
+}
+
+/* ========== Móviles grandes (767px – 576px) ========== */
+@media (max-width: 767px) {
+    .blog__container .container__title {
+        font-size: 1.8rem;
+    }
+
+    .home__img {
+        width: 100%;
+        height: 270px;
+    }
+
+    .home__description .description__titulo {
+        font-size: 1.4rem;
+    }
+
+    .home__description .description__texto {
+        font-size: 0.9rem;
+    }
+
+    .description__tiempo .tiempo__item {
+        font-size: 0.75rem;
+    }
+}
+
+/* ========== Móviles 575px – 400px ========== */
+@media (max-width: 575px) {
+    .blog__container .container__title {
+        font-size: 1.6rem;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .home__img {
+        width: 100%;
+        height: 220px;
+    }
+
+    .home__description {
+        width: 100%;
+    }
+
+    .home__description .description__titulo {
+        font-size: 1.3rem;
+    }
+
+    .home__description .description__texto {
+        font-size: 0.85rem;
+    }
+
+    .home__description .description__tiempo {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+}
+
+/* ========== Móviles pequeños (menos de 400px) ========== */
+@media (max-width: 400px) {
+    .blog__container .container__title {
+        font-size: 1.4rem;
+    }
+
+    .home__img {
+        height: 200px;
+    }
+
+    .home__description .description__titulo {
+        font-size: 1.2rem;
+    }
+
+    .home__description .description__texto {
+        font-size: 0.8rem;
+    }
+
+    .description__tiempo .tiempo__item {
+        font-size: 0.7rem;
+    }
+}
+
 
 .blog__flex {
     margin-top: 2.5rem;
@@ -168,3 +351,129 @@
     color: #ffffff;
 }
 
+/* ======= Pantallas grandes (1400px - 1200px) ======= */
+@media (max-width: 1400px) {
+    .pagination {
+        right: 0;
+        width: 100%;
+        top: 20px;
+        gap: 8px;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .pagination button {
+        font-size: 1.2rem;
+        padding: 7px 10px;
+    }
+}
+
+/* ======= Pantallas medianas (1199px - 992px) ======= */
+@media (max-width: 1199px) {
+    .pagination {
+        right: 0;
+        width: 100%;
+        top: 20px;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    .pagination button {
+        font-size: 1.1rem;
+        padding: 6px 10px;
+    }
+}
+
+/* ======= Tablets (991px - 768px) ======= */
+@media (max-width: 991px) {
+    .pagination {
+        top: 30px;
+        width: 100%;
+        right: 0;
+        gap: 6px;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+
+    .pagination button {
+        font-size: 1rem;
+        padding: 13px 15px;
+    }
+}
+
+/* ======= Móviles grandes (767px - 576px) ======= */
+@media (max-width: 767px) {
+    .pagination {
+        gap: 5px;
+        top: 25px;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 40px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+
+    .pagination button {
+        font-size: 0.95rem;
+        padding: 5px 8px;
+    }
+}
+
+/* ======= Móviles (575px - 400px) ======= */
+@media (max-width: 575px) {
+    .pagination {
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    .pagination__Numbers {
+        gap: 0.4rem;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 42px;
+        height: 42px;
+        font-size: 0.85rem;
+    }
+
+    .pagination button {
+        font-size: 0.9rem;
+        padding: 12px;
+    
+}
+
+/* ======= Móviles pequeños (menos de 400px) ======= */
+@media (max-width: 400px) {
+    .pagination {
+        gap: 4px;
+    }
+
+    .pagination__Numbers .button__pagination {
+        width: 38px;
+        height: 38px;
+        font-size: 0.8rem;
+    }
+
+    .pagination button {
+        font-size: 0.8rem;
+        padding: 11px;
+    }
+}
+
+}

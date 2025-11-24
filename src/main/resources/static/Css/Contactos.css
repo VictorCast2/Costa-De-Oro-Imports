@@ -328,3 +328,166 @@
 .testimonios__description :is(.description__rol, .description__phone, .description__email) {
     font: 400 1rem var(--typografiaUrbanist);
 }
+
+
+/* ===================== */
+/*      MOBILE <576px    */
+/* ===================== */
+
+@media screen and (max-width: 576px) {
+
+    .contactos {
+        padding: 100px 0 40px 0;
+    }
+
+    .contactos__contenidos .contenidos__item {
+        flex-direction: column;
+        padding: 0 1rem;
+        text-align: center;
+    }
+
+    /* Texto */
+    .item__informacion .informacion__titulo {
+        width: 100%;
+        font-size: 1.3rem;
+    }
+
+    .item--map {
+        padding: 0;
+    }
+
+    .item__map iframe {
+        width: 100% !important;
+        height: 250px !important;
+    }
+
+    /* FORM */
+    .item--form {
+        padding: 20px 1rem;
+        margin: 0 1rem;
+    }
+
+    .custom-select-wrapper,
+    .input-box input,
+    .input-box textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .input__error {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .formulario__btn {
+        width: 100%;
+    }
+
+    /* Testimonios */
+    .testimonios__card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* ===================== */
+/*    TABLET 576–1024px  */
+/* ===================== */
+
+@media screen and (max-width: 1024px) {
+
+    .contactos {
+        padding: 120px 0 60px 0;
+    }
+
+    .contactos__contenidos {
+        gap: 3rem;
+    }
+
+    .contenidos__item {
+        flex-direction: column;
+        padding: 0 2rem;
+    }
+
+    .item__informacion .informacion__titulo {
+        width: 100%;
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    .item__map iframe {
+        width: 100% !important;
+        height: 320px !important;
+    }
+
+    /* FORM */
+    .item--form {
+        padding: 30px 2rem;
+        margin: 0 1rem;
+    }
+
+    .custom-select-wrapper,
+    .input-box input,
+    .input-box textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .testimonios__card {
+        justify-content: center;
+    }
+}
+
+
+/* ===================== */
+/*   DESKTOP MEDIANO     */
+/* ===================== */
+
+@media screen and (max-width: 1400px) {
+
+    .item--map {
+        padding: 0 40px;
+    }
+
+    .item__informacion .informacion__titulo {
+        font-size: 1.7rem;
+        width: 90%;
+    }
+
+    .item__map iframe {
+        width: 550px !important;
+        height: 320px !important;
+    }
+
+    /* FORM */
+    .custom-select-wrapper,
+    .input-box input {
+        width: 700px;
+    }
+
+    .input-box textarea {
+        max-width: 700px;
+    }
+}
+
+
+/* ===================== */
+/*   DESKTOP XL +        */
+/* ===================== */
+
+@media screen and (min-width: 1401px) {
+
+    .item--map {
+        padding: 0 120px;
+    }
+
+    .item__informacion .informacion__titulo {
+        width: 600px;
+    }
+
+    .item__map iframe {
+        width: 700px !important;
+        height: 350px !important;
+    }
+}
