@@ -650,7 +650,6 @@ body {
     background-image: radial-gradient(120% 120% at 50% 80%, #ffffff 40%, #4B1632 100%);
 }
 
-
 .hero--packmixtos {
     background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #2f3f68 100%);
 }
@@ -758,8 +757,6 @@ body {
 }
 
 
-
-
 .content__information .subtitulo--changed {
     font: 700 7.8rem/1 "Geist";
 }
@@ -806,7 +803,6 @@ body {
     top: 3rem;
     left: 6.5rem;
 }
-
 
 
 .slide__pideahora .pideahora__btn {
@@ -1010,6 +1006,8 @@ body {
     max-width: 350px;
     margin: 0 2rem 0 -2rem;
 }
+
+
 
 .precio--TequilaMezcal {
     top: -2rem;
@@ -3157,7 +3155,6 @@ body {
         background-size: cover;
     }
 
-
     .banner .banner__title {
         font-size: 2rem;
     }
@@ -3288,7 +3285,7 @@ body {
 
 
 .elegir__fondo {
-position: absolute;
+    position: absolute;
     top: 1rem;
     left: 57%;
     transform: translateX(-3rem);
@@ -3354,18 +3351,19 @@ position: absolute;
         padding: 2rem;
         gap: 3rem;
     }
-        .elegir__contenido {
-            margin: 0;
-        }
 
-        .elegir__fondo {
-            display: none;
-        }
-
-        .elegir__imagen img {
-            max-width: 400px;
-        }
+    .elegir__contenido {
+        margin: 0;
     }
+
+    .elegir__fondo {
+        display: none;
+    }
+
+    .elegir__imagen img {
+        max-width: 400px;
+    }
+}
 
 /* Tablets y pantallas medianas */
 @media screen and (max-width: 1024px) {
@@ -3448,40 +3446,40 @@ position: absolute;
 .ofertaDia {
     min-height: 50vh;
     display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    justify-content: center;
+    align-items: center;
+}
 
-    .ofertaDia__product {
-        display: flex;
-        cursor: pointer;
-        gap: 20px;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        padding: 20px 0 0 0;
-        overscroll-behavior-inline: contain;
-        background-color: #f6f6f6;
-        position: relative;
-        transition: all 0.3s ease;
-    }
+.ofertaDia__product {
+    display: flex;
+    cursor: pointer;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0 0 0;
+    overscroll-behavior-inline: contain;
+    background-color: #f6f6f6;
+    position: relative;
+    transition: all 0.3s ease;
+}
 
 
-    .ofertaDia__product::-webkit-scrollbar {
-        height: 8px;
-        background: transparent;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
+.ofertaDia__product::-webkit-scrollbar {
+    height: 8px;
+    background: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-    .ofertaDia__product::-webkit-scrollbar-thumb {
-        background-color: #b48b58;
-        border-radius: 4px;
-    }
-
+.ofertaDia__product::-webkit-scrollbar-thumb {
+    background-color: #b48b58;
+    border-radius: 4px;
+}
 
 .ofertaDia__product::-webkit-scrollbar-button {
     display: none;
 }
+
 
 .ofertaDia__product:hover::-webkit-scrollbar,
 .ofertaDia__product.active::-webkit-scrollbar {
@@ -3511,7 +3509,6 @@ position: absolute;
     pointer-events: none;
 }
 
-
 .ofertaDia__product::before {
     left: 0;
 }
@@ -3519,6 +3516,7 @@ position: absolute;
 .ofertaDia__product::after {
     right: 0;
 }
+
 
 .ofertaDia__product .product__flex {
     display: flex;
@@ -3530,9 +3528,11 @@ position: absolute;
 }
 
 
+
 .flex__img img {
     max-width: 100%;
 }
+
 
 .product__flex .flex__content {
     max-width: 600px;
@@ -3575,7 +3575,6 @@ position: absolute;
     color: #c8102e;
 }
 
-
 .content__precio .precio__old {
     font: 700 1.5rem var(--typografiaUrbanist);
     color: var(--colorLigth);
@@ -3614,6 +3613,7 @@ position: absolute;
     background-color: var(--colorDark);
     color: var(--colorWhite);
 }
+
 
 /* ========== MEDIA QUERIES - RESPONSIVO ========== */
 
@@ -3661,7 +3661,6 @@ position: absolute;
         max-width: 300px;
     }
 }
-
 
 /* Pantallas pequeñas (Móviles horizontales y tablets pequeñas - 576px a 767px) */
 @media (max-width: 767px) {
@@ -3775,12 +3774,30 @@ position: absolute;
     }
 }
 
+/* Móviles muy pequeños (menos de 375px) */
+@media (max-width: 374px) {
+    .ofertaDia__product .product__flex {
+        min-width: 260px;
+        padding: 10px;
+    }
+
+    .flex__content .content__title {
+        font-size: 1.4rem;
+    }
+
+    .flex__content .content__description {
+        font-size: 0.95rem;
+    }
+
+    .flex__content .content__time span {
+        font-size: 1.5rem;
+    }
+
 
     .flex__img img {
         max-width: 180px;
     }
 }
-
 
 /* Section Blog */
 .blog {
@@ -3788,7 +3805,6 @@ position: absolute;
     padding: 80px 0;
 
 }
-
 
 .blog__encabezado {
     display: flex;
@@ -3811,10 +3827,7 @@ position: absolute;
     color: #000000;
     border-radius: 5px;
     cursor: pointer;
-    }
-
-
-
+}
 
 .blog__flex {
     margin-top: 2.5rem;
@@ -3824,7 +3837,6 @@ position: absolute;
     gap: 2rem;
 }
 
-
 .card__img {
     width: 430px;
     height: 250px;
@@ -3833,7 +3845,6 @@ position: absolute;
     margin-bottom: 1rem;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
 }
-
 
 .card__img img {
     cursor: pointer;
@@ -3846,7 +3857,6 @@ position: absolute;
 .card__img img:hover {
     transform: scale(1.1);
 }
-
 
 .blog__card .card__title {
     display: block;
@@ -3869,13 +3879,14 @@ position: absolute;
     margin-bottom: 1.5rem;
 }
 
-
 .blog__card .card__tiempo {
     width: 100%;
     display: flex;
-        justify-content: space-between;
-        align-items: center;
+    justify-content: space-between;
+    align-items: center;
+
 }
+
 .card__tiempo .tiempo__item {
     font: 500 0.8rem var(--typografiaGeist);
     color: var(--colorLigth);
@@ -3891,13 +3902,10 @@ position: absolute;
         font-size: 3rem;
     }
 
-
-
     .blog__flex {
         gap: 2rem;
     }
-   }
-
+}
 
 /* Pantallas medianas-grandes (Desktop pequeño) - 992px a 1199px */
 @media (max-width: 1199px) {
@@ -3919,7 +3927,6 @@ position: absolute;
         height: 220px;
     }
 
-
     .blog__card .card__text {
         width: 330px;
     }
@@ -3931,25 +3938,26 @@ position: absolute;
         padding: 60px 0;
     }
 
-        .blog__encabezado {
-            padding-right: 2rem;
-            gap: 1rem;
-        }
+    .blog__encabezado {
+        padding-right: 2rem;
+        gap: 1rem;
+    }
 
     .blog__encabezado .encabezado__title {
         font-size: 2.2rem;
         margin: 0 0 0 2rem;
     }
-        .blog__encabezado .encabezado__btn {
-            font-size: 1.2rem;
-            padding: 0.6rem 0.9rem;
-        }
+
+    .blog__encabezado .encabezado__btn {
+        font-size: 1.2rem;
+        padding: 0.6rem 0.9rem;
+    }
+
     .blog__flex {
         flex-wrap: wrap;
         gap: 2rem;
         padding: 0 2rem;
     }
-
 
     .card__img {
         width: 320px;
@@ -3973,6 +3981,7 @@ position: absolute;
         padding-right: 1.5rem;
         gap: 1.5rem;
     }
+
     .blog__encabezado .encabezado__title {
         font-size: 2rem;
         margin: 0 0 0 1.5rem;
@@ -4015,7 +4024,6 @@ position: absolute;
         text-align: center;
         font-size: 1.05rem;
     }
-
 
     .blog__card .card__tiempo {
         max-width: 450px;
@@ -4060,7 +4068,6 @@ position: absolute;
         height: 240px;
     }
 
-
     .blog__card .card__title {
         font-size: 1.2rem;
     }
@@ -4090,6 +4097,7 @@ position: absolute;
         margin-left: 0.8rem;
         font-size: 0.95rem;
     }
+
     .blog__flex {
         gap: 2rem;
         padding: 0 0.8rem;
@@ -4102,8 +4110,6 @@ position: absolute;
     .blog__card .card__title {
         font-size: 1.1rem;
     }
-
-
 
     .blog__card .card__text {
         font-size: 0.95rem;
@@ -4140,10 +4146,10 @@ position: absolute;
         font-size: 1rem;
     }
 
-
     .blog__card .card__text {
         font-size: 0.9rem;
     }
+}
 
 /** Logos Cerveza */
 .logos {
@@ -4168,7 +4174,6 @@ position: absolute;
     margin: auto;
 }
 
-
 .logos__slide {
     animation: 25s slide infinite linear;
     display: flex;
@@ -4188,7 +4193,6 @@ position: absolute;
     filter: grayscale(0%);
     transform: scale(1.05);
 }
-
 
 .content__logos:hover .logos__slide {
     animation-play-state: paused;
@@ -4215,6 +4219,7 @@ position: absolute;
     pointer-events: none;
 }
 
+
 .content__logos::before {
     left: 0;
     background: linear-gradient(to right, #fff 0%, transparent 100%);
@@ -4224,15 +4229,16 @@ position: absolute;
     right: 0;
     background: linear-gradient(to left, #fff 0%, transparent 100%);
 }
+
 @keyframes slide {
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-100%);
     }
 }
-
 
 /* Pantallas grandes (Desktop) - 1200px y más */
 @media (min-width: 1200px) {
@@ -4263,7 +4269,6 @@ position: absolute;
         margin: 0 0 0 4rem;
     }
 
-
     .content__logos {
         width: 96%;
     }
@@ -4273,10 +4278,10 @@ position: absolute;
         margin: 0 35px;
     }
 
-        .logos__slide img:nth-child(7),
-        .logos__slide img:nth-child(9) {
-            height: 110px;
-        }
+    .logos__slide img:nth-child(7),
+    .logos__slide img:nth-child(9) {
+        height: 110px;
+    }
 
     .logos__slide img:nth-child(11) {
         height: 130px;
@@ -4324,26 +4329,30 @@ position: absolute;
     .logos {
         margin: 35px 0 35px 0;
     }
-        .logos .logos__titles {
-            font-size: 1.4rem;
-            margin: 0 0 0 2rem;
-            text-align: center;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+
+    .logos .logos__titles {
+        font-size: 1.4rem;
+        margin: 0 0 0 2rem;
+        text-align: center;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
 
     .content__logos {
         width: 98%;
         padding: 12px 0;
     }
-        .logos__slide img {
-            height: 55px;
-            margin: 0 25px;
-        }
+
+    .logos__slide img {
+        height: 55px;
+        margin: 0 25px;
+    }
+
     .logos__slide img:nth-child(7),
     .logos__slide img:nth-child(9) {
         height: 85px;
     }
+
     .logos__slide img:nth-child(11) {
         height: 100px;
     }
@@ -4353,19 +4362,23 @@ position: absolute;
         width: 100px;
     }
 }
+
 /* Pantallas pequeñas (Móviles landscape) - 480px a 575px */
 @media (max-width: 575px) {
     .logos {
         margin: 30px 0 30px 0;
     }
+
     .logos .logos__titles {
         font-size: 1.3rem;
         padding: 0 1.5rem;
     }
-        .content__logos {
-            width: 99%;
-            padding: 10px 0;
-        }
+
+    .content__logos {
+        width: 99%;
+        padding: 10px 0;
+    }
+
     .logos__slide {
         animation: 20s slide infinite linear;
     }
@@ -4389,6 +4402,7 @@ position: absolute;
         width: 80px;
     }
 }
+
 /* Pantallas muy pequeñas (Móviles portrait) - 376px a 479px */
 @media (max-width: 479px) {
     .logos {
