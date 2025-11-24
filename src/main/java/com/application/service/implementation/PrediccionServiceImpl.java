@@ -17,10 +17,7 @@ import weka.core.SerializationHelper;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -80,17 +77,16 @@ public class PrediccionServiceImpl implements PrediccionService {
                 datosPorAño.get(año).put(mes, total);
             }
 
-            // Convertir a formato esperado por el frontend
+            // Convertir a formato esperado por el frontend - CORRECCIÓN: No dividir entre 1000
             for (int año = añoActual - 5; año <= añoActual; año++) {
                 double[] ventasAnuales = new double[12];
                 Map<Integer, Double> datosAño = datosPorAño.get(año);
 
                 for (int mes = 1; mes <= 12; mes++) {
                     if (datosAño != null && datosAño.containsKey(mes)) {
-                        // Convertir a escala similar a tu ejemplo (en miles)
-                        ventasAnuales[mes-1] = datosAño.get(mes) / 1000.0;
+                        // CORRECCIÓN: Mantener el valor original sin dividir
+                        ventasAnuales[mes-1] = datosAño.get(mes);
                     } else {
-                        // Datos simulados si no hay datos reales
                         ventasAnuales[mes-1] = 0;
                     }
                 }
@@ -131,14 +127,6 @@ public class PrediccionServiceImpl implements PrediccionService {
         Instance instancia = new DenseInstance(estructura.numAttributes());
         instancia.setDataset(estructura);
 
-        // Orden del ARFF:
-        // 0 → venta_total (class) → missing
-        // 1 → anno
-        // 2 → mes
-        // 3 → cantidad_productos
-        // 4 → total_unidades
-        // 5 → precio_promedio
-
         instancia.setMissing(0);
         instancia.setValue(1, request.anno());
         instancia.setValue(2, request.mes());
@@ -147,7 +135,37 @@ public class PrediccionServiceImpl implements PrediccionService {
         instancia.setValue(5, request.precioPromedio());
 
         // Predicción
-        return modelo.classifyInstance(instancia);
+        double prediccion = modelo.classifyInstance(instancia);
+
+        // NUEVA REGLA: Obtener datos históricos para aplicar límite del pico más alto
+        try {
+            DatosGraficaResponse datosHistoricos = obtenerDatosParaGrafica();
+            double picoMasAlto = 0;
+
+            for (double[] ventasAnuales : datosHistoricos.ventasPorAño().values()) {
+                for (double venta : ventasAnuales) {
+                    if (venta > picoMasAlto) {
+                        picoMasAlto = venta;
+                    }
+                }
+            }
+
+            // Aplicar límite absoluto
+            if (prediccion > picoMasAlto && picoMasAlto > 0) {
+                log.info("Predicción ajustada: {} → {} (pico histórico)", prediccion, picoMasAlto);
+                prediccion = picoMasAlto;
+            }
+        } catch (Exception e) {
+            log.warn("No se pudieron obtener datos históricos para validar predicción: {}", e.getMessage());
+        }
+
+        // Validaciones básicas
+        if (prediccion < 0) {
+            log.warn("Predicción negativa detectada: {}. Ajustando a valor mínimo.", prediccion);
+            prediccion = 10000;
+        }
+
+        return prediccion;
     }
 
     @Override
@@ -162,32 +180,44 @@ public class PrediccionServiceImpl implements PrediccionService {
             String[] nombresMeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
+            // Obtener datos históricos para calcular tendencias
+            Map<Integer, Double> tendenciasPorMes = calcularTendenciasPorMes(ventas);
+            Map<Integer, Double> factoresEstacionales = calcularFactoresEstacionales(ventas);
+
             for (int mes = 1; mes <= 12; mes++) {
                 double prediccion;
 
                 if (modelo != null) {
-                    // Usar el modelo WEKA para predicción real
+                    // Usar el modelo WEKA para predicción real con parámetros específicos por mes
                     try {
-                        VentaRequest request = new VentaRequest(
-                                2026, mes, 15, 45, 18000.0 // Valores estimados
-                        );
-                        prediccion = predecir(request) / 1000.0; // Convertir a escala similar
+                        // Calcular parámetros basados en el mes y tendencias históricas
+                        VentaRequest request = crearRequestParaMes(2026, mes, ventas, tendenciasPorMes);
+                        prediccion = predecir(request); // CORRECCIÓN: No dividir entre 1000
+
+                        // Aplicar factor estacional para diferenciar meses
+                        double factorEstacional = factoresEstacionales.getOrDefault(mes, 1.0);
+                        prediccion = prediccion * factorEstacional;
+
                     } catch (Exception e) {
-                        prediccion = calcularPrediccionPromedio(ventas, mes);
+                        log.warn("Error usando WEKA para mes {}, usando cálculo avanzado: {}", mes, e.getMessage());
+                        prediccion = calcularPrediccionAvanzada(ventas, mes, tendenciasPorMes, factoresEstacionales);
                     }
                 } else {
-                    // Fallback a cálculo basado en promedios
-                    prediccion = calcularPrediccionPromedio(ventas, mes);
+                    // Fallback a cálculo avanzado basado en tendencias y estacionalidad
+                    prediccion = calcularPrediccionAvanzada(ventas, mes, tendenciasPorMes, factoresEstacionales);
                 }
 
+                // CORRECCIÓN: Asegurar que la predicción sea realista basada en datos históricos
+                prediccion = ajustarPrediccionRealista(prediccion, ventas, mes);
+
                 proyeccion.add(new ProyeccionMensualRequest(
-                        mes, nombresMeses[mes-1], Math.max(0, prediccion)
+                        mes, nombresMeses[mes-1], Math.round(prediccion * 100.0) / 100.0
                 ));
             }
 
             resultado.put("proyeccion", proyeccion);
             resultado.put("success", true);
-            resultado.put("mensaje", "Predicción 2026 generada exitosamente");
+            resultado.put("mensaje", "Predicción 2026 generada exitosamente con variaciones mensuales");
 
         } catch (Exception e) {
             log.error("Error generando predicción 2026: {}", e.getMessage());
@@ -198,17 +228,205 @@ public class PrediccionServiceImpl implements PrediccionService {
         return resultado;
     }
 
-    // Métodos auxiliares privados
-    private double calcularPrediccionPromedio(Map<String, double[]> ventas, int mes) {
-        // Calcular promedio de los últimos 3 años con crecimiento del 12%
+    // MÉTODO MODIFICADO: Ajustar predicción para que sea realista y no supere máximos históricos
+    private double ajustarPrediccionRealista(double prediccion, Map<String, double[]> ventas, int mes) {
+        // 1. Encontrar el pico MÁS ALTO de toda la historia (máximo global)
+        double picoMasAlto = 0;
+        for (double[] ventasAnuales : ventas.values()) {
+            for (double venta : ventasAnuales) {
+                if (venta > picoMasAlto) {
+                    picoMasAlto = venta;
+                }
+            }
+        }
+
+        // Si no hay datos históricos, usar valores por defecto razonables
+        if (picoMasAlto == 0) {
+            picoMasAlto = 50000000; // Máximo razonable por defecto
+        }
+
+        // 2. Obtener ventas históricas recientes para este mes específico
         double[] ventas2023 = ventas.getOrDefault("2023", new double[12]);
         double[] ventas2024 = ventas.getOrDefault("2024", new double[12]);
         double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
 
-        double promedio = (ventas2023[mes-1] + ventas2024[mes-1] + ventas2025[mes-1]) / 3.0;
-        return Math.round(promedio * 1.12 * 100.0) / 100.0; // 12% de crecimiento
+        double maxHistoricoMes = Math.max(
+                Math.max(ventas2023[mes-1], ventas2024[mes-1]),
+                ventas2025[mes-1]
+        );
+
+        double minHistoricoMes = Math.min(
+                Math.min(ventas2023[mes-1] > 0 ? ventas2023[mes-1] : Double.MAX_VALUE,
+                        ventas2024[mes-1] > 0 ? ventas2024[mes-1] : Double.MAX_VALUE),
+                ventas2025[mes-1] > 0 ? ventas2025[mes-1] : Double.MAX_VALUE
+        );
+
+        // Si no hay datos históricos para este mes, usar promedios
+        if (minHistoricoMes == Double.MAX_VALUE) {
+            minHistoricoMes = 10000; // Mínimo razonable
+            maxHistoricoMes = picoMasAlto * 0.3; // 30% del pico máximo como tope para mes sin datos
+        }
+
+        // 3. REGLA PRINCIPAL: La predicción NUNCA puede superar el pico más alto histórico
+        double prediccionMaximaAbsoluta = picoMasAlto;
+
+        // 4. Pero puede bajar naturalmente (usar mínimo histórico del mes como base inferior)
+        double prediccionMinima = minHistoricoMes * 0.7; // Permite bajar hasta 70% del mínimo histórico del mes
+
+        // 5. Aplicar restricciones
+        prediccion = Math.max(prediccionMinima, Math.min(prediccionMaximaAbsoluta, prediccion));
+
+        // 6. Asegurar variación mensual realista (la gráfica puede subir y bajar)
+        // pero manteniéndose dentro de rangos históricos para cada mes
+        if (prediccion > maxHistoricoMes * 1.2) {
+            // Si se aleja mucho del máximo histórico del mes, acercarlo
+            prediccion = maxHistoricoMes * 1.2;
+        }
+
+        log.info("Mes {}: Predicción ajustada = {}, Máximo histórico mes = {}, Pico más alto = {}",
+                mes, prediccion, maxHistoricoMes, picoMasAlto);
+
+        return Math.round(prediccion * 100.0) / 100.0;
     }
 
+    // Método para crear request específico por mes
+    private VentaRequest crearRequestParaMes(int año, int mes, Map<String, double[]> ventas,
+                                             Map<Integer, Double> tendencias) {
+        // Calcular parámetros basados en datos históricos y el mes específico
+        double[] ventas2023 = ventas.getOrDefault("2023", new double[12]);
+        double[] ventas2024 = ventas.getOrDefault("2024", new double[12]);
+        double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
+
+        // Promedio histórico para este mes
+        double promedioMes = (ventas2023[mes-1] + ventas2024[mes-1] + ventas2025[mes-1]) / 3.0;
+
+        // Calcular cantidad de productos basada en ventas históricas
+        int cantidadProductos = calcularCantidadProductos(promedioMes, mes);
+        int totalUnidades = calcularTotalUnidades(cantidadProductos, mes);
+        double precioPromedio = calcularPrecioPromedio(mes);
+
+        return new VentaRequest(año, mes, cantidadProductos, totalUnidades, precioPromedio);
+    }
+
+    // MÉTODO MODIFICADO: Cálculo más conservador que respete máximos históricos
+    private double calcularPrediccionAvanzada(Map<String, double[]> ventas, int mes,
+                                              Map<Integer, Double> tendencias,
+                                              Map<Integer, Double> factoresEstacionales) {
+        double[] ventas2023 = ventas.getOrDefault("2023", new double[12]);
+        double[] ventas2024 = ventas.getOrDefault("2024", new double[12]);
+        double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
+
+        // Usar el MÁXIMO histórico de este mes como base en lugar del promedio
+        double maxHistoricoMes = Math.max(
+                Math.max(ventas2023[mes-1], ventas2024[mes-1]),
+                ventas2025[mes-1]
+        );
+
+        // Si no hay datos, usar cálculo alternativo
+        if (maxHistoricoMes == 0) {
+            double promedioHistorico = (ventas2023[mes-1] + ventas2024[mes-1] + ventas2025[mes-1]) / 3.0;
+            maxHistoricoMes = promedioHistorico > 0 ? promedioHistorico : 10000;
+        }
+
+        // Obtener tendencia para este mes (más conservadora)
+        double tendencia = tendencias.getOrDefault(mes, 1.05); // 5% por defecto en lugar de 8%
+
+        // Obtener factor estacional
+        double factorEstacional = factoresEstacionales.getOrDefault(mes, 1.0);
+
+        // Calcular predicción basada en máximo histórico con crecimiento moderado
+        double prediccion = maxHistoricoMes * tendencia * factorEstacional;
+
+        return Math.round(prediccion * 100.0) / 100.0;
+    }
+
+    // Calcular tendencias de crecimiento por mes
+    private Map<Integer, Double> calcularTendenciasPorMes(Map<String, double[]> ventas) {
+        Map<Integer, Double> tendencias = new HashMap<>();
+        double[] ventas2023 = ventas.getOrDefault("2023", new double[12]);
+        double[] ventas2024 = ventas.getOrDefault("2024", new double[12]);
+        double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
+
+        for (int mes = 1; mes <= 12; mes++) {
+            // Calcular crecimiento año a año para este mes
+            double crecimiento2024 = ventas2023[mes-1] > 0 ? ventas2024[mes-1] / ventas2023[mes-1] : 1.0;
+            double crecimiento2025 = ventas2024[mes-1] > 0 ? ventas2025[mes-1] / ventas2024[mes-1] : 1.0;
+
+            // Promedio de crecimiento con mínimo del 3% y máximo del 12%
+            double crecimientoPromedio = (crecimiento2024 + crecimiento2025) / 2.0;
+            double tendencia = Math.max(1.03, Math.min(1.12, crecimientoPromedio));
+
+            tendencias.put(mes, tendencia);
+        }
+
+        return tendencias;
+    }
+
+    // Calcular factores estacionales basados en patrones históricos
+    private Map<Integer, Double> calcularFactoresEstacionales(Map<String, double[]> ventas) {
+        Map<Integer, Double> factores = new HashMap<>();
+
+        // Factores estacionales ajustados para ventas en escala real
+        double[] factoresBase = {
+                0.85,  // Enero: Post-navideño (bajo)
+                0.80,  // Febrero: Temporada baja
+                0.95,  // Marzo: Inicio escolar
+                1.00,  // Abril: Normal
+                1.10,  // Mayo: Día de la madre
+                1.05,  // Junio: Mitad de año
+                1.15,  // Julio: Vacaciones
+                1.20,  // Agosto: Temporada alta
+                1.10,  // Septiembre: Mes patrio
+                1.05,  // Octubre: Halloween
+                1.25,  // Noviembre: Black Friday
+                1.50   // Diciembre: Navidad (muy alto)
+        };
+
+        // Ajustar factores basados en datos históricos reales
+        if (!ventas.isEmpty()) {
+            double[] ventas2025 = ventas.getOrDefault("2025", new double[12]);
+            double promedio2025 = Arrays.stream(ventas2025).average().orElse(1.0);
+
+            for (int mes = 0; mes < 12; mes++) {
+                if (promedio2025 > 0 && ventas2025[mes] > 0) {
+                    double factorHistorico = ventas2025[mes] / promedio2025;
+                    // Combinar factor base con histórico (60% base, 40% histórico)
+                    factores.put(mes + 1, (factoresBase[mes] * 0.6) + (factorHistorico * 0.4));
+                } else {
+                    factores.put(mes + 1, factoresBase[mes]);
+                }
+            }
+        } else {
+            for (int mes = 0; mes < 12; mes++) {
+                factores.put(mes + 1, factoresBase[mes]);
+            }
+        }
+
+        return factores;
+    }
+
+    // Métodos auxiliares para calcular parámetros del request - AJUSTADOS
+    private int calcularCantidadProductos(double promedioVentas, int mes) {
+        // Base: 1 producto por cada 50K en ventas (ajustado para escala real)
+        double base = promedioVentas / 50000.0;
+        double[] ajustesMensuales = {0.9, 0.8, 1.0, 1.0, 1.1, 1.0, 1.2, 1.3, 1.1, 1.0, 1.4, 1.5};
+        return Math.max(10, (int) Math.round(base * ajustesMensuales[mes-1]));
+    }
+
+    private int calcularTotalUnidades(int cantidadProductos, int mes) {
+        // Base: 10 unidades por producto (ajustado para escala real)
+        double[] ajustesMensuales = {0.8, 0.7, 1.0, 1.0, 1.2, 1.1, 1.3, 1.4, 1.2, 1.1, 1.5, 1.6};
+        return (int) Math.round(cantidadProductos * 10 * ajustesMensuales[mes-1]);
+    }
+
+    private double calcularPrecioPromedio(int mes) {
+        // Precio promedio base ajustado para escala real
+        double precioBase = 500.0;
+        double[] ajustesMensuales = {0.95, 0.95, 1.0, 1.0, 1.05, 1.0, 1.08, 1.10, 1.05, 1.0, 1.15, 1.20};
+        return precioBase * ajustesMensuales[mes-1];
+    }
+
+    // Métodos auxiliares existentes (sin cambios)
     private List<ProyeccionMensualRequest> generarProyeccion2026(Map<String, double[]> ventas) {
         List<ProyeccionMensualRequest> proyeccion = new ArrayList<>();
         String[] nombresMeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -216,10 +434,9 @@ public class PrediccionServiceImpl implements PrediccionService {
 
         for (int mes = 0; mes < 12; mes++) {
             proyeccion.add(new ProyeccionMensualRequest(
-                    mes + 1, nombresMeses[mes], 0.0 // Inicialmente cero
+                    mes + 1, nombresMeses[mes], 0.0
             ));
         }
-
         return proyeccion;
     }
 
@@ -251,16 +468,15 @@ public class PrediccionServiceImpl implements PrediccionService {
         Map<String, double[]> ventasPorAño = new HashMap<>();
         Map<String, Object> estadisticas = new HashMap<>();
 
-        // Datos simulados similares a tu ejemplo original
-        ventasPorAño.put("2020", new double[]{120, 95, 140, 110, 180, 130, 200, 150, 220, 170, 260, 210});
-        ventasPorAño.put("2021", new double[]{200, 180, 230, 190, 260, 240, 300, 250, 310, 280, 330, 290});
-        ventasPorAño.put("2022", new double[]{150, 130, 170, 160, 210, 180, 250, 230, 270, 240, 260, 230});
-        ventasPorAño.put("2023", new double[]{170, 160, 190, 180, 230, 200, 260, 240, 300, 270, 310, 290});
-        ventasPorAño.put("2024", new double[]{200, 220, 210, 230, 260, 240, 300, 280, 330, 300, 350, 320});
-        ventasPorAño.put("2025", new double[]{220, 210, 240, 200, 260, 230, 290, 250, 310, 280, 340, 300});
+        // CORRECCIÓN: Datos simulados en escala real (miles)
+        ventasPorAño.put("2020", new double[]{12000, 9500, 14000, 11000, 18000, 13000, 20000, 15000, 22000, 17000, 26000, 21000});
+        ventasPorAño.put("2021", new double[]{20000, 18000, 23000, 19000, 26000, 24000, 30000, 25000, 31000, 28000, 33000, 29000});
+        ventasPorAño.put("2022", new double[]{15000, 13000, 17000, 16000, 21000, 18000, 25000, 23000, 27000, 24000, 26000, 23000});
+        ventasPorAño.put("2023", new double[]{17000, 16000, 19000, 18000, 23000, 20000, 26000, 24000, 30000, 27000, 31000, 29000});
+        ventasPorAño.put("2024", new double[]{20000, 22000, 21000, 23000, 26000, 24000, 30000, 28000, 33000, 30000, 35000, 32000});
+        ventasPorAño.put("2025", new double[]{22000, 21000, 24000, 20000, 26000, 23000, 29000, 25000, 31000, 28000, 34000, 30000});
 
         calcularEstadisticas(ventasPorAño, estadisticas);
-
         return new DatosGraficaResponse(ventasPorAño, estadisticas, new ArrayList<>());
     }
 
