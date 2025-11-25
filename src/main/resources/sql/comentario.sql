@@ -1,4 +1,4 @@
-USE railway;
+USE db_beer;
 
 -- Insertar Comentarios
 -- COMENTARIOS PARA HISTORIA 1 (Whisky Escocés)

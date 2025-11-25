@@ -72,8 +72,8 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                    .build();
 
            // Configuración de Urls de retorno (adaptar las url luego)
-           //String baseUrl = this.getBaseUrl(request); // Para producción
-           String baseUrl = "https://costadeoroimports.up.railway.app/"; // Para desarrollo
+           // String baseUrl = this.getBaseUrl(request); // Para producción
+           String baseUrl = "https://submolecular-overwily-hilma.ngrok-free.dev/"; // Para desarrollo
            PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                    .success(baseUrl + "carrito?status=success&compra=" + compraId)
                    .failure(baseUrl + "carrito?status=error&compra=" + compraId)
