@@ -5,60 +5,60 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.0</version>
+        <version>3.5.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-	<groupId>com.application</groupId>
-	<artifactId>application</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>E-commerce_Beer</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
+    <groupId>com.application</groupId>
+    <artifactId>application</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>E-commerce_Beer</name>
+    <description>Demo project for Spring Boot</description>
+    <url/>
 
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE</url>
-			<distribution>E-commerce_Beer</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE</url>
+            <distribution>E-commerce_Beer</distribution>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<id>VictorCast2</id>
-			<name>VictorCast2</name>
-			<email>victor@example.com</email>
-			<organization>Universidad</organization>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>VictorCast2</id>
+            <name>VictorCast2</name>
+            <email>victor@example.com</email>
+            <organization>Universidad</organization>
+        </developer>
+    </developers>
 
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
 
-	<properties>
-		<java.version>21</java.version>
-		<spring-ai.version>1.0.3</spring-ai.version>
+    <properties>
+        <java.version>21</java.version>
+        <spring-ai.version>1.0.3</spring-ai.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <file.encoding>UTF-8</file.encoding>
-	</properties>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.ai</groupId>
-				<artifactId>spring-ai-bom</artifactId>
-				<version>${spring-ai.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring Boot -->
