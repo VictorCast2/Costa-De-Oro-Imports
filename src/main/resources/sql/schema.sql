@@ -1,4 +1,4 @@
-USE db_beer;
+USE railway;
 DROP TABLE IF EXISTS detalle_venta, compra, usuario, producto, sub_categorias, categoria, historia, comentario, rol, empresa, peticiones, factura_proveedor, detalle_factura;
 
 -- TABLA ROL

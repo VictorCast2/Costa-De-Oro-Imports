@@ -4,20 +4,6 @@
 .DS_Store
 
 # ---------------------------
-# Configuración de IDEs (IntelliJ, VS Code, STS)
-# ---------------------------
-.idea/
-.vscode/
-*.iml
-*.ipr
-*.iws
-.classpath
-.project
-.settings/
-.sts4-cache/
-.toolstarget/
-
-# ---------------------------
 # Control de versiones
 # ---------------------------
 .git/
