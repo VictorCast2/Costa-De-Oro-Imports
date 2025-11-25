@@ -1,9 +1,4 @@
 # ---------------------------
-# Archivos del sistema operativo
-# ---------------------------
-.DS_Store
-
-# ---------------------------
 # Control de versiones
 # ---------------------------
 .git/
@@ -16,11 +11,3 @@ Dockerfile
 Dockerfile*
 docker-compose*
 compose.y*ml
-
-# ---------------------------
-# Dependencias externas o artefactos
-# ---------------------------
-vendor/
-charts/
-*.dbmdl
-*.jfm
