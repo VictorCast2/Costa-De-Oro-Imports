@@ -1,30 +1,30 @@
-use railway;
+use db_beer;
 
 -- NO TOCAR POR NADA DEL MUNDO
 
-select * from railway.empresa;
+select * from db_beer.empresa;
 
-select * from railway.rol;
+select * from db_beer.rol;
 
-select * from railway.usuario;
+select * from db_beer.usuario;
 
-select * from railway.producto;
+select * from db_beer.producto;
 
-select * from railway.categoria;
+select * from db_beer.categoria;
 
-select * from railway.sub_categorias;
+select * from db_beer.sub_categorias;
 
-select * from railway.compra;
+select * from db_beer.compra;
 
-select * from railway.detalle_venta;
+select * from db_beer.detalle_venta;
 
-select * from railway.historia;
+select * from db_beer.historia;
 
-select * from railway.comentario;
+select * from db_beer.comentario;
 
-select * from railway.peticiones;
+select * from db_beer.peticiones;
 
-select * from railway.factura_proveedor;
+select * from db_beer.factura_proveedor;
 
 SELECT
     p.producto_id,
@@ -71,7 +71,7 @@ HAVING ABS(c.subtotal - SUM(dv.subtotal)) > 1;
 
 
 
-Select * from railway.producto where categoria_id = 1;
+Select * from db_beer.producto where categoria_id = 1;
 
 
 -- Proyeccion de ventas totales (consulta)

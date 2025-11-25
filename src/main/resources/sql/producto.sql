@@ -1,4 +1,4 @@
-USE railway;
+USE db_beer;
 
 -- Insertar categorías de bebidas alcohólicas
 INSERT INTO `categoria` (`activo`, `nombre`, `descripcion`, `imagen`) VALUES

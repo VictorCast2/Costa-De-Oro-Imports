@@ -1,4 +1,4 @@
-USE railway;
+USE db_beer;
 
 -- Insertar Historias
 -- Historia 1: Guía de Whisky Escocés
