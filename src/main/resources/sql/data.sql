@@ -1,5 +1,5 @@
--- USE db_beer;
-USE railway;
+-- USE railway;
+USE db_beer;
 
 -- Insertar roles
 INSERT INTO rol (rol_id, rol) VALUES
